@@ -1,0 +1,41 @@
+apply from: "config.gradle"
+
+buildscript {
+
+    ext {
+        kotlin_version = '1.5.20'
+        navigation = "2.2.2"
+    }
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+
+    dependencies {
+        //noinspection GradleDependency
+        classpath "com.android.tools.build:gradle:4.0.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // 发布JitPack的依赖版本，【3.0+以上用1.5】，【4.1+以上用2.0】，【4.6+以上用2.1】
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // Add this line
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+
+        // navigation 中 safe-agrs
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
+
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
