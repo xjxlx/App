@@ -1,0 +1,3 @@
+[submodule "apphelper"]
+	path = apphelper
+	url = git@github.com:xjxlx/apphelper.git
