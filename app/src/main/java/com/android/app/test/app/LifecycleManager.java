@@ -1,8 +1,8 @@
 package com.android.app.test.app;
 
-import static com.android.app.test.app.AppLifecycleService.FILE_NAME;
 import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_ACCOUNT;
 import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
+import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
 
 import android.Manifest;
 import android.app.Activity;
@@ -207,6 +207,18 @@ public class LifecycleManager {
      */
     public void setLifecycleListener(LifecycleListener lifecycleListener) {
 
+    }
+
+    public void startService(Context context, Intent intent) {
+        if ((context != null) && (intent != null)) {
+            context.startService(intent);
+        }
+    }
+
+    public void startActivity(Context context, Intent intent) {
+        if ((context != null) && (intent != null)) {
+            context.startActivity(intent);
+        }
     }
 
 }

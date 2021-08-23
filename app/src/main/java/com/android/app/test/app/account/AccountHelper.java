@@ -4,13 +4,14 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
-import com.android.app.R;
 import android.os.Bundle;
 
+import com.android.app.R;
+import com.android.app.app.App;
 import com.android.helper.utils.LogUtil;
 
 public class AccountHelper {
-    private static final String ACCOUNT_TYPE = "android.helper";
+    private static final String ACCOUNT_TYPE = App.getInstance().getString(R.string.account_authority);
     private static final String ACCOUNT_NAME = "xjxliuxing";
 
     /**

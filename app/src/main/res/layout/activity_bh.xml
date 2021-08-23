@@ -31,33 +31,45 @@
         app:layout_constraintStart_toEndOf="@+id/bt_open_dc"
         app:layout_constraintTop_toTopOf="@+id/bt_open_dc" />
 
-    <CheckBox
-        android:id="@+id/bt_open_bluetooth"
+    <Button
+        android:id="@+id/bt_refresh_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="启动/关闭 蓝牙扫描"
+        android:text="刷新日志数据"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bt_show_bluetooth"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_open_dc"
         app:layout_constraintVertical_bias="0.01" />
 
+    <Button
+        android:id="@+id/bt_show_bluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="展示/隐藏蓝牙信息"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bt_refresh_data"
+        app:layout_constraintTop_toBottomOf="@+id/bt_open_dc"
+        app:layout_constraintVertical_bias="0.01" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_bluetooth_list"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_open_bluetooth"
+        app:layout_constraintTop_toBottomOf="@+id/bt_refresh_data"
         app:layout_constraintVertical_bias="0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_log_list"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
         app:layout_constraintBottom_toBottomOf="parent"

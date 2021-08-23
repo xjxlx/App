@@ -1,8 +1,8 @@
 package com.android.app.test.app;
 
-import static com.android.app.test.app.AppLifecycleService.FILE_NAME;
 import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_JOB;
 import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
+import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
 
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;

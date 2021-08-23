@@ -1,5 +1,6 @@
 package com.android.app.test.app;
 
+import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
 import static com.android.helper.utils.SystemUtil.CODE_REQUEST_ACTIVITY_BATTERY;
 
 import android.Manifest;
@@ -48,8 +49,7 @@ import java.util.Set;
  * 6：账号拉活
  */
 public class AppLifecycleActivity extends BaseActivity {
-    public static final String FILE_NAME = "App保活：";
-    private android.widget.Button mBtStart;
+     private android.widget.Button mBtStart;
     private AppLifecycleAdapter mAppLifecycleAdapter;
     private LogWriteUtil mWriteUtil;
     private LifecycleManager mLifecycleManager;

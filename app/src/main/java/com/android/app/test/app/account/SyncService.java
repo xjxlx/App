@@ -1,6 +1,6 @@
 package com.android.app.test.app.account;
 
-import static com.android.app.test.app.AppLifecycleService.FILE_NAME;
+import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
 
 import android.accounts.Account;
 import android.app.Service;
@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 import com.android.app.test.app.LifecycleManager;
+import com.android.app.test.app2.BhService;
 import com.android.helper.utils.LogUtil;
 
 /**
@@ -54,7 +55,11 @@ public class SyncService extends Service {
             LogUtil.writeDe(FILE_NAME, "账号开始同步，数据开始更新！");
 
             // 保活程序开始运行
-            LifecycleManager.getInstance().startLifecycle(getContext().getApplicationContext(), true);
+            // LifecycleManager.getInstance().startLifecycle(getContext().getApplicationContext(), true);
+
+            Context context = getContext();
+            Intent intent = new Intent(context, BhService.class);
+            LifecycleManager.getInstance().startService(context, intent);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.android.app.test.app;
 
+import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
@@ -22,10 +24,6 @@ import com.android.helper.utils.NotificationUtil;
 
 public class AppLifecycleService extends Service {
 
-    /**
-     * 写入日志的文件名字
-     */
-    public static final String FILE_NAME = "AppLifecycle";
     /**
      * 保活机制的拉起key
      */
