@@ -45,14 +45,20 @@
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
 
-
-
+        <activity
+            android:name=".test.app2.BhActivity"
+            android:label="单渠道保活"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".test.app.account.SyncService"
             android:enabled="true"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -96,13 +102,8 @@
         <activity
             android:name=".test.app.AppLifecycleActivity"
             android:exported="true"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="多功能保活"
+            android:launchMode="singleTop" />
 
         <service
             android:name=".test.app.AppJobService"
