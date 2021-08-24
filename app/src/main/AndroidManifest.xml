@@ -68,9 +68,10 @@
                 android:resource="@xml/sync_adapter" />
         </service>
 
+        <!--此处的authorities 必须和string中的account_authority数据保持一致-->
         <provider
             android:name=".test.app.account.SyncProvider"
-            android:authorities="com.android.app.test.app.account" />
+            android:authorities="com.android.app.account.authority" />
 
         <service
             android:name=".test.app.account.AccountService"

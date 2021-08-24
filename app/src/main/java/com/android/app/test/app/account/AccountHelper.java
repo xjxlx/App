@@ -11,7 +11,7 @@ import com.android.app.app.App;
 import com.android.helper.utils.LogUtil;
 
 public class AccountHelper {
-    private static final String ACCOUNT_TYPE = App.getInstance().getString(R.string.account_authority);
+    private static final String ACCOUNT_TYPE = App.getInstance().getString(R.string.account_type);
     private static final String ACCOUNT_NAME = "xjxliuxing";
 
     /**
