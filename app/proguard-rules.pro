@@ -660,3 +660,7 @@
 -keep class com.tencent.tbs.** {
     *;
 }
+
+#bugly的混淆
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

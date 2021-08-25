@@ -58,12 +58,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_bluetooth_list"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_200"
         android:layout_marginTop="@dimen/dp_20"
-        android:maxHeight="@dimen/dp_200"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_max="@dimen/dp_200"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bt_refresh_data"

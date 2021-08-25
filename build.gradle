@@ -25,7 +25,8 @@ buildscript {
 
         // navigation 中 safe-agrs
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
-
+        // bugly
+        classpath 'com.tencent.bugly:symtabfileuploader:2.2.1'
     }
 }
 

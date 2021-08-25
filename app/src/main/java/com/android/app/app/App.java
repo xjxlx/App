@@ -1,12 +1,13 @@
 package com.android.app.app;
 
 import android.app.Application;
+
 import com.android.app.BuildConfig;
 import com.android.app.R;
-
 import com.android.helper.app.BaseApplication;
 import com.android.helper.httpclient.AutoInterceptor;
 import com.android.helper.interfaces.ICommonApplication;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,13 @@ public class App extends Application {
                 return new Interceptor[]{new AutoInterceptor()};
             }
         });
+
+        initData();
+    }
+
+    private void initData() {
+        // Bugly2.0
+        CrashReport.initCrashReport(getApplicationContext(), "09c9b19788", true);
     }
 
 }
