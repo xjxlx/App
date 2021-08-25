@@ -51,13 +51,15 @@ android {
 
     signingConfigs {
         test {
-            storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
+            // storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
+            storeFile file('../jks/apphelper.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'apphelper'
         }
         config {
-            storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
+            // storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
+            storeFile file('../jks/apphelper.jks')
             storePassword '123456'
             keyAlias 'apphelper'
             keyPassword '123456'
