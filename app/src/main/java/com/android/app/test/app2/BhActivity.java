@@ -192,7 +192,6 @@ public class BhActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleEvent(EventMessage event) {
         if (event != null) {

@@ -30,50 +30,46 @@ android {
             }
         }
 
+        //  buildConfigField("String", "APP_ID", project.APP_ID)
+        //  buildConfigField("int", "SQLite_Version_Code", project.SQLiteVersionCode)
+        //  buildConfigField("boolean", "APP_DEBUG", "false")
+        //  project.extensions.findByName('android')?.defaultConfig?.buildConfigField("boolean", "APP_DEBUG", "false")
         buildConfigField("int", "ROOM_VERSION", "1")
         buildConfigField("String", "ROOM_VERSION_FILE_NAME", "\"room_table.db\"")
     }
+
     signingConfigs {
-        release {
-            //  storeFile file('../my_key')
-            storeFile file('../jsk/apphelper.jks')
-            storePassword '123456'
-            keyAlias 'apphelper'
-            keyPassword '123456'
-        }
-        debug {
+        test {
             storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'apphelper'
         }
+        config {
+            storeFile file('../jsk/apphelper.jks')
+            storePassword '123456'
+            keyAlias 'apphelper'
+            keyPassword '123456'
+        }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.config
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // buildConfigField("String", "APP_ID", project.APP_ID)
-            // buildConfigField("int", "SQLite_Version_Code", project.SQLiteVersionCode)
-            //  buildConfigField("boolean", "APP_DEBUG", "false")
-            // project.extensions.findByName('android')?.defaultConfig?.buildConfigField("boolean", "APP_DEBUG", "false")
         }
-
         debug {
-            //给applicationId添加后缀“.debug”
+            // 给applicationId添加后缀“.debug”
             // applicationIdSuffix ".debug"
-            signingConfig signingConfigs.debug
-            shrinkResources false
-            minifyEnabled false
+            signingConfig signingConfigs.test
+            minifyEnabled true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            // buildConfigField("String", "APP_ID", project.APP_ID_DEBUG)
-            // buildConfigField("int", "SQLite_Version_Code", project.SQLiteVersionCode)
-            //  buildConfigField("boolean", "APP_DEBUG", "true")
-            // project.extensions.findByName('android')?.defaultConfig?.buildConfigField("boolean", "APP_DEBUG", "true")
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -104,6 +100,7 @@ android {
             manifestPlaceholders = [channel_value: "qq"]
         }
     }
+
 
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [channel_value: name]
