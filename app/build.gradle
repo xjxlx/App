@@ -65,8 +65,8 @@ android {
             // applicationIdSuffix ".debug"
             signingConfig signingConfigs.test
             minifyEnabled true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 

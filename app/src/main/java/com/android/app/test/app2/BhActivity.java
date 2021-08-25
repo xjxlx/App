@@ -43,14 +43,10 @@ public class BhActivity extends BaseActivity {
     private LifecycleManager mLifecycleManager;
     private LogWriteUtil mWriteUtil;
     private AppLifecycleAdapter mAppLifecycleAdapter;
-    private Button mBtOpenDc;
-    private Button mBtOpenAutoQd;
-    private Button mBtRefreshData;
     private RecyclerView mRvBluetoothList;
     private RecyclerView mRvLogList;
     private DeviceAdapter mDeviceAdapter;
     private final Map<String, String> map = new HashMap<>();
-    private View mBtShowBluetooth;
 
     @Override
     protected int getBaseLayout() {
@@ -66,18 +62,18 @@ public class BhActivity extends BaseActivity {
             EventBus.getDefault().register(this);
         }
 
-        mBtOpenDc = findViewById(R.id.bt_open_dc);
-        mBtOpenAutoQd = findViewById(R.id.bt_open_auto_qd);
-        mBtRefreshData = findViewById(R.id.bt_refresh_data);
-        mBtShowBluetooth = findViewById(R.id.bt_show_bluetooth);
+        Button btOpenDc = findViewById(R.id.bt_open_dc);
+        Button btOpenAutoQd = findViewById(R.id.bt_open_auto_qd);
+        Button btRefreshData = findViewById(R.id.bt_refresh_data);
+        View btShowBluetooth = findViewById(R.id.bt_show_bluetooth);
 
         mRvBluetoothList = findViewById(R.id.rv_bluetooth_list);
         mRvLogList = findViewById(R.id.rv_log_list);
 
-        mBtOpenDc.setOnClickListener(this);
-        mBtOpenAutoQd.setOnClickListener(this);
-        mBtRefreshData.setOnClickListener(this);
-        mBtShowBluetooth.setOnClickListener(this);
+        btOpenDc.setOnClickListener(this);
+        btOpenAutoQd.setOnClickListener(this);
+        btRefreshData.setOnClickListener(this);
+        btShowBluetooth.setOnClickListener(this);
     }
 
     @SuppressLint("NewApi")
@@ -193,7 +189,7 @@ public class BhActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleEvent(EventMessage event) {
+    public void onMessageEvent(EventMessage event) {
         if (event != null) {
             int code = event.getCode();
             if (code == 111) {
