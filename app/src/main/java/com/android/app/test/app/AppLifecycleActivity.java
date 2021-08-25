@@ -1,13 +1,8 @@
 package com.android.app.test.app;
 
-import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
-import static com.android.helper.utils.SystemUtil.CODE_REQUEST_ACTIVITY_BATTERY;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import com.android.app.R;
-import com.android.app.app.App;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.app.R;
+import com.android.app.app.App;
 import com.android.helper.base.BaseActivity;
+import com.android.helper.common.CommonConstants;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
@@ -37,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static com.android.helper.utils.SystemUtil.CODE_REQUEST_ACTIVITY_BATTERY;
+
 /**
  * App保活的一个实现方案
  * 实现逻辑：
@@ -49,7 +49,7 @@ import java.util.Set;
  * 6：账号拉活
  */
 public class AppLifecycleActivity extends BaseActivity {
-     private android.widget.Button mBtStart;
+    private android.widget.Button mBtStart;
     private AppLifecycleAdapter mAppLifecycleAdapter;
     private LogWriteUtil mWriteUtil;
     private LifecycleManager mLifecycleManager;
@@ -105,7 +105,7 @@ public class AppLifecycleActivity extends BaseActivity {
         mBtStart.setOnClickListener(v -> {
 
             if (mWriteUtil != null) {
-                List<String> read = mWriteUtil.read(FILE_NAME);
+                List<String> read = mWriteUtil.read(CommonConstants.FILE_LIFECYCLE_NAME);
                 if (read != null && read.size() > 0) {
                     Collections.reverse(read);
                 }
@@ -113,7 +113,7 @@ public class AppLifecycleActivity extends BaseActivity {
             }
         });
 
-        List<String> read = mWriteUtil.read(FILE_NAME);
+        List<String> read = mWriteUtil.read(CommonConstants.FILE_LIFECYCLE_NAME);
         if (read != null && read.size() > 0) {
             Collections.reverse(read);
         }

@@ -1,7 +1,5 @@
 package com.android.app.test.app2;
 
-import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -37,6 +35,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 
 public class BhActivity extends BaseActivity {
 
@@ -105,7 +105,7 @@ public class BhActivity extends BaseActivity {
                 .setAdapter(mAppLifecycleAdapter);
 
         mWriteUtil = new LogWriteUtil();
-        List<String> read = mWriteUtil.read(FILE_NAME);
+        List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
         if (read != null && read.size() > 0) {
             Collections.reverse(read);
             mAppLifecycleAdapter.setList(read);
@@ -141,7 +141,7 @@ public class BhActivity extends BaseActivity {
                 break;
             case R.id.bt_refresh_data:
                 // 刷新数据
-                List<String> read = mWriteUtil.read(FILE_NAME);
+                List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
                 if (read != null && read.size() > 0) {
                     Collections.reverse(read);
                     mAppLifecycleAdapter.setList(read);

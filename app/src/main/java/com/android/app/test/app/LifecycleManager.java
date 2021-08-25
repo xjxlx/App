@@ -1,9 +1,5 @@
 package com.android.app.test.app;
 
-import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_ACCOUNT;
-import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
-import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.android.app.R;
 import com.android.app.test.app.account.AccountHelper;
 import com.android.app.test.app.keep.KeepManager;
+import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.ActivityUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
@@ -22,6 +19,9 @@ import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.dialog.DialogUtil;
+
+import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_ACCOUNT;
+import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
 
 /**
  * 保活方案的管理器
@@ -62,7 +62,7 @@ public class LifecycleManager {
                 if (autoSync) {
                     // 只有账户激活的，才会去添加tag
                     mIntentService.putExtra(KEY_LIFECYCLE_TYPE, KEY_LIFECYCLE_ACCOUNT);
-                    LogUtil.writeDe(FILE_NAME, "检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
+                    LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
                     LogUtil.e("检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
                 }
                 ServiceUtil.startService(application, mIntentService);
@@ -72,7 +72,7 @@ public class LifecycleManager {
             boolean jobServiceRunning = ServiceUtil.isServiceRunning(application, AppJobService.class);
             LogUtil.e("Job服务是是否正在运行：" + jobServiceRunning);
             if (!jobServiceRunning) {
-                LogUtil.writeDe(FILE_NAME, "检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
+                LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 LogUtil.e("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 AppJobService.startJob(application, autoSync);
             }

@@ -1,7 +1,5 @@
 package com.android.app.test.app2;
 
-import static com.android.helper.utils.BluetoothUtil.FILE_NAME;
-
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
@@ -11,7 +9,10 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 
+import com.android.helper.utils.BluetoothUtil;
 import com.android.helper.utils.LogUtil;
+
+import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 
 public class BhService extends Service {
 
@@ -49,7 +50,7 @@ public class BhService extends Service {
             if (msg.what == CODE_NOTIFICATION) {
                 LogUtil.e("---> 开始发送了消息的轮询！");
                 // 写入本地的日志信息
-                LogUtil.writeDe(FILE_NAME, "我是服务的轮询日志哦！");
+                LogUtil.writeDe(FILE_LIFECYCLE_NAME, "我是服务的轮询日志哦！");
 
                 Message message = mHandler.obtainMessage();
                 message.what = CODE_NOTIFICATION;
