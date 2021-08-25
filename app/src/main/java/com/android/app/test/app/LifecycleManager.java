@@ -62,7 +62,7 @@ public class LifecycleManager {
                 if (autoSync) {
                     // 只有账户激活的，才会去添加tag
                     mIntentService.putExtra(KEY_LIFECYCLE_TYPE, KEY_LIFECYCLE_ACCOUNT);
-                    LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
+                    LogUtil.writeLifeCycle( "检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
                     LogUtil.e("检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
                 }
                 ServiceUtil.startService(application, mIntentService);
@@ -72,7 +72,7 @@ public class LifecycleManager {
             boolean jobServiceRunning = ServiceUtil.isServiceRunning(application, AppJobService.class);
             LogUtil.e("Job服务是是否正在运行：" + jobServiceRunning);
             if (!jobServiceRunning) {
-                LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
+                LogUtil.writeLifeCycle( "检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 LogUtil.e("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 AppJobService.startJob(application, autoSync);
             }

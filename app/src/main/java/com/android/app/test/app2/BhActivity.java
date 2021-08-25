@@ -17,11 +17,13 @@ import com.android.app.test.app.DeviceAdapter;
 import com.android.app.test.app.LifecycleManager;
 import com.android.app.test.app.account.AccountHelper;
 import com.android.helper.base.BaseActivity;
+import com.android.helper.common.CommonConstants;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
 import com.android.helper.utils.RecycleUtil;
 import com.android.helper.utils.RxPermissionsUtil;
+import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
 
@@ -136,7 +138,9 @@ public class BhActivity extends BaseActivity {
                 mLifecycleManager.checkAutoStartupPermissions(mContext);
                 break;
             case R.id.bt_refresh_data:
-                // 刷新数据
+                boolean serviceRunning = ServiceUtil.isServiceRunning(mContext, BhService.class);
+                ToastUtil.show("刷新数据 ：" + serviceRunning);
+
                 List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
                 if (read != null && read.size() > 0) {
                     Collections.reverse(read);
@@ -199,6 +203,8 @@ public class BhActivity extends BaseActivity {
                     Bundle bundle = event.getBundle();
                     String name = bundle.getString("name");
                     String address = bundle.getString("address");
+
+                    LogUtil.writeLifeCycle( "-->蓝牙扫描回调---成功：" + name + "  描到的蓝牙地址为：" + address);
 
                     map.put(address, name);
 

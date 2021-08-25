@@ -62,11 +62,11 @@ public class AppLifecycleService extends Service {
         if (!TextUtils.isEmpty(lifecycleType)) {
             switch (lifecycleType) {
                 case KEY_LIFECYCLE_ACCOUNT:
-                    LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "我是被账号拉活的哦！");
+                    LogUtil.writeLifeCycle( "我是被账号拉活的哦！");
                     LogUtil.e("我是被账号拉活的哦！");
                     break;
                 case KEY_LIFECYCLE_JOB:
-                    LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "我是被JobService拉活的哦！");
+                    LogUtil.writeLifeCycle( "我是被JobService拉活的哦！");
                     LogUtil.e("我是被JobService拉活的哦！");
                     break;
             }
@@ -121,7 +121,7 @@ public class AppLifecycleService extends Service {
                 LogUtil.e("---> 开始发送了消息的轮询！");
 
                 // 写入本地的日志信息
-                LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "我是服务的轮询日志哦！");
+                LogUtil.writeLifeCycle( "我是服务的轮询日志哦！");
 
                 mNotification = getNotification();
 

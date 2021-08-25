@@ -40,7 +40,7 @@ public class AppJobService extends JobService {
     public boolean onStartJob(JobParameters jobParameters) {
         LogUtil.e("------>:onStartJob");
 
-        LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "onStartJob ---> 我是JobService的服务，我在正常的运行着！");
+        LogUtil.writeLifeCycle("onStartJob ---> 我是JobService的服务，我在正常的运行着！");
 
         /*启动应用*/
         boolean serviceRunning = ServiceUtil.isServiceRunning(getBaseContext(), AppLifecycleService.class);
@@ -50,7 +50,7 @@ public class AppJobService extends JobService {
                 intent.putExtra(KEY_LIFECYCLE_TYPE, KEY_LIFECYCLE_JOB);
             }
             ServiceUtil.startService(getBaseContext(), intent);
-            LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "检测到后台服务被杀死了，JobService主动去拉起后台服务！");
+            LogUtil.writeLifeCycle("检测到后台服务被杀死了，JobService主动去拉起后台服务！");
         }
         return false;
     }
@@ -60,11 +60,11 @@ public class AppJobService extends JobService {
      */
     public static void startJob(Context context, boolean autoSync) {
         mAutoSync = autoSync;
-        LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "启动了startJob的后台服务！");
+        LogUtil.writeLifeCycle("启动了startJob的后台服务！");
         LogUtil.e("启动了startJob的后台服务！");
 
         if (autoSync) {
-            LogUtil.writeDe(CommonConstants.FILE_LIFECYCLE_NAME, "我是通过账号拉活的JobService!");
+            LogUtil.writeLifeCycle("我是通过账号拉活的JobService!");
             LogUtil.e("我是通过账号拉活的JobService！");
         }
 

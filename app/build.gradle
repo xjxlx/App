@@ -57,7 +57,7 @@ android {
             keyAlias 'apphelper'
         }
         config {
-            storeFile file('../jsk/apphelper.jks')
+            storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
             storePassword '123456'
             keyAlias 'apphelper'
             keyPassword '123456'
@@ -67,16 +67,16 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.config
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             // 给applicationId添加后缀“.debug”
             // applicationIdSuffix ".debug"
             signingConfig signingConfigs.test
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
