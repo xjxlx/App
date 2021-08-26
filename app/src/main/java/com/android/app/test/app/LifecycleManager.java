@@ -88,12 +88,7 @@ public class LifecycleManager {
                         .addAccountName(application.getResources().getString(R.string.account_name))
                         .addAccountPassword(application.getResources().getString(R.string.account_password))
                         .addAccount(application);//添加账户
-                boolean isAuto = SpUtil.getBoolean(CommonUser.KEY_IS_AUTOS_YNC);
-                if (!isAuto) {
-                    //调用告知系统自动同步
-                    accountHelper.autoSync();
-                    SpUtil.putBoolean(CommonUser.KEY_IS_AUTOS_YNC, true);
-                }
+                accountHelper.autoSync();
             }
         }
     }

@@ -9,8 +9,10 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 
+import com.android.app.R;
 import com.android.helper.utils.BluetoothUtil;
 import com.android.helper.utils.LogUtil;
+import com.android.helper.utils.NotificationUtil;
 
 public class BhService extends Service {
 
@@ -23,6 +25,16 @@ public class BhService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtil.e("onStartCommand --->");
+        LogUtil.writeLifeCycle("onStartCommand --->");
+
+        NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
+        instance.setChannelName("123");
+        instance.setSmallIcon(R.mipmap.ic_launcher);
+        instance.setContentText("测试应用是否拉活");
+        instance.createNotification();
+        instance.getNotification().when = System.currentTimeMillis();
+        instance.sendNotification(111);
 
         Message message = mHandler.obtainMessage();
         message.what = CODE_NOTIFICATION;

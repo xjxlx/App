@@ -1,7 +1,6 @@
 package com.android.app.test.app2;
 
 import android.Manifest;
-import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.app.App;
-import com.android.app.global.CommonUser;
 import com.android.app.test.app.AppLifecycleAdapter;
 import com.android.app.test.app.DeviceAdapter;
 import com.android.app.test.app.LifecycleManager;
@@ -24,7 +22,6 @@ import com.android.helper.utils.LogWriteUtil;
 import com.android.helper.utils.RecycleUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
-import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.account.AccountHelper;
@@ -99,12 +96,7 @@ public class BhActivity extends BaseActivity {
                 .addAccountName(getResources().getString(R.string.account_name))
                 .addAccountPassword(getResources().getString(R.string.account_password))
                 .addAccount(mContext);//添加账户
-        boolean isAuto = SpUtil.getBoolean(CommonUser.KEY_IS_AUTOS_YNC);
-        if (!isAuto) {
-            //调用告知系统自动同步
-            accountHelper.autoSync();
-            SpUtil.putBoolean(CommonUser.KEY_IS_AUTOS_YNC, true);
-        }
+        accountHelper.autoSync();
 
         // 后台服务写日志
         Intent intent = new Intent(mContext, BhService.class);

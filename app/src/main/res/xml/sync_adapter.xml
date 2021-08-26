@@ -4,4 +4,12 @@
     android:allowParallelSyncs="false"
     android:contentAuthority="@string/account_authority"
     android:isAlwaysSyncable="true"
-    android:userVisible="false" />
+    android:supportsUploading="false"
+    android:userVisible="true" />
+
+    <!--    android:accountType 表示的是您的Account的类型，一定要跟前面保持一致-->
+    <!--    android:allowParallelSyncs 是否支持多账号同时同步-->
+    <!--    android:contentAuthority 指定要同步的ContentProvider-->
+    <!--    android:isAlwaysSyncable 设置所有账号的isSyncable为1-->
+    <!--    android:supportsUploading 设置是否必须notifyChange通知才能同步-->
+    <!--    android:userVisible 设置是否在“设置”中显示-->
