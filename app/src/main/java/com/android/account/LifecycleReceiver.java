@@ -28,7 +28,7 @@ public class LifecycleReceiver extends BroadcastReceiver {
             Intent intentService = new Intent();
             intentService.setClassName("com.android.app", "com.android.app.test.app2.BhService");
             intentService.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startService(intentService);
+            ServiceUtil.startService(context, intentService);
 
             sendNotification(context);
 
