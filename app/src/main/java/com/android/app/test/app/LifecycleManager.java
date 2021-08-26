@@ -9,15 +9,16 @@ import android.os.Build;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
-import com.android.app.test.app.account.AccountHelper;
+import com.android.app.global.CommonUser;
 import com.android.app.test.app.keep.KeepManager;
-import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.ActivityUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
+import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
+import com.android.helper.utils.account.AccountHelper;
 import com.android.helper.utils.dialog.DialogUtil;
 
 import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_ACCOUNT;
@@ -62,7 +63,7 @@ public class LifecycleManager {
                 if (autoSync) {
                     // 只有账户激活的，才会去添加tag
                     mIntentService.putExtra(KEY_LIFECYCLE_TYPE, KEY_LIFECYCLE_ACCOUNT);
-                    LogUtil.writeLifeCycle( "检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
+                    LogUtil.writeLifeCycle("检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
                     LogUtil.e("检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
                 }
                 ServiceUtil.startService(application, mIntentService);
@@ -72,15 +73,27 @@ public class LifecycleManager {
             boolean jobServiceRunning = ServiceUtil.isServiceRunning(application, AppJobService.class);
             LogUtil.e("Job服务是是否正在运行：" + jobServiceRunning);
             if (!jobServiceRunning) {
-                LogUtil.writeLifeCycle( "检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
+                LogUtil.writeLifeCycle("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 LogUtil.e("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 AppJobService.startJob(application, autoSync);
             }
 
             // 4：账号保活，适用于所有的手机
             if (!autoSync) {
-                AccountHelper.addAccount(application);//添加账户
-                AccountHelper.autoSync(application);//调用告知系统自动同步
+                // 账号保活
+                AccountHelper accountHelper = AccountHelper.getInstance();
+                accountHelper
+                        .addAccountType(application.getResources().getString(R.string.account_type))
+                        .addAccountAuthority(application.getResources().getString(R.string.account_authority))
+                        .addAccountName(application.getResources().getString(R.string.account_name))
+                        .addAccountPassword(application.getResources().getString(R.string.account_password))
+                        .addAccount(application);//添加账户
+                boolean isAuto = SpUtil.getBoolean(CommonUser.KEY_IS_AUTOS_YNC);
+                if (!isAuto) {
+                    //调用告知系统自动同步
+                    accountHelper.autoSync();
+                    SpUtil.putBoolean(CommonUser.KEY_IS_AUTOS_YNC, true);
+                }
             }
         }
     }

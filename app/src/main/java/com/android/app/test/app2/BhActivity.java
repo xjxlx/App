@@ -1,6 +1,7 @@
 package com.android.app.test.app2;
 
 import android.Manifest;
+import android.accounts.Account;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
@@ -12,20 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.app.App;
+import com.android.app.global.CommonUser;
 import com.android.app.test.app.AppLifecycleAdapter;
 import com.android.app.test.app.DeviceAdapter;
 import com.android.app.test.app.LifecycleManager;
-import com.android.app.test.app.account.AccountHelper;
 import com.android.helper.base.BaseActivity;
-import com.android.helper.common.CommonConstants;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
 import com.android.helper.utils.RecycleUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
+import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
+import com.android.helper.utils.account.AccountHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -90,8 +92,19 @@ public class BhActivity extends BaseActivity {
         checkPermission();
 
         // 账号保活
-        AccountHelper.addAccount(getApplication());//添加账户
-        AccountHelper.autoSync(getApplication());//调用告知系统自动同步
+        AccountHelper accountHelper = AccountHelper.getInstance();
+        accountHelper
+                .addAccountType(getResources().getString(R.string.account_type))
+                .addAccountAuthority(getResources().getString(R.string.account_authority))
+                .addAccountName(getResources().getString(R.string.account_name))
+                .addAccountPassword(getResources().getString(R.string.account_password))
+                .addAccount(mContext);//添加账户
+        boolean isAuto = SpUtil.getBoolean(CommonUser.KEY_IS_AUTOS_YNC);
+        if (!isAuto) {
+            //调用告知系统自动同步
+            accountHelper.autoSync();
+            SpUtil.putBoolean(CommonUser.KEY_IS_AUTOS_YNC, true);
+        }
 
         // 后台服务写日志
         Intent intent = new Intent(mContext, BhService.class);
@@ -169,7 +182,9 @@ public class BhActivity extends BaseActivity {
                     Manifest.permission.BLUETOOTH_ADMIN,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                    Manifest.permission.GET_ACCOUNTS,
+                    "android.permission.AUTHENTICATE_ACCOUNTS"
             };
         } else {
             list = new String[]{
@@ -204,7 +219,7 @@ public class BhActivity extends BaseActivity {
                     String name = bundle.getString("name");
                     String address = bundle.getString("address");
 
-                    LogUtil.writeLifeCycle( "-->蓝牙扫描回调---成功：" + name + "  描到的蓝牙地址为：" + address);
+                    LogUtil.writeLifeCycle("-->蓝牙扫描回调---成功：" + name + "  描到的蓝牙地址为：" + address);
 
                     map.put(address, name);
 

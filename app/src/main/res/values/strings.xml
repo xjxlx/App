@@ -8,5 +8,7 @@
 
     <string name="account_authority">com.android.app.account.authority</string>
     <string name="account_type">com.android.app.account.type</string>
+    <string name="account_name">xjxliuxing@163.com</string>
+    <string name="account_password">19900713op</string>
 
 </resources>
