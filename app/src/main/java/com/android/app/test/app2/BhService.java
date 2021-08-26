@@ -28,18 +28,22 @@ public class BhService extends Service {
         LogUtil.e("onStartCommand --->");
         LogUtil.writeLifeCycle("onStartCommand --->");
 
-        NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
-        instance.setChannelName("123");
-        instance.setSmallIcon(R.mipmap.ic_launcher);
-        instance.setContentText("测试应用是否拉活");
-        instance.createNotification();
-        instance.getNotification().when = System.currentTimeMillis();
-        instance.sendNotification(111);
+        sendNotification();
 
         Message message = mHandler.obtainMessage();
         message.what = CODE_NOTIFICATION;
         mHandler.sendMessage(message);
         return START_REDELIVER_INTENT;
+    }
+
+    private void sendNotification() {
+        NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
+        instance.setChannelName("123");
+        instance.setSmallIcon(R.mipmap.ic_launcher);
+        instance.setContentText("直接启动的服务");
+        instance.createNotification();
+        instance.getNotification().when = System.currentTimeMillis();
+        instance.sendNotification(111);
     }
 
     @Override

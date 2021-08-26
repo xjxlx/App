@@ -75,7 +75,7 @@ public class LifecycleManager {
             if (!jobServiceRunning) {
                 LogUtil.writeLifeCycle("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
                 LogUtil.e("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
-                AppJobService.startJob(application, autoSync);
+                AppJobService.startJob(application, AppJobService.class, autoSync);
             }
 
             // 4：账号保活，适用于所有的手机
