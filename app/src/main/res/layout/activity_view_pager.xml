@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_1"
     tools:context=".ui.activity.animation.ViewPagerActivity">
 
-    <Button
-        android:id="@+id/btn_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_100"
-        android:text="复原" />
-
-    <com.android.helper.widget.BannerView
+    <com.android.helper.widget.banner.BannerView
         android:id="@+id/banner_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_reset"
-        android:background="@color/black_10" />
-
-    <LinearLayout
-        android:id="@+id/fl_viewpager_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/banner_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:orientation="horizontal" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
 
-</RelativeLayout>
+    <com.android.helper.widget.banner.BannerIndicator
+        android:id="@+id/bi_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/banner_view"
+        android:layout_alignStart="@+id/banner_view"
+        android:layout_alignEnd="@+id/banner_view"
+        android:background="@color/black_2"
+        app:bi_drawable="@drawable/selector_audio_play"
+        app:bi_interval="@dimen/dp_30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/banner_view"
+        app:layout_constraintVertical_bias="0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

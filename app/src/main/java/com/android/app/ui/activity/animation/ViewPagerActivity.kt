@@ -1,11 +1,10 @@
 package com.android.app.ui.activity.animation
 
 import com.android.app.R
-import android.util.Log
 import com.android.helper.base.BaseTitleActivity
-import com.android.helper.interfaces.listener.BannerChangeListener
-import com.android.helper.utils.ToastUtil
+import com.android.helper.widget.banner.BannerView
 import kotlinx.android.synthetic.main.activity_view_pager.*
+import java.util.*
 
 /**
  * 自定义viewpager的类
@@ -20,25 +19,22 @@ class ViewPagerActivity : BaseTitleActivity() {
         super.initData()
         setTitleContent("自定义ViewPager的类")
 
-        banner_view.setDataList(intArrayOf(R.mipmap.icon_banner_1, R.mipmap.icon_banner_2,
-                R.mipmap.icon_banner_3, R.mipmap.icon_banner_4))
+        val list: ArrayList<Any> = ArrayList()
+        list.add(R.mipmap.icon_banner_1)
+        list.add(R.mipmap.icon_banner_2)
+        list.add(R.mipmap.icon_banner_3)
+        list.add(R.mipmap.icon_banner_4)
 
-        banner_view.setIndicatorView(fl_viewpager_indicator, 30, R.drawable.selector_banner_indicator_default)
-        banner_view.setAutoLoop(true, 0)
-        banner_view.setBannerChangeListener(object : BannerChangeListener {
-            override fun onSelector(position: Int) {
-                Log.e(tag, "onSelector: $position")
-            }
-        })
+        val imageData = BannerView.Builder()
+            .autoLoop(true)
+            .setImageData(list)
+            .setBannerLoadListener { imageView, `object` ->
+                val i = `object` as Int
+                imageView.setImageResource(i)
+            }.addIndicator(bi_banner)
 
-        banner_view.setBannerClickListener { view, position ->
-            ToastUtil.show("position:" + position)
-        }
-
-
-        btn_reset.setOnClickListener {
-            banner_view.reset()
-        }
+        banner_view.createBuild(imageData)
+        banner_view.start(this)
     }
 
 }
