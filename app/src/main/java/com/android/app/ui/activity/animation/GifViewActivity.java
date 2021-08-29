@@ -52,8 +52,7 @@ public class GifViewActivity extends BaseTitleActivity {
 
                 int screenWidth = ScreenUtil.getScreenWidth(mContext);
                 int toX = screenWidth - width;
-                LogUtil.e("width:" + toX);
-            }
+             }
         });
     }
 

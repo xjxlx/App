@@ -5,24 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_1"
+    android:orientation="vertical"
     tools:context=".ui.activity.animation.ViewPagerActivity">
 
     <com.android.helper.widget.banner.BannerView
         android:id="@+id/banner_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/yellow_1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <com.android.helper.widget.banner.BannerIndicator
         android:id="@+id/bi_banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/banner_view"
+        android:background="@color/red_3"
         app:bi_interval="@dimen/dp_30"
         app:bi_selector_resource="@drawable/icon_music_pause"
         app:bi_unselected_resource="@drawable/icon_music_start"
@@ -31,6 +34,34 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/banner_view"
         app:layout_constraintTop_toBottomOf="@+id/banner_view"
+        app:layout_constraintVertical_bias="0" />
+
+    <com.android.helper.widget.banner.BannerView
+        android:id="@+id/banner_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/yellow_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bi_banner"
+        app:layout_constraintVertical_bias="0" />
+
+    <com.android.helper.widget.banner.BannerIndicator
+        android:id="@+id/bi_banner2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_2"
+        app:bi_interval="@dimen/dp_20"
+        app:bi_selector_resource="@drawable/icon_music_pause"
+        app:bi_unselected_resource="@drawable/icon_music_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/banner_fragment"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/banner_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/banner_fragment"
         app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
