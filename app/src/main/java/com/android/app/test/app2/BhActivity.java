@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.app.App;
-import com.android.app.test.app.AppJobService;
 import com.android.app.test.app.AppLifecycleAdapter;
 import com.android.app.test.app.DeviceAdapter;
 import com.android.app.test.app.LifecycleManager;
@@ -121,7 +120,7 @@ public class BhActivity extends BaseActivity {
                 .setVertical()
                 .setAdapter(mDeviceAdapter);
 
-        AppJobService.startJob(getApplicationContext(), BhService.class,false);
+        //  AppJobService.startJob(getApplicationContext(), BhService.class, false);
     }
 
     @SuppressLint("NonConstantResourceId")

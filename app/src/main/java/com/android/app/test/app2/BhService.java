@@ -11,10 +11,12 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import com.android.app.R;
+import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.BluetoothUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
@@ -33,7 +35,12 @@ public class BhService extends Service {
         LogUtil.e("onStartCommand --->");
         LogUtil.writeLifeCycle("onStartCommand --->");
 
-        sendNotification();
+        String stringExtra = intent.getStringExtra(CommonConstants.KEY_LIFECYCLE_FROM);
+        if (TextUtils.equals(stringExtra, CommonConstants.KEY_LIFECYCLE_FROM_ACCOUNT)) {
+            sendNotification(2);
+        } else {
+            sendNotification(1);
+        }
 
         // 启动变为前台服务
         startNotificationForeground();
@@ -46,7 +53,7 @@ public class BhService extends Service {
 
     private void startNotificationForeground() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String CHANNEL_ID = "前台的服务";
+            String CHANNEL_ID = "前台服务";
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             NotificationChannel Channel = new NotificationChannel(CHANNEL_ID, "主服务", NotificationManager.IMPORTANCE_HIGH);
             Channel.enableLights(true);//设置提示灯
@@ -61,8 +68,8 @@ public class BhService extends Service {
             Notification notification = new Notification.Builder(this)
                     .setChannelId(CHANNEL_ID)
                     .setAutoCancel(false)
-                    .setContentTitle("主服务")//标题
-                    .setContentText("运行中...")//内容
+                    .setContentTitle("提升为前台服务")//标题
+                    .setContentText("前台服务运行中...")//内容
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.mipmap.ic_launcher)//小图标一定需要设置,否则会报错(如果不设置它启动服务前台化不会报错,但是你会发现这个通知不会启动),如果是普通通知,不设置必然报错
                     .build();
@@ -70,11 +77,15 @@ public class BhService extends Service {
         }
     }
 
-    private void sendNotification() {
+    private void sendNotification(int type) {
         NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
         instance.setChannelName("123");
         instance.setSmallIcon(R.mipmap.ic_launcher);
-        instance.setContentText("直接启动的服务");
+        if (type == 1) {
+            instance.setContentText("直接启动的服务");
+        } else {
+            instance.setContentText("账号拉活的服务");
+        }
         instance.createNotification();
         instance.getNotification().when = System.currentTimeMillis();
         instance.sendNotification(111);
