@@ -1,14 +1,11 @@
 package com.android.account;
 
-import android.app.job.JobService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
 import com.android.app.R;
-import com.android.app.test.app.AppJobService;
-import com.android.app.test.app2.BhService;
 import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
@@ -32,7 +29,7 @@ public class LifecycleReceiver extends BroadcastReceiver {
             intentService.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, CommonConstants.KEY_LIFECYCLE_FROM_ACCOUNT);
             ServiceUtil.startService(context, intentService);
 
-            sendNotification(context);
+            // sendNotification(context);
 
             // 如果JobService没有运行着的时候，顺便把它也唤醒
 //            boolean serviceRunning = ServiceUtil.isServiceRunning(context, JobService.class);

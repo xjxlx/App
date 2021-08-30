@@ -83,8 +83,12 @@ public class BhService extends Service {
         instance.setSmallIcon(R.mipmap.ic_launcher);
         if (type == 1) {
             instance.setContentText("直接启动的服务");
+            LogUtil.e("直接启动了服务");
+            LogUtil.writeLifeCycle("直接启动了服务");
         } else {
             instance.setContentText("账号拉活的服务");
+            LogUtil.e("账号拉活了服务");
+            LogUtil.writeLifeCycle("账号拉活了服务");
         }
         instance.createNotification();
         instance.getNotification().when = System.currentTimeMillis();
