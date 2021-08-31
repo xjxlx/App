@@ -33,10 +33,6 @@ public class VpBanner1Fragment extends BaseBindingFragment<FragmentVpBannerBindi
     @Override
     protected void initView(View view) {
         Bundle arguments = getArguments();
-        if (arguments != null) {
-            String param = arguments.getString("param");
-            mBinding.tvContent.setText(param);
-        }
     }
 
     @Override

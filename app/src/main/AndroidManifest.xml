@@ -152,7 +152,14 @@
         <activity android:name=".test.AndroidJSActivity" />
         <activity android:name=".ui.activity.hmview.HmCustomViewActivity" />
         <activity android:name=".ui.activity.widget.ScrollPageViewActivity" />
-        <activity android:name=".ui.activity.animation.ViewPagerActivity" />
+        <activity android:name=".ui.activity.animation.ViewPagerActivity" >
+
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+
+        </activity>
         <activity android:name=".ui.activity.widget.NestSlidingViewActivity" />
         <activity android:name=".ui.activity.widget.InputPassWordActivity" />
         <activity android:name=".ui.activity.widget.TouchUnlockActivity" />
