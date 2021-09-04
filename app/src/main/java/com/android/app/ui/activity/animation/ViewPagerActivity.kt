@@ -1,11 +1,7 @@
 package com.android.app.ui.activity.animation
 
-import androidx.fragment.app.Fragment
 import com.android.app.R
-import com.android.app.test.banner.*
 import com.android.helper.base.BaseTitleActivity
-import com.android.helper.widget.banner.BannerView
-import kotlinx.android.synthetic.main.activity_view_pager.*
 
 /**
  * 自定义viewpager的类
