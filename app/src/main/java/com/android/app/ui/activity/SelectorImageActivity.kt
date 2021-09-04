@@ -43,35 +43,36 @@ class SelectorImageActivity : BaseTitleActivity() {
     }
 
     private fun selectorImage() {
-        PhotoUtil.SelectorImage(mContext, false, 3, object : OnResultCallbackListener<LocalMedia> {
-            override fun onResult(result: MutableList<LocalMedia>?) {
-                LogUtil.e("result:$result")
-                val media = result?.get(0)
-                var urls: String?
-                if (media != null) {
-                    val compressed: Boolean = media.isCompressed()
-                    if (compressed) {
-                        urls = media.compressPath
-                        LogUtil.e("压缩选择图片的路径为：$urls")
-                    } else {
-                        urls = media.path
-                        LogUtil.e("没有压缩选的图片的路径为：$urls")
+        PhotoUtil.getInstance()
+            .SelectorImage(mContext, false, 3, object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: MutableList<LocalMedia>?) {
+                    LogUtil.e("result:$result")
+                    val media = result?.get(0)
+                    var urls: String?
+                    if (media != null) {
+                        val compressed: Boolean = media.isCompressed()
+                        if (compressed) {
+                            urls = media.compressPath
+                            LogUtil.e("压缩选择图片的路径为：$urls")
+                        } else {
+                            urls = media.path
+                            LogUtil.e("没有压缩选的图片的路径为：$urls")
+                        }
+
+                        val uriToPath = FileUtil.UriToPath(mContext, urls)
+                        LogUtil.e("转换后的图片路径为：：$uriToPath")
+
+                        GlideUtil.loadView(mContext, uriToPath, iv_image)
                     }
-
-                    val uriToPath = FileUtil.UriToPath(mContext, urls)
-                    LogUtil.e("转换后的图片路径为：：$uriToPath")
-
-                    GlideUtil.loadView(mContext, uriToPath, iv_image)
                 }
-            }
 
-            override fun onCancel() {
-            }
-        })
+                override fun onCancel() {
+                }
+            })
     }
 
     private fun selectorVideo() {
-        PhotoUtil.SelectorVideo(
+        PhotoUtil.getInstance().SelectorVideo(
             mContext,
             false,
             3,
