@@ -144,7 +144,7 @@ public class RxJava2Activity extends BaseTitleActivity {
     private void request() {
 
         RetrofitHelper.create(TestApi.class).myInfo("13213211130", "0000", "", "f2d928e6edd8a88a")
-                .compose(RxUtil.getScheduler())  // 转换线程
+                .compose(RxUtil.getSchedulerFlowable())  // 转换线程
                 .subscribeWith(new DisposableSubscriber<Response<String>>() {
                     @Override
                     public void onNext(Response<String> stringResponse) {

@@ -1,12 +1,12 @@
 package com.android.app.adapters;
 
-import com.android.app.R;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.android.app.R;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
@@ -29,11 +29,6 @@ public class FaceAuthenticationCodeAdapter extends BaseRecycleAdapter<String, Fa
     @Override
     protected VH createViewHolder(View inflate) {
         return new VH(inflate);
-    }
-
-    @Override
-    protected void onBindHolder(@NonNull VH holder, int position) {
-
     }
 
     @Override

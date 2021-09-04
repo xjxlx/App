@@ -1,19 +1,21 @@
 package com.android.app.adapters;
 
 import android.app.Activity;
-import com.android.app.R;
-import com.android.app.bean.HomeBean;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.android.app.R;
+import com.android.app.bean.HomeBean;
 import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
 import com.android.helper.utils.TextViewUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.photo.GlideUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data
     }
 
     @Override
-    protected void onBindHolder(@NonNull VHHome holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull VHHome holder, int position) {
         HomeBean.ReturnDataList.Data data = mList.get(position);
         if (data == null) {
             return;

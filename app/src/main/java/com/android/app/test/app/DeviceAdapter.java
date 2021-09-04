@@ -1,14 +1,16 @@
 package com.android.app.test.app;
 
 import android.app.Activity;
-import com.android.app.R;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.android.app.R;
 import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class DeviceAdapter extends BaseRecycleAdapter<Map.Entry<String, String>,
     }
 
     @Override
-    protected void onBindHolder(@NonNull VH holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull VH holder, int position) {
         Map.Entry<String, String> entry = mList.get(position);
         holder.mTvDeviceName.setText(entry.getValue());
         holder.mTvDeviceAddress.setText(entry.getKey());

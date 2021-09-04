@@ -1,11 +1,11 @@
 package com.android.app.adapters;
 
-import com.android.app.R;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.android.app.R;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
@@ -26,11 +26,6 @@ public class SmsAdapter extends BaseRecycleAdapter<String, SmsAdapter.SmsVH> {
     @Override
     protected SmsVH createViewHolder(View inflate) {
         return new SmsVH(inflate);
-    }
-
-    @Override
-    protected void onBindHolder(@NonNull SmsVH holder, int position) {
-
     }
 
     @Override

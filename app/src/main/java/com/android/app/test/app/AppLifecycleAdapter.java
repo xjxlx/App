@@ -1,14 +1,16 @@
 package com.android.app.test.app;
 
 import android.app.Activity;
-import com.android.app.R;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.android.app.R;
 import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
+
+import org.jetbrains.annotations.NotNull;
 
 public class AppLifecycleAdapter extends BaseRecycleAdapter<String, AppLifecycleAdapter.VH> {
 
@@ -27,7 +29,7 @@ public class AppLifecycleAdapter extends BaseRecycleAdapter<String, AppLifecycle
     }
 
     @Override
-    protected void onBindHolder(@NonNull VH holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull VH holder, int position) {
         String s = mList.get(position);
         holder.mTvTest.setText(s);
     }

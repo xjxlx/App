@@ -75,7 +75,7 @@ public class SelectorNameList extends BaseView {
         // 获取bitmap
         Bitmap bitmap = ResourceUtil.getBitmap(R.mipmap.icon_rad_xin);
         // 生成一个新的bitmap
-        mBitmap = BitmapUtil.getBitmapForMatrixScaleWidth(bitmap, mBitmapTargetWidth);
+        mBitmap = BitmapUtil.getBitmapScaleForWidth(bitmap, mBitmapTargetWidth);
 
         // 计算出bitmap的高度
         int bitmapHeight = mBitmap.getHeight();

@@ -102,7 +102,4 @@ class DownloadAdapter(mContext: BaseActivity, mList: ArrayList<DownLoadBean>) :
         val progress: ProgressBar = itemView.findViewById(R.id.progress)
     }
 
-    override fun onBindHolder(holder: DlHolder, position: Int) {
-
-    }
 }

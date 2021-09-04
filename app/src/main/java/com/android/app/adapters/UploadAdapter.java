@@ -45,11 +45,6 @@ public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapte
     }
 
     @Override
-    protected void onBindHolder(@NonNull UpHV holder, int position) {
-
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull UpHV holder, int position) {
         DownLoadBean bean = mList.get(position);
 

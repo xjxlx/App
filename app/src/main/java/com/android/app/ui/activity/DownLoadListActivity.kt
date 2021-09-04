@@ -62,14 +62,10 @@ class DownLoadListActivity : BaseTitleActivity() {
 
             val adapter = DownloadAdapter(mContext, mList)
 
-            adapter.setOnLoadComplete { _, _ ->
-                LogUtil.e("------------->")
-            }
+
             rv_download_list.adapter = adapter
             rv_download_list.layoutManager =
                 LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-
-
 
             LogUtil.e(Arrays.toString(mList.toArray()))
         }

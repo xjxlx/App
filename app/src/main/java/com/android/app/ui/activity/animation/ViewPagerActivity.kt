@@ -26,33 +26,32 @@ class ViewPagerActivity : BaseTitleActivity() {
         list.add(R.mipmap.icon_banner_3)
         list.add(R.mipmap.icon_banner_4)
 
-        val imageData = BannerView.Builder()
-            .autoLoop(true)
-            .setImageData(list)
-            .setBannerLoadListener { imageView, `object` ->
-                val i = `object` as Int
-                imageView.setImageResource(i)
-            }.addIndicator(bi_banner)
-        banner_view.createBuild(imageData)
-        banner_view.start(this)
-
-        val fragmentList = ArrayList<Fragment>()
-        fragmentList.add(VpBanner1Fragment.newInstance())
-        fragmentList.add(VpBanner2Fragment.newInstance())
-        fragmentList.add(VpBanner3Fragment.newInstance())
-        fragmentList.add(VpBanner4Fragment.newInstance())
-        fragmentList.add(VpBanner5Fragment.newInstance())
-        val builder = BannerView.Builder()
-            .autoLoop(true)
-            .setFragmentData(fragmentList)
-            .setBannerLoadListener { imageView, `object` ->
-                val i = `object` as Int
-                imageView.setImageResource(i)
-            }.addIndicator(bi_banner2)
-
-        banner_fragment
-            .createBuild(builder)
-            .start(this)
+//        val imageData = BannerView
+//            .setImageData(list)
+//            .setBannerLoadListener { imageView, `object` ->
+//                val i = `object` as Int
+//                imageView.setImageResource(i)
+//            }.addIndicator(bi_banner)
+//        banner_view.createBuild(imageData)
+//        banner_view.start(this)
+//
+//        val fragmentList = ArrayList<Fragment>()
+//        fragmentList.add(VpBanner1Fragment.newInstance())
+//        fragmentList.add(VpBanner2Fragment.newInstance())
+//        fragmentList.add(VpBanner3Fragment.newInstance())
+//        fragmentList.add(VpBanner4Fragment.newInstance())
+//        fragmentList.add(VpBanner5Fragment.newInstance())
+//        val builder = BannerView.Builder()
+//            .autoLoop(true)
+//            .setFragmentData(fragmentList)
+//            .setBannerLoadListener { imageView, `object` ->
+//                val i = `object` as Int
+//                imageView.setImageResource(i)
+//            }.addIndicator(bi_banner2)
+//
+//        banner_fragment
+//            .createBuild(builder)
+//            .start(this)
     }
 
 }

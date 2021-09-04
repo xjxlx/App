@@ -33,6 +33,8 @@
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
+    <!--拍照-->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".app.App"
@@ -152,7 +154,7 @@
         <activity android:name=".test.AndroidJSActivity" />
         <activity android:name=".ui.activity.hmview.HmCustomViewActivity" />
         <activity android:name=".ui.activity.widget.ScrollPageViewActivity" />
-        <activity android:name=".ui.activity.animation.ViewPagerActivity" >
+        <activity android:name=".ui.activity.animation.ViewPagerActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
