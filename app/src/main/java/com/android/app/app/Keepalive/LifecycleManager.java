@@ -1,4 +1,4 @@
-package com.android.app.test.app;
+package com.android.app.app.Keepalive;
 
 import android.Manifest;
 import android.app.Activity;
@@ -9,20 +9,17 @@ import android.os.Build;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
-import com.android.app.global.CommonUser;
-import com.android.app.test.app.keep.KeepManager;
+import com.android.app.app.Keepalive.keep.KeepManager;
+import com.android.app.test.app.BhService;
 import com.android.helper.utils.ActivityUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
-import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.account.AccountHelper;
+import com.android.helper.utils.account.LifecycleAppEnum;
 import com.android.helper.utils.dialog.DialogUtil;
-
-import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_ACCOUNT;
-import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
 
 /**
  * 保活方案的管理器
@@ -30,8 +27,6 @@ import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
 public class LifecycleManager {
 
     private static LifecycleManager mLifecycleManager;
-
-    // private static LifecycleListener mLifecycleListener;
     private NotificationUtil mNotificationUtil;
     private DialogUtil mDialogUtil;
     private SystemUtil mSystemUtil;
@@ -48,48 +43,34 @@ public class LifecycleManager {
      * 开启保活的方案，这个方法建议在activity的onCreate方法中卡其
      *
      * @param application 系统级的Context对象
-     * @param autoSync    是否是通过账户激活的
      */
-    public void startLifecycle(Context application, boolean autoSync) {
+    public void startLifecycle(Context application) {
         if (application != null) {
-            // 1:屏幕一像素保活，适用于8.0以下的手机
-            KeepManager.getInstance().registerKeep(application);
 
-            // 2: 启动后台进程，变更为前台进程，通过notification去保活
-            boolean serviceRunning = ServiceUtil.isServiceRunning(application, AppLifecycleService.class);
-            LogUtil.e("前台服务是是否正在运行：" + serviceRunning);
+            // 1:账号保活
+            AccountHelper accountHelper = AccountHelper.getInstance();
+            accountHelper
+                    .addAccountType(application.getResources().getString(R.string.account_type))
+                    .addAccountAuthority(application.getResources().getString(R.string.account_authority))
+                    .addAccountName(application.getResources().getString(R.string.account_name))
+                    .addAccountPassword(application.getResources().getString(R.string.account_password))
+                    .addAccount(application);//添加账户
+            accountHelper.autoSync();
+
+            // 2:后台服务写日志
+            boolean serviceRunning = ServiceUtil.isServiceRunning(application, BhService.class);
             if (!serviceRunning) {
-                mIntentService = new Intent(application, AppLifecycleService.class);
-                if (autoSync) {
-                    // 只有账户激活的，才会去添加tag
-                    mIntentService.putExtra(KEY_LIFECYCLE_TYPE, KEY_LIFECYCLE_ACCOUNT);
-                    LogUtil.writeLifeCycle("检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
-                    LogUtil.e("检测到前台Service被杀死了，账号同步的时候主动去拉起前台Service！");
-                }
+                mIntentService = new Intent(application, BhService.class);
                 ServiceUtil.startService(application, mIntentService);
             }
 
-            // 3：通过JobService 去进行系统的轮询处理
-            boolean jobServiceRunning = ServiceUtil.isServiceRunning(application, AppJobService.class);
-            LogUtil.e("Job服务是是否正在运行：" + jobServiceRunning);
-            if (!jobServiceRunning) {
-                LogUtil.writeLifeCycle("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
-                LogUtil.e("检测到JobService被杀死了，账号同步的时候主动去拉起JobService！");
-                AppJobService.startJob(application, AppJobService.class, autoSync);
+            // 3:启动jobService
+            if (!ServiceUtil.isJobServiceRunning(application, AppJobService.class)) {
+                AppJobService.startJob(application, BhService.class, LifecycleAppEnum.From_Intent);
             }
 
-            // 4：账号保活，适用于所有的手机
-            if (!autoSync) {
-                // 账号保活
-                AccountHelper accountHelper = AccountHelper.getInstance();
-                accountHelper
-                        .addAccountType(application.getResources().getString(R.string.account_type))
-                        .addAccountAuthority(application.getResources().getString(R.string.account_authority))
-                        .addAccountName(application.getResources().getString(R.string.account_name))
-                        .addAccountPassword(application.getResources().getString(R.string.account_password))
-                        .addAccount(application);//添加账户
-                accountHelper.autoSync();
-            }
+            // 4:屏幕一像素保活，适用于8.0以下的手机
+            KeepManager.getInstance().registerKeep(application);
         }
     }
 
@@ -207,25 +188,6 @@ public class LifecycleManager {
                         ActivityUtil.toSecureManager(activity);
                     });
             mDialogUtil.show();
-        }
-    }
-
-    /**
-     * 设置数据监听
-     */
-    public void setLifecycleListener(LifecycleListener lifecycleListener) {
-
-    }
-
-    public void startService(Context context, Intent intent) {
-        if ((context != null) && (intent != null)) {
-            context.startService(intent);
-        }
-    }
-
-    public void startActivity(Context context, Intent intent) {
-        if ((context != null) && (intent != null)) {
-            context.startActivity(intent);
         }
     }
 

@@ -92,12 +92,12 @@
         <!-- 账号拉活的                        结束 -->
 
         <service
-            android:name=".test.app2.BhService"
+            android:name=".test.app.BhService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".test.app2.BhActivity"
+            android:name=".test.app.BhActivity"
             android:label="单渠道保活"
             android:launchMode="singleTop">
             <intent-filter>
@@ -108,12 +108,12 @@
         </activity>
 
         <receiver
-            android:name=".test.app.keep.keepReceiver"
+            android:name=".app.Keepalive.keep.keepReceiver"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".test.app.keep.KeepActivity"
+            android:name=".app.Keepalive.keep.KeepActivity"
             android:excludeFromRecents="true"
             android:theme="@style/KeepTheme" />
 
@@ -129,7 +129,7 @@
             android:launchMode="singleTop" />
 
         <service
-            android:name=".test.app.AppJobService"
+            android:name=".app.Keepalive.AppJobService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />

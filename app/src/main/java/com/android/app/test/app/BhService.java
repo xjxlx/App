@@ -1,4 +1,4 @@
-package com.android.app.test.app2;
+package com.android.app.test.app;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -16,10 +16,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.android.app.R;
+import com.android.app.app.Keepalive.AppJobService;
 import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.BluetoothUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
+import com.android.helper.utils.ServiceUtil;
+import com.android.helper.utils.account.LifecycleAppEnum;
 
 public class BhService extends Service {
 
@@ -35,16 +38,14 @@ public class BhService extends Service {
         LogUtil.e("onStartCommand --->");
         LogUtil.writeLifeCycle("onStartCommand --->");
 
-        String stringExtra = intent.getStringExtra(CommonConstants.KEY_LIFECYCLE_FROM);
-        if (TextUtils.equals(stringExtra, CommonConstants.KEY_LIFECYCLE_FROM_ACCOUNT)) {
-            sendNotification(2);
-        } else {
-            sendNotification(1);
-        }
+        String fromType = intent.getStringExtra(CommonConstants.KEY_LIFECYCLE_FROM);
+
+        sendNotification(fromType);
 
         // 启动变为前台服务
         startNotificationForeground();
 
+        // 取消前台的通知栏
         Message message = mHandler.obtainMessage();
         message.what = CODE_NOTIFICATION;
         mHandler.sendMessage(message);
@@ -77,18 +78,19 @@ public class BhService extends Service {
         }
     }
 
-    private void sendNotification(int type) {
+    private void sendNotification(String type) {
         NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
-        instance.setChannelName("123");
+        instance.setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME);
         instance.setSmallIcon(R.mipmap.ic_launcher);
-        if (type == 1) {
-            instance.setContentText("直接启动的服务");
-            LogUtil.e("直接启动了服务");
-            LogUtil.writeLifeCycle("直接启动了服务");
-        } else {
-            instance.setContentText("账号拉活的服务");
-            LogUtil.e("账号拉活了服务");
-            LogUtil.writeLifeCycle("账号拉活了服务");
+        if (TextUtils.equals(type, LifecycleAppEnum.From_Intent.getFrom())) {
+            instance.setContentText("我是后台服务，我是被直接启动的");
+            LogUtil.writeLifeCycle("我是后台服务，我是被直接启动的");
+        } else if (TextUtils.equals(type, LifecycleAppEnum.FROM_JOB.getFrom())) {
+            instance.setContentText("我是后台服务，我是被JobService启动的");
+            LogUtil.writeLifeCycle("我是后台服务，我是被JobService启动的");
+        } else if (TextUtils.equals(type, LifecycleAppEnum.FROM_ACCOUNT.getFrom())) {
+            instance.setContentText("我是后台服务，我是被账号拉活的");
+            LogUtil.writeLifeCycle("我是后台服务，我是被账号拉活的");
         }
         instance.createNotification();
         instance.getNotification().when = System.currentTimeMillis();
@@ -112,6 +114,11 @@ public class BhService extends Service {
 
             // 隐藏通知栏
             stopForeground(true);
+
+            // 3:启动jobService
+            if (!ServiceUtil.isJobServiceRunning(getApplicationContext(), AppJobService.class)) {
+                AppJobService.startJob(getApplicationContext(), BhService.class, LifecycleAppEnum.FROM_SERVICE);
+            }
 
             if (msg.what == CODE_NOTIFICATION) {
                 LogUtil.e("---> 开始发送了消息的轮询！");

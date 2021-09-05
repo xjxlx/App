@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.app.App;
+import com.android.app.app.Keepalive.LifecycleManager;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.common.CommonConstants;
 import com.android.helper.common.EventMessage;
@@ -142,7 +143,7 @@ public class AppLifecycleActivity extends BaseActivity {
         checkPermission();
 
         // 2：打开保活的流程
-        mLifecycleManager.startLifecycle(mContext.getApplication(), false);
+        mLifecycleManager.startLifecycle(mContext.getApplication());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)

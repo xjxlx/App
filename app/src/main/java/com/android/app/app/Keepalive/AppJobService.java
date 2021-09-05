@@ -1,4 +1,4 @@
-package com.android.app.test.app;
+package com.android.app.app.Keepalive;
 
 import android.app.Service;
 import android.app.job.JobInfo;
@@ -11,12 +11,11 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.android.app.R;
+import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.ServiceUtil;
-
-import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_JOB;
-import static com.android.app.test.app.AppLifecycleService.KEY_LIFECYCLE_TYPE;
+import com.android.helper.utils.account.LifecycleAppEnum;
 
 /**
  * 轮询的后台服务进程
@@ -26,14 +25,13 @@ public class AppJobService extends JobService {
     /**
      * job的id
      */
-    private static final int AppJobId = 100;
+    private static final int APP_JOB_ID = 100;
 
     /**
      * 间隔的时间
      */
-    private static final int CODE_INTERVAL = 15 * 1000;
+    private static final int CODE_INTERVAL = 10 * 1000;
     private static JobScheduler mJobScheduler;
-    private static boolean mAutoSync;
     private static Class<? extends Service> mTargetServiceCls;
 
     public AppJobService() {
@@ -41,35 +39,29 @@ public class AppJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        LogUtil.e("------>:onStartJob");
-
-        LogUtil.writeLifeCycle("onStartJob ---> 我是JobService的服务，我在正常的运行着！");
-        sendNotification();
-
-        /*启动应用*/
+        LogUtil.e("onStartJob");
+        // 启动后台服务
         if (mTargetServiceCls != null) {
-            Intent intent = new Intent(getBaseContext(), mTargetServiceCls);
-            if (mAutoSync) {
-                intent.putExtra(KEY_LIFECYCLE_TYPE, KEY_LIFECYCLE_JOB);
+            boolean serviceRunning = ServiceUtil.isServiceRunning(getApplicationContext(), mTargetServiceCls);
+            if (!serviceRunning) {
+                /*启动应用*/
+                Intent intent = new Intent(getBaseContext(), mTargetServiceCls);
+                intent.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, LifecycleAppEnum.FROM_JOB.getFrom());
+                ServiceUtil.startService(getApplicationContext(), intent);
             }
-            ServiceUtil.startService(getBaseContext(), intent);
         }
         return false;
     }
 
     /**
-     * @param context 启动JobService
+     * @param context 上下文
+     * @param cls     希望拉起的后台服务
+     * @param appEnum 启动的数据类型
      */
-    public static void startJob(Context context, Class<? extends Service> cls, boolean autoSync) {
-        mAutoSync = autoSync;
+    public static void startJob(Context context, Class<? extends Service> cls, LifecycleAppEnum appEnum) {
         mTargetServiceCls = cls;
-        LogUtil.writeLifeCycle("启动了startJob的后台服务！");
-        LogUtil.e("启动了startJob的后台服务！");
 
-        if (autoSync) {
-            LogUtil.writeLifeCycle("我是通过账号拉活的JobService!");
-            LogUtil.e("我是通过账号拉活的JobService！");
-        }
+        sendNotification(context, appEnum);
 
         if (mJobScheduler == null) {
             mJobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -78,7 +70,7 @@ public class AppJobService extends JobService {
         // 创建JobService的类对象
         ComponentName appJobComponentName = new ComponentName(context, AppJobService.class);
         // 2：设置JobInfo 的参数信息
-        JobInfo.Builder builder = new JobInfo.Builder(AppJobService.AppJobId, appJobComponentName);
+        JobInfo.Builder builder = new JobInfo.Builder(AppJobService.APP_JOB_ID, appJobComponentName);
 
         builder.setPersisted(true);  // 设置设备重启时，执行该任务
 
@@ -98,15 +90,25 @@ public class AppJobService extends JobService {
      */
     public static void cancel() {
         if (mJobScheduler != null) {
-            mJobScheduler.cancel(AppJobId);
+            mJobScheduler.cancel(APP_JOB_ID);
         }
     }
 
-    private void sendNotification() {
-        NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
-        instance.setChannelName("456");
+    private static void sendNotification(Context context, LifecycleAppEnum appEnum) {
+        NotificationUtil instance = NotificationUtil.getInstance(context);
+        instance.setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME);
+
+        if (appEnum == LifecycleAppEnum.From_Intent) {
+            instance.setContentText("我是JobService，我是被直接启动的");
+            LogUtil.writeLifeCycle("我是JobService，我是被直接启动的");
+        } else if (appEnum == LifecycleAppEnum.FROM_ACCOUNT) {
+            instance.setContentText("我是JobService，我是被账号拉活的");
+            LogUtil.writeLifeCycle("我是JobService，我是被账号拉活的");
+        } else if (appEnum == LifecycleAppEnum.FROM_SERVICE) {
+            instance.setContentText("我是JobService，我是后台服务拉活的");
+            LogUtil.writeLifeCycle("我是JobService，我是后台服务拉活的");
+        }
         instance.setSmallIcon(R.mipmap.ic_launcher);
-        instance.setContentText("我是JobService拉活的");
         instance.createNotification();
         instance.getNotification().when = System.currentTimeMillis();
         instance.sendNotification(222);
@@ -114,7 +116,7 @@ public class AppJobService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters jobParameters) {
-        LogUtil.e("------>:onStopJob");
+        LogUtil.e("onStopJob");
         return false;
     }
 

@@ -1,8 +1,7 @@
-package com.android.app.test.app2;
+package com.android.app.test.app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.app.App;
-import com.android.app.test.app.AppLifecycleAdapter;
-import com.android.app.test.app.DeviceAdapter;
-import com.android.app.test.app.LifecycleManager;
+import com.android.app.app.Keepalive.LifecycleManager;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
@@ -24,7 +21,6 @@ import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
-import com.android.helper.utils.account.AccountHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -88,19 +84,8 @@ public class BhActivity extends BaseActivity {
         // 检测运行权限
         checkPermission();
 
-        // 账号保活
-        AccountHelper accountHelper = AccountHelper.getInstance();
-        accountHelper
-                .addAccountType(getResources().getString(R.string.account_type))
-                .addAccountAuthority(getResources().getString(R.string.account_authority))
-                .addAccountName(getResources().getString(R.string.account_name))
-                .addAccountPassword(getResources().getString(R.string.account_password))
-                .addAccount(mContext);//添加账户
-        accountHelper.autoSync();
-
-        // 后台服务写日志
-        Intent intent = new Intent(mContext, BhService.class);
-        startService(intent);
+        // 开启保活
+        mLifecycleManager.startLifecycle(getApplication());
 
         mAppLifecycleAdapter = new AppLifecycleAdapter(mContext);
         RecycleUtil.getInstance(mContext, mRvLogList)
@@ -119,8 +104,6 @@ public class BhActivity extends BaseActivity {
                 .getInstance(mContext, mRvBluetoothList)
                 .setVertical()
                 .setAdapter(mDeviceAdapter);
-
-        //  AppJobService.startJob(getApplicationContext(), BhService.class, false);
     }
 
     @SuppressLint("NonConstantResourceId")
