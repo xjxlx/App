@@ -67,8 +67,8 @@ public class AppLifecycleService extends Service {
             Notification notification = new Notification.Builder(this)
                     .setChannelId(CHANNEL_ID)
                     .setAutoCancel(false)
-                    .setContentTitle("提升为前台服务")//标题
-                    .setContentText("前台服务运行中...")//内容
+                    .setContentTitle("App小助手全局保活")//标题
+                    .setContentText("全局保活进行中...")//内容
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.mipmap.ic_launcher)//小图标一定需要设置,否则会报错(如果不设置它启动服务前台化不会报错,但是你会发现这个通知不会启动),如果是普通通知,不设置必然报错
                     .build();
@@ -111,7 +111,7 @@ public class AppLifecycleService extends Service {
             removeCallbacksAndMessages(null);
 
             // 隐藏通知栏
-            stopForeground(true);
+            // stopForeground(true);
 
             // 3:启动jobService
             String jobServiceName = LifecycleManager.getInstance().getJobServiceName();
@@ -128,6 +128,8 @@ public class AppLifecycleService extends Service {
                 Message message = mHandler.obtainMessage();
                 message.what = CODE_NOTIFICATION;
                 sendMessageDelayed(message, CODE_INTERVAL);
+
+                // 提升一次全局
 
                 // onLifecycle();
             }

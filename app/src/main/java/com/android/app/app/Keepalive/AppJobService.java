@@ -42,7 +42,7 @@ public class AppJobService extends JobService {
         LogUtil.e("onStartJob");
 
         if (TextUtils.isEmpty(mServiceName)) {
-            mServiceName = LifecycleManager.getInstance().getJobServiceName();
+            mServiceName = LifecycleManager.getInstance().getServiceName();
         }
 
         // 启动后台服务
