@@ -21,7 +21,7 @@ public class TestScrollHelperActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("测试滑动工具的帮助类");
 

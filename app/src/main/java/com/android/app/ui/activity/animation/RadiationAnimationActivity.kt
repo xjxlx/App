@@ -15,8 +15,7 @@ class RadiationAnimationActivity : BaseTitleActivity() {
     }
 
     override fun initData() {
-        super.initData()
-        setTitleContent("放射动画")
+         setTitleContent("放射动画")
 
         findViewById<Button>(R.id.btn).setOnClickListener {
             cst.startAnim()

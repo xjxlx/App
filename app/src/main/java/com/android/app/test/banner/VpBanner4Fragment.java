@@ -28,12 +28,12 @@ public class VpBanner4Fragment extends BaseBindingFragment<FragmentVpBanner4Bind
     }
 
     @Override
-    protected void initView(View view) {
+    public void initView(View view) {
 
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
     }
 

@@ -42,7 +42,7 @@ public class LiveDataActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("LiveData");
 
@@ -52,14 +52,14 @@ public class LiveDataActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         super.initListener();
         setonClickListener(R.id.bt_live_data, R.id.bt_mutable_live_data,
                 R.id.btn_test_start_for_rever, R.id.btn_test_stop_for_rever);
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         mMTvHint.setText("使用好处：\n" +

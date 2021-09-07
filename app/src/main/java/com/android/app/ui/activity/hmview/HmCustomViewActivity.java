@@ -17,7 +17,7 @@ public class HmCustomViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("自定义开关和水波纹");
 

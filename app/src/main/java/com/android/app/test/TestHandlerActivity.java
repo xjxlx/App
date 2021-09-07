@@ -24,7 +24,7 @@ public class TestHandlerActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         setonClickListener(R.id.button, R.id.button2, R.id.button3, R.id.button4);
         textView = findViewById(R.id.textView);

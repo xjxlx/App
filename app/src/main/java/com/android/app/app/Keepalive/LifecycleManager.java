@@ -5,17 +5,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.text.TextUtils;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
 import com.android.app.app.Keepalive.keep.KeepManager;
-import com.android.app.test.app.BhService;
+import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.ActivityUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
+import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.account.AccountHelper;
 import com.android.helper.utils.account.LifecycleAppEnum;
@@ -27,10 +29,11 @@ import com.android.helper.utils.dialog.DialogUtil;
 public class LifecycleManager {
 
     private static LifecycleManager mLifecycleManager;
+    private static String mServiceName, mJobServiceName;// 需要启动的服务名字
     private NotificationUtil mNotificationUtil;
     private DialogUtil mDialogUtil;
     private SystemUtil mSystemUtil;
-    private Intent mIntentService;
+    private Intent mIntent;
 
     public static LifecycleManager getInstance() {
         if (mLifecycleManager == null) {
@@ -43,9 +46,15 @@ public class LifecycleManager {
      * 开启保活的方案，这个方法建议在activity的onCreate方法中卡其
      *
      * @param application 系统级的Context对象
+     * @param serviceName 需要启动服务类的名字
      */
-    public void startLifecycle(Context application) {
-        if (application != null) {
+    public void startLifecycle(Context application, String serviceName, String jobName) {
+        if ((application != null) && (!TextUtils.isEmpty(serviceName)) && (!TextUtils.isEmpty(jobName))) {
+            mServiceName = serviceName;
+            mJobServiceName = jobName;
+            // 保存名字
+            SpUtil.putString(CommonConstants.FILE_LIFECYCLE_SERVICE_NAME, serviceName);
+            SpUtil.putString(CommonConstants.FILE_LIFECYCLE_JOB_SERVICE_NAME, jobName);
 
             // 1:账号保活
             AccountHelper accountHelper = AccountHelper.getInstance();
@@ -58,15 +67,24 @@ public class LifecycleManager {
             accountHelper.autoSync();
 
             // 2:后台服务写日志
-            boolean serviceRunning = ServiceUtil.isServiceRunning(application, BhService.class);
+            boolean serviceRunning = ServiceUtil.isServiceRunning(application, serviceName);
+            LogUtil.e("☆☆☆☆☆---我是Manager，当前后台服务的状态为：" + serviceRunning);
+            LogUtil.writeLifeCycle("☆☆☆☆☆---我是Manager，当前后台服务的状态为：" + serviceRunning);
             if (!serviceRunning) {
-                mIntentService = new Intent(application, BhService.class);
-                ServiceUtil.startService(application, mIntentService);
+                mIntent = new Intent();
+                mIntent.setClassName(application, serviceName);
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mIntent.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, LifecycleAppEnum.From_Intent.getFrom());
+                ServiceUtil.startService(application, mIntent);
             }
 
             // 3:启动jobService
-            if (!ServiceUtil.isJobServiceRunning(application, AppJobService.class)) {
-                AppJobService.startJob(application, BhService.class, LifecycleAppEnum.From_Intent);
+            boolean jobServiceRunning = ServiceUtil.isJobServiceRunning(application, jobName);
+            LogUtil.e("☆☆☆☆☆---我是Manager，当前JobService的状态为：" + jobServiceRunning);
+            LogUtil.writeLifeCycle("☆☆☆☆☆---我是Manager，当前JobService的状态为：" + jobServiceRunning);
+
+            if (!jobServiceRunning) {
+                AppJobService.startJob(application, serviceName, LifecycleAppEnum.From_Intent);
             }
 
             // 4:屏幕一像素保活，适用于8.0以下的手机
@@ -91,8 +109,8 @@ public class LifecycleManager {
 
         // 2: 停止后台的服务
         try {
-            if ((mIntentService != null) && (context != null)) {
-                context.stopService(mIntentService);
+            if ((mIntent != null) && (context != null)) {
+                context.stopService(mIntent);
             }
         } catch (Exception e) {
             LogUtil.e("解除一个像素的页面注册的异常：" + e.getMessage());
@@ -191,4 +209,26 @@ public class LifecycleManager {
         }
     }
 
+    public String getServiceName() {
+        if (TextUtils.isEmpty(mServiceName)) {
+            mServiceName = AppLifecycleService.class.getName();
+        }
+
+        if (TextUtils.isEmpty(mServiceName)) {
+            mServiceName = SpUtil.getString(CommonConstants.FILE_LIFECYCLE_SERVICE_NAME);
+        }
+
+        return mServiceName;
+    }
+
+    public String getJobServiceName() {
+        if (TextUtils.isEmpty(mJobServiceName)) {
+            mJobServiceName = AppJobService.class.getName();
+        }
+
+        if (TextUtils.isEmpty(mJobServiceName)) {
+            mJobServiceName = SpUtil.getString(CommonConstants.FILE_LIFECYCLE_JOB_SERVICE_NAME);
+        }
+        return mJobServiceName;
+    }
 }

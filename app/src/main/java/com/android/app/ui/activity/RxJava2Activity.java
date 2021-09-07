@@ -43,7 +43,7 @@ public class RxJava2Activity extends BaseTitleActivity {
 
     @SuppressLint("CheckResult")
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("测试RxJava2");
         setonClickListener(R.id.btn_test1, R.id.btn_test2);

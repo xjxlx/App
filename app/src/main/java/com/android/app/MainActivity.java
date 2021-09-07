@@ -30,7 +30,7 @@ public class MainActivity extends BaseTitleActivity {
     private BottomNavigationView navigation;
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         LogUtil.e("当前的页面：Activity：--->  MainActivity");
         vpContent = findViewById(R.id.vp_content);
@@ -45,9 +45,7 @@ public class MainActivity extends BaseTitleActivity {
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("NonConstantResourceId")
     @Override
-    protected void initData() {
-        super.initData();
-
+    public void initData() {
         String[] strings = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,

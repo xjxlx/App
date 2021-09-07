@@ -33,12 +33,12 @@ public class QT2Fragment extends BaseBindingFragment<FragmentQT2Binding> {
     }
 
     @Override
-    protected void initView(View view) {
+    public void initView(View view) {
 
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(VpBanner1Fragment.newInstance());
         fragments.add(VpBanner2Fragment.newInstance());

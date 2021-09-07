@@ -13,13 +13,13 @@ public class UnLockTitleActivity extends BaseTitleActivity {
     private ActivityUnLockBinding binding;
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityUnLockBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         Intent intent = getIntent();

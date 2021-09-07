@@ -29,14 +29,14 @@ public class GifViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         mIvBg = findViewById(R.id.iv_bg);
         mIvAnimation = findViewById(R.id.iv_animation);
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         setTitleContent("自定义GIF动画");
 

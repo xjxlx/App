@@ -13,13 +13,13 @@ public class DemoMapTitleActivity extends BaseTitleActivity {
     private ActivityDemoMapBinding binding;
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityDemoMapBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         super.initListener();
 
         setonClickListener(R.id.tv_open_qywx, R.id.tv_receive_map_result,

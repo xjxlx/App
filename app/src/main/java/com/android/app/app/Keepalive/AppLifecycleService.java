@@ -1,4 +1,4 @@
-package com.android.app.test.app;
+package com.android.app.app.Keepalive;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.android.app.R;
-import com.android.app.app.Keepalive.AppJobService;
 import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.BluetoothUtil;
 import com.android.helper.utils.LogUtil;
@@ -24,13 +23,13 @@ import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.account.LifecycleAppEnum;
 
-public class BhService extends Service {
+public class AppLifecycleService extends Service {
 
     @SuppressLint("StaticFieldLeak")
     private static final int CODE_NOTIFICATION = 19900713;
     private static final int CODE_INTERVAL = 10 * 1000;
 
-    public BhService() {
+    public AppLifecycleService() {
     }
 
     @Override
@@ -39,7 +38,6 @@ public class BhService extends Service {
         LogUtil.writeLifeCycle("onStartCommand --->");
 
         String fromType = intent.getStringExtra(CommonConstants.KEY_LIFECYCLE_FROM);
-
         sendNotification(fromType);
 
         // 启动变为前台服务
@@ -116,20 +114,22 @@ public class BhService extends Service {
             stopForeground(true);
 
             // 3:启动jobService
-            if (!ServiceUtil.isJobServiceRunning(getApplicationContext(), AppJobService.class)) {
-                AppJobService.startJob(getApplicationContext(), BhService.class, LifecycleAppEnum.FROM_SERVICE);
+            String jobServiceName = LifecycleManager.getInstance().getJobServiceName();
+            boolean jobServiceRunning = ServiceUtil.isJobServiceRunning(getApplicationContext(), jobServiceName);
+            LogUtil.e("☆☆☆☆☆---我是后台服务，当前jobService的状态为:" + jobServiceRunning);
+            LogUtil.writeLifeCycle("☆☆☆☆☆---我是后台服务，当前jobService的状态为:" + jobServiceRunning);
+
+            if (!jobServiceRunning) {
+                AppJobService.startJob(getApplicationContext(), LifecycleManager.getInstance().getServiceName(), LifecycleAppEnum.FROM_SERVICE);
             }
 
             if (msg.what == CODE_NOTIFICATION) {
                 LogUtil.e("---> 开始发送了消息的轮询！");
-                // 写入本地的日志信息
-                LogUtil.writeLifeCycle("我是服务的轮询日志哦！");
-
                 Message message = mHandler.obtainMessage();
                 message.what = CODE_NOTIFICATION;
                 sendMessageDelayed(message, CODE_INTERVAL);
 
-                onLifecycle();
+                // onLifecycle();
             }
         }
     };

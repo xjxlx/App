@@ -64,7 +64,7 @@ public class SelectorNameList extends BaseView {
     }
 
     @Override
-    protected void initView(Context context, AttributeSet attrs) {
+    public void initView(Context context, AttributeSet attrs) {
 
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);

@@ -1,18 +1,20 @@
-package com.android.app.test.app;
+package com.android.app.app.Keepalive;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.app.R;
 import com.android.app.app.App;
-import com.android.app.app.Keepalive.LifecycleManager;
-import com.android.helper.base.BaseActivity;
+import com.android.app.databinding.ActivityAppLifecycleBinding;
+import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
@@ -25,6 +27,7 @@ import com.android.helper.utils.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,48 +38,36 @@ import java.util.Set;
 
 import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 
-public class BhActivity extends BaseActivity {
+public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecycleBinding> {
 
     private LifecycleManager mLifecycleManager;
     private LogWriteUtil mWriteUtil;
     private AppLifecycleAdapter mAppLifecycleAdapter;
-    private RecyclerView mRvBluetoothList;
-    private RecyclerView mRvLogList;
     private DeviceAdapter mDeviceAdapter;
     private final Map<String, String> map = new HashMap<>();
 
     @Override
-    protected int getBaseLayout() {
-        return R.layout.activity_bh;
-    }
-
-    @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
 
         boolean registered = EventBus.getDefault().isRegistered(this);
         if (!registered) {
             EventBus.getDefault().register(this);
         }
+    }
 
-        Button btOpenDc = findViewById(R.id.bt_open_dc);
-        Button btOpenAutoQd = findViewById(R.id.bt_open_auto_qd);
-        Button btRefreshData = findViewById(R.id.bt_refresh_data);
-        View btShowBluetooth = findViewById(R.id.bt_show_bluetooth);
-
-        mRvBluetoothList = findViewById(R.id.rv_bluetooth_list);
-        mRvLogList = findViewById(R.id.rv_log_list);
-
-        btOpenDc.setOnClickListener(this);
-        btOpenAutoQd.setOnClickListener(this);
-        btRefreshData.setOnClickListener(this);
-        btShowBluetooth.setOnClickListener(this);
+    @Override
+    public void initListener() {
+        super.initListener();
+        mBinding.btOpenDc.setOnClickListener(this);
+        mBinding.btOpenAutoQd.setOnClickListener(this);
+        mBinding.btRefreshData.setOnClickListener(this);
+        mBinding.btShowBluetooth.setOnClickListener(this);
     }
 
     @SuppressLint("NewApi")
     @Override
-    protected void initData() {
-        super.initData();
+    public void initData() {
         if (mLifecycleManager == null) {
             mLifecycleManager = LifecycleManager.getInstance();
         }
@@ -85,10 +76,13 @@ public class BhActivity extends BaseActivity {
         checkPermission();
 
         // 开启保活
-        mLifecycleManager.startLifecycle(getApplication());
+        String name = AppLifecycleService.class.getName();
+        String jobName = AppJobService.class.getName();
+
+        mLifecycleManager.startLifecycle(getApplication(), name, jobName);
 
         mAppLifecycleAdapter = new AppLifecycleAdapter(mContext);
-        RecycleUtil.getInstance(mContext, mRvLogList)
+        RecycleUtil.getInstance(mContext, mBinding.rvLogList)
                 .setVertical()
                 .setAdapter(mAppLifecycleAdapter);
 
@@ -101,7 +95,7 @@ public class BhActivity extends BaseActivity {
 
         mDeviceAdapter = new DeviceAdapter(mContext);
         RecycleUtil
-                .getInstance(mContext, mRvBluetoothList)
+                .getInstance(mContext, mBinding.rvBluetoothList)
                 .setVertical()
                 .setAdapter(mDeviceAdapter);
     }
@@ -128,7 +122,7 @@ public class BhActivity extends BaseActivity {
                 mLifecycleManager.checkAutoStartupPermissions(mContext);
                 break;
             case R.id.bt_refresh_data:
-                boolean serviceRunning = ServiceUtil.isServiceRunning(mContext, BhService.class);
+                boolean serviceRunning = ServiceUtil.isServiceRunning(mContext, AppLifecycleService.class);
                 ToastUtil.show("刷新数据 ：" + serviceRunning);
 
                 List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
@@ -139,11 +133,11 @@ public class BhActivity extends BaseActivity {
                 break;
 
             case R.id.bt_show_bluetooth:
-                int visibility = mRvBluetoothList.getVisibility();
+                int visibility = mBinding.rvBluetoothList.getVisibility();
                 if (visibility == View.GONE) {
-                    mRvBluetoothList.setVisibility(View.VISIBLE);
+                    mBinding.rvLogList.setVisibility(View.VISIBLE);
                 } else if (visibility == View.VISIBLE) {
-                    mRvBluetoothList.setVisibility(View.GONE);
+                    mBinding.rvLogList.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -220,5 +214,10 @@ public class BhActivity extends BaseActivity {
 //        if (mLifecycleManager != null) {
 //            mLifecycleManager.stopLifecycle(mContext);
 //        }
+    }
+
+    @Override
+    public ActivityAppLifecycleBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+        return ActivityAppLifecycleBinding.inflate(inflater, container, false);
     }
 }

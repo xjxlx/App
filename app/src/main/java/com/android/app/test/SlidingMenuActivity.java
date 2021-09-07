@@ -15,7 +15,7 @@ public class SlidingMenuActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("侧滑的View");
     }

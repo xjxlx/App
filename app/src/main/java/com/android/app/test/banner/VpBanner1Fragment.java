@@ -31,12 +31,12 @@ public class VpBanner1Fragment extends BaseBindingFragment<FragmentVpBannerBindi
     }
 
     @Override
-    protected void initView(View view) {
+    public void initView(View view) {
         Bundle arguments = getArguments();
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
 
     }
 

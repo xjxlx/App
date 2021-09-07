@@ -17,7 +17,7 @@ public class ScrollPageViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         ArrayList<String> list = new ArrayList<>();

@@ -13,8 +13,7 @@ class ViewPagerActivity : BaseTitleActivity() {
     }
 
     override fun initData() {
-        super.initData()
-        setTitleContent("自定义ViewPager的类")
+         setTitleContent("自定义ViewPager的类")
 
         val list: ArrayList<Any> = ArrayList()
         list.add(R.mipmap.icon_banner_1)

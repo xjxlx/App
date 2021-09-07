@@ -1,5 +1,6 @@
 package com.android.app.adapters;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +14,7 @@ import com.android.helper.base.BaseVH;
 public class SmsAdapter extends BaseRecycleAdapter<String, SmsAdapter.SmsVH> {
     private int type;
 
-    public SmsAdapter(BaseActivity mContext, int type) {
+    public SmsAdapter(Activity mContext, int type) {
         super(mContext);
         this.type = type;
     }

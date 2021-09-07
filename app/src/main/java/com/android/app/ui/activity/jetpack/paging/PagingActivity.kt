@@ -3,15 +3,15 @@ package com.android.app.ui.activity.jetpack.paging
 import com.android.app.databinding.ActivityPagingBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.android.helper.base.viewbinding.BaseBindingTitleActivity
+import com.android.helper.base.BaseBindingActivity
 
 /**
  * 分页加载的paging
  */
-class PagingActivity : BaseBindingTitleActivity<ActivityPagingBinding>() {
+class PagingActivity : BaseBindingActivity<ActivityPagingBinding>() {
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityPagingBinding {
-        return ActivityPagingBinding.inflate(layoutInflater, mTitleBinding.root, true)
+        return ActivityPagingBinding.inflate(inflater, container, true)
     }
 
     override fun initData() {

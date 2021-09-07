@@ -41,6 +41,10 @@ class JetPackMapActivity : BaseTitleActivity() {
         )
     }
 
+    override fun initData() {
+
+    }
+
     override fun onClick(v: View?) {
         super.onClick(v)
         when (v?.id) {

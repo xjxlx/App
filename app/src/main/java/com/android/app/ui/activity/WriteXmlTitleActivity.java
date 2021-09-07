@@ -20,13 +20,13 @@ public class WriteXmlTitleActivity extends BaseTitleActivity {
     private File file1;
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityWriteXmlBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         XmlUtil xmlUtil = new XmlUtil();
         List<Float> integers = new ArrayList<>();

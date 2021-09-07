@@ -37,12 +37,12 @@ public class BannerQTFragment extends BaseBindingFragment<FragmentBannerQTBindin
     }
 
     @Override
-    protected void initView(View view) {
+    public void initView(View view) {
 
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         QT2Fragment qt2Fragment = QT2Fragment.newInstance();
 
         ArrayList<Fragment> fragments = new ArrayList<>();

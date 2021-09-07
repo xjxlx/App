@@ -37,7 +37,7 @@ public class AndroidJSActivity extends BaseTitleActivity {
 
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
 
         setTitleContent("Android和JS互相调用");

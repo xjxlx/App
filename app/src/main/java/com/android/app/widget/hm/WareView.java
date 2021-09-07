@@ -38,7 +38,7 @@ public class WareView extends BaseView {
     }
 
     @Override
-    protected void initView(Context context, AttributeSet attrs) {
+    public void initView(Context context, AttributeSet attrs) {
 
     }
 

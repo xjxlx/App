@@ -30,13 +30,13 @@ public class ReceiveMapResultTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityReceiveMapResultBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         Intent intent = getIntent();

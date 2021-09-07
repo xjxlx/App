@@ -64,7 +64,7 @@ public class AudioPlayerActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("音乐播放器");
 
@@ -80,7 +80,7 @@ public class AudioPlayerActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         LogUtil.e(AudioConstant.TAG, "initData");
 

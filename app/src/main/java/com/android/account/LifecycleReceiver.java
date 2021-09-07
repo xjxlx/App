@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import com.android.app.R;
 import com.android.app.app.Keepalive.AppJobService;
-import com.android.app.test.app.BhService;
+import com.android.app.app.Keepalive.LifecycleManager;
 import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
@@ -19,8 +19,6 @@ import com.android.helper.utils.account.LifecycleAppEnum;
  */
 public class LifecycleReceiver extends BroadcastReceiver {
 
-    private final String tagService = "com.android.app.test.app.BhService";
-
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -31,19 +29,30 @@ public class LifecycleReceiver extends BroadcastReceiver {
             sendNotification(context);
 
             // 启动主应用
-            if (!ServiceUtil.isServiceRunning(context, tagService)) {
-                Intent intentService = new Intent();
-                intentService.setClassName("com.android.app", tagService);
-                intentService.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intentService.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, LifecycleAppEnum.FROM_ACCOUNT.getFrom());
-                ServiceUtil.startService(context, intentService);
-            }
+            String serviceName = LifecycleManager.getInstance().getServiceName();
+            if (!TextUtils.isEmpty(serviceName)) {
+                // 后台服务
+                boolean serviceRunning = ServiceUtil.isServiceRunning(context, serviceName);
+                LogUtil.e("☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
+                LogUtil.writeLifeCycle("☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
 
-            // 如果JobService没有运行着的时候，顺便把它也唤醒
-            boolean jobServiceRunning = ServiceUtil.isJobServiceRunning(context, AppJobService.class);
-            LogUtil.e("jobServiceRunning:" + jobServiceRunning);
-            if (!jobServiceRunning) {
-                AppJobService.startJob(context, BhService.class, LifecycleAppEnum.FROM_ACCOUNT);
+                if (!serviceRunning) {
+                    Intent intentService = new Intent();
+                    intentService.setClassName(context, serviceName);
+                    intentService.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intentService.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, LifecycleAppEnum.FROM_ACCOUNT.getFrom());
+                    ServiceUtil.startService(context, intentService);
+                }
+
+                // 如果JobService没有运行着的时候，顺便把它也唤醒
+                String jobServiceName = LifecycleManager.getInstance().getJobServiceName();
+                boolean jobServiceRunning = ServiceUtil.isJobServiceRunning(context, jobServiceName);
+                LogUtil.e("☆☆☆☆☆---我是广播通知，当前JobService的状态为：" + serviceRunning);
+                LogUtil.writeLifeCycle("☆☆☆☆☆---我是广播通知，当前JobService的状态为：" + serviceRunning);
+
+                if (!jobServiceRunning) {
+                    AppJobService.startJob(context, serviceName, LifecycleAppEnum.FROM_ACCOUNT);
+                }
             }
         }
     }
@@ -54,8 +63,8 @@ public class LifecycleReceiver extends BroadcastReceiver {
                 .setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText("账号同步开始了，主动检测服务存活");
-        notificationUtil.getNotification().when = System.currentTimeMillis();
         notificationUtil.createNotification();
+        notificationUtil.getNotification().when = System.currentTimeMillis();
         notificationUtil.sendNotification(333);
     }
 }

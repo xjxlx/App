@@ -1,11 +1,11 @@
 package com.android.app.test
 
 import android.annotation.SuppressLint
-import com.android.app.R
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
+import com.android.app.R
 import com.android.helper.base.BaseTitleActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ResourceUtil
@@ -23,7 +23,6 @@ class TestTouchActivity : BaseTitleActivity() {
     }
 
     override fun initListener() {
-        super.initListener()
 
         val thread = object : Thread() {
             override fun run() {
@@ -44,6 +43,10 @@ class TestTouchActivity : BaseTitleActivity() {
             }
         }
         thread.start()
+    }
+
+    override fun initData() {
+
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

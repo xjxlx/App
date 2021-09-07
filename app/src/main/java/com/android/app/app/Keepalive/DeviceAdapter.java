@@ -1,4 +1,4 @@
-package com.android.app.test.app;
+package com.android.app.app.Keepalive;
 
 import android.app.Activity;
 import android.view.View;
@@ -12,15 +12,17 @@ import com.android.helper.base.BaseVH;
 
 import org.jetbrains.annotations.NotNull;
 
-public class AppLifecycleAdapter extends BaseRecycleAdapter<String, AppLifecycleAdapter.VH> {
+import java.util.Map;
 
-    public AppLifecycleAdapter(Activity mContext) {
+public class DeviceAdapter extends BaseRecycleAdapter<Map.Entry<String, String>, DeviceAdapter.VH> {
+
+    public DeviceAdapter(Activity mContext) {
         super(mContext);
     }
 
     @Override
     protected int getLayout() {
-        return R.layout.item_app_licycle;
+        return R.layout.item_device_list;
     }
 
     @Override
@@ -30,16 +32,21 @@ public class AppLifecycleAdapter extends BaseRecycleAdapter<String, AppLifecycle
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull VH holder, int position) {
-        String s = mList.get(position);
-        holder.mTvTest.setText(s);
+        Map.Entry<String, String> entry = mList.get(position);
+        holder.mTvDeviceName.setText(entry.getValue());
+        holder.mTvDeviceAddress.setText(entry.getKey());
     }
 
     static class VH extends BaseVH {
-        private TextView mTvTest;
+
+        private final TextView mTvDeviceName;
+        private final TextView mTvDeviceAddress;
 
         public VH(@NonNull View itemView) {
             super(itemView);
-            mTvTest = itemView.findViewById(R.id.tv_test);
+            mTvDeviceName = itemView.findViewById(R.id.tv_device_name);
+            mTvDeviceAddress = itemView.findViewById(R.id.tv_device_address);
         }
+
     }
 }

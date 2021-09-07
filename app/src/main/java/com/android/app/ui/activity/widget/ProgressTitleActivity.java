@@ -15,7 +15,7 @@ public class ProgressTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityProgressBinding.inflate(getLayoutInflater());
     }

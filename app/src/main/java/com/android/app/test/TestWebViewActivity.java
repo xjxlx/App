@@ -27,7 +27,7 @@ public class TestWebViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("测试WebView");
         mWvTest = findViewById(R.id.wv_test);
@@ -94,7 +94,7 @@ public class TestWebViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         Intent intent = getIntent();

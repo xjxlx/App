@@ -24,7 +24,7 @@ public class TestJavaLifeActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("测试Java的代码加载顺序");
         list.add("构造方法！");

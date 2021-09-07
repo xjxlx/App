@@ -18,13 +18,13 @@ public class H5StartNativeTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityH5StartNativeBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         Intent intent = getIntent();
         if (intent != null) {

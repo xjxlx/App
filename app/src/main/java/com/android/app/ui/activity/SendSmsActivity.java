@@ -50,7 +50,7 @@ public class SendSmsActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
 
         setTitleContent("短信轰炸");
@@ -112,7 +112,7 @@ public class SendSmsActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         smsAdapter1 = new SmsAdapter(mContext, 1);
 

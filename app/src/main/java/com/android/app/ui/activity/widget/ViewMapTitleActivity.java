@@ -19,13 +19,13 @@ public class ViewMapTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityViewMapBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         super.initListener();
 
         setonClickListener(

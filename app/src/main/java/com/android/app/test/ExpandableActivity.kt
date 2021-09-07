@@ -8,7 +8,7 @@ import android.widget.ExpandableListView
 import com.android.app.adapters.HighWordExpandableAdapter
 import com.android.app.bean.ExpandableBean
 import com.android.app.databinding.ActivityExpandableBinding
-import com.android.helper.base.viewbinding.BaseBindingTitleActivity
+import com.android.helper.base.BaseBindingActivity
 import com.android.helper.utils.ExpandableUtil
 import com.android.helper.utils.StreamUtil
 import com.google.gson.Gson
@@ -16,7 +16,7 @@ import com.google.gson.Gson
 /**
  * 测试拓展listView的加载顺序
  */
-class ExpandableActivity : BaseBindingTitleActivity<ActivityExpandableBinding>() {
+class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +50,10 @@ class ExpandableActivity : BaseBindingTitleActivity<ActivityExpandableBinding>()
         }
     }
 
+    override fun initListener() {
+
+    }
+
     override fun initData() {
 
         setTitleContent("测试ExpandableList的加载顺序")
@@ -77,7 +81,7 @@ class ExpandableActivity : BaseBindingTitleActivity<ActivityExpandableBinding>()
         inflater: LayoutInflater,
         container: ViewGroup?
     ): ActivityExpandableBinding {
-        return ActivityExpandableBinding.inflate(layoutInflater, mTitleBinding.root, true)
+        return ActivityExpandableBinding.inflate(inflater, container, true)
     }
 
 }

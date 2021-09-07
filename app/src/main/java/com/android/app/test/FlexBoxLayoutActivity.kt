@@ -18,10 +18,12 @@ class FlexBoxLayoutActivity : BaseTitleActivity() {
         return R.layout.activity_flex_box_layout
     }
 
-    override fun initData() {
-        super.initData()
-        setTitleContent("测试动态布局")
+    override fun initListener() {
 
+    }
+
+    override fun initData() {
+        setTitleContent("测试动态布局")
 
         fbl_root.post {
             val width1 = fbl_root.width

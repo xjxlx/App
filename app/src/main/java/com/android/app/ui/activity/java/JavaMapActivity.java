@@ -15,13 +15,13 @@ public class JavaMapActivity extends BaseTitleActivity {
     }
     
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("Java类型的集合类");
     }
     
     @Override
-    protected void initListener() {
+    public void initListener() {
         super.initListener();
         setonClickListener(R.id.tv_java_life);
     }

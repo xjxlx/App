@@ -23,7 +23,7 @@ public class NameListActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("自定义名字检测的列表");
 

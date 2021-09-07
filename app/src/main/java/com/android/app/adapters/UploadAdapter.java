@@ -1,5 +1,6 @@
 package com.android.app.adapters;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,7 +30,7 @@ public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapte
     private final UploadManagerRetrofit manager;
     private final List<MultipartBody.Part> mListPart = new ArrayList<>();
 
-    public UploadAdapter(BaseActivity mContext, List<DownLoadBean> mList) {
+    public UploadAdapter(Activity mContext, List<DownLoadBean> mList) {
         super(mContext, mList);
         manager = UploadManagerRetrofit.getInstance();
     }

@@ -39,14 +39,14 @@ public class ControlAppTitleActivity extends BaseTitleActivity {
     private UsageStatsManager usageStatsManager;
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityControlAppBinding.inflate(getLayoutInflater());
 
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         runOnUiThread(() -> {

@@ -27,13 +27,13 @@ public class WorkWxTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityWorkWxBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         Intent intent = new Intent(this, QywxService.class);

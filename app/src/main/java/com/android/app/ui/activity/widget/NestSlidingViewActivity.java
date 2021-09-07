@@ -14,7 +14,7 @@ public class NestSlidingViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         View btnTest = findViewById(R.id.btn_test);
         View rlMiddle = findViewById(R.id.rl_middle);
@@ -31,7 +31,7 @@ public class NestSlidingViewActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         setTitleContent("嵌套的滑动View");
     }

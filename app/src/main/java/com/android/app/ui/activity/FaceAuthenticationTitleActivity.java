@@ -57,7 +57,7 @@ public class FaceAuthenticationTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         binding = ActivityFaceAuthenticationBinding.inflate(getLayoutInflater());
         TextViewUtil.setTextFont(mContext, binding.tvCode1, "DINCondensedBold.ttf");
         TextViewUtil.setTextFont(mContext, binding.tvCode2, "DINCondensedBold.ttf");
@@ -72,7 +72,7 @@ public class FaceAuthenticationTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         super.initListener();
 
         // 进度条按下的监听
@@ -119,7 +119,7 @@ public class FaceAuthenticationTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         // 检测是否有摄像头
         boolean hardware = checkCameraHardware(mContext);
         if (!hardware) {

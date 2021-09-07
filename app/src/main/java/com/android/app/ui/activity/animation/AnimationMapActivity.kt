@@ -12,8 +12,7 @@ class AnimationMapActivity : BaseTitleActivity() {
     }
 
     override fun initData() {
-        super.initData()
-        setTitleContent("自定义动画的集合")
+         setTitleContent("自定义动画的集合")
 
         setonClickListener(
                 R.id.tv_gif,

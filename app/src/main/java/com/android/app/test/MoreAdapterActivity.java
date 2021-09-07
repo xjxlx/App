@@ -20,7 +20,7 @@ public class MoreAdapterActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         setTitleContent("测试多布局的类型");
 
@@ -29,7 +29,7 @@ public class MoreAdapterActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         String url = "http://file.jollyeng.com/anims/201903/1552874954.jpg";
 

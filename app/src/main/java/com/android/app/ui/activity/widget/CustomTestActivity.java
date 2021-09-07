@@ -13,7 +13,7 @@ public class CustomTestActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
         setTitleContent("自定义文字");
 

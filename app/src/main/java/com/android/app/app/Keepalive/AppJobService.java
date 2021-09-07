@@ -1,6 +1,5 @@
 package com.android.app.app.Keepalive;
 
-import android.app.Service;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
@@ -9,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.android.app.R;
 import com.android.helper.common.CommonConstants;
@@ -32,7 +32,7 @@ public class AppJobService extends JobService {
      */
     private static final int CODE_INTERVAL = 10 * 1000;
     private static JobScheduler mJobScheduler;
-    private static Class<? extends Service> mTargetServiceCls;
+    private static String mServiceName;
 
     public AppJobService() {
     }
@@ -40,26 +40,42 @@ public class AppJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         LogUtil.e("onStartJob");
+
+        if (TextUtils.isEmpty(mServiceName)) {
+            mServiceName = LifecycleManager.getInstance().getJobServiceName();
+        }
+
         // 启动后台服务
-        if (mTargetServiceCls != null) {
-            boolean serviceRunning = ServiceUtil.isServiceRunning(getApplicationContext(), mTargetServiceCls);
+        if (!TextUtils.isEmpty(mServiceName)) {
+            boolean serviceRunning = ServiceUtil.isServiceRunning(getApplicationContext(), mServiceName);
+            LogUtil.e("☆☆☆☆☆---我是JobService服务，当前后台服务的状态为:" + serviceRunning);
+            LogUtil.writeLifeCycle("☆☆☆☆☆---我是JobService服务，当前后台服务的状态为:" + serviceRunning);
+
             if (!serviceRunning) {
                 /*启动应用*/
-                Intent intent = new Intent(getBaseContext(), mTargetServiceCls);
+                Intent intent = new Intent();
+                intent.setClassName(getPackageName(), mServiceName);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, LifecycleAppEnum.FROM_JOB.getFrom());
                 ServiceUtil.startService(getApplicationContext(), intent);
             }
+
+            // 重新开始执行
+            startJob(getApplicationContext(), mServiceName, LifecycleAppEnum.FROM_JOB);
+
+            // 任务已经结束了
+            jobFinished(jobParameters, true);
         }
-        return false;
+        return true;
     }
 
     /**
-     * @param context 上下文
-     * @param cls     希望拉起的后台服务
-     * @param appEnum 启动的数据类型
+     * @param context     上下文
+     * @param serviceName 希望拉起的后台服务
+     * @param appEnum     启动的数据类型
      */
-    public static void startJob(Context context, Class<? extends Service> cls, LifecycleAppEnum appEnum) {
-        mTargetServiceCls = cls;
+    public static void startJob(Context context, String serviceName, LifecycleAppEnum appEnum) {
+        mServiceName = serviceName;
 
         sendNotification(context, appEnum);
 
@@ -108,6 +124,11 @@ public class AppJobService extends JobService {
             instance.setContentText("我是JobService，我是后台服务拉活的");
             LogUtil.writeLifeCycle("我是JobService，我是后台服务拉活的");
         }
+
+        if (appEnum == LifecycleAppEnum.FROM_JOB) {
+            return;
+        }
+
         instance.setSmallIcon(R.mipmap.ic_launcher);
         instance.createNotification();
         instance.getNotification().when = System.currentTimeMillis();

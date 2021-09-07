@@ -1,5 +1,6 @@
 package com.android.app.adapters
 
+import android.app.Activity
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -15,7 +16,7 @@ import com.android.helper.utils.download.DownLoadManager
 import okhttp3.Response
 import java.util.*
 
-class DownloadAdapter(mContext: BaseActivity, mList: ArrayList<DownLoadBean>) :
+class DownloadAdapter(mContext: Activity, mList: ArrayList<DownLoadBean>) :
     BaseRecycleAdapter<DownLoadBean, DownloadAdapter.DlHolder>(mContext, mList) {
 
     val downLoadManager: DownLoadManager by lazy {

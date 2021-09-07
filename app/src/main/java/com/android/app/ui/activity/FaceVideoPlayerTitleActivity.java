@@ -32,13 +32,13 @@ public class FaceVideoPlayerTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initView() {
+    public void initView() {
         super.initView();
         binding = ActivityFaceVideoPlayerBinding.inflate(getLayoutInflater());
     }
 
     @Override
-    protected void initListener() {
+    public void initListener() {
         super.initListener();
 
         // 提交
@@ -74,7 +74,7 @@ public class FaceVideoPlayerTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected void initData() {
+    public void initData() {
         super.initData();
 
         Intent intent = getIntent();

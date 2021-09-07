@@ -71,4 +71,8 @@ class DownLoadListActivity : BaseTitleActivity() {
         }
     }
 
+    override fun initData() {
+
+    }
+
 }

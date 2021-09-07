@@ -92,12 +92,12 @@
         <!-- 账号拉活的                        结束 -->
 
         <service
-            android:name=".test.app.BhService"
+            android:name=".app.Keepalive.AppLifecycleService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".test.app.BhActivity"
+            android:name=".app.Keepalive.AppLifecycleActivity"
             android:label="单渠道保活"
             android:launchMode="singleTop">
             <intent-filter>
@@ -116,17 +116,6 @@
             android:name=".app.Keepalive.keep.KeepActivity"
             android:excludeFromRecents="true"
             android:theme="@style/KeepTheme" />
-
-        <service
-            android:name=".test.app.AppLifecycleService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <activity
-            android:name=".test.app.AppLifecycleActivity"
-            android:exported="true"
-            android:label="多功能保活"
-            android:launchMode="singleTop" />
 
         <service
             android:name=".app.Keepalive.AppJobService"
