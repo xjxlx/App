@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomInsertListener
 import com.android.helper.interfaces.room.RoomQueryListener
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_room.*
  * 使用的好处：
  *
  */
-class RoomActivity : BaseTitleActivity() {
+class RoomActivity : BaseActivity() {
     private lateinit var roomManager: RoomDataBaseHelper
 
     private val observer = Observer<RoomEntityLiveData> { t -> ToastUtil.show("返回的数据为：" + t) }
@@ -39,7 +39,7 @@ class RoomActivity : BaseTitleActivity() {
         return@lazy RoomUtil.getInstance()
     }
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_room
     }
 
@@ -63,6 +63,10 @@ class RoomActivity : BaseTitleActivity() {
                 btn_rxjava, btn_database_update, btn_database_update_insert,
                 btn_database_update_data, btn_database_update_data_insert
         )
+    }
+
+    override fun initData() {
+
     }
 
     override fun onClick(v: View?) {

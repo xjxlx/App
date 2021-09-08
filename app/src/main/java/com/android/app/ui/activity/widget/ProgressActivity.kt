@@ -2,18 +2,18 @@ package com.android.app.ui.activity.widget
 
 import com.android.app.R
 import android.text.TextUtils
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_progress2.*
 
-class ProgressActivity : BaseTitleActivity() {
+class ProgressActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_progress2
     }
 
     override fun initData() {
-        super.initData()
+
 
         setTitleContent("自定义进度条")
 

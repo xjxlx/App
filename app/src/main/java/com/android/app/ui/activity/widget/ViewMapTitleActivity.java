@@ -1,20 +1,21 @@
 package com.android.app.ui.activity.widget;
 
 import android.annotation.SuppressLint;
+import android.view.View;
+
 import com.android.app.R;
 import com.android.app.databinding.ActivityViewMapBinding;
 import com.android.app.test.SlidingMenuActivity;
+import com.android.app.ui.activity.animation.ViewPagerActivity;
 import com.android.app.ui.activity.hmview.HmCustomViewActivity;
-import android.view.View;
+import com.android.helper.base.BaseActivity;
 
-import com.android.helper.base.BaseTitleActivity;
-
-public class ViewMapTitleActivity extends BaseTitleActivity {
+public class ViewMapTitleActivity extends BaseActivity {
 
     private ActivityViewMapBinding binding;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_view_map;
     }
 
@@ -33,8 +34,14 @@ public class ViewMapTitleActivity extends BaseTitleActivity {
                 R.id.tv_multiple_list_view, R.id.tv_custom_text, R.id.tv_custom_round,
                 R.id.tv_custom_random, R.id.tv_custom_left_and_right, R.id.tv_custom_progress,
                 R.id.tv_custom_touch, R.id.tv_custom_input_password, R.id.tv_scroll_view,
-                R.id.tv_page_view, R.id.tv_test_hm, R.id.tv_custom_menu, R.id.tv_custom_name_list
+                R.id.tv_page_view, R.id.tv_test_hm, R.id.tv_custom_menu, R.id.tv_custom_name_list,
+                R.id.tv_custom_viewpager
         );
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -85,6 +92,10 @@ public class ViewMapTitleActivity extends BaseTitleActivity {
                 break;
             case R.id.tv_custom_name_list:
                 startActivity(NameListActivity.class);
+                break;
+
+            case R.id.tv_custom_viewpager:
+                startActivity(ViewPagerActivity.class);
                 break;
         }
     }

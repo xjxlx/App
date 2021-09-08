@@ -2,14 +2,14 @@ package com.android.app.ui.activity.widget;
 
 import com.android.app.R;
 import com.android.app.widget.NestSlidingView;
+import com.android.helper.base.BaseActivity;
+
 import android.view.View;
 
-import com.android.helper.base.BaseTitleActivity;
-
-public class NestSlidingViewActivity extends BaseTitleActivity {
+public class NestSlidingViewActivity extends BaseActivity {
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_nest_sliding_view;
     }
 
@@ -32,7 +32,7 @@ public class NestSlidingViewActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         setTitleContent("嵌套的滑动View");
     }
 

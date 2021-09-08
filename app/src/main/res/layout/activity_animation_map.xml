@@ -25,10 +25,5 @@
             style="@style/style_todo_item"
             android:text="自定义时间选择器的弹窗" />
 
-        <TextView
-            android:id="@+id/tv_custom_viewpager"
-            style="@style/style_todo_item"
-            android:text="自定义viewPager" />
-
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

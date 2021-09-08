@@ -1,6 +1,5 @@
 package com.android.app.test
 
-import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,8 +17,7 @@ import com.google.gson.Gson
  */
 class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initListener() {
 
         val assets = mContext.assets
         val inputStream = assets.open("expandable.json")
@@ -50,10 +48,6 @@ class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
         }
     }
 
-    override fun initListener() {
-
-    }
-
     override fun initData() {
 
         setTitleContent("测试ExpandableList的加载顺序")
@@ -81,7 +75,7 @@ class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): ActivityExpandableBinding {
-        return ActivityExpandableBinding.inflate(inflater, container, true)
+        return ActivityExpandableBinding.inflate(inflater, container, false)
     }
 
 }

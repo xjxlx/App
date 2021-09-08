@@ -15,7 +15,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.AssetsUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * 音频播放工具类
  */
-public class AudioPlayerActivity extends BaseTitleActivity {
+public class AudioPlayerActivity extends BaseActivity {
 
     private android.widget.Button mBtnPlayer;
     private android.widget.Button mBtnPause;
@@ -59,7 +59,7 @@ public class AudioPlayerActivity extends BaseTitleActivity {
     private NotificationManager manager;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_audio_player;
     }
 
@@ -81,7 +81,7 @@ public class AudioPlayerActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         LogUtil.e(AudioConstant.TAG, "initData");
 
         String json = AssetsUtil.getInstance().getJsonForAssets(mContext, "Audio.json");

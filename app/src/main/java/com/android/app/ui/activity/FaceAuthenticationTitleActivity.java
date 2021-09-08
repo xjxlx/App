@@ -16,7 +16,7 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.interfaces.listener.SinglePermissionsListener;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 补充信息---人脸认证的界面
  */
-public class FaceAuthenticationTitleActivity extends BaseTitleActivity {
+public class FaceAuthenticationTitleActivity extends BaseActivity {
 
     private ActivityFaceAuthenticationBinding binding;
     private MediaRecorder mediaRecorder;
@@ -52,7 +52,7 @@ public class FaceAuthenticationTitleActivity extends BaseTitleActivity {
     private Camera.Size sizeForVideo;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_face_authentication;
     }
 

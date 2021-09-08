@@ -5,10 +5,10 @@ import com.android.app.R;
 import com.android.app.databinding.ActivityUnLockBinding;
 import android.view.View;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.SpUtil;
 
-public class UnLockTitleActivity extends BaseTitleActivity {
+public class UnLockTitleActivity extends BaseActivity {
 
     private ActivityUnLockBinding binding;
 
@@ -20,7 +20,7 @@ public class UnLockTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
 
         Intent intent = getIntent();
         String packageName = intent.getStringExtra("packageName");
@@ -40,7 +40,7 @@ public class UnLockTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_un_lock;
     }
 

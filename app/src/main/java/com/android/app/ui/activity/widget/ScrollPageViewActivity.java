@@ -1,24 +1,23 @@
 package com.android.app.ui.activity.widget;
 
-import com.android.app.R;
 import android.view.View;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.widget.PageView;
 
 import java.util.ArrayList;
 
-public class ScrollPageViewActivity extends BaseTitleActivity {
+public class ScrollPageViewActivity extends BaseActivity {
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_scroll_page_view;
     }
 
     @Override
     public void initData() {
-        super.initData();
 
         ArrayList<String> list = new ArrayList<>();
 

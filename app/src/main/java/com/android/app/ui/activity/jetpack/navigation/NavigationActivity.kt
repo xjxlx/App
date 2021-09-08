@@ -5,15 +5,15 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.LogUtil
 
 /**
  * Navigation导航的页面
  */
-class NavigationActivity : BaseTitleActivity() {
+class NavigationActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_navigation
     }
 
@@ -34,5 +34,9 @@ class NavigationActivity : BaseTitleActivity() {
                 LogUtil.e("lable:" + label)
             }
         })
+    }
+
+    override fun initData() {
+
     }
 }

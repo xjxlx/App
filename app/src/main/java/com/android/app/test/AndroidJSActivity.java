@@ -1,7 +1,6 @@
 package com.android.app.test;
 
 import android.annotation.SuppressLint;
-import com.android.app.R;
 import android.net.Uri;
 import android.view.View;
 import android.webkit.JsResult;
@@ -15,14 +14,15 @@ import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 /**
  * JS和前端的交互
  */
-public class AndroidJSActivity extends BaseTitleActivity {
+public class AndroidJSActivity extends BaseActivity {
 
     private android.widget.TextView tvAndroidcalljs;
     private android.widget.TextView tvAndroidcalljsargs;
@@ -31,7 +31,7 @@ public class AndroidJSActivity extends BaseTitleActivity {
     private View tv_androidgetjsarg;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_android_j_s;
     }
 
@@ -109,6 +109,11 @@ public class AndroidJSActivity extends BaseTitleActivity {
                 return super.shouldInterceptRequest(view, request);
             }
         });
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     private int mCount;

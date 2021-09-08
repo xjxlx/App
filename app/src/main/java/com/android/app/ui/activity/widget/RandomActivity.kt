@@ -1,12 +1,8 @@
 package com.android.app.ui.activity.widget
 
 import com.android.app.R
-import android.view.Gravity
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.android.helper.base.BaseTitleActivity
-import com.android.helper.utils.ConvertUtil
-import com.android.helper.utils.LogUtil
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.TextViewUtil
 import com.android.helper.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_random.*
@@ -14,14 +10,14 @@ import kotlinx.android.synthetic.main.activity_random.*
 /**
  * 随机布局的activity
  */
-class RandomActivity : BaseTitleActivity() {
+class RandomActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_random
     }
 
     override fun initData() {
-        super.initData()
+
 
         setTitleContent("随机数的布局")
 

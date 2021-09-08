@@ -5,7 +5,7 @@ import com.android.app.ui.activity.jetpack.room.room2.RoomManager.VERSION
 import android.view.View
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomExecuteListener
 import com.android.helper.interfaces.room.RoomInsertListener
@@ -15,13 +15,13 @@ import com.android.helper.utils.room.RoomUtil
 import com.android.helper.utils.room.SQLEntity
 import kotlinx.android.synthetic.main.activity_room2.*
 
-class Room2Activity : BaseTitleActivity() {
+class Room2Activity : BaseActivity() {
 
     private val roomManager by lazy {
         return@lazy RoomManager.getInstance()
     }
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_room2
     }
 
@@ -37,6 +37,10 @@ class Room2Activity : BaseTitleActivity() {
                 btn_table_2_add,
                 btn_table_2_insert
         )
+    }
+
+    override fun initData() {
+
     }
 
     override fun onClick(v: View?) {

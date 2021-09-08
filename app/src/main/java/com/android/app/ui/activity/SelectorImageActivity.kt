@@ -3,7 +3,7 @@ package com.android.app.ui.activity
 import android.Manifest
 import android.view.View
 import com.android.app.R
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RxPermissionsUtil
@@ -14,9 +14,9 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import kotlinx.android.synthetic.main.activity_selector_image.*
 
-class SelectorImageActivity : BaseTitleActivity() {
+class SelectorImageActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_selector_image
     }
 

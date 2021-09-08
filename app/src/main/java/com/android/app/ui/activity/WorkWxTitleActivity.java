@@ -4,25 +4,25 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import com.android.app.R;
-import com.android.app.databinding.ActivityWorkWxBinding;
-import com.android.app.services.QywxService;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.app.databinding.ActivityWorkWxBinding;
+import com.android.app.services.QywxService;
+import com.android.helper.base.BaseActivity;
 
 /**
  * 企业微信的界面
  */
-public class WorkWxTitleActivity extends BaseTitleActivity {
+public class WorkWxTitleActivity extends BaseActivity {
 
     private ActivityWorkWxBinding binding;
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_work_wx;
     }
 
@@ -34,7 +34,6 @@ public class WorkWxTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
 
         Intent intent = new Intent(this, QywxService.class);
 

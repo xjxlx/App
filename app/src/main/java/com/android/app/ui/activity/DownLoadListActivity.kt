@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
 import com.android.app.bean.DownLoadBean
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
@@ -14,13 +14,13 @@ import kotlinx.android.synthetic.main.activity_down_load_list.*
 import java.io.File
 import java.util.*
 
-class DownLoadListActivity : BaseTitleActivity() {
+class DownLoadListActivity : BaseActivity() {
 
     private val mList = arrayListOf<DownLoadBean>()
 
     private lateinit var file: File
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_down_load_list
     }
 

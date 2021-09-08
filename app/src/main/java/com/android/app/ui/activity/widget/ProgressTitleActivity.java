@@ -2,15 +2,14 @@ package com.android.app.ui.activity.widget;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityProgressBinding;
+import com.android.helper.base.BaseActivity;
 
-import com.android.helper.base.BaseTitleActivity;
-
-public class ProgressTitleActivity extends BaseTitleActivity {
+public class ProgressTitleActivity extends BaseActivity {
 
     private ActivityProgressBinding binding;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_progress;
     }
 
@@ -18,5 +17,10 @@ public class ProgressTitleActivity extends BaseTitleActivity {
     public void initView() {
         super.initView();
         binding = ActivityProgressBinding.inflate(getLayoutInflater());
+    }
+
+    @Override
+    public void initData() {
+
     }
 }

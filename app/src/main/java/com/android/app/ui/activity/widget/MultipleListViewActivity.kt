@@ -1,20 +1,20 @@
 package com.android.app.ui.activity.widget
 
 import com.android.app.R
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_multiple_list_view.*
 
 /**
  * 多列表的listView
  */
-class MultipleListViewActivity : BaseTitleActivity() {
+class MultipleListViewActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_multiple_list_view
     }
 
     override fun initData() {
-        super.initData()
+
         setTitleContent("多列表的ListView")
 
         val arrayListOf = arrayListOf<String>()
@@ -39,4 +39,5 @@ class MultipleListViewActivity : BaseTitleActivity() {
 
         mlv_list.setList(arrayListOf)
     }
+
 }

@@ -1,6 +1,5 @@
 package com.android.app.test;
 
-import com.android.app.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,7 +11,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.ByteString;
 
-public class TestWebSocketActivity extends BaseTitleActivity {
+public class TestWebSocketActivity extends BaseActivity {
 
     private final String TAG_SERVICE = "服务端：";
     private final String TAG_APP = "移动端：";
@@ -53,7 +53,7 @@ public class TestWebSocketActivity extends BaseTitleActivity {
     private android.widget.Button mBtnCloseService;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_test_web_socket;
     }
 
@@ -116,7 +116,6 @@ public class TestWebSocketActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
 
         // 初始化测试服务器
         initWebSocketService();

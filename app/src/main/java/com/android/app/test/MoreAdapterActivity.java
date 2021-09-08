@@ -4,18 +4,18 @@ import android.graphics.Bitmap;
 import com.android.app.R;
 import android.widget.ImageView;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.interfaces.listener.CallBackListener;
 import com.android.helper.utils.BitmapUtil;
 import com.android.helper.utils.LogUtil;
 
-public class MoreAdapterActivity extends BaseTitleActivity {
+public class MoreAdapterActivity extends BaseActivity {
 
     private androidx.recyclerview.widget.RecyclerView mRvList;
     private ImageView iv_image;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_more_adapter;
     }
 
@@ -30,7 +30,7 @@ public class MoreAdapterActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         String url = "http://file.jollyeng.com/anims/201903/1552874954.jpg";
 
         BitmapUtil.getBitmapForService(mContext, "", new CallBackListener<Bitmap>() {

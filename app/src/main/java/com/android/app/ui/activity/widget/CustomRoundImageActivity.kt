@@ -4,15 +4,15 @@ import com.android.app.R
 import com.android.app.app.App
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.SystemUtil
 import com.android.helper.utils.photo.GlideUtil
 import kotlinx.android.synthetic.main.activity_custom_round_image.*
 
-class CustomRoundImageActivity : BaseTitleActivity() {
+class CustomRoundImageActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_custom_round_image
     }
 
@@ -26,7 +26,7 @@ class CustomRoundImageActivity : BaseTitleActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initData() {
-        super.initData()
+
         setTitleContent("自定义任意圆角任意图形")
 
         val url1 = "http://file.jollyeng.com/picture_book/201805/When I grow up.png";

@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ScreenUtil;
 import com.android.helper.utils.ToastUtil;
@@ -16,7 +16,7 @@ import com.android.helper.utils.ToastUtil;
 /**
  * 自定义gifView
  */
-public class GifViewActivity extends BaseTitleActivity {
+public class GifViewActivity extends BaseActivity {
 
     private ImageView mIvBg;
     private ImageView mIvAnimation;
@@ -24,7 +24,7 @@ public class GifViewActivity extends BaseTitleActivity {
     private ObjectAnimator animator;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_gif_view;
     }
 
@@ -37,7 +37,7 @@ public class GifViewActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         setTitleContent("自定义GIF动画");
 
         setAnimation(0, 917);

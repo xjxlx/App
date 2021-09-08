@@ -55,6 +55,11 @@
             style="@style/style_todo_item"
             android:text="音乐播放器" />
 
+        <TextView
+            android:id="@+id/tv_app_lifecycle"
+            style="@style/style_todo_item"
+            android:text="App保活" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

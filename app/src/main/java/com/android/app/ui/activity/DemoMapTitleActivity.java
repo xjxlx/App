@@ -1,35 +1,28 @@
 package com.android.app.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.android.app.R;
+import com.android.app.app.Keepalive.AppLifecycleActivity;
 import com.android.app.databinding.ActivityDemoMapBinding;
 import com.android.app.ui.activity.otherutils.AudioPlayerActivity;
-import android.view.View;
+import com.android.helper.base.BaseBindingActivity;
 
-import com.android.helper.base.BaseTitleActivity;
+import org.jetbrains.annotations.NotNull;
 
-public class DemoMapTitleActivity extends BaseTitleActivity {
-
-    private ActivityDemoMapBinding binding;
+public class DemoMapTitleActivity extends BaseBindingActivity<ActivityDemoMapBinding> {
 
     @Override
-    public void initView() {
-        super.initView();
-        binding = ActivityDemoMapBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public void initListener() {
-        super.initListener();
-
+    public void initData() {
         setonClickListener(R.id.tv_open_qywx, R.id.tv_receive_map_result,
                 R.id.tv_xml_write_data, R.id.tv_rxjava2, R.id.tv_download, R.id.tv_uploading,
-                R.id.tv_selector_image, R.id.tv_send_sms, R.id.tv_audio_player);
-    }
-
-    @Override
-    protected int getTitleLayout() {
-        return R.layout.activity_demo_map;
+                R.id.tv_selector_image, R.id.tv_send_sms, R.id.tv_audio_player,R.id.tv_app_lifecycle);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -72,7 +65,14 @@ public class DemoMapTitleActivity extends BaseTitleActivity {
             case R.id.tv_audio_player:
                 startActivity(AudioPlayerActivity.class);
                 break;
+            case R.id.tv_app_lifecycle:
+                startActivity(AppLifecycleActivity.class);
+                break;
         }
     }
 
+    @Override
+    public ActivityDemoMapBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+        return ActivityDemoMapBinding.inflate(inflater, container, false);
+    }
 }

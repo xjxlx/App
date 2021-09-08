@@ -41,7 +41,7 @@ class HomeFragment : BaseRefreshFragment<Response<HomeBean>, HomeBean.ReturnData
     }
 
     override fun initData() {
-        super.initData()
+
         RecycleUtil
                 .getInstance(mContext, rv_home_list)
                 .setVertical()

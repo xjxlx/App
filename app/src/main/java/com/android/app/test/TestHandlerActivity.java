@@ -7,25 +7,25 @@ import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestHandlerActivity extends BaseTitleActivity {
+public class TestHandlerActivity extends BaseActivity {
 
     private TextView textView;
     private List<String> mList = new ArrayList<String>();
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_test_handler;
     }
 
     @Override
     public void initData() {
-        super.initData();
+
         setonClickListener(R.id.button, R.id.button2, R.id.button3, R.id.button4);
         textView = findViewById(R.id.textView);
     }

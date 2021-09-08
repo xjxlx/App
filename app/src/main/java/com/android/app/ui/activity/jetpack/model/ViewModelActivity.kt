@@ -3,7 +3,7 @@ package com.android.app.ui.activity.jetpack.model
 import android.annotation.SuppressLint
 import com.android.app.R
 import androidx.lifecycle.ViewModelProviders
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.FragmentUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.jetpack.AndroidLifecycle
@@ -20,13 +20,13 @@ import kotlinx.android.synthetic.main.activity_view_model.*
  *      2：使用viewModel，然后横竖屏查看数据是否会丢失
  *      3：多个fragment之间进行数据通讯
  */
-class ViewModelActivity : BaseTitleActivity() {
+class ViewModelActivity : BaseActivity() {
 
     private val viewModel by lazy {
         return@lazy ViewModelProviders.of(this).get(TestViewModel::class.java)
     }
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_view_model
     }
 
@@ -49,7 +49,7 @@ class ViewModelActivity : BaseTitleActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initData() {
-        super.initData()
+
 
         val stringExtra = intent.getStringExtra("key")
         LogUtil.e("key:$stringExtra")

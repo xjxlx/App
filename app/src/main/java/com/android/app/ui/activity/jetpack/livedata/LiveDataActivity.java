@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.FragmentUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
@@ -27,7 +27,7 @@ import com.android.helper.utils.ToastUtil;
  * <p>
  * 测试：
  */
-public class LiveDataActivity extends BaseTitleActivity {
+public class LiveDataActivity extends BaseActivity {
 
     private LiveDataModel mLiveDataModel;
     private TextView mTvLiveDateContent;
@@ -37,7 +37,7 @@ public class LiveDataActivity extends BaseTitleActivity {
     private Observer<TestMutableLiveData> mObserver;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_live_data;
     }
 
@@ -60,7 +60,7 @@ public class LiveDataActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+         ;
 
         mMTvHint.setText("使用好处：\n" +
                 "1:在需要观察的界面使用viewModel的对象去观察数据源的变化，可以一个地方设置，所有地方公用，已经离不开这种模式了，" +

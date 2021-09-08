@@ -8,11 +8,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import com.android.app.R;
-import com.android.app.adapters.AppInfoAdapter;
-import com.android.app.bean.AppInfoBean;
-import com.android.app.databinding.ActivityControlAppBinding;
-import com.android.app.services.LookDogService;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -20,7 +15,12 @@ import android.provider.Settings;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.app.adapters.AppInfoAdapter;
+import com.android.app.bean.AppInfoBean;
+import com.android.app.databinding.ActivityControlAppBinding;
+import com.android.app.services.LookDogService;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ControlAppTitleActivity extends BaseTitleActivity {
+public class ControlAppTitleActivity extends BaseActivity {
 
     private ActivityControlAppBinding binding;
     private List<AppInfoBean> mListAppInfo1 = new ArrayList<>();
@@ -47,7 +47,6 @@ public class ControlAppTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
 
         runOnUiThread(() -> {
             // 获取应用的所有信息
@@ -132,7 +131,7 @@ public class ControlAppTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_control_app;
     }
 }

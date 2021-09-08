@@ -1,16 +1,14 @@
 package com.android.app.ui.activity.java;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 
 import com.android.app.R;
+import com.android.helper.base.BaseActivity;
 
-import com.android.helper.base.BaseTitleActivity;
-
-public class JavaMapActivity extends BaseTitleActivity {
+public class JavaMapActivity extends BaseActivity {
     
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_java_map;
     }
     
@@ -24,6 +22,11 @@ public class JavaMapActivity extends BaseTitleActivity {
     public void initListener() {
         super.initListener();
         setonClickListener(R.id.tv_java_life);
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     @Override

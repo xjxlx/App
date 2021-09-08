@@ -2,45 +2,36 @@ package com.android.app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import com.android.app.ui.fragment.HomeFragment;
-import com.android.app.ui.fragment.PersonalFragment;
-import com.android.app.ui.fragment.TodoFragment;
 import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.app.databinding.ActivityMainBinding;
+import com.android.app.ui.fragment.HomeFragment;
+import com.android.app.ui.fragment.PersonalFragment;
+import com.android.app.ui.fragment.TodoFragment;
+import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.base.BaseFragmentPagerAdapter;
-import com.android.helper.base.BaseTitleActivity;
 import com.android.helper.interfaces.listener.AllPermissionsListener;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.RxPermissionsUtil;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.tbruyelle.rxpermissions.Permission;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseTitleActivity {
+public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
 
     private final List<Fragment> mListFragments = new ArrayList<>();
     private final List<String> mListTitle = new ArrayList<>();
-    private ViewPager vpContent;
-    private BottomNavigationView navigation;
-
-    @Override
-    public void initView() {
-        super.initView();
-        LogUtil.e("当前的页面：Activity：--->  MainActivity");
-        vpContent = findViewById(R.id.vp_content);
-        navigation = findViewById(R.id.navigation);
-    }
-
-    @Override
-    protected int getTitleLayout() {
-        return R.layout.activity_main;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("NonConstantResourceId")
@@ -70,11 +61,11 @@ public class MainActivity extends BaseTitleActivity {
 
         BaseFragmentPagerAdapter pagerAdapter = new BaseFragmentPagerAdapter(getSupportFragmentManager(), mListFragments, mListTitle);
 
-        vpContent.setAdapter(pagerAdapter);
+        mBinding.vpContent.setAdapter(pagerAdapter);
         // 避免重复创建加载数据
-        vpContent.setOffscreenPageLimit(mListFragments.size());
+        mBinding.vpContent.setOffscreenPageLimit(mListFragments.size());
         // viewPager选中的监听
-        vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mBinding.vpContent.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -82,7 +73,7 @@ public class MainActivity extends BaseTitleActivity {
             @Override
             public void onPageSelected(int position) {
                 //设置默认选中item
-                navigation.getMenu().getItem(position).setChecked(true);
+                mBinding.navigation.getMenu().getItem(position).setChecked(true);
                 switch (position) {
                     case 0:
                         setTitleContent("首页");
@@ -102,29 +93,34 @@ public class MainActivity extends BaseTitleActivity {
         });
 
         // 底部导航器选中的监听事件
-        navigation.setOnNavigationItemSelectedListener(menuItem -> {
+        mBinding.navigation.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 // 首页
                 case R.id.navigation_home:
-                    vpContent.setCurrentItem(0);
+                    mBinding.vpContent.setCurrentItem(0);
                     break;
 
                 // 待办
                 case R.id.navigation_moment:
-                    vpContent.setCurrentItem(1);
+                    mBinding.vpContent.setCurrentItem(1);
                     break;
 
                 // 个人中心
                 case R.id.navigation_personal:
-                    vpContent.setCurrentItem(2);
+                    mBinding.vpContent.setCurrentItem(2);
                     break;
             }
             return false;
         });
 
         // 设置默认数据
-        navigation.getMenu().getItem(1).setChecked(true);
-        vpContent.setCurrentItem(1);
+        mBinding.navigation.getMenu().getItem(1).setChecked(true);
+        mBinding.vpContent.setCurrentItem(1);
         setTitleContent("代办");
+    }
+
+    @Override
+    public ActivityMainBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+        return ActivityMainBinding.inflate(inflater, container, false);
     }
 }

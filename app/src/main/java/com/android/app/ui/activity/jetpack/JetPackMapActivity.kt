@@ -10,15 +10,15 @@ import com.android.app.ui.activity.jetpack.paging.PagingActivity
 import com.android.app.ui.activity.jetpack.room.room1.RoomActivity
 import com.android.app.ui.activity.jetpack.room.room2.Room2Activity
 import android.view.View
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_jet_pack_map.*
 
 /**
  * JetPack的集合
  */
-class JetPackMapActivity : BaseTitleActivity() {
+class JetPackMapActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_jet_pack_map
     }
 

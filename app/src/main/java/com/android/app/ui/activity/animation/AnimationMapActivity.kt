@@ -1,24 +1,23 @@
 package com.android.app.ui.activity.animation
 
-import com.android.app.R
 import android.view.View
-import com.android.helper.base.BaseTitleActivity
+import com.android.app.R
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.ToastUtil
 
-class AnimationMapActivity : BaseTitleActivity() {
+class AnimationMapActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_animation_map
     }
 
     override fun initData() {
-         setTitleContent("自定义动画的集合")
+        setTitleContent("自定义动画的集合")
 
         setonClickListener(
-                R.id.tv_gif,
-                R.id.tv_radiation_animation,
-                R.id.tv_selector_time_dialog,
-                R.id.tv_custom_viewpager
+            R.id.tv_gif,
+            R.id.tv_radiation_animation,
+            R.id.tv_selector_time_dialog
         )
     }
 
@@ -33,9 +32,6 @@ class AnimationMapActivity : BaseTitleActivity() {
             }
             R.id.tv_selector_time_dialog -> {
                 ToastUtil.show("自定义时间选择器的dialog")
-            }
-            R.id.tv_custom_viewpager -> {
-                startActivity(ViewPagerActivity::class.java)
             }
         }
     }

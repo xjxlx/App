@@ -5,7 +5,7 @@ import com.android.app.R;
 import com.android.app.databinding.ActivityWriteXmlBinding;
 import android.view.View;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.XmlUtil;
@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WriteXmlTitleActivity extends BaseTitleActivity {
+public class WriteXmlTitleActivity extends BaseActivity {
 
     private ActivityWriteXmlBinding binding;
     private File file1;
@@ -27,7 +27,7 @@ public class WriteXmlTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         XmlUtil xmlUtil = new XmlUtil();
         List<Float> integers = new ArrayList<>();
         for (float i = 0; i < 720; ) {
@@ -55,7 +55,7 @@ public class WriteXmlTitleActivity extends BaseTitleActivity {
     }
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_write_xml;
     }
 }

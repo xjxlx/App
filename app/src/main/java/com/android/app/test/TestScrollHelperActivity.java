@@ -3,20 +3,20 @@ package com.android.app.test;
 import com.android.app.R;
 import android.view.View;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 
 /**
  * 测试滑动工具的帮助类
  */
-public class TestScrollHelperActivity extends BaseTitleActivity {
+public class TestScrollHelperActivity extends BaseActivity {
 
     private android.widget.ImageView mIvHead;
     private android.view.View mVReadView;
     private android.view.View mVBlueView;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_test_scroll_helper;
     }
 
@@ -37,6 +37,11 @@ public class TestScrollHelperActivity extends BaseTitleActivity {
         int measuredHeight = mIvHead.getMeasuredHeight();
 
         LogUtil.e("measuredWidth:" + measuredWidth + "   measuredHeight：" + measuredHeight);
+
+    }
+
+    @Override
+    public void initData() {
 
     }
 }

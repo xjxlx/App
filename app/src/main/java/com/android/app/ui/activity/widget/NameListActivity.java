@@ -4,21 +4,21 @@ import com.android.app.R;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.interfaces.listener.DialogChangeListener;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ScreenUtil;
 import com.android.helper.utils.dialog.PopupWindowUtil;
 import com.android.helper.utils.statusBar.StatusBarUtil;
 
-public class NameListActivity extends BaseTitleActivity {
+public class NameListActivity extends BaseActivity {
 
     private View viewById;
     private PopupWindowUtil instance;
     private ScreenUtil screenUtil;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_name_list;
     }
 
@@ -59,6 +59,11 @@ public class NameListActivity extends BaseTitleActivity {
                     }
                 })
                 .show(mContext, this.viewById);
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     @Override

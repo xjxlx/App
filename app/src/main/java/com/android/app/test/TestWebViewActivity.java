@@ -2,7 +2,6 @@ package com.android.app.test;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import com.android.app.R;
 import android.os.Build;
 import android.view.View;
 import android.webkit.JsResult;
@@ -11,18 +10,19 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.helper.base.BaseActivity;
 
 import static com.android.helper.common.CommonConstants.KEY_BASE_WEB_VIEW_URL;
 
-public class TestWebViewActivity extends BaseTitleActivity {
+public class TestWebViewActivity extends BaseActivity {
 
     private android.webkit.WebView mWvTest;
     private android.widget.ProgressBar mPbProgress;
     private String mWebUrl;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_test_web_view;
     }
 
@@ -95,8 +95,6 @@ public class TestWebViewActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
-
         Intent intent = getIntent();
         mWebUrl = intent.getStringExtra(KEY_BASE_WEB_VIEW_URL);
 

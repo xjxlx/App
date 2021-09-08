@@ -6,14 +6,14 @@ import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
 import com.android.app.R
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ResourceUtil
 import kotlinx.android.synthetic.main.activity_test_touch.*
 
-class TestTouchActivity : BaseTitleActivity() {
+class TestTouchActivity : BaseActivity() {
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_test_touch
     }
 

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.ToastUtil;
@@ -32,7 +32,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SendSmsActivity extends BaseTitleActivity {
+public class SendSmsActivity extends BaseActivity {
 
     private String KEY_SAVE = "phone_number_save";
     private List<String> mListAddress = new ArrayList<>();
@@ -45,7 +45,7 @@ public class SendSmsActivity extends BaseTitleActivity {
     private EditText et_add_address;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_send_sms;
     }
 
@@ -113,7 +113,7 @@ public class SendSmsActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         smsAdapter1 = new SmsAdapter(mContext, 1);
 
         HashMap<String, String> map = SpUtil.getMap(KEY_SAVE);

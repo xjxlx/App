@@ -80,6 +80,11 @@
             style="@style/style_item_selector"
             android:text="自定义名字的首字母列表" />
 
+        <TextView
+            android:id="@+id/tv_custom_viewpager"
+            style="@style/style_item_selector"
+            android:text="自定义viewPager" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

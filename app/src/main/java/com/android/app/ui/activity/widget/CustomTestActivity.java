@@ -2,19 +2,19 @@ package com.android.app.ui.activity.widget;
 
 import com.android.app.R;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 
-public class CustomTestActivity extends BaseTitleActivity {
+public class CustomTestActivity extends BaseActivity {
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_custom_test;
     }
 
     @Override
     public void initData() {
-        super.initData();
+
         setTitleContent("自定义文字");
 
         float a = 43.1f;

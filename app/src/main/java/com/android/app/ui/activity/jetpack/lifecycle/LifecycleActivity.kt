@@ -5,7 +5,7 @@ import com.android.app.R
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_lifecycle.*
 
@@ -30,13 +30,13 @@ import kotlinx.android.synthetic.main.activity_lifecycle.*
  *      1：创建一个简单的音频播放器，在进入页面的时候准备，点击按钮的时候播放，点击停止按钮也可以停止
  *      2：在退出界面的时候，感知布局的状态，进而停止音乐的播放。
  */
-class LifecycleActivity : BaseTitleActivity() {
+class LifecycleActivity : BaseActivity() {
 
     private val player: LifecyclePlayer by lazy {
         return@lazy LifecyclePlayer()
     }
 
-    override fun getTitleLayout(): Int {
+    override fun getBaseLayout(): Int {
         return R.layout.activity_lifecycle
     }
 
@@ -63,7 +63,7 @@ class LifecycleActivity : BaseTitleActivity() {
     }
 
     override fun initData() {
-        super.initData()
+
 
         lifecycle.addObserver(player)
 

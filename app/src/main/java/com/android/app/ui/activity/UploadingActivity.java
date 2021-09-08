@@ -3,20 +3,19 @@ package com.android.app.ui.activity;
 import com.android.app.R;
 import com.android.app.adapters.UploadAdapter;
 import com.android.app.bean.DownLoadBean;
+import com.android.helper.base.BaseActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.helper.base.BaseTitleActivity;
-
 import java.util.ArrayList;
 
-public class UploadingActivity extends BaseTitleActivity {
+public class UploadingActivity extends BaseActivity {
 
     private RecyclerView rv_upload_list;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_uploading;
     }
 
@@ -36,6 +35,11 @@ public class UploadingActivity extends BaseTitleActivity {
 
         rv_upload_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rv_upload_list.setAdapter(adapter);
+    }
+
+    @Override
+    public void initData() {
+
     }
 
 }

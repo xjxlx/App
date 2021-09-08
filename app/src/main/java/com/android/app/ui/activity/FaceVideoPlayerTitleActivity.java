@@ -12,14 +12,14 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 /**
  * 人脸识别的视频播放页面
  */
-public class FaceVideoPlayerTitleActivity extends BaseTitleActivity {
+public class FaceVideoPlayerTitleActivity extends BaseActivity {
 
     private ActivityFaceVideoPlayerBinding binding;
     private String videoWidth;
@@ -27,7 +27,7 @@ public class FaceVideoPlayerTitleActivity extends BaseTitleActivity {
     private float mResultWidth;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_face_video_player;
     }
 
@@ -75,7 +75,6 @@ public class FaceVideoPlayerTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
 
         Intent intent = getIntent();
         if (intent == null) {

@@ -2,8 +2,6 @@ package com.android.app.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import com.android.app.R;
-import com.android.app.databinding.ActivityReceiveMapResultBinding;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +11,21 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.app.R;
+import com.android.app.databinding.ActivityReceiveMapResultBinding;
+import com.android.helper.base.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class ReceiveMapResultTitleActivity extends BaseTitleActivity {
+public class ReceiveMapResultTitleActivity extends BaseActivity {
 
     private ActivityReceiveMapResultBinding binding;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_receive_map_result;
     }
 
@@ -37,7 +37,6 @@ public class ReceiveMapResultTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
 
         Intent intent = getIntent();
         if (intent != null) {

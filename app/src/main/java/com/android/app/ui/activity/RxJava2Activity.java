@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import com.android.app.R;
 import android.view.View;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.httpclient.RxUtil;
 import com.android.helper.httpclient.TestApi;
@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 import retrofit2.Response;
 
-public class RxJava2Activity extends BaseTitleActivity {
+public class RxJava2Activity extends BaseActivity {
 
 //    //不指定背压策略
 //    MISSING,
@@ -37,7 +37,7 @@ public class RxJava2Activity extends BaseTitleActivity {
 //    LATEST
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_rx_java2;
     }
 
@@ -92,6 +92,11 @@ public class RxJava2Activity extends BaseTitleActivity {
 //            })
             ;
         });
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.android.helper.base.BaseFragment
 /**
  * 个人中心的fragment
  */
-class PersonalFragment<T> : BaseFragment() {
+class PersonalFragment : BaseFragment() {
 
     override fun getBaseLayout(): Int {
         return R.layout.fragment_personal

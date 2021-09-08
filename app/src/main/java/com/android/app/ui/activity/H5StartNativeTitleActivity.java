@@ -5,15 +5,15 @@ import com.android.app.R;
 import com.android.app.databinding.ActivityH5StartNativeBinding;
 import android.net.Uri;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.ToastUtil;
 
-public class H5StartNativeTitleActivity extends BaseTitleActivity {
+public class H5StartNativeTitleActivity extends BaseActivity {
 
     private ActivityH5StartNativeBinding binding;
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_h5_start_native;
     }
 
@@ -25,7 +25,7 @@ public class H5StartNativeTitleActivity extends BaseTitleActivity {
 
     @Override
     public void initData() {
-        super.initData();
+
         Intent intent = getIntent();
         if (intent != null) {
             Uri data = intent.getData();

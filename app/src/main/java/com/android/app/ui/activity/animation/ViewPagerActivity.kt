@@ -1,52 +1,55 @@
 package com.android.app.ui.activity.animation
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.android.app.R
-import com.android.helper.base.BaseTitleActivity
+import com.android.app.databinding.ActivityViewPagerBinding
+import com.android.app.test.banner.*
+import com.android.helper.base.BaseBindingActivity
+import com.android.helper.utils.BitmapUtil
+import com.android.helper.widget.banner.BannerLoadListener
 
 /**
  * 自定义viewpager的类
  */
-class ViewPagerActivity : BaseTitleActivity() {
-
-    override fun getTitleLayout(): Int {
-        return R.layout.activity_view_pager
-    }
+class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
 
     override fun initData() {
-         setTitleContent("自定义ViewPager的类")
+        setTitleContent("自定义ViewPager的类")
 
-        val list: ArrayList<Any> = ArrayList()
+        val list: ArrayList<Int> = ArrayList()
         list.add(R.mipmap.icon_banner_1)
         list.add(R.mipmap.bg)
         list.add(R.mipmap.icon_banner_3)
-        list.add(R.mipmap.icon_banner_4)
 
-//        val imageData = BannerView
-//            .setImageData(list)
-//            .setBannerLoadListener { imageView, `object` ->
-//                val i = `object` as Int
-//                imageView.setImageResource(i)
-//            }.addIndicator(bi_banner)
-//        banner_view.createBuild(imageData)
-//        banner_view.start(this)
-//
-//        val fragmentList = ArrayList<Fragment>()
-//        fragmentList.add(VpBanner1Fragment.newInstance())
-//        fragmentList.add(VpBanner2Fragment.newInstance())
-//        fragmentList.add(VpBanner3Fragment.newInstance())
-//        fragmentList.add(VpBanner4Fragment.newInstance())
-//        fragmentList.add(VpBanner5Fragment.newInstance())
-//        val builder = BannerView.Builder()
-//            .autoLoop(true)
-//            .setFragmentData(fragmentList)
-//            .setBannerLoadListener { imageView, `object` ->
-//                val i = `object` as Int
-//                imageView.setImageResource(i)
-//            }.addIndicator(bi_banner2)
-//
-//        banner_fragment
-//            .createBuild(builder)
-//            .start(this)
+        mBinding.bannerView
+            .setImageData(list)
+            .setBannerLoadListener(BannerLoadListener<Int> { view, t ->
+                val bitmapForResourceId = BitmapUtil.getBitmapForResourceId(mContext, t)
+                view?.setImageBitmap(bitmapForResourceId)
+            })
+            .addIndicator(mBinding.biBanner)
+            .show(mContext)
+
+        val fragmentList = ArrayList<Fragment>()
+        fragmentList.add(VpBanner1Fragment.newInstance())
+        fragmentList.add(VpBanner2Fragment.newInstance())
+        fragmentList.add(VpBanner3Fragment.newInstance())
+        fragmentList.add(VpBanner4Fragment.newInstance())
+        fragmentList.add(VpBanner5Fragment.newInstance())
+
+        mBinding.bannerFragment
+            .setFragmentData(fragmentList)
+            .addIndicator(mBinding.biBanner2)
+            .show(mContext)
+    }
+
+    override fun getBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): ActivityViewPagerBinding {
+        return ActivityViewPagerBinding.inflate(inflater, container, false)
     }
 
 }

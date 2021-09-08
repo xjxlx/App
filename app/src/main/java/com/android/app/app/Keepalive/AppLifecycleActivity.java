@@ -38,6 +38,9 @@ import java.util.Set;
 
 import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 
+/**
+ * App保活
+ */
 public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecycleBinding> {
 
     private LifecycleManager mLifecycleManager;

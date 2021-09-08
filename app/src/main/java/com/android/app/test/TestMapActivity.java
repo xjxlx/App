@@ -3,19 +3,19 @@ package com.android.app.test;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import com.android.app.R;
-import android.view.View;
+import com.android.helper.base.BaseActivity;
 
-import com.android.helper.base.BaseTitleActivity;
+import android.view.View;
 
 import static com.android.helper.common.CommonConstants.KEY_BASE_WEB_VIEW_URL;
 
 /**
  * 测试功能的集合
  */
-public class TestMapActivity extends BaseTitleActivity {
+public class TestMapActivity extends BaseActivity {
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_test_map;
     }
 
@@ -25,6 +25,11 @@ public class TestMapActivity extends BaseTitleActivity {
         setonClickListener(R.id.tv_test_handler, R.id.tv_elv, R.id.tv_flex_box, R.id.tv_test_js_to_android,
                 R.id.tv_test_scroll_help, R.id.tv_test_more_adapter, R.id.tv_test_ch, R.id.tv_test_web_socket,
                 R.id.tv_test_webview,R.id.tv_test_touch);
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     @SuppressLint("NonConstantResourceId")

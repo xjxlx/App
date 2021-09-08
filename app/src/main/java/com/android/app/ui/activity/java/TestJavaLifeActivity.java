@@ -3,14 +3,14 @@ package com.android.app.ui.activity.java;
 import com.android.app.R;
 import android.widget.TextView;
 
-import com.android.helper.base.BaseTitleActivity;
+import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TestJavaLifeActivity extends BaseTitleActivity {
+public class TestJavaLifeActivity extends BaseActivity {
 
     private static List<String> list;
 
@@ -19,7 +19,7 @@ public class TestJavaLifeActivity extends BaseTitleActivity {
     private static String b = "edf";
 
     @Override
-    protected int getTitleLayout() {
+    protected int getBaseLayout() {
         return R.layout.activity_test_java_life;
     }
 
@@ -39,6 +39,11 @@ public class TestJavaLifeActivity extends BaseTitleActivity {
                 textView.setText(Arrays.toString(list.toArray()));
             }
         }, 3000);
+    }
+
+    @Override
+    public void initData() {
+
     }
 
     {

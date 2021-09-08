@@ -4,7 +4,7 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.android.app.R
-import com.android.helper.base.BaseTitleActivity
+import com.android.helper.base.BaseActivity
 import com.android.helper.utils.LogUtil
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_flex_box_layout.*
@@ -12,11 +12,7 @@ import kotlinx.android.synthetic.main.activity_flex_box_layout.*
 /**
  * 测试动态布局
  */
-class FlexBoxLayoutActivity : BaseTitleActivity() {
-
-    override fun getTitleLayout(): Int {
-        return R.layout.activity_flex_box_layout
-    }
+class FlexBoxLayoutActivity : BaseActivity() {
 
     override fun initListener() {
 
@@ -58,5 +54,9 @@ class FlexBoxLayoutActivity : BaseTitleActivity() {
                 fbl_root.addView(frameLayout)
             }
         }
+    }
+
+    override fun getBaseLayout(): Int {
+        return R.layout.activity_flex_box_layout
     }
 }
