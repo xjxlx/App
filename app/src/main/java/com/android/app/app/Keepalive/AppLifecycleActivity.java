@@ -135,9 +135,9 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
             case R.id.bt_show_bluetooth:
                 int visibility = mBinding.rvBluetoothList.getVisibility();
                 if (visibility == View.GONE) {
-                    mBinding.rvLogList.setVisibility(View.VISIBLE);
+                    mBinding.rvBluetoothList.setVisibility(View.VISIBLE);
                 } else if (visibility == View.VISIBLE) {
-                    mBinding.rvLogList.setVisibility(View.GONE);
+                    mBinding.rvBluetoothList.setVisibility(View.GONE);
                 }
                 break;
         }

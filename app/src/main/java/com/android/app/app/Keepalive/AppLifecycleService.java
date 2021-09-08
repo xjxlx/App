@@ -111,7 +111,7 @@ public class AppLifecycleService extends Service {
             removeCallbacksAndMessages(null);
 
             // 隐藏通知栏
-            // stopForeground(true);
+            stopForeground(true);
 
             // 3:启动jobService
             String jobServiceName = LifecycleManager.getInstance().getJobServiceName();
