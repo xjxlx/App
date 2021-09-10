@@ -79,7 +79,6 @@ class SelectorImageActivity : BaseActivity() {
         PhotoUtil.getInstance().SelectorVideo(
             mContext,
             false,
-            3,
             20,
             object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: MutableList<LocalMedia>?) {

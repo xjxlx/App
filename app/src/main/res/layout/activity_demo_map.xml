@@ -60,6 +60,11 @@
             style="@style/style_todo_item"
             android:text="App保活" />
 
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/style_todo_item"
+            android:text="地图" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

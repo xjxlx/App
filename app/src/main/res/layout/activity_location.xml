@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/dp_20"
+    android:layout_marginEnd="@dimen/dp_20"
+    android:orientation="vertical"
+    tools:context=".ui.activity.otherutils.LocationActivity">
+
+    <EditText
+        android:id="@+id/ed_input_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:hint="请输入地址" />
+
+    <EditText
+        android:id="@+id/ed_input_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:hint="请输入城市" />
+
+    <TextView
+        android:id="@+id/tv_location_info"
+        style="@style/default_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:hint="我是具体的经纬度" />
+
+    <Button
+        android:id="@+id/btn_start_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="开始获取经纬度" />
+
+    <EditText
+        android:id="@+id/ed_input_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:hint="请输入经纬度" />
+
+    <Button
+        android:id="@+id/btn_start_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="开始获取地址" />
+
+    <TextView
+        android:id="@+id/tv_address_info"
+        style="@style/default_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:hint="我是具体的地址" />
+
+</LinearLayout>

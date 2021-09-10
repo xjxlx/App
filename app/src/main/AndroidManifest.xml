@@ -32,8 +32,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
-        tools:ignore="ProtectedPermissions" />
-    <!--拍照-->
+        tools:ignore="ProtectedPermissions" /> <!-- 拍照 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -47,7 +46,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-
+        <activity android:name=".ui.activity.otherutils.LocationActivity"></activity>
         <!-- 账号拉活的                        开始 -->
         <service
             android:name="com.android.helper.utils.account.AccountService"
@@ -57,6 +56,7 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/account_authenticator" />
@@ -80,7 +80,6 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/sync_adapter" />
         </service> <!-- 此处的authorities 必须和string中的account_authority数据保持一致 -->
-
         <receiver
             android:name="com.android.account.LifecycleReceiver"
             android:enabled="true"
@@ -88,9 +87,7 @@
             <intent-filter>
                 <action android:name="com.android.app.lifecycle" />
             </intent-filter>
-        </receiver>
-        <!-- 账号拉活的                        结束 -->
-
+        </receiver> <!-- 账号拉活的                        结束 -->
         <service
             android:name=".app.Keepalive.AppLifecycleService"
             android:enabled="true"
@@ -273,6 +270,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -293,7 +291,10 @@
             android:exported="false" /> <!-- 多渠道打包的key -->
         <meta-data
             android:name="CHANNEL_VALUE"
-            android:value="${channel_value}" />
+            android:value="${channel_value}" /> <!-- 高德地图 -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="62cf7cf7dae35f5b7093096d2c5b2c53" />
     </application>
 
 </manifest>
