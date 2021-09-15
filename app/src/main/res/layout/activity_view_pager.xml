@@ -17,8 +17,7 @@
         <com.android.helper.widget.banner.BannerView
             android:id="@+id/banner_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/yellow_1" />
+            android:layout_height="wrap_content" />
 
         <com.android.helper.widget.banner.BannerIndicator
             android:id="@+id/bi_banner"

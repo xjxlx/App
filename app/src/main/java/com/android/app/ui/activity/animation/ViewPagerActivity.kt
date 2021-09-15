@@ -1,7 +1,9 @@
 package com.android.app.ui.activity.animation
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.android.app.R
 import com.android.app.databinding.ActivityViewPagerBinding
 import com.android.helper.base.BaseBindingActivity
@@ -15,19 +17,27 @@ class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
     override fun initData() {
         setTitleContent("自定义ViewPager的类")
 
-        val list: ArrayList<Int> = ArrayList()
-        list.add(R.mipmap.icon_banner_1)
-        list.add(R.mipmap.icon_banner_2)
-        list.add(R.mipmap.icon_banner_3)
-        list.add(R.mipmap.icon_banner_4)
+//        val list: ArrayList<Int> = ArrayList()
+//        list.add(R.mipmap.icon_banner_1)
+//        list.add(R.mipmap.icon_banner_2)
+//        list.add(R.mipmap.icon_banner_3)
+//        list.add(R.mipmap.icon_banner_4)
 
-        mBinding.bannerView
-            .setImageData(list)
-            .setBannerLoadListener(BannerLoadListener<Int> { view, t ->
-                view?.setImageResource(t)
+        val listView = arrayListOf<View>()
+        listView.add(LayoutInflater.from(mContext).inflate(R.layout.fragment_vp_banner, null))
+        listView.add(LayoutInflater.from(mContext).inflate(R.layout.fragment_vp_banner2, null))
+        listView.add(LayoutInflater.from(mContext).inflate(R.layout.fragment_vp_banner3, null))
+        listView.add(LayoutInflater.from(mContext).inflate(R.layout.fragment_vp_banner4, null))
+        listView.add(LayoutInflater.from(mContext).inflate(R.layout.fragment_vp_banner5, null))
+
+        mBinding.bannerView.setImageData(listView)
+            .setBannerLoadListener(BannerLoadListener<Int> { view, _, t ->
+                if (view is ImageView) {
+                    view.setImageResource(t!!)
+                }
             })
             .addIndicator(mBinding.biBanner)
-            .show(mContext)
+            .show(this)
 
 //        val fragmentList = ArrayList<Fragment>()
 //        fragmentList.add(VpBanner1Fragment.newInstance())

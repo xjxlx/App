@@ -2,9 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_100"
+    android:layout_height="match_parent"
     android:background="@color/green_2"
-    android:tag="tag5"
     tools:context=".test.banner.VpBanner5Fragment">
 
     <TextView
