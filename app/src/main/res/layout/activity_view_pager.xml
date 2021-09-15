@@ -24,24 +24,9 @@
             android:id="@+id/bi_banner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
             android:background="@color/red_3"
             app:bi_interval="@dimen/dp_30"
-            app:bi_selector_resource="@drawable/icon_music_pause"
-            app:bi_unselected_resource="@drawable/icon_music_start" />
-
-        <com.android.helper.widget.banner.BannerView
-            android:id="@+id/banner_fragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="@color/yellow_1" />
-
-        <com.android.helper.widget.banner.BannerIndicator
-            android:id="@+id/bi_banner2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/blue_2"
-            app:bi_interval="@dimen/dp_20"
             app:bi_selector_resource="@drawable/icon_music_pause"
             app:bi_unselected_resource="@drawable/icon_music_start" />
 

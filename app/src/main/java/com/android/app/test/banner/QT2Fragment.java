@@ -44,15 +44,15 @@ public class QT2Fragment extends BaseBindingFragment<FragmentQT2Binding> {
         fragments.add(VpBanner2Fragment.newInstance());
         fragments.add(VpBanner3Fragment.newInstance());
 
-        mBinding.banner
-                .setFragmentData(fragments)
-                .setItemClickListener(new BannerItemClickListener() {
-                    @Override
-                    public void onItemClick(Fragment fragment, View view, int position, Object object) {
-                        ToastUtil.show("position:" + position);
-                    }
-                })
-                .show(this, getChildFragmentManager());
+//        mBinding.banner
+//                .setFragmentData(fragments)
+//                .setItemClickListener(new BannerItemClickListener() {
+//                    @Override
+//                    public void onItemClick(Fragment fragment, View view, int position, Object object) {
+//                        ToastUtil.show("position:" + position);
+//                    }
+//                })
+//                .show(this, getChildFragmentManager());
     }
 
     @Override
