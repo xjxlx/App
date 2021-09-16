@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.activity.animation.ViewPagerActivity">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -17,7 +17,8 @@
         <com.android.helper.widget.banner.BannerView
             android:id="@+id/banner_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="300dp"
+            android:background="@color/black" />
 
         <com.android.helper.widget.banner.BannerIndicator
             android:id="@+id/bi_banner"
@@ -29,6 +30,6 @@
             app:bi_selector_resource="@drawable/icon_music_pause"
             app:bi_unselected_resource="@drawable/icon_music_start" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.core.widget.NestedScrollView>
