@@ -14,19 +14,19 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.android.helper.widget.banner.BannerView
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/banner_view"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@color/black" />
 
-        <com.android.helper.widget.banner.BannerIndicator
+        <com.android.helper.widget.banner.ViewPager2Indicator
             android:id="@+id/bi_banner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_marginTop="@dimen/dp_20"
             android:background="@color/red_3"
-            app:bi_interval="@dimen/dp_30"
+            app:bi_interval="@dimen/dp_10"
             app:bi_selector_resource="@drawable/icon_music_pause"
             app:bi_unselected_resource="@drawable/icon_music_start" />
 

@@ -1,5 +1,7 @@
 package com.android.app.test.banner;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,8 @@ public class VpBanner5Fragment extends BaseBindingFragment<FragmentVpBanner5Bind
 
     public static VpBanner5Fragment newInstance() {
         if (fragment == null) {
-            fragment = new VpBanner5Fragment();
         }
+        fragment = new VpBanner5Fragment();
         return fragment;
     }
 
@@ -35,6 +37,23 @@ public class VpBanner5Fragment extends BaseBindingFragment<FragmentVpBanner5Bind
     @Override
     public void initData() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            int position = arguments.getInt("position", 0);
+            setPosition(position);
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void setPosition(int position) {
+        if (mBinding.tvPosition != null) {
+            mBinding.tvPosition.setText(position + "");
+        }
     }
 
     @Override
