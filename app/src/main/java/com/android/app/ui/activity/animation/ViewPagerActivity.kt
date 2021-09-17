@@ -17,7 +17,6 @@ import com.android.helper.widget.banner.ViewPager2Util
  * 自定义viewpager的类
  */
 class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
-    val helper = ViewPager2Util()
 
     override fun initData() {
         setTitleContent("自定义ViewPager的类")
@@ -40,11 +39,8 @@ class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
 
         arrayListOf.add(VpBanner1Fragment.newInstance())
 
-
-
         val adapter = BaseViewPager2FragmentAdapter(this, arrayListOf)
         mBinding.bannerView.adapter = adapter
-        mBinding.bannerView.offscreenPageLimit = arrayListOf.size
         adapter.setSelectorListener(object : OnSelectorListener<Fragment> {
             override fun onSelector(view: View?, position: Int, t: Fragment?) {
                 val arg = Bundle()
@@ -52,8 +48,13 @@ class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
                 t?.arguments = arg
             }
         })
-        helper.startLoop(mContext, mBinding.bannerView)
-        helper.addIndicator(mBinding.biBanner)
+
+        val show = ViewPager2Util.Builder()
+            .setViewPager2(mBinding.bannerView)
+            .setIndicator(mBinding.biBanner)
+            .Build()
+            .show(this)
+
     }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityViewPagerBinding {

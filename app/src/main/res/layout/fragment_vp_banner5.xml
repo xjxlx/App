@@ -6,12 +6,20 @@
     android:background="@color/green_2"
     tools:context=".test.banner.VpBanner5Fragment">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/vehicle_ex3" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="我是Fragment_5"
-        android:textSize="@dimen/sp_20" />
+        android:textColor="@color/blue_5"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_position"
@@ -20,7 +28,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/dp_80"
+        android:textColor="@color/blue_5"
         android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
         tools:text="position" />
 
 </RelativeLayout>
