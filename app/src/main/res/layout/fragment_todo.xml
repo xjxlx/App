@@ -37,6 +37,11 @@
             style="@style/style_todo_item"
             android:text="Android JetPack" />
 
+        <TextView
+            android:id="@+id/tv_kotlin"
+            style="@style/style_todo_item"
+            android:text="Kotlin" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
