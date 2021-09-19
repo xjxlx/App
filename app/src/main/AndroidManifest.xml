@@ -46,7 +46,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.otherutils.LocationActivity"></activity>
+        <activity android:name=".ui.activity.kotlin.KotlinMap" />
+
+        <activity android:name=".ui.activity.otherutils.LocationActivity" />
         <!-- 账号拉活的                        开始 -->
         <service
             android:name="com.android.helper.utils.account.AccountService"
