@@ -3,7 +3,7 @@ apply from: "config.gradle"
 buildscript {
 
     ext {
-        kotlin_version = '1.5.20'
+        kotlin_version = '1.5.10'
         navigation = "2.2.2"
     }
 
@@ -16,7 +16,7 @@ buildscript {
 
     dependencies {
         //noinspection GradleDependency
-        classpath "com.android.tools.build:gradle:4.0.2"
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // 发布JitPack的依赖版本，【3.0+以上用1.5】，【4.1+以上用2.0】，【4.6+以上用2.1】
