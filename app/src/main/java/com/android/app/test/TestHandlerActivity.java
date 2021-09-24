@@ -1,22 +1,24 @@
 package com.android.app.test;
 
 import android.annotation.SuppressLint;
-import com.android.app.R;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.app.R;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
+import com.android.helper.utils.Proxy.ProxyInterface;
+import com.android.helper.utils.Proxy.ProxyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestHandlerActivity extends BaseActivity {
+public class TestHandlerActivity extends BaseActivity implements ProxyInterface {
 
     private TextView textView;
-    private List<String> mList = new ArrayList<String>();
+    private final List<String> mList = new ArrayList<String>();
 
     @Override
     protected int getBaseLayout() {
@@ -28,8 +30,14 @@ public class TestHandlerActivity extends BaseActivity {
 
         setonClickListener(R.id.button, R.id.button2, R.id.button3, R.id.button4);
         textView = findViewById(R.id.textView);
+
+        ProxyUtil proxyUtil = new ProxyUtil();
+        ProxyUtil.setObject(this);
+        ProxyInterface instance = proxyUtil.getInstance();
+        instance.invoke("333333");
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -87,4 +95,9 @@ public class TestHandlerActivity extends BaseActivity {
             textView.setText(mList.toString());
         }
     };
+
+    @Override
+    public void invoke(Object object) {
+        LogUtil.e("object:" + object);
+    }
 }
