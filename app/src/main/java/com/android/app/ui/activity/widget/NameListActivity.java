@@ -1,9 +1,9 @@
 package com.android.app.ui.activity.widget;
 
-import com.android.app.R;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.app.R;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.interfaces.listener.DialogChangeListener;
 import com.android.helper.utils.LogUtil;
@@ -35,18 +35,13 @@ public class NameListActivity extends BaseActivity {
         ssss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                instance.show(mContext, ssss);
+                instance.showAsDropDown(ssss);
             }
         });
-        instance = PopupWindowUtil.getInstance(mContext)
+        PopupWindowUtil.Builder builder = new PopupWindowUtil.Builder(mContext, R.layout.pop_test);
+        instance = builder
                 .setWidth(ViewGroup.LayoutParams.MATCH_PARENT)
                 .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
-                .setContentView(R.layout.pop_test, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
                 .setPopupWindowChangeListener(new DialogChangeListener() {
                     @Override
                     public void onShow(View view) {
@@ -57,8 +52,7 @@ public class NameListActivity extends BaseActivity {
                     public void onDismiss() {
                         LogUtil.e("v:onDismiss");
                     }
-                })
-                .show(mContext, this.viewById);
+                }).Build();
     }
 
     @Override

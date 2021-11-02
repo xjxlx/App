@@ -1,7 +1,6 @@
 package com.android.app.app.Keepalive;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -123,7 +122,7 @@ public class LifecycleManager {
     /**
      * 检测notification的权限， startActivityForResult的请求码为{NotificationUtil.CODE_REQUEST_ACTIVITY_NOTIFICATION}
      */
-    public void checkNotificationPermissions(Activity activity) {
+    public void checkNotificationPermissions(FragmentActivity activity) {
         if (activity != null) {
             if (mNotificationUtil == null) {
                 mNotificationUtil = NotificationUtil.getInstance(activity);
@@ -131,15 +130,13 @@ public class LifecycleManager {
             // 检测是否已经打开了notification
             boolean openNotify = mNotificationUtil.checkOpenNotify(activity);
             if (!openNotify) {
-                mDialogUtil = DialogUtil
-                        .getInstance()
-                        .setContentView(activity, R.layout.base_default_dialog)
+                mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog)
                         .setText(R.id.tv_msg, "如果不打开通知的权限，则无法正常使用通知，是否跳转页面手动打开？")
                         .setOnClickListener(R.id.tv_qx, "取消", v -> mDialogUtil.dismiss())
                         .setOnClickListener(R.id.tv_qd, "确定", v -> {
                             mNotificationUtil.goToSetNotify(activity);
                             mDialogUtil.dismiss();
-                        });
+                        }).Build();
                 mDialogUtil.show();
             }
         }
@@ -163,7 +160,7 @@ public class LifecycleManager {
     /**
      * 检测电池优化的权限，这个权限只有在android6.0之后才会去执行，低版本的手机也不用去考虑了，版本过低的话，也不会杀进程那么快的
      */
-    public void checkBatteryPermissions(Activity activity) {
+    public void checkBatteryPermissions(FragmentActivity activity) {
         if (activity != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // 判断电池时候被优化了
@@ -172,16 +169,14 @@ public class LifecycleManager {
                 }
                 boolean ignoringBatteryOptimizations = mSystemUtil.isIgnoringBatteryOptimizations();
                 if (!ignoringBatteryOptimizations) {
-                    mDialogUtil = DialogUtil
-                            .getInstance()
-                            .setContentView(activity, R.layout.base_default_dialog)
+                    mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog)
                             .setText(R.id.tv_msg, "请禁止电池优化功能，否则为了保持电量的消耗，会主动杀死App,无法进行系统的保活，是否禁止电池的优化？")
                             .setOnClickListener(R.id.tv_qx, "取消", v -> mDialogUtil.dismiss())
                             .setOnClickListener(R.id.tv_qd, "确定", v -> {
                                 // 申请打开电池优化
                                 mSystemUtil.requestIgnoreBatteryOptimizations(activity);
                                 mDialogUtil.dismiss();
-                            });
+                            }).Build();
                     mDialogUtil.show();
                 }
             } else {
@@ -193,18 +188,16 @@ public class LifecycleManager {
     /**
      * 检测自动启动的权限
      */
-    public void checkAutoStartupPermissions(Activity activity) {
+    public void checkAutoStartupPermissions(FragmentActivity activity) {
         if (activity != null) {
-            mDialogUtil = DialogUtil
-                    .getInstance()
-                    .setContentView(activity, R.layout.base_default_dialog)
+            mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog)
                     .setText(R.id.tv_msg, "为了减少后台运行的时候，系统主动杀死App，请手动打开自动启动的权限，是否打开自动启动的权限？")
                     .setOnClickListener(R.id.tv_qx, "取消", v -> mDialogUtil.dismiss())
                     .setOnClickListener(R.id.tv_qd, "确定", v -> {
                         // 申请打开电池优化
                         mDialogUtil.dismiss();
                         ActivityUtil.toSecureManager(activity);
-                    });
+                    }).Build();
             mDialogUtil.show();
         }
     }

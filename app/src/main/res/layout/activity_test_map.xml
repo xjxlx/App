@@ -60,6 +60,11 @@
             style="@style/style_todo_item"
             android:text="测试事件分发" />
 
+        <TextView
+            android:id="@+id/tv_test_lifecycle"
+            style="@style/style_todo_item"
+            android:text="测试Activity 和 Fragment的生命周期" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
