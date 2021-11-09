@@ -1,16 +1,16 @@
 package com.android.app.adapters;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
 import com.android.app.bean.HomeBean;
-import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
+import com.android.helper.base.recycleview.BaseRecycleAdapter;
 import com.android.helper.utils.TextViewUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.photo.GlideUtil;
@@ -21,12 +21,12 @@ import java.util.List;
 
 public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data, TestAdapter.VHHome> {
 
-    public TestAdapter(Activity mContext) {
-        super(mContext);
+    public TestAdapter(FragmentActivity activity) {
+        super(activity);
     }
 
-    public TestAdapter(Activity mContext, List<HomeBean.ReturnDataList.Data> mList) {
-        super(mContext, mList);
+    public TestAdapter(FragmentActivity activity, List<HomeBean.ReturnDataList.Data> list) {
+        super(activity, list);
     }
 
     @Override
@@ -40,13 +40,14 @@ public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull VHHome holder, int position) {
+    public void onBindHolder(@NonNull @NotNull VHHome holder, int position) {
         HomeBean.ReturnDataList.Data data = mList.get(position);
         if (data == null) {
             return;
         }
+
         // 封面
-        GlideUtil.loadView(mContext, data.getImg(), holder.iv_activity);
+        GlideUtil.loadView(mActivity, data.getImg(), holder.iv_activity);
 
         //  显示状态：-1不现实0已结束1进行中
         int showStatus = data.getShowStatus();

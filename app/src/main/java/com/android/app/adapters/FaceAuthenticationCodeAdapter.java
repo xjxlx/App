@@ -8,9 +8,11 @@ import androidx.annotation.NonNull;
 
 import com.android.app.R;
 import com.android.helper.base.BaseActivity;
-import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
+import com.android.helper.base.recycleview.BaseRecycleAdapter;
 import com.android.helper.utils.TextViewUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 车库---补充信息---验证码的adapter
@@ -32,9 +34,9 @@ public class FaceAuthenticationCodeAdapter extends BaseRecycleAdapter<String, Fa
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH holder, int position) {
+    public void onBindHolder(@NonNull @NotNull VH holder, int position) {
         String s = mList.get(position);
-        TextViewUtil.setTextFont(mContext, holder.tv_code, "DINCondensedBold.ttf");
+        TextViewUtil.setTextFont(mActivity, holder.tv_code, "DINCondensedBold.ttf");
         if (!TextUtils.isEmpty(s)) {
             TextViewUtil.setText(holder.tv_code, s);
         }

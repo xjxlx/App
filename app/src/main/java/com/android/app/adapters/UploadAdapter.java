@@ -1,20 +1,21 @@
 package com.android.app.adapters;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
 import com.android.app.bean.DownLoadBean;
-import com.android.helper.base.BaseActivity;
-import com.android.helper.base.BaseRecycleAdapter;
 import com.android.helper.base.BaseVH;
+import com.android.helper.base.recycleview.BaseRecycleAdapter;
 import com.android.helper.httpclient.CommonApi;
 import com.android.helper.interfaces.listener.UploadProgressListener;
 import com.android.helper.utils.download.UploadManagerRetrofit;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapte
     private final UploadManagerRetrofit manager;
     private final List<MultipartBody.Part> mListPart = new ArrayList<>();
 
-    public UploadAdapter(Activity mContext, List<DownLoadBean> mList) {
-        super(mContext, mList);
+    public UploadAdapter(FragmentActivity activity, List<DownLoadBean> list) {
+        super(activity, list);
         manager = UploadManagerRetrofit.getInstance();
     }
 
@@ -46,7 +47,7 @@ public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UpHV holder, int position) {
+    public void onBindHolder(@NonNull @NotNull UpHV holder, int position) {
         DownLoadBean bean = mList.get(position);
 
         holder.tv_download.setText("上传");

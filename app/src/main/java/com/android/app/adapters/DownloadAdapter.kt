@@ -1,23 +1,21 @@
 package com.android.app.adapters
 
-import android.app.Activity
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import com.android.app.R
 import com.android.app.bean.DownLoadBean
-import com.android.helper.base.BaseActivity
-import com.android.helper.base.BaseRecycleAdapter
 import com.android.helper.base.BaseVH
+import com.android.helper.base.recycleview.BaseRecycleAdapter
 import com.android.helper.interfaces.listener.ProgressListener
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.download.DownLoadManager
 import okhttp3.Response
 import java.util.*
 
-class DownloadAdapter(mContext: Activity, mList: ArrayList<DownLoadBean>) :
-    BaseRecycleAdapter<DownLoadBean, DownloadAdapter.DlHolder>(mContext, mList) {
+class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<DownLoadBean>) : BaseRecycleAdapter<DownLoadBean, DownloadAdapter.DlHolder>(mContext, mList) {
 
     val downLoadManager: DownLoadManager by lazy {
         return@lazy DownLoadManager.getSingleInstance()
@@ -27,9 +25,20 @@ class DownloadAdapter(mContext: Activity, mList: ArrayList<DownLoadBean>) :
         return DlHolder(inflate!!)
     }
 
-    override fun onBindViewHolder(holder: DlHolder, position: Int) {
-        val bean = mList[position]
+    override fun getLayout(): Int {
+        return R.layout.item_download;
+    }
 
+    class DlHolder(itemView: View) : BaseVH(itemView) {
+
+        val tv_download: Button = itemView.findViewById(R.id.tv_download)
+        val tv_cancel: Button = itemView.findViewById(R.id.tv_cancel)
+        val tv_current_progress: TextView = itemView.findViewById(R.id.tv_current_progress)
+        val progress: ProgressBar = itemView.findViewById(R.id.progress)
+    }
+
+    override fun onBindHolder(holder: DlHolder, position: Int) {
+        val bean = mList[position]
         val tempFileLength = bean.tempFileLength
         val contentLength = bean.contentLength
 
@@ -38,13 +47,11 @@ class DownloadAdapter(mContext: Activity, mList: ArrayList<DownLoadBean>) :
             val fl = tempFileLength.toFloat() / contentLength * 100
             // 进度条
             holder.progress.progress = fl.toInt()
-
             // 百分比进度
             holder.tv_current_progress.text = fl.toString()
         }
 
         holder.tv_download.setOnClickListener {
-
             downLoadManager.download(bean.url!!, bean.outputPath!!, object : ProgressListener {
                 override fun onComplete(response: Response?) {
                     LogUtil.e("" + position + "下载结束了！")
@@ -89,18 +96,5 @@ class DownloadAdapter(mContext: Activity, mList: ArrayList<DownLoadBean>) :
                 mItemClickListener.onItemClick(holder.tv_cancel, position, bean)
             }
         }
-
     }
-
-    override fun getLayout(): Int {
-        return R.layout.item_download;
-    }
-
-    class DlHolder(itemView: View) : BaseVH(itemView) {
-        val tv_download: Button = itemView.findViewById(R.id.tv_download)
-        val tv_cancel: Button = itemView.findViewById(R.id.tv_cancel)
-        val tv_current_progress: TextView = itemView.findViewById(R.id.tv_current_progress)
-        val progress: ProgressBar = itemView.findViewById(R.id.progress)
-    }
-
 }
