@@ -57,7 +57,10 @@
     <!--设置振动， 需要添加权限-->
     <uses-permission android:name="android.permission.VIBRATE" />
 
-
+4：如果要查询所有已经安装过的应用
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
 
 #### 区分平台
 

@@ -32,7 +32,7 @@ class TestTouchActivity : BaseActivity() {
 
                 val mHandler = @SuppressLint("HandlerLeak")
                 object : Handler() {
-                    override fun handleMessage(msg: Message?) {
+                    override fun handleMessage(msg: Message) {
                         super.handleMessage(msg)
                         tv_text.setBackgroundColor(ResourceUtil.getColor(R.color.blue_1))
                     }

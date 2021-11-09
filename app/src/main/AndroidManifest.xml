@@ -35,6 +35,10 @@
         tools:ignore="ProtectedPermissions" /> <!-- 拍照 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!--    <uses-permission-->
+    <!--        android:name="android.permission.QUERY_ALL_PACKAGES"-->
+    <!--        tools:ignore="QueryAllPackagesPermission" />-->
+
     <application
         android:name=".app.App"
         android:allowBackup="false"
@@ -286,6 +290,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider> <!-- 音乐播放器的服务 -->
+
         <service
             android:name="com.android.helper.utils.media.audio.AudioService"
             android:enabled="true"
@@ -296,6 +301,7 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="62cf7cf7dae35f5b7093096d2c5b2c53" />
+
     </application>
 
 </manifest>
