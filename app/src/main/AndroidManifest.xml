@@ -35,10 +35,6 @@
         tools:ignore="ProtectedPermissions" /> <!-- 拍照 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!--    <uses-permission-->
-    <!--        android:name="android.permission.QUERY_ALL_PACKAGES"-->
-    <!--        tools:ignore="QueryAllPackagesPermission" />-->
-
     <application
         android:name=".app.App"
         android:allowBackup="false"
@@ -50,7 +46,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <activity android:name=".test.ActivityOrFragmentLifecycleActivity"></activity>
+        <activity android:name=".test.AdapterActivity"></activity>
+        <activity android:name=".test.ActivityOrFragmentLifecycleActivity" />
         <activity android:name=".ui.activity.kotlin.KotlinMap" />
         <activity android:name=".ui.activity.otherutils.LocationActivity" /> <!-- 账号拉活的                        开始 -->
         <service
@@ -290,7 +287,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider> <!-- 音乐播放器的服务 -->
-
         <service
             android:name="com.android.helper.utils.media.audio.AudioService"
             android:enabled="true"
@@ -301,7 +297,6 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="62cf7cf7dae35f5b7093096d2c5b2c53" />
-
     </application>
 
 </manifest>

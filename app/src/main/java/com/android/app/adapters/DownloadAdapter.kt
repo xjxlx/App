@@ -59,9 +59,9 @@ class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<DownLoadBean>
                 }
 
                 override fun onProgress(
-                    progress: Double,
-                    contentLength: Long,
-                    percentage: String?
+                        progress: Double,
+                        contentLength: Long,
+                        percentage: String?
                 ) {
                     holder.progress.progress = (progress / contentLength * 100).toInt()
                     holder.tv_current_progress.text = percentage
@@ -94,6 +94,13 @@ class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<DownLoadBean>
 
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClick(holder.tv_cancel, position, bean)
+            }
+        }
+
+        holder.itemView.setOnClickListener {
+            if (mItemClickListener != null) {
+                val bindingAdapterPosition = holder.bindingAdapterPosition
+                mItemClickListener.onItemClick(holder.itemView, bindingAdapterPosition, mList[bindingAdapterPosition])
             }
         }
     }

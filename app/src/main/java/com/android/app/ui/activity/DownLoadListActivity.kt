@@ -6,6 +6,7 @@ import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
 import com.android.app.bean.DownLoadBean
 import com.android.helper.base.BaseActivity
+import com.android.helper.base.recycleview.EmptyPlaceholder
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
@@ -36,7 +37,7 @@ class DownLoadListActivity : BaseActivity() {
             }
             val rootFileForSd = FileUtil.getRootFileForSd()
             var rootFile: File? = null
-            for (index in 0..19) {
+            for (index in 0..2) {
                 val downLoadBean = DownLoadBean()
                 downLoadBean.url =
                         "http://cdn.smartservice.bjev.com.cn/dplus/xnyapp/3dacac8e71d6da7f"
@@ -59,6 +60,14 @@ class DownLoadListActivity : BaseActivity() {
             rv_download_list.adapter = adapter
             rv_download_list.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             LogUtil.e(Arrays.toString(mList.toArray()))
+
+            val placeholder = EmptyPlaceholder.Builder()
+                    .setEmpty(R.drawable.abc, "我是测试哈哈哈")
+                    .Build(rv_download_list)
+
+            adapter.setEmptyData(placeholder)
+
+            adapter.setItemClickListener { view, position, t -> adapter.removeItem(position) }
         }
     }
 

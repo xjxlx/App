@@ -1,11 +1,11 @@
 package com.android.app.ui.fragment
 
+import android.view.View
 import com.android.app.BuildConfig
 import com.android.app.R
 import com.android.app.adapters.TestAdapter
 import com.android.app.bean.HomeBean
 import com.android.app.http.service.CommonApiService
-import android.view.View
 import com.android.helper.base.BaseRefreshFragment
 import com.android.helper.httpclient.BaseException
 import com.android.helper.httpclient.RetrofitHelper
@@ -37,11 +37,12 @@ class HomeFragment : BaseRefreshFragment<Response<HomeBean>, HomeBean.ReturnData
         return RetrofitHelper.create("http://api-app.yqft.hi-cloud.net/", CommonApiService::class.java).getHomeData(pageControl(map))
     }
 
-    override fun initView(container: View?) {
+    override fun initView(view: View?) {
+
     }
 
     override fun initData() {
-
+        super.initData()
         RecycleUtil
                 .getInstance(mContext, rv_home_list)
                 .setVertical()
