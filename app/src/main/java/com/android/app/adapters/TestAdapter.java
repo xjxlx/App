@@ -29,13 +29,17 @@ public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data
         super(activity, list);
     }
 
+    /**
+     * @param viewType
+     * @return 返回一个RecycleView的布局
+     */
     @Override
-    protected int getLayout() {
+    protected int getLayout(int viewType) {
         return R.layout.item_test;
     }
 
     @Override
-    protected VHHome createViewHolder(View inflate) {
+    protected VHHome createViewHolder(View inflate, int viewType) {
         return new VHHome(inflate);
     }
 

@@ -20,16 +20,20 @@ public class DeviceAdapter extends BaseRecycleAdapter<Map.Entry<String, String>,
         super(activity);
     }
 
+    /**
+     * @param viewType
+     * @return 返回一个RecycleView的布局
+     */
     @Override
-    protected int getLayout() {
+    protected int getLayout(int viewType) {
         return R.layout.item_device_list;
     }
 
     @Override
-    protected VH createViewHolder(View inflate) {
+    protected VH createViewHolder(View inflate, int viewType) {
         return new VH(inflate);
     }
-
+ 
     @Override
     public void onBindHolder(@NonNull @NotNull VH holder, int position) {
         Map.Entry<String, String> entry = mList.get(position);

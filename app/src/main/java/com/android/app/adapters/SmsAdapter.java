@@ -20,14 +20,17 @@ public class SmsAdapter extends BaseRecycleAdapter<String, SmsAdapter.SmsVH> {
         this.type = type;
     }
 
+    /**
+     * @param viewType
+     * @return 返回一个RecycleView的布局
+     */
     @Override
-    protected int getLayout() {
-
+    protected int getLayout(int viewType) {
         return R.layout.item_sms;
     }
 
     @Override
-    protected SmsVH createViewHolder(View inflate) {
+    protected SmsVH createViewHolder(View inflate, int viewType) {
         return new SmsVH(inflate);
     }
 

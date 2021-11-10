@@ -18,13 +18,17 @@ public class AppLifecycleAdapter extends BaseRecycleAdapter<String, AppLifecycle
         super(activity);
     }
 
+    /**
+     * @param viewType
+     * @return 返回一个RecycleView的布局
+     */
     @Override
-    protected int getLayout() {
+    protected int getLayout(int viewType) {
         return R.layout.item_app_licycle;
     }
 
     @Override
-    protected VH createViewHolder(View inflate) {
+    protected VH createViewHolder(View inflate, int viewType) {
         return new VH(inflate);
     }
 

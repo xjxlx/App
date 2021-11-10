@@ -24,12 +24,12 @@ public class FaceAuthenticationCodeAdapter extends BaseRecycleAdapter<String, Fa
     }
 
     @Override
-    protected int getLayout() {
+    protected int getLayout(int viewType) {
         return R.layout.item_face_authentication_code;
     }
 
     @Override
-    protected VH createViewHolder(View inflate) {
+    protected VH createViewHolder(View inflate, int viewType) {
         return new VH(inflate);
     }
 

@@ -36,13 +36,17 @@ public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapte
         manager = UploadManagerRetrofit.getInstance();
     }
 
+    /**
+     * @param viewType
+     * @return 返回一个RecycleView的布局
+     */
     @Override
-    protected int getLayout() {
+    protected int getLayout(int viewType) {
         return R.layout.item_download;
     }
 
     @Override
-    protected UpHV createViewHolder(View inflate) {
+    protected UpHV createViewHolder(View inflate, int viewType) {
         return new UpHV(inflate);
     }
 
