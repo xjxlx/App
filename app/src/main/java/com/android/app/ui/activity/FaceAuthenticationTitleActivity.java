@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import com.android.app.R;
-import com.android.app.databinding.ActivityFaceAuthenticationBinding;
-import com.android.app.widget.GradientProgressBar;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -16,6 +13,9 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.android.app.R;
+import com.android.app.databinding.ActivityFaceAuthenticationBinding;
+import com.android.app.widget.GradientProgressBar;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.interfaces.listener.SinglePermissionsListener;
 import com.android.helper.utils.FileUtil;
@@ -128,11 +128,6 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
         }
 
         fileUtil = new FileUtil();
-        boolean exists = fileUtil.checkoutSdExists();
-        if (!exists) {
-            ToastUtil.show("当前您的设备没有内存卡，无法使用");
-            return;
-        }
 
         // 检测权限
         new RxPermissionsUtil(mContext,
@@ -410,10 +405,8 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
 
         // 如果文件对象为null,说明之前的sd卡目录创建失败了
         if (mOutFile == null) {
-            File rootFileForApp = fileUtil.getRootFileForApp(mContext);
-            if (rootFileForApp != null) {
-                mOutFile = new File(rootFileForApp, "face.mp4");
-            }
+            String appFilePath = fileUtil.getAppFilesPath();
+            mOutFile = new File(appFilePath, "face.mp4");
         }
 
         LogUtil.e("当前的路径为：" + mOutFile.getAbsolutePath());

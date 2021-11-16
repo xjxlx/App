@@ -35,7 +35,8 @@ class DownLoadListActivity : BaseActivity() {
             if (!havePermission) {
                 return@setSinglePermissionListener
             }
-            val rootFileForSd = FileUtil.getRootFileForSd()
+            val rootFileForSd = FileUtil.getInstance().rootFileForSd
+            
             var rootFile: File? = null
             for (index in 0..2) {
                 val downLoadBean = DownLoadBean()
@@ -63,7 +64,7 @@ class DownLoadListActivity : BaseActivity() {
 
             val placeholder = EmptyPlaceholder.Builder()
                     .setEmpty(R.drawable.abc, "我是测试哈哈哈")
-                    .Build(rv_download_list)
+                    .Build()
 
             adapter.setEmptyData(placeholder)
 

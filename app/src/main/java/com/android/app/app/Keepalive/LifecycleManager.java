@@ -132,11 +132,9 @@ public class LifecycleManager {
             if (!openNotify) {
                 mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog)
                         .setText(R.id.tv_msg, "如果不打开通知的权限，则无法正常使用通知，是否跳转页面手动打开？")
-                        .setOnClickListener(R.id.tv_qx, "取消", v -> mDialogUtil.dismiss())
-                        .setOnClickListener(R.id.tv_qd, "确定", v -> {
-                            mNotificationUtil.goToSetNotify(activity);
-                            mDialogUtil.dismiss();
-                        }).Build();
+                        .setClose(R.id.tv_qx)
+                        .setOnClickListener(R.id.tv_qx, (v, builder) -> mNotificationUtil.goToSetNotify(activity))
+                        .Build();
                 mDialogUtil.show();
             }
         }
@@ -171,12 +169,12 @@ public class LifecycleManager {
                 if (!ignoringBatteryOptimizations) {
                     mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog)
                             .setText(R.id.tv_msg, "请禁止电池优化功能，否则为了保持电量的消耗，会主动杀死App,无法进行系统的保活，是否禁止电池的优化？")
-                            .setOnClickListener(R.id.tv_qx, "取消", v -> mDialogUtil.dismiss())
-                            .setOnClickListener(R.id.tv_qd, "确定", v -> {
+                            .setClose(R.id.tv_qx)
+                            .setOnClickListener(R.id.tv_qd, (v, builder) -> {
                                 // 申请打开电池优化
                                 mSystemUtil.requestIgnoreBatteryOptimizations(activity);
-                                mDialogUtil.dismiss();
-                            }).Build();
+                            })
+                            .Build();
                     mDialogUtil.show();
                 }
             } else {
@@ -192,12 +190,12 @@ public class LifecycleManager {
         if (activity != null) {
             mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog)
                     .setText(R.id.tv_msg, "为了减少后台运行的时候，系统主动杀死App，请手动打开自动启动的权限，是否打开自动启动的权限？")
-                    .setOnClickListener(R.id.tv_qx, "取消", v -> mDialogUtil.dismiss())
-                    .setOnClickListener(R.id.tv_qd, "确定", v -> {
+                    .setClose(R.id.tv_qx)
+                    .setOnClickListener(R.id.tv_qd, (v, builder) -> {
                         // 申请打开电池优化
-                        mDialogUtil.dismiss();
                         ActivityUtil.toSecureManager(activity);
-                    }).Build();
+                    })
+                    .Build();
             mDialogUtil.show();
         }
     }

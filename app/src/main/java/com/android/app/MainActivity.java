@@ -3,6 +3,7 @@ package com.android.app;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -19,12 +20,15 @@ import com.android.app.ui.fragment.TodoFragment;
 import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.base.BaseFragmentPagerAdapter;
 import com.android.helper.interfaces.listener.AllPermissionsListener;
+import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.RxPermissionsUtil;
+import com.android.helper.utils.dialog.DialogUtil;
 import com.tbruyelle.rxpermissions.Permission;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,7 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
 
     private final List<Fragment> mListFragments = new ArrayList<>();
     private final List<String> mListTitle = new ArrayList<>();
+    private DialogUtil mDialogUtil;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("NonConstantResourceId")
@@ -39,8 +44,8 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
     public void initData() {
         String[] strings = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.FOREGROUND_SERVICE
+                Manifest.permission.READ_EXTERNAL_STORAGE
+//                Manifest.permission.FOREGROUND_SERVICE
         };
 
         RxPermissionsUtil permissionsUtil = new RxPermissionsUtil(mContext, strings);
@@ -114,9 +119,20 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         });
 
         // 设置默认数据
-        mBinding.navigation.getMenu().getItem(1).setChecked(true);
-        mBinding.vpContent.setCurrentItem(1);
+        mBinding.navigation.getMenu().getItem(0).setChecked(true);
+        mBinding.vpContent.setCurrentItem(0);
         setTitleContent("代办");
+
+        String sdTypePublicPath = FileUtil.getInstance().getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
+        LogUtil.e("SD ---> 公共资源目录:  --- " + sdTypePublicPath);
+
+        boolean permission = FileUtil.getInstance().checkAllFilesPermission(mContext);
+        LogUtil.e("permission: " + permission);
+    }
+
+    private void testCreateFile(String tag, String path) {
+        File file = new File(path);
+
     }
 
     @Override

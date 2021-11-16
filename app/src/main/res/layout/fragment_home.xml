@@ -1,10 +1,147 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_home_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/ll_wb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@color/yellow_1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_20">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取外部存储空间目录" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="创建外部空间的子文件" />
+
+            <Button
+                android:id="@+id/button22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="写入外部空间的子文件数据" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="读取外部空间中子文件的内容" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="删除外部空间的子文件" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_content_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_wb"
+            android:layout_margin="@dimen/dp_10"
+            android:text="外部空间的信息"
+            android:textColor="@color/black_10" />
+
+        <Button
+            android:id="@+id/button_clear_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_content_w"
+            android:layout_margin="20dp"
+            android:text="清空日志" />
+
+        <LinearLayout
+            android:id="@+id/ll_nb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_clear_1"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@color/yellow_1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_20">
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取内部存储空间目录" />
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="创建内部空间的子文件" />
+
+            <Button
+                android:id="@+id/button66"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="写入内部空间的子文件数据" />
+
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="读取内部空间中子文件的内容" />
+
+            <Button
+                android:id="@+id/button8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="删除内部空间的子文件" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_content_n"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_nb"
+            android:layout_margin="@dimen/dp_10"
+            android:text="内部空间的信息"
+            android:textColor="@color/black_10" />
+
+        <Button
+            android:id="@+id/button_clear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_content_n"
+            android:layout_margin="20dp"
+            android:text="清空日志" />
+
+        <Button
+            android:id="@+id/btn_open_all_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button_clear"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:text="打开所有文件权限" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>
