@@ -6,16 +6,16 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import com.android.app.R
-import com.android.app.bean.DownLoadBean
 import com.android.helper.base.BaseVH
 import com.android.helper.base.recycleview.BaseRecycleAdapter
 import com.android.helper.interfaces.listener.ProgressListener
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.download.DownLoadManager
+import com.android.helper.utils.download.Download
 import okhttp3.Response
 import java.util.*
 
-class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<DownLoadBean>) : BaseRecycleAdapter<DownLoadBean, DownloadAdapter.DlHolder>(mContext, mList) {
+class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<Download>) : BaseRecycleAdapter<Download, DownloadAdapter.DlHolder>(mContext, mList) {
     
     val downLoadManager: DownLoadManager by lazy {
         return@lazy DownLoadManager.getSingleInstance()
@@ -44,17 +44,15 @@ class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<DownLoadBean>
         }
         
         holder.tv_download.setOnClickListener {
-            downLoadManager.download(bean.url!!, bean.outputPath!!, object : ProgressListener {
+            downLoadManager.download(bean, object : ProgressListener {
                 override fun onComplete(response: Response?) {
                     LogUtil.e("" + position + "下载结束了！")
                     holder.tv_download.text = "下载完成"
                 }
                 
-                override fun onProgress(
-                    progress: Double,
-                    contentLength: Long,
-                    percentage: String?
-                ) {
+                override fun onProgress(progress: Double, contentLength: Long, percentage: String?) {
+                    bean.contentLength = contentLength
+                    bean.tempFileLength = progress.toLong()
                     holder.progress.progress = (progress / contentLength * 100).toInt()
                     holder.tv_current_progress.text = percentage
                 }
@@ -79,10 +77,9 @@ class DownloadAdapter(mContext: FragmentActivity, mList: ArrayList<DownLoadBean>
             }
         }
         
-        
         holder.tv_cancel.setOnClickListener {
             // 取消下载
-            downLoadManager.cancel(bean.url!!, bean.outputPath!!)
+            downLoadManager.cancel(bean.id)
             
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClick(holder.tv_cancel, position, bean)

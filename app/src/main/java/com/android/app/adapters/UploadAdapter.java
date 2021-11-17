@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
-import com.android.app.bean.DownLoadBean;
+import com.android.helper.utils.download.Download;
 import com.android.helper.base.BaseVH;
 import com.android.helper.base.recycleview.BaseRecycleAdapter;
 import com.android.helper.httpclient.CommonApi;
@@ -26,12 +26,12 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapter.UpHV> {
+public class UploadAdapter extends BaseRecycleAdapter<Download, UploadAdapter.UpHV> {
 
     private final UploadManagerRetrofit manager;
     private final List<MultipartBody.Part> mListPart = new ArrayList<>();
 
-    public UploadAdapter(FragmentActivity activity, List<DownLoadBean> list) {
+    public UploadAdapter(FragmentActivity activity, List<Download> list) {
         super(activity, list);
         manager = UploadManagerRetrofit.getInstance();
     }
@@ -52,7 +52,7 @@ public class UploadAdapter extends BaseRecycleAdapter<DownLoadBean, UploadAdapte
 
     @Override
     public void onBindHolder(@NonNull @NotNull UpHV holder, int position) {
-        DownLoadBean bean = mList.get(position);
+        Download bean = mList.get(position);
 
         holder.tv_download.setText("上传");
         holder.tv_download.setOnClickListener(v -> {

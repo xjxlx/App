@@ -2,7 +2,7 @@ package com.android.app.ui.activity;
 
 import com.android.app.R;
 import com.android.app.adapters.UploadAdapter;
-import com.android.app.bean.DownLoadBean;
+import com.android.helper.utils.download.Download;
 import com.android.helper.base.BaseActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,9 +26,9 @@ public class UploadingActivity extends BaseActivity {
 
         rv_upload_list = findViewById(R.id.rv_upload_list);
 
-        ArrayList<DownLoadBean> arrayList = new ArrayList<>();
+        ArrayList<Download> arrayList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            DownLoadBean downLoadBean = new DownLoadBean();
+            Download downLoadBean = new Download();
             arrayList.add(downLoadBean);
         }
         UploadAdapter adapter = new UploadAdapter(mContext, arrayList);
