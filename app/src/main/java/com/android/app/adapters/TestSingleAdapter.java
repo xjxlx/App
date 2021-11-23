@@ -1,7 +1,6 @@
 package com.android.app.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -30,22 +29,13 @@ public class TestSingleAdapter extends BaseBindingRecycleAdapter<String, ItemTes
 
     @Override
     public void onBindHolder(@NonNull @NotNull BaseBindingVH<ItemTestAdapterBinding> holder, int position) {
+        holder.mBinding.tvTest.setText(mList.get(position));
 
-        String s = mList.get(position);
-        mBinding.tvTest.setText(s);
-
-        mBinding.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mItemBindingClickListener != null) {
-                    int bindingAdapterPosition = holder.getBindingAdapterPosition();
-                    int layoutPosition1 = holder.getLayoutPosition();
-                    int absoluteAdapterPosition = holder.getAbsoluteAdapterPosition();
-
-                    LogUtil.e("binding :" + bindingAdapterPosition + " " + "layout :" + layoutPosition1 + "  absolute :" + absoluteAdapterPosition);
-
-                    mItemBindingClickListener.onItemClick(mBinding, bindingAdapterPosition, mList.get(bindingAdapterPosition));
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (mItemBindingClickListener != null) {
+                int bindingAdapterPosition = holder.getBindingAdapterPosition();
+                LogUtil.e("binding :" + bindingAdapterPosition + "  position:" + position);
+                mItemBindingClickListener.onItemClick(holder.mBinding, position, mList.get(position));
             }
         });
     }
@@ -54,6 +44,5 @@ public class TestSingleAdapter extends BaseBindingRecycleAdapter<String, ItemTes
     public ItemTestAdapterBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return ItemTestAdapterBinding.inflate(inflater, container, false);
     }
-
 
 }

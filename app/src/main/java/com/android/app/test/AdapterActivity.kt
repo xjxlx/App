@@ -7,7 +7,6 @@ import com.android.app.adapters.TestSingleAdapter
 import com.android.app.databinding.ActivityAdapterBinding
 import com.android.helper.base.BaseBindingActivity
 import com.android.helper.base.recycleview.EmptyPlaceholder
-import com.android.helper.interfaces.listener.ItemClickListener
 import com.android.helper.utils.RecycleUtil
 
 class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
@@ -35,10 +34,17 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
             .Build()
         
         adapter.setEmptyData(placeholder)
+
+//        adapter.setItemClickListener { view, position, t ->
+//            list[position] = "" + System.currentTimeMillis()
+//            adapter.updateItem(position)
+//        }
         
-        adapter.setItemClickListener(ItemClickListener { e, position, t ->
-            adapter.removeItem(position)
-        })
+        adapter.setItemBindingClickListener { e, position, t ->
+            list[position] = "" + System.currentTimeMillis()
+            adapter.updateItem(position)
+        }
+        
     }
     
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityAdapterBinding {
