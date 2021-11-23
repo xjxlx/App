@@ -125,7 +125,7 @@ public class LifecycleManager {
     public void checkNotificationPermissions(FragmentActivity activity) {
         if (activity != null) {
             if (mNotificationUtil == null) {
-                mNotificationUtil = NotificationUtil.getInstance(activity);
+                mNotificationUtil = new NotificationUtil.Builder(activity).build();
             }
             // 检测是否已经打开了notification
             boolean openNotify = mNotificationUtil.checkOpenNotify(activity);

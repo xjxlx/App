@@ -30,6 +30,7 @@ public class HighWordExpandableAdapter extends BaseExpandableAdapter<ExpandableB
 
     private static int width;
     private FlexboxLayout.LayoutParams layoutParams;
+    private GlideUtil mGlideUtil;
 
     public HighWordExpandableAdapter(@NotNull Activity activity) {
         super(activity);
@@ -37,6 +38,9 @@ public class HighWordExpandableAdapter extends BaseExpandableAdapter<ExpandableB
 
     public HighWordExpandableAdapter(@NotNull Activity activity, @NotNull List<ExpandableBean.Data.Content> list) {
         super(activity, list);
+        if (mGlideUtil == null) {
+            mGlideUtil = new GlideUtil.Builder(mContext).build();
+        }
     }
 
     @Override
@@ -123,7 +127,9 @@ public class HighWordExpandableAdapter extends BaseExpandableAdapter<ExpandableB
                     // LogUtil.e("content:Image:" + content_img);
                     // 图片
                     if (!TextUtils.isEmpty(content_img)) {
-                        GlideUtil.loadView(mContext, content_img, vhc.ivImage);
+                        //  GlideUtil.loadView(mContext, content_img, vhc.ivImage);
+
+                        mGlideUtil.loadUrl(vhc.ivImage, content_img);
                     }
                     // 类型
                     String content_type = contentBean.getContent_type();

@@ -21,6 +21,8 @@ import java.util.List;
 
 public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data, TestAdapter.VHHome> {
 
+    private GlideUtil mGlideUtil;
+
     public TestAdapter(FragmentActivity activity) {
         super(activity);
     }
@@ -50,8 +52,11 @@ public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data
             return;
         }
 
+        if (mGlideUtil == null) {
+            mGlideUtil = new GlideUtil.Builder(mActivity).build();
+        }
         // 封面
-        GlideUtil.loadView(mActivity, data.getImg(), holder.iv_activity);
+        mGlideUtil.loadUrl(holder.iv_activity, data.getImg());
 
         //  显示状态：-1不现实0已结束1进行中
         int showStatus = data.getShowStatus();

@@ -77,22 +77,24 @@ public class AppLifecycleService extends Service {
     }
 
     private void sendNotification(String type) {
-        NotificationUtil instance = NotificationUtil.getInstance(getApplicationContext());
-        instance.setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME);
-        instance.setSmallIcon(R.mipmap.ic_launcher);
+
+        NotificationUtil.Builder builder = new NotificationUtil.Builder(getApplicationContext())
+                .setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME)
+                .setSmallIcon(R.mipmap.ic_launcher);
+
         if (TextUtils.equals(type, LifecycleAppEnum.From_Intent.getFrom())) {
-            instance.setContentText("我是后台服务，我是被直接启动的");
+            builder.setContentText("我是后台服务，我是被直接启动的");
             LogUtil.writeLifeCycle("我是后台服务，我是被直接启动的");
         } else if (TextUtils.equals(type, LifecycleAppEnum.FROM_JOB.getFrom())) {
-            instance.setContentText("我是后台服务，我是被JobService启动的");
+            builder.setContentText("我是后台服务，我是被JobService启动的");
             LogUtil.writeLifeCycle("我是后台服务，我是被JobService启动的");
         } else if (TextUtils.equals(type, LifecycleAppEnum.FROM_ACCOUNT.getFrom())) {
-            instance.setContentText("我是后台服务，我是被账号拉活的");
+            builder.setContentText("我是后台服务，我是被账号拉活的");
             LogUtil.writeLifeCycle("我是后台服务，我是被账号拉活的");
         }
-        instance.createNotification();
-        instance.getNotification().when = System.currentTimeMillis();
-        instance.sendNotification(111);
+        builder.setWhen(System.currentTimeMillis());
+        NotificationUtil notificationUtil = builder.build();
+        notificationUtil.sendNotification(111);
     }
 
     @Override

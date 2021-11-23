@@ -58,13 +58,14 @@ public class LifecycleReceiver extends BroadcastReceiver {
     }
 
     private void sendNotification(Context context) {
-        NotificationUtil notificationUtil = NotificationUtil
-                .getInstance(context)
+        NotificationUtil notificationUtil1 = new NotificationUtil
+                .Builder(context)
                 .setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText("账号同步开始了，主动检测服务存活");
-        notificationUtil.createNotification();
-        notificationUtil.getNotification().when = System.currentTimeMillis();
-        notificationUtil.sendNotification(333);
+                .setContentText("账号同步开始了，主动检测服务存活")
+                .setWhen(System.currentTimeMillis())
+                .build();
+
+        notificationUtil1.sendNotification(333);
     }
 }

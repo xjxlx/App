@@ -10,7 +10,9 @@ import com.android.helper.utils.photo.GlideUtil;
  * 自定义左右的布局
  */
 public class JointActivity extends BaseActivity {
- 
+
+    private GlideUtil mGlideUtil;
+
     @Override
     public void initListener() {
 
@@ -36,8 +38,12 @@ public class JointActivity extends BaseActivity {
         ImageView left = findViewById(R.id.iv_left);
         ImageView iv_right = findViewById(R.id.iv_right);
 
-        GlideUtil.loadView(mContext, url, left, R.drawable.abc);
-        GlideUtil.loadView(mContext, url, iv_right, R.drawable.abc);
+        if (mGlideUtil == null) {
+            mGlideUtil = new GlideUtil.Builder(mContext).setPlaceholderResource(R.drawable.abc).build();
+        }
+
+        mGlideUtil.loadUrl(left, url);
+        mGlideUtil.loadUrl(iv_right, url);
     }
 
     @Override

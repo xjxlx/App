@@ -16,6 +16,10 @@ import kotlinx.android.synthetic.main.activity_selector_image.*
 
 class SelectorImageActivity : BaseActivity() {
     
+    private val glideUtil: GlideUtil by lazy {
+        return@lazy GlideUtil.Builder(mContext).build()
+    }
+    
     override fun getBaseLayout(): Int {
         return R.layout.activity_selector_image
     }
@@ -66,7 +70,7 @@ class SelectorImageActivity : BaseActivity() {
                         val uriToPath = FileUtil.getInstance().UriToPath(mContext, urls)
                         LogUtil.e("转换后的图片路径为：：$uriToPath")
                         
-                        GlideUtil.loadView(mContext, uriToPath, iv_image)
+                        glideUtil.loadUrl(iv_image, uriToPath)
                     }
                 }
                 

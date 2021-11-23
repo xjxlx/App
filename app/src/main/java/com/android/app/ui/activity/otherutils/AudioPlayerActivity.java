@@ -7,14 +7,14 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import com.android.app.R;
-import com.android.app.ui.activity.java.JavaMapActivity;
 import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.android.app.R;
+import com.android.app.ui.activity.java.JavaMapActivity;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.AssetsUtil;
 import com.android.helper.utils.LogUtil;
@@ -57,6 +57,7 @@ public class AudioPlayerActivity extends BaseActivity {
         }
     };
     private NotificationManager manager;
+    private NotificationUtil mNotificationUtil;
 
     @Override
     protected int getBaseLayout() {
@@ -124,11 +125,15 @@ public class AudioPlayerActivity extends BaseActivity {
                 break;
 
             case R.id.btn_stop:
-                NotificationUtil notificationUti = NotificationUtil.getInstance(mContext);
-                boolean openNotify = notificationUti.checkOpenNotify(mContext);
+
+                if (mNotificationUtil == null) {
+                    mNotificationUtil = new NotificationUtil.Builder(mContext).build();
+                }
+
+                boolean openNotify = mNotificationUtil.checkOpenNotify(mContext);
                 LogUtil.e("是否有悬浮通知的权限：" + openNotify);
                 if (openNotify) {
-                    notificationUti.goToSetNotify(mContext);
+                    mNotificationUtil.goToSetNotify(mContext);
                 }
                 break;
         }

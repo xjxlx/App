@@ -119,8 +119,8 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         });
 
         // 设置默认数据
-        mBinding.navigation.getMenu().getItem(0).setChecked(true);
-        mBinding.vpContent.setCurrentItem(0);
+        mBinding.navigation.getMenu().getItem(1).setChecked(true);
+        mBinding.vpContent.setCurrentItem(1);
         setTitleContent("代办");
 
         String sdTypePublicPath = FileUtil.getInstance().getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
@@ -128,11 +128,6 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
 
         boolean permission = FileUtil.getInstance().checkAllFilesPermission(mContext);
         LogUtil.e("permission: " + permission);
-    }
-
-    private void testCreateFile(String tag, String path) {
-        File file = new File(path);
-
     }
 
     @Override

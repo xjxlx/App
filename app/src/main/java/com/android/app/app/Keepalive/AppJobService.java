@@ -111,28 +111,28 @@ public class AppJobService extends JobService {
     }
 
     private static void sendNotification(Context context, LifecycleAppEnum appEnum) {
-        NotificationUtil instance = NotificationUtil.getInstance(context);
-        instance.setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME);
+
+        NotificationUtil.Builder builder = new NotificationUtil.Builder(context)
+                .setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME)
+                .setSmallIcon(R.mipmap.ic_launcher);
 
         if (appEnum == LifecycleAppEnum.From_Intent) {
-            instance.setContentText("我是JobService，我是被直接启动的");
+            builder.setContentText("我是JobService，我是被直接启动的");
             LogUtil.writeLifeCycle("我是JobService，我是被直接启动的");
         } else if (appEnum == LifecycleAppEnum.FROM_ACCOUNT) {
-            instance.setContentText("我是JobService，我是被账号拉活的");
+            builder.setContentText("我是JobService，我是被账号拉活的");
             LogUtil.writeLifeCycle("我是JobService，我是被账号拉活的");
         } else if (appEnum == LifecycleAppEnum.FROM_SERVICE) {
-            instance.setContentText("我是JobService，我是后台服务拉活的");
+            builder.setContentText("我是JobService，我是后台服务拉活的");
             LogUtil.writeLifeCycle("我是JobService，我是后台服务拉活的");
         }
 
         if (appEnum == LifecycleAppEnum.FROM_JOB) {
             return;
         }
-
-        instance.setSmallIcon(R.mipmap.ic_launcher);
-        instance.createNotification();
-        instance.getNotification().when = System.currentTimeMillis();
-        instance.sendNotification(222);
+        builder.setWhen(System.currentTimeMillis());
+        NotificationUtil notificationUtil = builder.build();
+        notificationUtil.sendNotification(222);
     }
 
     @Override
