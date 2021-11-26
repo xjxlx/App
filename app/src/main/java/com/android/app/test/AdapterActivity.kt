@@ -12,6 +12,7 @@ import com.android.app.adapters.TestSingleAdapter
 import com.android.app.databinding.ActivityAdapterBinding
 import com.android.helper.base.BaseBindingActivity
 import com.android.helper.base.recycleview.Placeholder
+import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
 
 class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
@@ -23,6 +24,10 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
      */
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initData() {
+        
+        LogUtil.e("⭐️", "initData")
+        
+        
         
         for (it in 0..10) {
             list.add("我是item $it")
@@ -52,6 +57,11 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
             
             startInstallPermissionSettingActivity()
         }
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        LogUtil.e("⭐️", "onDestroy")
     }
     
     /**
