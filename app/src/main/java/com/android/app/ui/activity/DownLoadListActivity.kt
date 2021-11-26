@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
 import com.android.helper.base.BaseActivity
-import com.android.helper.base.recycleview.EmptyPlaceholder
+import com.android.helper.base.recycleview.Placeholder
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
@@ -58,11 +58,11 @@ class DownLoadListActivity : BaseActivity() {
             rv_download_list.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             LogUtil.e(Arrays.toString(mList.toArray()))
             
-            val placeholder = EmptyPlaceholder.Builder()
+            val placeholder = Placeholder.Builder()
                 .setEmpty(R.drawable.abc, "我是测试哈哈哈")
                 .Build()
             
-            adapter.setEmptyData(placeholder)
+            adapter.setPlaceholderData(placeholder)
         }
     }
     

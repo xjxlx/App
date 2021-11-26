@@ -34,7 +34,8 @@
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" /> <!-- 拍照 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
     <application
@@ -48,7 +49,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <activity android:name=".test.AdapterActivity"></activity>
+        <activity android:name=".test.TestRxJavaActivity"></activity>
+        <activity android:name=".test.AdapterActivity" />
         <activity android:name=".test.ActivityOrFragmentLifecycleActivity" />
         <activity android:name=".ui.activity.kotlin.KotlinMap" />
         <activity android:name=".ui.activity.otherutils.LocationActivity" /> <!-- 账号拉活的                        开始 -->
