@@ -1,12 +1,14 @@
 package com.android.app.ui.activity.personal
 
-import com.android.app.R
-import com.android.helper.base.BaseTitleActivity
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.android.app.databinding.ActivityRouseDingDingBinding
+import com.android.helper.base.BaseBindingTitleActivity
 
 /**
  * 唤醒钉钉的页面
  */
-class RouseDingDingActivity : BaseTitleActivity() {
+class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
 
     override fun initData() {
     }
@@ -15,10 +17,7 @@ class RouseDingDingActivity : BaseTitleActivity() {
         return "唤醒钉钉"
     }
 
-    override fun getTitleLayout(): Int {
-        return R.layout.activity_rouse_ding_ding
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityRouseDingDingBinding {
+        return ActivityRouseDingDingBinding.inflate(inflater, container, true)
     }
-//    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityRouseDingDingBinding {
-//        return ActivityRouseDingDingBinding.inflate(inflater, container, false)
-//    }
 }
