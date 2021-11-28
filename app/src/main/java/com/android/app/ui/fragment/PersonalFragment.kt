@@ -1,22 +1,23 @@
 package com.android.app.ui.fragment
 
-import com.android.app.R
-import android.view.View
-import com.android.helper.base.BaseFragment
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.android.app.databinding.FragmentPersonalBinding
+import com.android.app.ui.activity.personal.RouseDingDingActivity
+import com.android.helper.base.BaseBindingFragment
 
 /**
  * 个人中心的fragment
  */
-class PersonalFragment : BaseFragment() {
-
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_personal
-    }
-
-    override fun initView(view: View?) {
-    }
+class PersonalFragment : BaseBindingFragment<FragmentPersonalBinding>() {
 
     override fun initData() {
+        mBinding.tvRouseDd.setOnClickListener {
+            startActivity(RouseDingDingActivity::class.java)
+        }
     }
 
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentPersonalBinding {
+        return FragmentPersonalBinding.inflate(inflater, container, false)
+    }
 }
