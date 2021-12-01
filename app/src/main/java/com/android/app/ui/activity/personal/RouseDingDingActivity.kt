@@ -3,7 +3,7 @@ package com.android.app.ui.activity.personal
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityRouseDingDingBinding
-import com.android.helper.base.BaseBindingTitleActivity
+import com.android.helper.base.title.BaseBindingTitleActivity
 
 /**
  * 唤醒钉钉的页面

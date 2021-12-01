@@ -5,6 +5,8 @@ import android.app.Application;
 import com.android.app.BuildConfig;
 import com.android.app.R;
 import com.android.helper.app.BaseApplication;
+import com.android.helper.base.title.TitleBar;
+import com.android.helper.base.title.TitleBuilder;
 import com.android.helper.httpclient.AutoInterceptor;
 import com.android.helper.interfaces.ICommonApplication;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -52,6 +54,21 @@ public class App extends Application {
 
             @Override
             public void initApp() {
+
+                // 设置title的资源信息
+                TitleBuilder builder = new TitleBuilder()
+                        .setTitleLayoutId(R.layout.base_title_activity)
+                        .setLeftBackLayoutId(R.id.ll_base_title_back)
+                        .setLeftBackTextId(R.id.tv_base_title_back_title)
+                        .setShowBackText(true)
+                        .setTitleId(R.id.tv_base_title)
+                        .setRightLayoutId(R.id.fl_base_title_right_parent)
+                        .setShowRightLayout(false)
+                        .setRightTextId(R.id.tv_base_title_right_title)
+                        .setShowRightText(false)
+                        .setContentLayoutId(R.id.fl_activity_content);
+
+                TitleBar.setGlobalTitleBar(builder);
             }
 
             @Override
