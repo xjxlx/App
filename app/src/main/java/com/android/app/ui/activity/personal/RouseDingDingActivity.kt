@@ -15,15 +15,16 @@ import com.android.helper.base.title.BaseBindingTitleActivity
  *      5：唤醒钉钉
  */
 class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
-
+    
     override fun initData() {
     }
-
+    
     override fun setTitleContent(): String {
         return "唤醒钉钉"
     }
-
+    
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityRouseDingDingBinding {
         return ActivityRouseDingDingBinding.inflate(inflater, container, true)
     }
+    
 }
