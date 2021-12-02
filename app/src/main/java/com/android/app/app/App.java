@@ -2,6 +2,8 @@ package com.android.app.app;
 
 import android.app.Application;
 
+import com.amap.api.maps.MapsInitializer;
+import com.amap.api.services.core.ServiceSettings;
 import com.android.app.BuildConfig;
 import com.android.app.R;
 import com.android.helper.app.BaseApplication;
@@ -67,8 +69,8 @@ public class App extends Application {
                         .setRightTextId(R.id.tv_base_title_right_title)
                         .setShowRightText(true)
                         .setContentLayoutId(R.id.fl_activity_content);
-
                 TitleBar.setGlobalTitleBar(builder);
+
             }
 
             @Override
@@ -88,6 +90,13 @@ public class App extends Application {
     private void initData() {
         // Bugly2.0
         CrashReport.initCrashReport(getApplicationContext(), "09c9b19788", true);
-    }
 
+        // 高德地图
+        // 地图 合规接口
+        MapsInitializer.updatePrivacyShow(this, true, true);
+        MapsInitializer.updatePrivacyAgree(this, true);
+        // 搜索 合规接口
+        ServiceSettings.updatePrivacyShow(this, true, true);
+        ServiceSettings.updatePrivacyAgree(this, true);
+    }
 }

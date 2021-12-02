@@ -89,7 +89,10 @@ android {
     }
     sourceSets {//目录指向配置
         main {
-            jniLibs.srcDirs = ['libs']//指定lib库目录
+            jniLibs.srcDirs = ['libs']
+            jni {
+                srcDirs 'src\\main\\jni'
+            }//指定lib库目录
         }
     }
 
@@ -173,6 +176,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
 
     // bugly
-    compile 'com.tencent.bugly:crashreport:3.4.4'
-    compile 'com.tencent.bugly:nativecrashreport:3.9.2'
+    implementation 'com.tencent.bugly:crashreport:3.4.4'
+    implementation 'com.tencent.bugly:nativecrashreport:3.9.2'
+
 }
