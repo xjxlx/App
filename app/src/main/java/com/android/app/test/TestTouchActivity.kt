@@ -1,6 +1,7 @@
 package com.android.app.test
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
@@ -19,8 +20,7 @@ class TestTouchActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-        setTitleContent("测试事件分发")
-    }
+     }
 
     override fun initListener() {
 
@@ -45,7 +45,7 @@ class TestTouchActivity : BaseActivity() {
         thread.start()
     }
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
 
     }
 

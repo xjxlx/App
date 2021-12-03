@@ -1,5 +1,6 @@
 package com.android.app.test.banner;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class BannerQTFragment extends BaseBindingFragment<FragmentBannerQTBindin
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
         QT2Fragment qt2Fragment = QT2Fragment.newInstance();
 
         ArrayList<Fragment> fragments = new ArrayList<>();

@@ -19,7 +19,7 @@ class Fragment2 : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
         LogUtil.e("当前是Fragment ---> 2,当前的地址是：${this.hashCode()}")
 
         arguments?.let {

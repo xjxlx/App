@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.widget;
 
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.android.app.R;
@@ -19,7 +20,7 @@ public class JointActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
 //        View viewById = findViewById(R.id.iv_yl);
 //        viewById.setOnClickListener(new View.OnClickListener() {

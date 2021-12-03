@@ -1,5 +1,6 @@
 package com.android.app.ui.fragment
 
+import android.os.Bundle
 import android.view.View
 import com.android.app.R
 import com.android.app.test.TestMapActivity
@@ -34,12 +35,7 @@ class TodoFragment : BaseFragment() {
         )
     }
 
-    override fun initView(container: View?) {
-
-    }
-
-    override fun initData() {
-
+    override fun initData(savedInstanceState: Bundle?) {
     }
 
     override fun onClick(v: View?) {
@@ -48,19 +44,15 @@ class TodoFragment : BaseFragment() {
             R.id.tv_custom_widget -> {
                 startActivity(ViewMapTitleActivity::class.java)
             }
-
             R.id.tv_animation_map -> {
                 startActivity(AnimationMapActivity::class.java)
             }
-
             R.id.tv_java_map -> {
                 startActivity(JavaMapActivity::class.java)
             }
-
             R.id.tv_test_map -> {
                 startActivity(TestMapActivity::class.java)
             }
-
             R.id.tv_other -> {
                 startActivity(DemoMapTitleActivity::class.java)
             }
@@ -72,5 +64,4 @@ class TodoFragment : BaseFragment() {
             }
         }
     }
-
 }

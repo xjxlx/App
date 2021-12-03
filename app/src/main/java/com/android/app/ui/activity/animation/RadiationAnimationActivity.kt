@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.animation
 
+import android.os.Bundle
 import com.android.app.R
 import android.widget.Button
 import com.android.helper.base.BaseActivity
@@ -14,9 +15,7 @@ class RadiationAnimationActivity : BaseActivity() {
         return R.layout.activity_radiation_animation
     }
 
-    override fun initData() {
-         setTitleContent("放射动画")
-
+    override fun initData(savedInstanceState: Bundle?) {
         findViewById<Button>(R.id.btn).setOnClickListener {
             cst.startAnim()
         }

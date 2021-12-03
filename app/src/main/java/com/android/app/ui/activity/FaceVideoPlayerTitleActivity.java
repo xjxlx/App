@@ -7,6 +7,7 @@ import com.android.app.R;
 import com.android.app.databinding.ActivityFaceVideoPlayerBinding;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -74,7 +75,7 @@ public class FaceVideoPlayerTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
         Intent intent = getIntent();
         if (intent == null) {

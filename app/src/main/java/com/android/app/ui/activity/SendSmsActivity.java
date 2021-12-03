@@ -1,8 +1,11 @@
 package com.android.app.ui.activity;
 
 import android.annotation.SuppressLint;
+
 import com.android.app.R;
 import com.android.app.adapters.SmsAdapter;
+
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -52,8 +55,6 @@ public class SendSmsActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-
-        setTitleContent("短信轰炸");
 
         et_add_address = findViewById(R.id.et_add_address);
 
@@ -112,7 +113,7 @@ public class SendSmsActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         smsAdapter1 = new SmsAdapter(mContext, 1);
 

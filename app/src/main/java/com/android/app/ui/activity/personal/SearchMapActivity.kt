@@ -14,18 +14,18 @@ import com.android.helper.base.title.BaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 
 class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
-    
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivitySearchMapBinding {
         return ActivitySearchMapBinding.inflate(inflater, container, true)
     }
-    
+
     /**
      * @return 设置标题内容
      */
     override fun setTitleContent(): String {
         return "搜素选点"
     }
-    
+
     override fun initData(savedInstanceState: Bundle?) {
         mBinding.btnSearch.setOnClickListener {
             val trim = mBinding.etInputSearch.text.toString().trim()
@@ -35,7 +35,7 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
             }
         }
     }
-    
+
     private fun search(value: String) {
         /**
          * 参数1：keyWord 查询字符串，多个关键字用“|”分割 。
@@ -44,10 +44,9 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
          *       待查询城市（地区）的城市编码 citycode、城市名称（中文或中文全拼）、行政区划代码adcode。必设参数
          */
         val query = PoiSearch.Query(value, "", "")
-        
+
         query.pageSize = 200;// 设置每页最多返回多少条poiitem
         query.pageNum = 0;//设置查询页码
-        
         // 数据监听
         val poiSearch = PoiSearch(this, query)
         poiSearch.setOnPoiSearchListener(object : PoiSearch.OnPoiSearchListener {
@@ -60,20 +59,18 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
                     }
                 }
             }
-            
+
             override fun onPoiItemSearched(poiItem: PoiItem?, errorCode: Int) {
-            
             }
         })
         // 发送请求
         poiSearch.searchPOIAsyn();
     }
-    
+
     override fun setBackClickListener(view: View?): Boolean {
         val intent = Intent()
         intent.putExtra("result", "猜猜我是谁")
         setResult(0, intent)
         return super.setBackClickListener(view)
     }
-    
 }

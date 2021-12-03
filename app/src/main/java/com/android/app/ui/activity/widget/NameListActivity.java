@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.widget;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +26,6 @@ public class NameListActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("自定义名字检测的列表");
 
         StatusBarUtil.getInstance(mContext).setStatusTranslucent();
         screenUtil = new ScreenUtil();
@@ -56,7 +56,7 @@ public class NameListActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 

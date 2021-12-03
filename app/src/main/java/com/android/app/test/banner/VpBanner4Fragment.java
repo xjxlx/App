@@ -33,13 +33,13 @@ public class VpBanner4Fragment extends BaseBindingFragment<FragmentVpBanner4Bind
     @Override
     public void initView(View view) {
 
-
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -56,6 +56,7 @@ public class VpBanner4Fragment extends BaseBindingFragment<FragmentVpBanner4Bind
             mBinding.tvPosition.setText(position + "");
         }
     }
+
     @Override
     public FragmentVpBanner4Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return FragmentVpBanner4Binding.inflate(inflater, container, false);

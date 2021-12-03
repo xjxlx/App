@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.jetpack.livedata
 
+import android.os.Bundle
 import com.android.app.R
 import android.view.View
 import androidx.lifecycle.Observer
@@ -16,7 +17,7 @@ class LiveData1Fragment : BaseFragment() {
     override fun initView(view: View?) {
     }
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
         // liveData
         val viewModel = ViewModelProviders.of(mContext).get(LiveDataModel::class.java)
         viewModel.liveData.observe(this, object : Observer<TestLiveData> {

@@ -20,7 +20,7 @@ class ActivityOrFragmentLifecycleActivity : BaseBindingActivity<ActivityOrFragme
     /**
      * 初始化数据
      */
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         //ActivityOrFragmentFragment
         val fragment = ActivityOrFragmentFragment();
         val util: FragmentUtil = FragmentUtil(this)

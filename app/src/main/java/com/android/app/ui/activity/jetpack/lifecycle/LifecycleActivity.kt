@@ -1,6 +1,7 @@
 package com.android.app.ui.activity.jetpack.lifecycle
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import com.android.app.R
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -43,7 +44,6 @@ class LifecycleActivity : BaseActivity() {
     @SuppressLint("SetTextI18n")
     override fun initView() {
         super.initView()
-        setTitleContent("Lifecycle的测试")
 
         tv_explain.text = "假如不适用lifecycle的话，如果说存在多个组件或者模块，在生命周期需要做一些事情的时候，" +
                 "就要全部写入activity或fragment里面，如果数量过多，则会使得代码变得很是臃肿，如果使用了lifecycle," +
@@ -62,9 +62,7 @@ class LifecycleActivity : BaseActivity() {
         }
     }
 
-    override fun initData() {
-
-
+    override fun initData(savedInstanceState: Bundle?) {
         lifecycle.addObserver(player)
 
         lifecycle.addObserver(object : LifecycleEventObserver {
@@ -77,7 +75,6 @@ class LifecycleActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtil.e(tag,"onDestroy")
+        LogUtil.e(tag, "onDestroy")
     }
-
 }

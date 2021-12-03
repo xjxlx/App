@@ -1,8 +1,11 @@
 package com.android.app.ui.activity;
 
 import android.content.Intent;
+
 import com.android.app.R;
 import com.android.app.databinding.ActivityUnLockBinding;
+
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.helper.base.BaseActivity;
@@ -19,8 +22,7 @@ public class UnLockTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
-
+    public void initData(Bundle savedInstanceState) {
 
         Intent intent = getIntent();
         String packageName = intent.getStringExtra("packageName");

@@ -1,5 +1,7 @@
 package com.android.app.ui.activity;
 
+import android.os.Bundle;
+
 import com.android.app.R;
 import com.android.app.adapters.UploadAdapter;
 import com.android.helper.utils.download.Download;
@@ -22,7 +24,6 @@ public class UploadingActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("带进度条的文件上传");
 
         rv_upload_list = findViewById(R.id.rv_upload_list);
 
@@ -38,7 +39,7 @@ public class UploadingActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 

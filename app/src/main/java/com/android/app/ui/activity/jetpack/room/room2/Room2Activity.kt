@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.jetpack.room.room2
 
+import android.os.Bundle
 import com.android.app.R
 import com.android.app.ui.activity.jetpack.room.room2.RoomManager.VERSION
 import android.view.View
@@ -29,18 +30,17 @@ class Room2Activity : BaseActivity() {
         super.initListener()
 
         setonClickListener(
-                btn_table_1_insert,
-                btn_table_1_delete,
-                btn_table_1_update,
-                btn_table_1_query,
-                btn_table_2_create,
-                btn_table_2_add,
-                btn_table_2_insert
+            btn_table_1_insert,
+            btn_table_1_delete,
+            btn_table_1_update,
+            btn_table_1_query,
+            btn_table_2_create,
+            btn_table_2_add,
+            btn_table_2_insert
         )
     }
 
-    override fun initData() {
-
+    override fun initData(savedInstanceState: Bundle?) {
     }
 
     override fun onClick(v: View?) {
@@ -63,9 +63,7 @@ class Room2Activity : BaseActivity() {
                         ToastUtil.show(result)
                     }
                 })
-
             }
-
             R.id.btn_table_1_delete -> {
                 val room1 = RoomTable1()
                 room1.id = 1624516322548
@@ -82,7 +80,6 @@ class Room2Activity : BaseActivity() {
                     }
                 })
             }
-
             R.id.btn_table_1_update -> {
                 val room1 = RoomTable1()
                 room1.id = 1624519895314
@@ -101,7 +98,6 @@ class Room2Activity : BaseActivity() {
                     }
                 })
             }
-
             R.id.btn_table_1_query -> {
                 RoomUtil.getInstance().execute(object : RoomExecuteListener<RoomTable1> {
                     override fun execute(): RoomTable1 {
@@ -113,26 +109,22 @@ class Room2Activity : BaseActivity() {
                     }
                 })
             }
-
             R.id.btn_table_2_create -> {
-
                 RoomUtil.getInstance().execute(object : RoomExecuteListener<Long> {
                     override fun execute(): Long {
                         val migration1_2 = object : Migration(1, 2) {
                             override fun migrate(database: SupportSQLiteDatabase) {
-
                                 val map = hashMapOf<String, SQLEntity>()
                                 map["id"] = SQLEntity(RoomUtil.UNIT.INTEGER)
                                 map["name"] = SQLEntity(RoomUtil.UNIT.TEXT)
                                 map["isMaser"] = SQLEntity(RoomUtil.UNIT.INTEGER)
-
-                                val createTable = RoomUtil.getInstance().createTable("room_table_22", "id", RoomUtil.UNIT.INTEGER, false, map)
+                                val createTable = RoomUtil.getInstance()
+                                    .createTable("room_table_22", "id", RoomUtil.UNIT.INTEGER, false, map)
 
                                 LogUtil.e("当前的版本是：" + database.version)
                                 database.execSQL(createTable)
                             }
                         }
-
                         val room = RoomTable2()
                         room.id = System.currentTimeMillis()
                         room.name = "张三"
@@ -143,29 +135,23 @@ class Room2Activity : BaseActivity() {
                     }
 
                     override fun onResult(success: Boolean, t: Long?, errorMsg: String?) {
-
                     }
                 })
             }
-
             R.id.btn_table_2_add -> {
-
             }
-
             R.id.btn_table_2_insert -> {
                 RoomUtil.getInstance().execute(object : RoomExecuteListener<Long> {
                     override fun execute(): Long {
-
                         val migration = object : Migration(VERSION - 1, VERSION) {
                             override fun migrate(database: SupportSQLiteDatabase) {
-
-                                val addColumn = RoomUtil.getInstance().addColumn("room_table_22", "name8", RoomUtil.UNIT.TEXT, true)
+                                val addColumn = RoomUtil.getInstance()
+                                    .addColumn("room_table_22", "name8", RoomUtil.UNIT.TEXT, true)
 
                                 LogUtil.e("当前的版本是：" + database.version)
                                 database.execSQL(addColumn)
                             }
                         }
-
                         val room = RoomTable2()
                         room.id = System.currentTimeMillis()
                         room.name = "李四"
@@ -176,7 +162,6 @@ class Room2Activity : BaseActivity() {
                     }
 
                     override fun onResult(success: Boolean, t: Long?, errorMsg: String?) {
-
                     }
                 })
             }

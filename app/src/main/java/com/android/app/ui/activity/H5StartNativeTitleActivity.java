@@ -4,6 +4,7 @@ import android.content.Intent;
 import com.android.app.R;
 import com.android.app.databinding.ActivityH5StartNativeBinding;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.ToastUtil;
@@ -24,7 +25,7 @@ public class H5StartNativeTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
         Intent intent = getIntent();
         if (intent != null) {

@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.widget
 
+import android.os.Bundle
 import com.android.app.R
 import android.widget.TextView
 import com.android.helper.base.BaseActivity
@@ -16,11 +17,7 @@ class RandomActivity : BaseActivity() {
         return R.layout.activity_random
     }
 
-    override fun initData() {
-
-
-        setTitleContent("随机数的布局")
-
+    override fun initData(savedInstanceState: Bundle?) {
         val listData = arrayListOf<String>()
 
         listData.add("this")
@@ -29,7 +26,6 @@ class RandomActivity : BaseActivity() {
         listData.add("live")
         listData.add("Many")
         listData.add("gnimals")
-
         val inflate = layoutInflater.inflate(R.layout.item_random, null)
         val randomContent = inflate.findViewById<TextView>(R.id.tv_random_content)
         TextViewUtil.setTextFont(mContext, randomContent, "DINCondensedBold.ttf")

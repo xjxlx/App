@@ -1,6 +1,7 @@
 package com.android.app.test;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -26,7 +27,7 @@ public class TestHandlerActivity extends BaseActivity implements ProxyInterface 
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         setonClickListener(R.id.button, R.id.button2, R.id.button3, R.id.button4);
         textView = findViewById(R.id.textView);

@@ -70,7 +70,7 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
 
     @SuppressLint("NewApi")
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
         if (mLifecycleManager == null) {
             mLifecycleManager = LifecycleManager.getInstance();
         }

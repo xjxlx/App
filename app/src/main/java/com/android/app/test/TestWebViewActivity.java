@@ -3,6 +3,7 @@ package com.android.app.test;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -29,7 +30,6 @@ public class TestWebViewActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("测试WebView");
         mWvTest = findViewById(R.id.wv_test);
         mPbProgress = findViewById(R.id.pb_progress);
 
@@ -94,7 +94,7 @@ public class TestWebViewActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
         mWebUrl = intent.getStringExtra(KEY_BASE_WEB_VIEW_URL);
 

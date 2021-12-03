@@ -2,6 +2,7 @@ package com.android.app.test;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
@@ -39,8 +40,6 @@ public class AndroidJSActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-
-        setTitleContent("Android和JS互相调用");
 
         tvAndroidcalljs = findViewById(R.id.tv_androidcalljs);
         tvAndroidcalljsargs = findViewById(R.id.tv_androidcalljsargs);
@@ -112,7 +111,7 @@ public class AndroidJSActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 

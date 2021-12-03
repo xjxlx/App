@@ -1,5 +1,7 @@
 package com.android.app.ui.activity.widget;
 
+import android.os.Bundle;
+
 import com.android.app.R;
 import com.android.app.databinding.ActivityProgressBinding;
 import com.android.helper.base.BaseActivity;
@@ -20,7 +22,7 @@ public class ProgressTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 }

@@ -1,5 +1,7 @@
 package com.android.app.ui.activity.widget;
 
+import android.os.Bundle;
+
 import com.android.app.R;
 
 import com.android.helper.base.BaseActivity;
@@ -13,9 +15,7 @@ public class CustomTestActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
-
-        setTitleContent("自定义文字");
+    public void initData(Bundle savedInstanceState) {
 
         float a = 43.1f;
         int round = Math.round(a);

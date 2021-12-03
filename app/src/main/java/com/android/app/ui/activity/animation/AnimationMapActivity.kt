@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.animation
 
+import android.os.Bundle
 import android.view.View
 import com.android.app.R
 import com.android.helper.base.BaseActivity
@@ -11,9 +12,7 @@ class AnimationMapActivity : BaseActivity() {
         return R.layout.activity_animation_map
     }
 
-    override fun initData() {
-        setTitleContent("自定义动画的集合")
-
+    override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(
             R.id.tv_gif,
             R.id.tv_radiation_animation,
@@ -35,5 +34,4 @@ class AnimationMapActivity : BaseActivity() {
             }
         }
     }
-
 }

@@ -1,7 +1,10 @@
 package com.android.app.test;
 
 import android.graphics.Bitmap;
+
 import com.android.app.R;
+
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.android.helper.base.BaseActivity;
@@ -22,14 +25,13 @@ public class MoreAdapterActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("测试多布局的类型");
 
         mRvList = findViewById(R.id.rv_list);
         iv_image = findViewById(R.id.iv_image);
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         String url = "http://file.jollyeng.com/anims/201903/1552874954.jpg";
 

@@ -1,5 +1,7 @@
 package com.android.app.test;
 
+import android.os.Bundle;
+
 import com.android.app.R;
 import com.android.helper.base.BaseActivity;
 
@@ -14,13 +16,7 @@ public class SlidingMenuActivity extends BaseActivity {
     }
 
     @Override
-    public void initView() {
-        super.initView();
-        setTitleContent("侧滑的View");
-    }
-
-    @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 }

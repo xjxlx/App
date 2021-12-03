@@ -1,5 +1,6 @@
 package com.android.app.test
 
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,9 +49,7 @@ class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
         }
     }
 
-    override fun initData() {
-
-        setTitleContent("测试ExpandableList的加载顺序")
+     override fun initData(savedInstanceState: Bundle?) {
 
         val assets = mContext.assets
         val inputStream = assets.open("expandable.json")

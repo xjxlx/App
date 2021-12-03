@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.widget
 
+import android.os.Bundle
 import com.android.app.R
 import com.android.helper.base.BaseActivity
 
@@ -9,13 +10,6 @@ class TouchUnlockActivity : BaseActivity() {
         return R.layout.activity_touch_unlock
     }
 
-    override fun initView() {
-        super.initView()
-        setTitleContent("自定义触摸解锁效果")
+    override fun initData(savedInstanceState: Bundle?) {
     }
-
-    override fun initData() {
-
-    }
-
 }

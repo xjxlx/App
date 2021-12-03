@@ -3,6 +3,8 @@ package com.android.app.ui.activity;
 import android.Manifest;
 import com.android.app.R;
 import com.android.app.databinding.ActivityWriteXmlBinding;
+
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.helper.base.BaseActivity;
@@ -26,7 +28,7 @@ public class WriteXmlTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
         XmlUtil xmlUtil = new XmlUtil();
         List<Float> integers = new ArrayList<>();

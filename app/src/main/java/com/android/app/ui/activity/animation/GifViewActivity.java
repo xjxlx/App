@@ -3,7 +3,10 @@ package com.android.app.ui.activity.animation;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+
 import com.android.app.R;
+
+import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -36,9 +39,7 @@ public class GifViewActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
-
-        setTitleContent("自定义GIF动画");
+    public void initData(Bundle savedInstanceState) {
 
         setAnimation(0, 917);
 
@@ -52,7 +53,7 @@ public class GifViewActivity extends BaseActivity {
 
                 int screenWidth = ScreenUtil.getScreenWidth(mContext);
                 int toX = screenWidth - width;
-             }
+            }
         });
     }
 

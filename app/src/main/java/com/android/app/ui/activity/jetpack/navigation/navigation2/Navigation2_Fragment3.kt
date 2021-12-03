@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.jetpack.navigation.navigation2
 
+import android.os.Bundle
 import com.android.app.R
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -15,7 +16,7 @@ class Navigation2_Fragment3 : BaseFragment() {
     override fun initView(view: View?) {
     }
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
         arguments?.let {
             val bundle = Navigation2_Fragment2Args.fromBundle(it)
             tv_navigation2_args_3.text = "获取到的Fragment3的参数为：$bundle"

@@ -1,7 +1,10 @@
 package com.android.app.ui.activity;
 
 import android.annotation.SuppressLint;
+
 import com.android.app.R;
+
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.helper.base.BaseActivity;
@@ -45,7 +48,6 @@ public class RxJava2Activity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("测试RxJava2");
         setonClickListener(R.id.btn_test1, R.id.btn_test2);
 
         findViewById(R.id.btn_test1).setOnClickListener(v -> {
@@ -95,7 +97,7 @@ public class RxJava2Activity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 

@@ -1,6 +1,7 @@
 package com.android.app.ui.activity.jetpack.navigation.navigation2
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import com.android.app.R
 import android.view.View
 import androidx.navigation.fragment.findNavController
@@ -17,7 +18,7 @@ class Navigation2_Fragment1 : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
         arguments?.let {
             val bundle = Navigation2_Fragment3Args.fromBundle(it)
             tv_navigation2_args_1.text = "获取到的Fragment3的参数为：$bundle"

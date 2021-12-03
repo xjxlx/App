@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.kotlin
 
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class KotlinMap : BaseBindingActivity<ActivityKotlinMapBinding>() {
     var ssss: String = "sss"
     var pack: String = "com.autonavi.minimap"
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
     }
 
     override fun initView() {

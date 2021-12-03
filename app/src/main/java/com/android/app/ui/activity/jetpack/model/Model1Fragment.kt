@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.jetpack.model
 
+import android.os.Bundle
 import com.android.app.R
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +17,7 @@ class Model1Fragment : BaseFragment() {
 
     }
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
 
         btn_f1_change.setOnClickListener {
             val get = ViewModelProviders.of(mContext).get(TestViewModel::class.java)

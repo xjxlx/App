@@ -1,5 +1,6 @@
 package com.android.app.test
 
+import android.os.Bundle
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -18,8 +19,7 @@ class FlexBoxLayoutActivity : BaseActivity() {
 
     }
 
-    override fun initData() {
-        setTitleContent("测试动态布局")
+     override fun initData(savedInstanceState: Bundle?) {
 
         fbl_root.post {
             val width1 = fbl_root.width

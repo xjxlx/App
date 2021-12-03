@@ -18,15 +18,12 @@ import com.android.helper.widget.banner.ViewPager2Util
  */
 class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
 
-    override fun initData() {
-        setTitleContent("自定义ViewPager的类")
-
+    override fun initData(savedInstanceState: Bundle?) {
         val list: ArrayList<Int> = ArrayList()
         list.add(R.mipmap.icon_banner_1)
         list.add(R.mipmap.icon_banner_2)
         list.add(R.mipmap.icon_banner_3)
         list.add(R.mipmap.icon_banner_4)
-
         val arrayListOf = arrayListOf<Fragment>()
 
         arrayListOf.add(VpBanner5Fragment.newInstance())
@@ -38,7 +35,6 @@ class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
         arrayListOf.add(VpBanner5Fragment.newInstance())
 
         arrayListOf.add(VpBanner1Fragment.newInstance())
-
         val adapter = BaseViewPager2FragmentAdapter(this, arrayListOf)
         mBinding.bannerView.adapter = adapter
         adapter.setSelectorListener(object : OnSelectorListener<Fragment> {
@@ -48,17 +44,14 @@ class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
                 t?.arguments = arg
             }
         })
-
         val show = ViewPager2Util.Builder()
             .setViewPager2(mBinding.bannerView)
             .setIndicator(mBinding.biBanner)
             .Build()
             .show(this)
-
     }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityViewPagerBinding {
         return ActivityViewPagerBinding.inflate(inflater, container, false)
     }
-
 }

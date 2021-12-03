@@ -35,7 +35,7 @@ public class VpBanner5Fragment extends BaseBindingFragment<FragmentVpBanner5Bind
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
     }
 

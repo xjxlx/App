@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
@@ -119,7 +120,7 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         // 检测是否有摄像头
         boolean hardware = checkCameraHardware(mContext);
         if (!hardware) {

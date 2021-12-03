@@ -17,7 +17,7 @@ class Fragment1 : BaseFragment() {
     override fun initView(view: View?) {
     }
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
         LogUtil.e("当前是Fragment ---> 1,当前的地址是：${this.hashCode()}")
         btn_1_2.setOnClickListener {
 

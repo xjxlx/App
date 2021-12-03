@@ -1,7 +1,10 @@
 package com.android.app.ui.activity.jetpack.livedata;
 
 import android.annotation.SuppressLint;
+
 import com.android.app.R;
+
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -44,7 +47,6 @@ public class LiveDataActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("LiveData");
 
         mTvLiveDateContent = findViewById(R.id.tv_live_date_content);
         mTvMutableLiveDateContent = findViewById(R.id.tv_mutable_live_date_content);
@@ -59,8 +61,8 @@ public class LiveDataActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
-         ;
+    public void initData(Bundle savedInstanceState) {
+        ;
 
         mMTvHint.setText("使用好处：\n" +
                 "1:在需要观察的界面使用viewModel的对象去观察数据源的变化，可以一个地方设置，所有地方公用，已经离不开这种模式了，" +

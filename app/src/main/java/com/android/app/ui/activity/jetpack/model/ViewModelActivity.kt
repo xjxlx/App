@@ -1,6 +1,7 @@
 package com.android.app.ui.activity.jetpack.model
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import com.android.app.R
 import androidx.lifecycle.ViewModelProviders
 import com.android.helper.base.BaseActivity
@@ -30,11 +31,6 @@ class ViewModelActivity : BaseActivity() {
         return R.layout.activity_view_model
     }
 
-    override fun initView() {
-        super.initView()
-        setTitleContent("测试ViewModel")
-    }
-
     override fun initListener() {
         super.initListener()
 
@@ -48,16 +44,13 @@ class ViewModelActivity : BaseActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initData() {
-
-
+    override fun initData(savedInstanceState: Bundle?) {
         val stringExtra = intent.getStringExtra("key")
         LogUtil.e("key:$stringExtra")
 
         lifecycle.addObserver(object : AndroidLifecycle(this) {})
         // 自定横竖屏
         // lifecycle.addObserver(object : OrientationListener(mContext, this) {})
-
         viewModel.name = "张三"
 
         tv_view_model_content.text = "viewModel 的作用大致的有两方面\n" +
@@ -69,19 +62,17 @@ class ViewModelActivity : BaseActivity() {
                 "新的"
 
         tv_test.text = stringExtra
-
         // 添加两个fragment
         val util = FragmentUtil(mContext)
         util
-                .add(R.id.fl_content1, Model1Fragment.newInstance(), "") { successful, tag, t ->
-                    LogUtil.e("successful:$successful")
-                }
+            .add(R.id.fl_content1, Model1Fragment.newInstance(), "") { successful, tag, t ->
+                LogUtil.e("successful:$successful")
+            }
 
         util
-                .autoHide(true)
-                .add(R.id.fl_content2, Model2Fragment.getInstance(), "") { success, tag, t ->
-                    LogUtil.e("success:$success")
-                }
-
+            .autoHide(true)
+            .add(R.id.fl_content2, Model2Fragment.getInstance(), "") { success, tag, t ->
+                LogUtil.e("success:$success")
+            }
     }
 }

@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 
 import androidx.annotation.Nullable;
@@ -46,7 +47,7 @@ public class ControlAppTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
         runOnUiThread(() -> {
             // 获取应用的所有信息

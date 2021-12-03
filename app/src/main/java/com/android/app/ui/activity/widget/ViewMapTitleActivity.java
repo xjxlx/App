@@ -1,6 +1,7 @@
 package com.android.app.ui.activity.widget;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
@@ -40,7 +41,7 @@ public class ViewMapTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
     }
 

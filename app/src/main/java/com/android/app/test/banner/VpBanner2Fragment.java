@@ -42,7 +42,7 @@ public class VpBanner2Fragment extends BaseBindingFragment<FragmentVpBanner2Bind
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
 
     }

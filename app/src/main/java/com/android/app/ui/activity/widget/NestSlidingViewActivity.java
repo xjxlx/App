@@ -4,6 +4,7 @@ import com.android.app.R;
 import com.android.app.widget.NestSlidingView;
 import com.android.helper.base.BaseActivity;
 
+import android.os.Bundle;
 import android.view.View;
 
 public class NestSlidingViewActivity extends BaseActivity {
@@ -31,9 +32,8 @@ public class NestSlidingViewActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
-        setTitleContent("嵌套的滑动View");
     }
 
 }

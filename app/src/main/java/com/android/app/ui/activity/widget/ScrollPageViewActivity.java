@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.widget;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
@@ -17,11 +18,9 @@ public class ScrollPageViewActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         ArrayList<String> list = new ArrayList<>();
-
-        setTitleContent("滑动的pageView");
 
         int[] resources = new int[]{
                 R.drawable.c62_control_air_control_normal,

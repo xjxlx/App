@@ -2,6 +2,7 @@ package com.android.app.test;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
@@ -28,7 +29,7 @@ public class TestMapActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState)  {
 
     }
 

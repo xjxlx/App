@@ -3,6 +3,7 @@ package com.android.app;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.tbruyelle.rxpermissions.Permission;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("NonConstantResourceId")
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         String[] strings = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
@@ -130,8 +130,13 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         LogUtil.e("permission: " + permission);
     }
 
+    private void setTitleContent(String value) {
+
+    }
+
     @Override
     public ActivityMainBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return ActivityMainBinding.inflate(inflater, container, false);
     }
+
 }

@@ -60,7 +60,6 @@ public class TestWebSocketActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("测试WebSocket的长连接功能");
         mBtnStartApp = findViewById(R.id.btn_start_app);
         mBtnStartService = findViewById(R.id.btn_start_service);
 
@@ -115,7 +114,7 @@ public class TestWebSocketActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         // 初始化测试服务器
         initWebSocketService();

@@ -1,6 +1,8 @@
 package com.android.app.ui.activity.java;
 
 import com.android.app.R;
+
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.android.helper.base.BaseActivity;
@@ -26,7 +28,6 @@ public class TestJavaLifeActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("测试Java的代码加载顺序");
         list.add("构造方法！");
         list.add("\r\n");
 
@@ -42,7 +43,7 @@ public class TestJavaLifeActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 

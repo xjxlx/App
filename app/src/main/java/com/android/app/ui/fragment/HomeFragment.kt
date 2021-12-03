@@ -34,7 +34,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
         mFileUtil.checkAllFilesPermission(activity)
     }
     
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
         // 外部空间 ，如果文件存储在外部存储空间中的目录内，则可以访问
         val appFilesPath = mFileUtil.getAppTypePath(Environment.DIRECTORY_DOWNLOADS)
         LogUtil.e("path ---外部空间：$appFilesPath")

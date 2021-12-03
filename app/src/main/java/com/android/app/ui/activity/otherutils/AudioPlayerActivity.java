@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -67,7 +68,6 @@ public class AudioPlayerActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("音乐播放器");
 
         mBtnPlayer = findViewById(R.id.btn_player);
         mBtnPause = findViewById(R.id.btn_pause);
@@ -81,7 +81,7 @@ public class AudioPlayerActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         LogUtil.e(AudioConstant.TAG, "initData");
 

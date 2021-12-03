@@ -1,6 +1,8 @@
 package com.android.app.test;
 
 import com.android.app.R;
+
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.helper.base.BaseActivity;
@@ -23,7 +25,6 @@ public class TestScrollHelperActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        setTitleContent("测试滑动工具的帮助类");
 
         mIvHead = findViewById(R.id.iv_head);
         mVReadView = findViewById(R.id.v_read_view);
@@ -41,7 +42,7 @@ public class TestScrollHelperActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
     }
 }

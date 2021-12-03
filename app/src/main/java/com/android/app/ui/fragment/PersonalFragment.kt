@@ -1,5 +1,6 @@
 package com.android.app.ui.fragment
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.FragmentPersonalBinding
@@ -11,7 +12,7 @@ import com.android.helper.base.BaseBindingFragment
  */
 class PersonalFragment : BaseBindingFragment<FragmentPersonalBinding>() {
 
-    override fun initData() {
+    override fun initData(savedInstanceState: Bundle?) {
         mBinding.tvRouseDd.setOnClickListener {
             startActivity(RouseDingDingActivity::class.java)
         }

@@ -1,5 +1,6 @@
 package com.android.app.ui.activity.otherutils;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ public class LocationActivity extends BaseBindingActivity<ActivityLocationBindin
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         mBinding.btnStartLocation.setOnClickListener(new View.OnClickListener() {
             @Override

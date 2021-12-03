@@ -1,7 +1,8 @@
 package com.android.app.ui.activity.widget
 
-import com.android.app.R
+import android.os.Bundle
 import android.text.TextUtils
+import com.android.app.R
 import com.android.helper.base.BaseActivity
 import com.android.helper.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_progress2.*
@@ -12,15 +13,10 @@ class ProgressActivity : BaseActivity() {
         return R.layout.activity_progress2
     }
 
-    override fun initData() {
-
-
-        setTitleContent("自定义进度条")
-
+    override fun initData(savedInstanceState: Bundle?) {
         // 进度条1
         btn1.setOnClickListener { spv.startAnimation() }
         btn2.setOnClickListener { spv.cancelAnimation() }
-
         // 进度条2
         btn.setOnClickListener {
             val toString = ed_input.text.toString()
@@ -30,8 +26,6 @@ class ProgressActivity : BaseActivity() {
             }
             pb2.setCharging(true)
             pb2.startAnimation(toString.toInt())
-
         }
-
     }
 }

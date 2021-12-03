@@ -28,7 +28,7 @@ class ActivityOrFragmentFragment : BaseBindingFragment<FragmentActivityOrFragmen
     override fun initView(view: View?) {
     }
 
-    override fun initData() {
+     override fun initData(savedInstanceState: Bundle?) {
     }
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentActivityOrFragmentBinding {
