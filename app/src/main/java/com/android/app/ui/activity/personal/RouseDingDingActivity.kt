@@ -1,11 +1,15 @@
 package com.android.app.ui.activity.personal
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.amap.api.maps.AMap
@@ -31,6 +35,15 @@ import com.android.helper.utils.ResourceUtil
  */
 class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
 
+    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), object : ActivityResultCallback<ActivityResult> {
+        override fun onActivityResult(result: ActivityResult?) {
+            if (result != null && result.data != null) {
+                val data = result.data
+                val result = data?.getStringExtra("result")
+                LogUtil.e("result:   $result")
+            }
+        }
+    })
     private lateinit var myLocationStyle: MyLocationStyle
     private lateinit var mAMap: AMap
     override fun setTitleContent(): String {
@@ -48,6 +61,12 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
 
         initPermission()
         initLocation()
+        val intent = Intent(mContext, SearchMapActivity::class.java)
+
+        // 点击跳转
+        mBinding.btnSearch.setOnClickListener {
+            register.launch(intent)
+        }
     }
 
     private fun initPermission() {
@@ -78,7 +97,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                 LogUtil.e("latitude:$latitude  longitude:$longitude")
                 val latLng = LatLng(latitude, longitude)
                 //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
-                val mCameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 18f, 30f, 0f))
+                val mCameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 19f, 30f, 0f))
                 mAMap.moveCamera(mCameraUpdate)
                 // 移除定位的信息，避免返回的定位
                 mAMap.removeOnMyLocationChangeListener(this)
@@ -105,7 +124,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         myLocationStyle.showMyLocation(true)
 
         myLocationStyle.strokeColor(ResourceUtil.getColor(R.color.red_9))//设置定位蓝点精度圆圈的边框颜色的方法。
-        myLocationStyle.radiusFillColor(ResourceUtil.getColor(R.color.green_3))//设置定位蓝点精度圆圈的边框颜色的方法。
+        // myLocationStyle.radiusFillColor(ResourceUtil.getColor(R.color.green_3))//设置定位蓝点精度圆圈的边框颜色的方法。
         myLocationStyle.strokeWidth(10f) // 设置定位蓝点精度圈的边框宽度的方法。
         mAMap.myLocationStyle = myLocationStyle //设置定位蓝点的Style
         mAMap.isMyLocationEnabled = true;// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
