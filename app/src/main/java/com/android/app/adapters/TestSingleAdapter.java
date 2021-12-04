@@ -28,9 +28,8 @@ public class TestSingleAdapter extends BaseBindingRecycleAdapter<String, ItemTes
     }
 
     @Override
-    public void onBindHolder(@NonNull @NotNull BaseBindingVH<ItemTestAdapterBinding> holder, int position) {
-        holder.mBinding.tvTest.setText(mList.get(position));
-
+    public void onBindHolder(@NonNull @NotNull BaseBindingVH<ItemTestAdapterBinding> holder, ItemTestAdapterBinding mBinding, int position) {
+        mBinding.tvTest.setText(mList.get(position));
         holder.itemView.setOnClickListener(v -> {
             if (mItemBindingClickListener != null) {
                 int bindingAdapterPosition = holder.getBindingAdapterPosition();

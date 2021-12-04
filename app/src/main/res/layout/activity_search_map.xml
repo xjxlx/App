@@ -32,4 +32,16 @@
 
     </LinearLayout>
 
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/srl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_address_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 </LinearLayout>

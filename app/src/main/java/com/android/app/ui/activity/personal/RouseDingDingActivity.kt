@@ -3,12 +3,12 @@ package com.android.app.ui.activity.personal
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,7 +17,9 @@ import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.CameraUpdateFactory
 import com.amap.api.maps.model.CameraPosition
 import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.MarkerOptions
 import com.amap.api.maps.model.MyLocationStyle
+import com.amap.api.services.core.LatLonPoint
 import com.android.app.R
 import com.android.app.databinding.ActivityRouseDingDingBinding
 import com.android.helper.base.title.BaseBindingTitleActivity
@@ -35,17 +37,22 @@ import com.android.helper.utils.ResourceUtil
  */
 class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
 
-    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult(), object : ActivityResultCallback<ActivityResult> {
-        override fun onActivityResult(result: ActivityResult?) {
-            if (result != null && result.data != null) {
-                val data = result.data
-                val result = data?.getStringExtra("result")
-                LogUtil.e("result:   $result")
-            }
-        }
-    })
     private lateinit var myLocationStyle: MyLocationStyle
     private lateinit var mAMap: AMap
+    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result != null && result.data != null) {
+            val data = result.data
+            val title = data?.getStringExtra("title")
+            val latLonPoint = data?.getParcelableExtra<LatLonPoint>("result")
+            if (latLonPoint != null) {
+                val latLng = LatLng(latLonPoint.latitude, latLonPoint.longitude)
+                addMarker(latLng, title!!, "")
+                moveMap(latLng)
+            }
+            LogUtil.e("result:   $result")
+        }
+    }
+
     override fun setTitleContent(): String {
         return "唤醒钉钉"
     }
@@ -62,11 +69,32 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         initPermission()
         initLocation()
         val intent = Intent(mContext, SearchMapActivity::class.java)
-
         // 点击跳转
         mBinding.btnSearch.setOnClickListener {
             register.launch(intent)
         }
+        // 长安点击获取屏幕位置
+        mAMap.setOnMapLongClickListener { latLng ->
+            if (latLng != null) {
+                addMarker(latLng, "", "屏幕上的经纬度")
+                // 从屏幕上获取经纬度
+                val point = Point(latLng.latitude.toInt(), latLng.longitude.toInt())
+                val fromScreenLocation = mAMap.projection.fromScreenLocation(point)
+                LogUtil.e("fromScreenLocation:$fromScreenLocation")
+            }
+        }
+    }
+
+    private fun addMarker(latLng: LatLng, title: String, description: String) {
+        // 添加标记点
+        val addMarker = mAMap.addMarker(MarkerOptions().position(latLng))
+        if (!TextUtils.isEmpty(title)) {
+            addMarker.title = title;
+        }
+        if (!TextUtils.isEmpty(description)) {
+            addMarker.snippet = description;
+        }
+        addMarker.showInfoWindow()
     }
 
     private fun initPermission() {
@@ -96,9 +124,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
 
                 LogUtil.e("latitude:$latitude  longitude:$longitude")
                 val latLng = LatLng(latitude, longitude)
-                //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
-                val mCameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 19f, 30f, 0f))
-                mAMap.moveCamera(mCameraUpdate)
+                moveMap(latLng)
                 // 移除定位的信息，避免返回的定位
                 mAMap.removeOnMyLocationChangeListener(this)
             }
@@ -109,6 +135,12 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         uiSettings.zoomPosition = AMapOptions.ZOOM_POSITION_RIGHT_CENTER // 缩放按钮的位置
         uiSettings.isCompassEnabled = true  // 显示指南针
         uiSettings.isMyLocationButtonEnabled = true; //显示默认的定位按钮
+    }
+
+    private fun moveMap(latLng: LatLng) {
+        //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
+        val mCameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 18f, 30f, 0f))
+        mAMap.moveCamera(mCameraUpdate)
     }
 
     /**
