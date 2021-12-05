@@ -67,6 +67,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         LocationUtil.Builder(mContext)
             .setLoop(true)
             .setInterval(5000)
+            .setBackgroundRunning(true)
             .setLocationListener { aMapLocation ->
                 if (aMapLocation != null) {
                     val latitude = aMapLocation.latitude
