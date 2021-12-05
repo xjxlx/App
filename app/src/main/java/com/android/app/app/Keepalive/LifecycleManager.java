@@ -14,13 +14,14 @@ import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.ActivityUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
-import com.android.helper.utils.RxPermissionsUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.account.AccountHelper;
 import com.android.helper.utils.account.LifecycleAppEnum;
 import com.android.helper.utils.dialog.DialogUtil;
+import com.android.helper.utils.permission.SinglePermissionsCallBackListener;
 
 /**
  * 保活方案的管理器
@@ -146,12 +147,13 @@ public class LifecycleManager {
     public void checkSdPermissions(FragmentActivity activity) {
         if (activity != null) {
             // 请求app的读写权限
-            RxPermissionsUtil util = new RxPermissionsUtil(activity,
+            new RxPermissionsUtil.Builder(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            util.setAllPermissionListener((havePermission, permission) -> {
-                LogUtil.e("SD卡的读写权限：" + havePermission);
-            });
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .setSinglePerMissionListener((status, permission) -> LogUtil.e("权限：" + permission + " 状态：" + status))
+                    .build()
+                    .startRequestPermission();
+
         }
     }
 

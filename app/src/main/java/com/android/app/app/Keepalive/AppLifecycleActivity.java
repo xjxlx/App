@@ -19,10 +19,11 @@ import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
 import com.android.helper.utils.RecycleUtil;
-import com.android.helper.utils.RxPermissionsUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
+import com.android.helper.utils.permission.SinglePermissionsCallBackListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -70,7 +71,7 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
 
     @SuppressLint("NewApi")
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
         if (mLifecycleManager == null) {
             mLifecycleManager = LifecycleManager.getInstance();
         }
@@ -171,14 +172,17 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
             };
         }
 
-        RxPermissionsUtil util = new RxPermissionsUtil(mContext, list);
-        util.setAllPermissionListener((havePermission, permission) -> {
-            if (!havePermission) {
-                LogUtil.e("异常的权限：" + permission.name);
-            } else {
-                LogUtil.e("正常的权限：" + havePermission);
-            }
-        });
+        new RxPermissionsUtil.Builder(mContext, list)
+                .setSinglePerMissionListener((status, permission) -> {
+                    if (status == 1) {
+                        LogUtil.e("异常的权限：" + permission);
+                    } else if (status == 2) {
+                        LogUtil.e("异常的权限：" + permission);
+                    } else if (status == 3) {
+                        LogUtil.e("拒绝的权限：" + permission);
+                    }
+                }).build()
+                .startRequestPermission();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

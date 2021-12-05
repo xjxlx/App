@@ -1,6 +1,7 @@
 package com.android.app.ui.activity;
 
 import android.Manifest;
+
 import com.android.app.R;
 import com.android.app.databinding.ActivityWriteXmlBinding;
 
@@ -9,7 +10,8 @@ import android.view.View;
 
 import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.FileUtil;
-import com.android.helper.utils.RxPermissionsUtil;
+import com.android.helper.utils.permission.PermissionsCallBackListener;
+import com.android.helper.utils.permission.RxPermissionsUtil;
 import com.android.helper.utils.XmlUtil;
 
 import java.io.File;
@@ -28,7 +30,7 @@ public class WriteXmlTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
 
         XmlUtil xmlUtil = new XmlUtil();
         List<Float> integers = new ArrayList<>();
@@ -45,13 +47,17 @@ public class WriteXmlTitleActivity extends BaseActivity {
                 if (!file.exists()) {
                     file.mkdirs();
                 }
+
                 file1 = new File(file, "dimens.txt");
-                RxPermissionsUtil util = new RxPermissionsUtil(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
-                util.setSinglePermissionListener(havePermission -> {
-                    if (havePermission) {
-                        xmlUtil.writeDat(file1.getAbsolutePath(), "<dimen name=\"dp_", "\">", "dp</dimen>\n", integers);
-                    }
-                });
+
+                new RxPermissionsUtil.Builder(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .setAllPerMissionListener(haveAllPermission -> {
+                            if (haveAllPermission) {
+                                xmlUtil.writeDat(file1.getAbsolutePath(), "<dimen name=\"dp_", "\">", "dp</dimen>\n", integers);
+                            }
+                        })
+                        .build()
+                        .startRequestPermission();
             }
         });
     }

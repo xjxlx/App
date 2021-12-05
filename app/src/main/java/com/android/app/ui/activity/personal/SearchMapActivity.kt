@@ -15,6 +15,7 @@ import com.android.helper.utils.RecycleUtil
 
 class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
 
+    private var mCityCode: String? = ""
     private lateinit var adapter: MapAddressAdapter;
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivitySearchMapBinding {
         return ActivitySearchMapBinding.inflate(inflater, container, true)
@@ -28,6 +29,9 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        mCityCode = intent.getStringExtra("cityCode")
+
+
         adapter = MapAddressAdapter(mContext)
         RecycleUtil.getInstance(mContext, mBinding.rvAddressList)
             .setVertical()
@@ -40,7 +44,6 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
             setResult(0, intent)
             finish()
         }
-
 
         mBinding.btnSearch.setOnClickListener {
             val trim = mBinding.etInputSearch.text.toString().trim()
@@ -58,7 +61,7 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
          * 参数3：搜索的区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
          *       待查询城市（地区）的城市编码 citycode、城市名称（中文或中文全拼）、行政区划代码adcode。必设参数
          */
-        val query = PoiSearch.Query(value, "", "朝阳区")
+        val query = PoiSearch.Query(value, "", mCityCode)
 
         query.pageSize = 200;// 设置每页最多返回多少条poiitem
         query.pageNum = 0;//设置查询页码

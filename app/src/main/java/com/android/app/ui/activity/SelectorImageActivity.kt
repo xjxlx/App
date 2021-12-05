@@ -7,7 +7,7 @@ import com.android.app.R
 import com.android.helper.base.BaseActivity
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
-import com.android.helper.utils.RxPermissionsUtil
+import com.android.helper.utils.permission.RxPermissionsUtil
 import com.android.helper.utils.photo.GlideUtil
 import com.android.helper.utils.photo.PhotoUtil
 import com.luck.picture.lib.PictureSelector
@@ -30,7 +30,13 @@ class SelectorImageActivity : BaseActivity() {
 
         setonClickListener(R.id.btn_selector_image, R.id.btn_selector_video)
 
-        RxPermissionsUtil(mContext, Manifest.permission.CAMERA)
+        RxPermissionsUtil
+            .Builder(this, Manifest.permission.CAMERA)
+            .setAllPerMissionListener {
+                LogUtil.e("当前是否拥有权限：" + it)
+            }
+            .build()
+            .startRequestPermission()
     }
 
     override fun initData(savedInstanceState: Bundle?) {

@@ -1,17 +1,12 @@
 package com.android.app.ui.activity.personal
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Point
-import android.location.Location
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.amap.api.maps.AMap
 import com.amap.api.maps.AMapOptions
 import com.amap.api.maps.CameraUpdateFactory
@@ -25,6 +20,7 @@ import com.android.app.databinding.ActivityRouseDingDingBinding
 import com.android.helper.base.title.BaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ResourceUtil
+import com.android.helper.utils.location.LocationUtil
 
 /**
  * 唤醒钉钉的页面
@@ -39,6 +35,8 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
 
     private lateinit var myLocationStyle: MyLocationStyle
     private lateinit var mAMap: AMap
+    private var mCityCode = "" // 城市编码
+    private var mMoved: Boolean = false // 是否移动过
     private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result != null && result.data != null) {
             val data = result.data
@@ -66,9 +64,35 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         mBinding.mapView.onCreate(savedInstanceState)
         mAMap = mBinding.mapView.map
 
-        initPermission()
-        initLocation()
+        LocationUtil.Builder(mContext)
+            .setLoop(true)
+            .setInterval(5000)
+            .setLocationListener { aMapLocation ->
+                if (aMapLocation != null) {
+                    val latitude = aMapLocation.latitude
+                    val longitude = aMapLocation.longitude
+                    mCityCode = aMapLocation.cityCode // 城市编码
+                    LogUtil.e("latitude:$latitude  longitude:$longitude 城市编码：$mCityCode")
+
+                    if (!mMoved) {
+                        LogUtil.e("latitude:$latitude  longitude:$longitude")
+                        val latLng = LatLng(latitude, longitude)
+                        moveMap(latLng)
+                        // 定位蓝点
+                        locationPoint()
+
+                        touchSetting()
+
+                        mMoved = true
+                    }
+                }
+            }
+            .build()
+            .startLocation()
         val intent = Intent(mContext, SearchMapActivity::class.java)
+        if (!TextUtils.isEmpty(mCityCode)) {
+            intent.putExtra("cityCode", mCityCode)
+        }
         // 点击跳转
         mBinding.btnSearch.setOnClickListener {
             register.launch(intent)
@@ -96,53 +120,32 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         }
         addMarker.showInfoWindow()
     }
-
-    private fun initPermission() {
-        // todo  定位权限异常
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //申请WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 234);//自定义的code
-        }
-    }
-
+    // <editor-fold desc="手势交互" >
     /**
-     * 初始化地图
+     * 手势交互
      */
-    private fun initLocation() {
-        // 定位蓝点
-        locationPoint()
+    private fun touchSetting() {
         //true：显示室内地图；false：不显示；
         mAMap.showIndoorMap(true)
-        //设置希望展示的地图缩放级别,单纯的设置缩放的级别，默认的地方是天安门的中山公园
-        // val zoomTo = CameraUpdateFactory.zoomTo(19f)
-        // mAMap.moveCamera(zoomTo)
-        // 监听定位的信息，获取当前的坐标
-        mAMap.setOnMyLocationChangeListener(object : AMap.OnMyLocationChangeListener {
-            override fun onMyLocationChange(logUtil: Location) {
-                val latitude = logUtil.latitude
-                val longitude = logUtil.longitude
-
-                LogUtil.e("latitude:$latitude  longitude:$longitude")
-                val latLng = LatLng(latitude, longitude)
-                moveMap(latLng)
-                // 移除定位的信息，避免返回的定位
-                mAMap.removeOnMyLocationChangeListener(this)
-            }
-        })
         // 手势交互
         val uiSettings = mAMap.uiSettings;//实例化UiSettings类对象
         uiSettings.isZoomControlsEnabled = true // 缩放按钮可见
         uiSettings.zoomPosition = AMapOptions.ZOOM_POSITION_RIGHT_CENTER // 缩放按钮的位置
         uiSettings.isCompassEnabled = true  // 显示指南针
-        uiSettings.isMyLocationButtonEnabled = true; //显示默认的定位按钮
+        uiSettings.isMyLocationButtonEnabled = true //显示默认的定位按钮
     }
-
+    //</editor-fold>
+    // <editor-fold desc="移动位置" >
+    /**
+     * 移动位置
+     */
     private fun moveMap(latLng: LatLng) {
         //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
         val mCameraUpdate = CameraUpdateFactory.newCameraPosition(CameraPosition(latLng, 18f, 30f, 0f))
         mAMap.moveCamera(mCameraUpdate)
     }
-
+    //</editor-fold>
+    // <editor-fold desc="定位蓝点" >
     /**
      * 定位蓝点的控制
      */
@@ -162,6 +165,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         mAMap.isMyLocationEnabled = true;// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
     }
 
+    //</editor-fold>
     override fun onResume() {
         super.onResume()
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图

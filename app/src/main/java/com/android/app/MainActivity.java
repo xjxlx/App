@@ -20,12 +20,10 @@ import com.android.app.ui.fragment.PersonalFragment;
 import com.android.app.ui.fragment.TodoFragment;
 import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.base.BaseFragmentPagerAdapter;
-import com.android.helper.interfaces.listener.AllPermissionsListener;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.dialog.DialogUtil;
-import com.tbruyelle.rxpermissions.Permission;
+import com.android.helper.utils.permission.RxPermissionsUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,16 +43,12 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         String[] strings = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE
-//                Manifest.permission.FOREGROUND_SERVICE
         };
 
-        RxPermissionsUtil permissionsUtil = new RxPermissionsUtil(mContext, strings);
-        permissionsUtil.setAllPermissionListener(new AllPermissionsListener() {
-            @Override
-            public void onRxPermissions(boolean havePermission, Permission permission) {
-                LogUtil.e("是否拥有读写权限：" + havePermission);
-            }
-        });
+        new RxPermissionsUtil.Builder(this, strings)
+                .setSinglePerMissionListener((permissionStatus, permission) -> LogUtil.e("permission:" + permissionStatus))
+                .build()
+                .startRequestPermission();
 
         mListFragments.add(new HomeFragment());
         mListFragments.add(new TodoFragment());

@@ -18,12 +18,11 @@ import com.android.app.R;
 import com.android.app.databinding.ActivityFaceAuthenticationBinding;
 import com.android.app.widget.GradientProgressBar;
 import com.android.helper.base.BaseActivity;
-import com.android.helper.interfaces.listener.SinglePermissionsListener;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.RxPermissionsUtil;
 import com.android.helper.utils.TextViewUtil;
 import com.android.helper.utils.ToastUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,24 +130,20 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
         fileUtil = new FileUtil();
 
         // 检测权限
-        new RxPermissionsUtil(mContext,
+        new RxPermissionsUtil.Builder(this,
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-        ).setSinglePermissionListener(new SinglePermissionsListener() {
-            @Override
-            public void onRxPermissions(boolean havePermission) {
-                isPermission = havePermission;
-                if (!isPermission) {
-                    binding.progress.setCanTouch(false);
-                } else {
-                    getVideoFile();
-                    // 初始化摄像头
-                    initCamera();
-                }
-            }
-        });
+                Manifest.permission.CAMERA)
+                .setAllPerMissionListener(haveAllPermission -> {
+                    isPermission = haveAllPermission;
+                    if (haveAllPermission) {
+                        getVideoFile();
+                        // 初始化摄像头
+                        initCamera();
+                    }
+                }).build()
+                .startRequestPermission();
 
         // 初始化surfaceView的对象
         initSurfaceView();

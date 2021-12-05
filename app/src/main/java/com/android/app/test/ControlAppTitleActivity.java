@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.app.R;
@@ -23,7 +24,8 @@ import com.android.app.databinding.ActivityControlAppBinding;
 import com.android.app.services.LookDogService;
 import com.android.helper.base.BaseActivity;
 import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.RxPermissionsUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
+import com.android.helper.utils.permission.SinglePermissionsCallBackListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,8 +48,9 @@ public class ControlAppTitleActivity extends BaseActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
 
         runOnUiThread(() -> {
             // 获取应用的所有信息
@@ -83,11 +86,14 @@ public class ControlAppTitleActivity extends BaseActivity {
         binding.rvList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         binding.rvList.setAdapter(adapter);
 
-        RxPermissionsUtil util = new RxPermissionsUtil(mContext,
-                Manifest.permission.PACKAGE_USAGE_STATS,
-                Manifest.permission.FOREGROUND_SERVICE
-        );
-        util.setAllPermissionListener((havePermission, permission) -> LogUtil.e("是否拥有权限：" + havePermission));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            new RxPermissionsUtil.Builder(mContext,
+                    Manifest.permission.PACKAGE_USAGE_STATS,
+                    Manifest.permission.FOREGROUND_SERVICE
+            ).setSinglePerMissionListener((status, permission) -> LogUtil.e("权限：" + permission + "  状态：" + status))
+                    .build()
+                    .startRequestPermission();
+        }
 
         usageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
         Calendar calendar = Calendar.getInstance();
