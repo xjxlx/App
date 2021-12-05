@@ -41,7 +41,7 @@ public class ViewMapTitleActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
 
     }
 
