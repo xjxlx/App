@@ -1,8 +1,11 @@
 package com.android.app.ui.activity.personal
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,11 +18,14 @@ import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.MarkerOptions
 import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.services.core.LatLonPoint
+import com.amap.api.services.route.DistanceSearch
+import com.amap.api.services.route.DistanceSearch.DistanceQuery
 import com.android.app.R
+import com.android.app.app.Keepalive.keep.KeepManager
 import com.android.app.databinding.ActivityRouseDingDingBinding
 import com.android.helper.base.title.BaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
-import com.android.helper.utils.ResourceUtil
+import com.android.helper.utils.*
+import com.android.helper.utils.account.AccountHelper
 import com.android.helper.utils.location.LocationUtil
 
 /**
@@ -39,15 +45,24 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
     private var mMoved: Boolean = false // 是否移动过
     private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result != null && result.data != null) {
-            val data = result.data
-            val title = data?.getStringExtra("title")
-            val latLonPoint = data?.getParcelableExtra<LatLonPoint>("result")
-            if (latLonPoint != null) {
-                val latLng = LatLng(latLonPoint.latitude, latLonPoint.longitude)
-                addMarker(latLng, title!!, "")
-                moveMap(latLng)
+            if (result.resultCode == 123) {
+                if (result.data != null) {
+                    val data = result.data
+                    val title = data?.getStringExtra("title")
+                    val latLonPoint = data?.getParcelableExtra<LatLonPoint>("result")
+                    if (latLonPoint != null) {
+                        val latLng = LatLng(latLonPoint.latitude, latLonPoint.longitude)
+                        SpUtil.putString("latitude", latLonPoint.latitude.toString())
+                        SpUtil.putString("longitude", latLonPoint.longitude.toString())
+
+                        addMarker(latLng, title!!, "")
+                        moveMap(latLng)
+                    }
+                    LogUtil.e("result:   $result")
+                }
+            } else if (result.resultCode == Activity.RESULT_OK) {
+                LogUtil.e("其他的跳转！")
             }
-            LogUtil.e("result:   $result")
         }
     }
 
@@ -60,10 +75,38 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        lifecycle()
+
+        notification()
         // //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mBinding.mapView.onCreate(savedInstanceState)
         mAMap = mBinding.mapView.map
+        // 1:构建搜索对象
+        val distanceSearch = DistanceSearch(this)
+        // 2：设置搜索监听
+        distanceSearch.setDistanceSearchListener { distanceResult, errorCode ->
+            if (errorCode == 1000) {
+                val distanceResults = distanceResult.distanceResults
+                if (distanceResults.size > 0) {
+                    val distanceItem = distanceResults[0]
+                    // 获取距离 单位：米
+                    val distance = distanceItem.distance
+                    // 行驶时间 单位：秒
+                    val duration = distanceItem.duration
 
+                    ToastUtil.show("距离：$distance   时间：$duration")
+                    LogUtil.e("距离：$distance   时间：$duration")
+                }
+            }
+        }
+        // 3:构建搜索参数的对象
+        val distanceQuery = DistanceQuery()
+        // 4：设置距离测量起点数据集合
+        //  val arrayList = arrayListOf<LatLonPoint>()
+        // 5：设置测量方式，支持直线和驾车 直线：TYPE_DISTANCE：驾车：TYPE_DRIVING_DISTANCE 步行：	TYPE_WALK_DISTANCE
+        distanceQuery.type = DistanceSearch.TYPE_WALK_DISTANCE
+        // 6:测量距离请求接口，调用后会发起距离测量请求。
+        // distanceSearch.calculateRouteDistanceAsyn(distanceQuery)
         LocationUtil.Builder(mContext)
             .setLoop(true)
             .setInterval(5000)
@@ -74,6 +117,22 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                     val longitude = aMapLocation.longitude
                     mCityCode = aMapLocation.cityCode // 城市编码
                     LogUtil.e("latitude:$latitude  longitude:$longitude 城市编码：$mCityCode")
+                    // 结束点
+                    val latitudeValue = SpUtil.getString("latitude")
+                    val longitudeValue = SpUtil.getString("longitude")
+                    LogUtil.e("保存的数据为：  latitudeValue：$latitudeValue   longitudeValue:$longitudeValue")
+                    if (!TextUtils.isEmpty(latitudeValue) && !TextUtils.isEmpty(longitudeValue)) {
+                        // 4：设置距离测量起点数据集合
+                        val arrayList = arrayListOf<LatLonPoint>()
+                        // 开始点
+                        arrayList.add(LatLonPoint(latitude, longitude))
+                        // 4：设置起点的集合
+                        distanceQuery.origins = arrayList
+                        // 5：设置终点
+                        distanceQuery.destination = LatLonPoint(latitudeValue.toDouble(), longitudeValue.toDouble())
+                        // 6:测量距离请求接口，调用后会发起距离测量请求。
+                        distanceSearch.calculateRouteDistanceAsyn(distanceQuery)
+                    }
 
                     if (!mMoved) {
                         LogUtil.e("latitude:$latitude  longitude:$longitude")
@@ -108,6 +167,29 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                 LogUtil.e("fromScreenLocation:$fromScreenLocation")
             }
         }
+    }
+
+    private fun notification() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            val serviceRunning = ServiceUtil.isServiceRunning(mContext, NotificationService::class.java)
+            // 没有运行的时候去开启
+            if (!serviceRunning) {
+                val notificationEnabled = ServiceUtil.notificationEnabled()
+                if (!notificationEnabled) {
+                    val intents = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+                    register.launch(intents)
+                } else {
+                    val intent = Intent(this, NotificationService::class.java)
+                    intent.putExtra("packageName", "com.alibaba.android.rimet")
+                    ServiceUtil.startService(this, intent)
+                }
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        LogUtil.e("onNewIntent:")
     }
 
     private fun addMarker(latLng: LatLng, title: String, description: String) {
@@ -164,6 +246,24 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         myLocationStyle.strokeWidth(10f) // 设置定位蓝点精度圈的边框宽度的方法。
         mAMap.myLocationStyle = myLocationStyle //设置定位蓝点的Style
         mAMap.isMyLocationEnabled = true;// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+    }
+
+    private fun lifecycle() {
+        // 1:账号保活
+        // 1:账号保活
+        val accountHelper = AccountHelper.getInstance()
+        accountHelper
+            .addAccountType(application.resources.getString(R.string.account_type))
+            .addAccountAuthority(application.resources.getString(R.string.account_authority))
+            .addAccountName(application.resources.getString(R.string.account_name))
+            .addAccountPassword(application.resources.getString(R.string.account_password))
+            .addAccount(application) //添加账户
+        accountHelper.autoSync()
+        // 2:后台服务
+        val intent = Intent(this, MapService::class.java)
+        ServiceUtil.startService(application, intent)
+        // 4:屏幕一像素保活，适用于8.0以下的手机
+        KeepManager.getInstance().registerKeep(application)
     }
 
     //</editor-fold>

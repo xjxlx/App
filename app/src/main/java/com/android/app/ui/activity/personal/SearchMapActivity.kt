@@ -41,7 +41,7 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
             val intent = Intent()
             intent.putExtra("result", t.latLonPoint)
             intent.putExtra("title", t.title)
-            setResult(0, intent)
+            setResult(123, intent)
             finish()
         }
 
