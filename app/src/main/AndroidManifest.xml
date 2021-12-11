@@ -87,10 +87,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
+        <activity android:name=".test.TestUtilActivity"></activity>
+
         <service
             android:name=".ui.activity.personal.NotificationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
             android:name=".ui.activity.personal.MapService"
             android:enabled="true"

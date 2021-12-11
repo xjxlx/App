@@ -35,7 +35,7 @@ public class MapAddressAdapter extends BaseBindingRecycleAdapter<PoiItem, ItemMa
 
             mBinding.getRoot().setOnClickListener(v -> {
                 if (mItemBindingClickListener != null) {
-                    mItemBindingClickListener.onItemClick(mBinding, position, poiItem);
+                    mItemBindingClickListener.onItemClick(mBinding.getRoot(), mBinding, position, poiItem);
                 }
             });
         }

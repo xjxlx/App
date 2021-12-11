@@ -34,7 +34,7 @@ public class TestSingleAdapter extends BaseBindingRecycleAdapter<String, ItemTes
             if (mItemBindingClickListener != null) {
                 int bindingAdapterPosition = holder.getBindingAdapterPosition();
                 LogUtil.e("binding :" + bindingAdapterPosition + "  position:" + position);
-                mItemBindingClickListener.onItemClick(holder.mBinding, position, mList.get(position));
+                mItemBindingClickListener.onItemClick(mBinding.getRoot(), mBinding, position, mList.get(position));
             }
         });
     }

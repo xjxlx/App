@@ -65,9 +65,7 @@ public class App extends Application {
                         .setShowBackText(true)
                         .setTitleId(R.id.tv_base_title)
                         .setRightLayoutId(R.id.fl_base_title_right_parent)
-                        .setShowRightLayout(true)
                         .setRightTextId(R.id.tv_base_title_right_title)
-                        .setShowRightText(true)
                         .setContentLayoutId(R.id.fl_activity_content);
                 TitleBar.setGlobalTitleBar(builder);
 

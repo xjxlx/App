@@ -25,11 +25,11 @@ public class TestMapActivity extends BaseActivity {
         super.initListener();
         setonClickListener(R.id.tv_test_handler, R.id.tv_elv, R.id.tv_flex_box, R.id.tv_test_js_to_android,
                 R.id.tv_test_scroll_help, R.id.tv_test_more_adapter, R.id.tv_test_ch, R.id.tv_test_web_socket,
-                R.id.tv_test_webview, R.id.tv_test_touch, R.id.tv_test_lifecycle, R.id.tv_test_adapter);
+                R.id.tv_test_webview, R.id.tv_test_touch, R.id.tv_test_lifecycle, R.id.tv_test_adapter, R.id.tv_test_util);
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
 
     }
 
@@ -76,6 +76,9 @@ public class TestMapActivity extends BaseActivity {
                 break;
             case R.id.tv_test_adapter:
                 startActivity(AdapterActivity.class);
+                break;
+            case R.id.tv_test_util:
+                startActivity(TestUtilActivity.class);
                 break;
         }
     }

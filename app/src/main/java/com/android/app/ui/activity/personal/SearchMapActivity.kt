@@ -37,7 +37,7 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
             .setVertical()
             .setAdapter(adapter)
 
-        adapter.setItemClickListener { binding, position, t ->
+        adapter.setItemClickListener { view, binding, position, t ->
             val intent = Intent()
             intent.putExtra("result", t.latLonPoint)
             intent.putExtra("title", t.title)
