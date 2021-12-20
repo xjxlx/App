@@ -90,12 +90,23 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                 if (distanceResults.size > 0) {
                     val distanceItem = distanceResults[0]
                     // 获取距离 单位：米
-                    val distance = distanceItem.distance
+                    var distance = distanceItem.distance
                     // 行驶时间 单位：秒
                     val duration = distanceItem.duration
 
                     ToastUtil.show("距离：$distance   时间：$duration")
                     LogUtil.e("距离：$distance   时间：$duration")
+
+                    distance = 20f;
+
+                    if (distance < 50) {
+                        val packageManager = packageManager
+                        var intent: Intent? = Intent()
+                        intent = packageManager.getLaunchIntentForPackage("com.alibaba.android.rimet")
+                        if (intent != null) {
+                            startActivity(intent)
+                        }
+                    }
                 }
             }
         }
