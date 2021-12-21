@@ -6,19 +6,22 @@ import android.view.ViewGroup
 import com.android.app.bean.GsonBean
 import com.android.app.databinding.ActivityTestUtilBinding
 import com.android.helper.base.title.BaseBindingTitleActivity
+import com.android.helper.httpclient.CountdownListener
+import com.android.helper.httpclient.RxUtil
 import com.android.helper.utils.JsonUtil
 import com.android.helper.utils.LogUtil
+import io.reactivex.disposables.Disposable
 
 class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
-
+    
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityTestUtilBinding {
         return ActivityTestUtilBinding.inflate(inflater, container, true)
     }
-
+    
     override fun setTitleContent(): String {
         return "工具的测试类"
     }
-
+    
     override fun initData(savedInstanceState: Bundle?) {
         mBinding.btnTest.setOnClickListener {
             // [{"pc": "http://cdn.smartservice.bjev.com.cn/2021/09/02/07bd10223f5c45a098b154e7a2d51d8e.gif", "isDefalut": 1}]
@@ -29,6 +32,23 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
                 LogUtil.e("gsonBean: $gsonBean")
             }
             LogUtil.e("convertList:$convertList")
+            
+            
+            
+            RxUtil
+                .Builder(this)
+                .build()
+                .countdown(20 * 1000, 0, 1000, object : CountdownListener {
+                    /**
+                     * @param disposable 计时器的对象，可以用来中断计时器
+                     * @param counter    当前的计数器
+                     * @param countdown  当前的倒计时
+                     */
+                    override fun countdown(disposable: Disposable?, counter: Long, countdown: Long) {
+                        
+                        LogUtil.e("计数器：" + counter + "  倒计时：" + countdown)
+                    }
+                })
         }
     }
 }
