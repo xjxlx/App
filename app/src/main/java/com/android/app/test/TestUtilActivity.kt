@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import com.android.app.bean.GsonBean
 import com.android.app.databinding.ActivityTestUtilBinding
 import com.android.helper.base.title.BaseBindingTitleActivity
+import com.android.helper.enums.DataEnum
 import com.android.helper.httpclient.CountdownListener
 import com.android.helper.httpclient.RxUtil
+import com.android.helper.utils.DateUtil
 import com.android.helper.utils.JsonUtil
 import com.android.helper.utils.LogUtil
 import io.reactivex.disposables.Disposable
@@ -33,12 +35,10 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
             }
             LogUtil.e("convertList:$convertList")
             
-            
-            
             RxUtil
                 .Builder(this)
                 .build()
-                .countdown(20 * 1000, 0, 1000, object : CountdownListener {
+                .countdown(100 * 60 * 60 * 1000, 0, 1000, object : CountdownListener {
                     /**
                      * @param disposable 计时器的对象，可以用来中断计时器
                      * @param counter    当前的计数器
@@ -46,7 +46,8 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
                      */
                     override fun countdown(disposable: Disposable?, counter: Long, countdown: Long) {
                         
-                        LogUtil.e("计数器：" + counter + "  倒计时：" + countdown)
+                        val timeToTimeMillis = DateUtil.getTimeToTimeMillis(countdown, DataEnum.AUTO_DIGITS)
+                        LogUtil.e("timeToTimeMillis:    $timeToTimeMillis")
                     }
                 })
         }
