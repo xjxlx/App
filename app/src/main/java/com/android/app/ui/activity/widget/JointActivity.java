@@ -40,7 +40,7 @@ public class JointActivity extends BaseActivity {
         ImageView iv_right = findViewById(R.id.iv_right);
 
         if (mGlideUtil == null) {
-            mGlideUtil = new GlideUtil.Builder(mContext).setPlaceholderResource(R.drawable.abc).build();
+            mGlideUtil = new GlideUtil.Builder(mContext).setPlaceholderResource(R.mipmap.icon_face_authentication_bg).build();
         }
 
         mGlideUtil.loadUrl(left, url);

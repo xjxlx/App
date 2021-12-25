@@ -37,7 +37,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/abc">
+                android:background="@mipmap/icon_face_authentication_bg">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_test2"

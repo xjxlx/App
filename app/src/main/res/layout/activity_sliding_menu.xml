@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_30"
             android:adjustViewBounds="true"
-            android:src="@drawable/abc"
+            android:src="@mipmap/icon_face_authentication_bg"
             app:rv_roundType="Circle" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -58,7 +58,7 @@
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
             android:layout_margin="@dimen/dp_30"
-            android:src="@drawable/abc"
+            android:src="@mipmap/icon_face_authentication_bg"
             app:rv_roundType="Circle" />
 
         <Button

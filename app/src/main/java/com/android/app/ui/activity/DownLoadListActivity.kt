@@ -53,7 +53,7 @@ class DownLoadListActivity : BaseActivity() {
                     rv_download_list.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
                     LogUtil.e(Arrays.toString(mList.toArray()))
                     val placeholder = Placeholder.Builder()
-                        .setEmpty(R.drawable.abc, "我是测试哈哈哈")
+                        .setEmpty(R.mipmap.icon_face_authentication_bg, "我是测试哈哈哈")
                         .Build()
 
                     adapter.setPlaceholderData(placeholder)
