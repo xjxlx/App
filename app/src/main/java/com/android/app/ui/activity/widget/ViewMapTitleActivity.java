@@ -36,7 +36,7 @@ public class ViewMapTitleActivity extends BaseActivity {
                 R.id.tv_custom_random, R.id.tv_custom_left_and_right, R.id.tv_custom_progress,
                 R.id.tv_custom_touch, R.id.tv_custom_input_password, R.id.tv_scroll_view,
                 R.id.tv_page_view, R.id.tv_test_hm, R.id.tv_custom_menu, R.id.tv_custom_name_list,
-                R.id.tv_custom_viewpager
+                R.id.tv_custom_viewpager,R.id.tv_custom_round_2
         );
     }
 
@@ -97,6 +97,9 @@ public class ViewMapTitleActivity extends BaseActivity {
 
             case R.id.tv_custom_viewpager:
                 startActivity(ViewPagerActivity.class);
+                break;
+            case R.id.tv_custom_round_2:
+                startActivity(CustomRound2Activity.class);
                 break;
         }
     }

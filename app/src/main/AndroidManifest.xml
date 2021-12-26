@@ -88,7 +88,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <activity android:name=".test.TestUtilActivity"></activity>
+        <activity android:name=".ui.activity.widget.CustomRound2Activity"></activity>
+        <activity android:name=".test.TestUtilActivity" />
 
         <service
             android:name=".ui.activity.personal.NotificationService"

@@ -85,6 +85,11 @@
             style="@style/style_item_selector"
             android:text="自定义viewPager" />
 
+        <TextView
+            android:id="@+id/tv_custom_round_2"
+            style="@style/style_item_selector"
+            android:text="自定义圆形图片" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

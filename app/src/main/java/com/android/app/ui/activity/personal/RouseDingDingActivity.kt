@@ -267,7 +267,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
 
         LifecycleManager
             .getInstance() // com.android.app.ui.activity.personal.MapService
-            .startLifecycle(BaseApplication.getApplication(), serviceName, jobServiceName)
+            .startLifecycle(BaseApplication.getInstance().application, serviceName, jobServiceName)
     }
 
     //</editor-fold>

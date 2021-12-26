@@ -2,15 +2,18 @@ package com.android.app.app;
 
 import android.app.Application;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
 import com.android.app.BuildConfig;
+import com.android.app.MainActivity;
 import com.android.app.R;
+import com.android.helper.app.ApplicationInterface;
 import com.android.helper.app.BaseApplication;
 import com.android.helper.base.title.TitleBar;
 import com.android.helper.base.title.TitleBuilder;
 import com.android.helper.httpclient.AutoInterceptor;
-import com.android.helper.interfaces.ICommonApplication;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
@@ -26,14 +29,28 @@ public class App extends Application {
         return mApp;
     }
 
-    public static final List<Class> mClassList = new ArrayList<>();
-
     @Override
     public void onCreate() {
         super.onCreate();
         mApp = this;
 
-        BaseApplication.getInstance().setICommonApplication(new ICommonApplication() {
+        BaseApplication.getInstance().setApplication(new ApplicationInterface() {
+            @Override
+            public void initApp() {
+
+                // 设置title的资源信息
+                TitleBuilder builder = new TitleBuilder()
+                        .setTitleLayoutId(R.layout.base_title_activity)
+                        .setLeftBackLayoutId(R.id.ll_base_title_back)
+                        .setLeftBackTextId(R.id.tv_base_title_back_title)
+                        .setShowBackText(true)
+                        .setTitleId(R.id.tv_base_title)
+                        .setRightLayoutId(R.id.fl_base_title_right_parent)
+                        .setRightTextId(R.id.tv_base_title_right_title)
+                        .setContentLayoutId(R.id.fl_activity_content);
+                TitleBar.setGlobalTitleBar(builder);
+            }
+
             @Override
             public Application getApplication() {
                 return App.this;
@@ -52,23 +69,6 @@ public class App extends Application {
             @Override
             public String getAppName() {
                 return getResources().getString(R.string.app_name);
-            }
-
-            @Override
-            public void initApp() {
-
-                // 设置title的资源信息
-                TitleBuilder builder = new TitleBuilder()
-                        .setTitleLayoutId(R.layout.base_title_activity)
-                        .setLeftBackLayoutId(R.id.ll_base_title_back)
-                        .setLeftBackTextId(R.id.tv_base_title_back_title)
-                        .setShowBackText(true)
-                        .setTitleId(R.id.tv_base_title)
-                        .setRightLayoutId(R.id.fl_base_title_right_parent)
-                        .setRightTextId(R.id.tv_base_title_right_title)
-                        .setContentLayoutId(R.id.fl_activity_content);
-                TitleBar.setGlobalTitleBar(builder);
-
             }
 
             @Override
