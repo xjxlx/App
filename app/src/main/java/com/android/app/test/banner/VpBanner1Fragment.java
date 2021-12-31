@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBannerBinding;
-import com.android.helper.base.AppBaseBindingFragment;
+import com.android.helper.base.BaseBindingFragment;
 import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * banner的Fragment
  */
-public class VpBanner1Fragment extends AppBaseBindingFragment<FragmentVpBannerBinding> {
+public class VpBanner1Fragment extends BaseBindingFragment<FragmentVpBannerBinding> {
 
     private static VpBanner1Fragment fragment;
 
@@ -38,7 +38,7 @@ public class VpBanner1Fragment extends AppBaseBindingFragment<FragmentVpBannerBi
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
 
     }
 
@@ -48,7 +48,7 @@ public class VpBanner1Fragment extends AppBaseBindingFragment<FragmentVpBannerBi
         Bundle arguments = getArguments();
         if (arguments != null) {
             int position = arguments.getInt("position", 0);
-             setPosition(position);
+            setPosition(position);
         }
     }
 

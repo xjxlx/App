@@ -14,15 +14,15 @@ import androidx.annotation.Nullable;
 import com.android.app.R;
 import com.android.app.app.App;
 import com.android.app.databinding.ActivityAppLifecycleBinding;
-import com.android.helper.base.AppBaseBindingActivity;
+import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
 import com.android.helper.utils.RecycleUtil;
-import com.android.helper.utils.permission.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -41,7 +41,7 @@ import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 /**
  * App保活
  */
-public class AppLifecycleActivity extends AppBaseBindingActivity<ActivityAppLifecycleBinding> {
+public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecycleBinding> {
 
     private LifecycleManager mLifecycleManager;
     private LogWriteUtil mWriteUtil;

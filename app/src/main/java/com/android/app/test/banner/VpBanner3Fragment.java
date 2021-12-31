@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBanner3Binding;
-import com.android.helper.base.AppBaseBindingFragment;
+import com.android.helper.base.BaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class VpBanner3Fragment extends AppBaseBindingFragment<FragmentVpBanner3Binding> {
+public class VpBanner3Fragment extends BaseBindingFragment<FragmentVpBanner3Binding> {
 
     private static VpBanner3Fragment fragment;
 

@@ -10,13 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.app.databinding.FragmentQT2Binding;
-import com.android.helper.base.AppBaseBindingFragment;
+import com.android.helper.base.BaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class QT2Fragment extends AppBaseBindingFragment<FragmentQT2Binding> {
+public class QT2Fragment extends BaseBindingFragment<FragmentQT2Binding> {
 
     private static QT2Fragment fragment;
 
@@ -37,7 +37,7 @@ public class QT2Fragment extends AppBaseBindingFragment<FragmentQT2Binding> {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(VpBanner1Fragment.newInstance());
         fragments.add(VpBanner2Fragment.newInstance());

@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.app.databinding.FragmentVpBanner2Binding;
-import com.android.helper.base.AppBaseBindingFragment;
+import com.android.helper.base.BaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  * Use the {@link VpBanner2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VpBanner2Fragment extends AppBaseBindingFragment<FragmentVpBanner2Binding> {
+public class VpBanner2Fragment extends BaseBindingFragment<FragmentVpBanner2Binding> {
 
     private static VpBanner2Fragment fragment;
 
@@ -41,17 +41,17 @@ public class VpBanner2Fragment extends AppBaseBindingFragment<FragmentVpBanner2B
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
-
+    public void initData(Bundle savedInstanceState) {
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
         Bundle arguments = getArguments();
         if (arguments != null) {
             int position = arguments.getInt("position", 0);
-             setPosition(position);
+            setPosition(position);
         }
     }
 
@@ -61,6 +61,7 @@ public class VpBanner2Fragment extends AppBaseBindingFragment<FragmentVpBanner2B
             mBinding.tvPosition.setText(position + "");
         }
     }
+
     @Override
     public FragmentVpBanner2Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return FragmentVpBanner2Binding.inflate(inflater, container, false);

@@ -15,7 +15,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.android.app.databinding.ActivityLocationBinding;
-import com.android.helper.base.AppBaseBindingActivity;
+import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.location.LocationUtil;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 地图信息
  */
-public class LocationActivity extends AppBaseBindingActivity<ActivityLocationBinding> {
+public class LocationActivity extends BaseBindingActivity<ActivityLocationBinding> {
 
     @Override
     public ActivityLocationBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {

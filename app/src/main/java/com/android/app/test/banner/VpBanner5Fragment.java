@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBanner5Binding;
-import com.android.helper.base.AppBaseBindingFragment;
+import com.android.helper.base.BaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class VpBanner5Fragment extends AppBaseBindingFragment<FragmentVpBanner5Binding> {
+public class VpBanner5Fragment extends BaseBindingFragment<FragmentVpBanner5Binding> {
 
     private static VpBanner5Fragment fragment;
 
@@ -35,7 +35,7 @@ public class VpBanner5Fragment extends AppBaseBindingFragment<FragmentVpBanner5B
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
+    public void initData(Bundle savedInstanceState) {
 
     }
 

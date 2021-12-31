@@ -9,18 +9,18 @@ import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.android.app.databinding.ActivitySearchMapBinding
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.helper.base.title.BaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
 
-class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>() {
-
+class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
+    
     private var mCityCode: String? = ""
     private lateinit var adapter: MapAddressAdapter;
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivitySearchMapBinding {
         return ActivitySearchMapBinding.inflate(inflater, container, true)
     }
-
+    
     /**
      * @return 设置标题内容
      */
@@ -37,13 +37,13 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
     
     override fun initData(savedInstanceState: Bundle?) {
         mCityCode = intent.getStringExtra("cityCode")
-
-
+        
+        
         adapter = MapAddressAdapter(mActivity)
         RecycleUtil.getInstance(mActivity, mBinding.rvAddressList)
             .setVertical()
             .setAdapter(adapter)
-
+        
         adapter.setItemClickListener { view, binding, position, t ->
             val intent = Intent()
             intent.putExtra("result", t.latLonPoint)
@@ -51,7 +51,7 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
             setResult(123, intent)
             finish()
         }
-
+        
         mBinding.btnSearch.setOnClickListener {
             val trim = mBinding.etInputSearch.text.toString().trim()
             if (!TextUtils.isEmpty(trim)) {
@@ -60,7 +60,7 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
             }
         }
     }
-
+    
     private fun search(value: String) {
         /**
          * 参数1：keyWord 查询字符串，多个关键字用“|”分割 。
@@ -69,7 +69,7 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
          *       待查询城市（地区）的城市编码 citycode、城市名称（中文或中文全拼）、行政区划代码adcode。必设参数
          */
         val query = PoiSearch.Query(value, "", mCityCode)
-
+        
         query.pageSize = 200;// 设置每页最多返回多少条poiitem
         query.pageNum = 0;//设置查询页码
         // 数据监听
@@ -84,7 +84,7 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
                     }
                 }
             }
-
+            
             override fun onPoiItemSearched(poiItem: PoiItem?, errorCode: Int) {
             }
         })

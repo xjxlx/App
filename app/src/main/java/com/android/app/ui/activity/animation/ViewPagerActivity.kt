@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.android.app.R
 import com.android.app.databinding.ActivityViewPagerBinding
 import com.android.app.test.banner.*
-import com.android.helper.base.AppBaseBindingActivity
+import com.android.helper.base.BaseBindingActivity
 import com.android.helper.base.BaseViewPager2FragmentAdapter
 import com.android.helper.interfaces.listener.OnSelectorListener
 import com.android.helper.widget.banner.ViewPager2Util
@@ -16,7 +16,7 @@ import com.android.helper.widget.banner.ViewPager2Util
 /**
  * 自定义viewpager的类
  */
-class ViewPagerActivity : AppBaseBindingActivity<ActivityViewPagerBinding>() {
+class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
     /**
      * Activity初始化view
      */
@@ -31,15 +31,15 @@ class ViewPagerActivity : AppBaseBindingActivity<ActivityViewPagerBinding>() {
         list.add(R.mipmap.icon_banner_3)
         list.add(R.mipmap.icon_banner_4)
         val arrayListOf = arrayListOf<Fragment>()
-
+        
         arrayListOf.add(VpBanner5Fragment.newInstance())
-
+        
         arrayListOf.add(VpBanner1Fragment.newInstance())
         arrayListOf.add(VpBanner2Fragment.newInstance())
         arrayListOf.add(VpBanner3Fragment.newInstance())
         arrayListOf.add(VpBanner4Fragment.newInstance())
         arrayListOf.add(VpBanner5Fragment.newInstance())
-
+        
         arrayListOf.add(VpBanner1Fragment.newInstance())
         val adapter = BaseViewPager2FragmentAdapter(this, arrayListOf)
         mBinding.bannerView.adapter = adapter
@@ -56,7 +56,7 @@ class ViewPagerActivity : AppBaseBindingActivity<ActivityViewPagerBinding>() {
             .Build()
             .show(this)
     }
-
+    
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityViewPagerBinding {
         return ActivityViewPagerBinding.inflate(inflater, container, false)
     }
