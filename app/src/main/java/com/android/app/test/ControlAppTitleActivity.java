@@ -22,16 +22,15 @@ import com.android.app.adapters.AppInfoAdapter;
 import com.android.app.bean.AppInfoBean;
 import com.android.app.databinding.ActivityControlAppBinding;
 import com.android.app.services.LookDogService;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.permission.RxPermissionsUtil;
-import com.android.helper.utils.permission.SinglePermissionsCallBackListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ControlAppTitleActivity extends BaseActivity {
+public class ControlAppTitleActivity extends AppBaseActivity {
 
     private ActivityControlAppBinding binding;
     private List<AppInfoBean> mListAppInfo1 = new ArrayList<>();
@@ -43,9 +42,7 @@ public class ControlAppTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityControlAppBinding.inflate(getLayoutInflater());
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -82,12 +79,12 @@ public class ControlAppTitleActivity extends BaseActivity {
             }
         });
 
-        adapter = new AppInfoAdapter(mContext, mListAppInfo1, mListAppInfo2);
-        binding.rvList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        adapter = new AppInfoAdapter(mActivity, mListAppInfo1, mListAppInfo2);
+        binding.rvList.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         binding.rvList.setAdapter(adapter);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            new RxPermissionsUtil.Builder(mContext,
+            new RxPermissionsUtil.Builder(mActivity,
                     Manifest.permission.PACKAGE_USAGE_STATS,
                     Manifest.permission.FOREGROUND_SERVICE
             ).setSinglePerMissionListener((status, permission) -> LogUtil.e("权限：" + permission + "  状态：" + status))
@@ -102,7 +99,7 @@ public class ControlAppTitleActivity extends BaseActivity {
         startTime = calendar.getTimeInMillis();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(mContext)) {
+            if (!Settings.canDrawOverlays(mActivity)) {
                 //若未授权则请求权限
                 Intent intent3 = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                 intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -119,7 +116,7 @@ public class ControlAppTitleActivity extends BaseActivity {
             }
         }
 
-        Intent intent = new Intent(mContext, LookDogService.class);
+        Intent intent = new Intent(mActivity, LookDogService.class);
         startService(intent);
     }
 

@@ -8,7 +8,7 @@ import android.widget.ExpandableListView
 import com.android.app.adapters.HighWordExpandableAdapter
 import com.android.app.bean.ExpandableBean
 import com.android.app.databinding.ActivityExpandableBinding
-import com.android.helper.base.BaseBindingActivity
+import com.android.helper.base.AppBaseBindingActivity
 import com.android.helper.utils.ExpandableUtil
 import com.android.helper.utils.StreamUtil
 import com.google.gson.Gson
@@ -16,11 +16,17 @@ import com.google.gson.Gson
 /**
  * 测试拓展listView的加载顺序
  */
-class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
-
+class ExpandableActivity : AppBaseBindingActivity<ActivityExpandableBinding>() {
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     override fun initListener() {
 
-        val assets = mContext.assets
+        val assets = mActivity.assets
         val inputStream = assets.open("expandable.json")
 
         val json = StreamUtil.InputStreamToString(inputStream)
@@ -32,7 +38,7 @@ class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
             // LogUtil.e("bean:$bean")
 
             val content = bean.data.content
-            val adapter2 = HighWordExpandableAdapter(mContext, content)
+            val adapter2 = HighWordExpandableAdapter(mActivity, content)
             mBinding.evlLists.setAdapter(adapter2)
 
             ExpandableUtil.openSelfCloseOther(mBinding.evlLists)
@@ -51,7 +57,7 @@ class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
 
      override fun initData(savedInstanceState: Bundle?) {
 
-        val assets = mContext.assets
+        val assets = mActivity.assets
         val inputStream = assets.open("expandable.json")
 
         val json = StreamUtil.InputStreamToString(inputStream)
@@ -62,7 +68,7 @@ class ExpandableActivity : BaseBindingActivity<ActivityExpandableBinding>() {
             val bean = gson.fromJson(json, ExpandableBean::class.java)
 
             val content = bean.data.content
-            val adapter2 = HighWordExpandableAdapter(mContext, content)
+            val adapter2 = HighWordExpandableAdapter(mActivity, content)
             mBinding.evlLists.setAdapter(adapter2)
 
             ExpandableUtil.openSelfCloseOther(mBinding.evlLists)

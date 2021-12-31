@@ -11,13 +11,13 @@ import com.android.app.ui.activity.jetpack.paging.PagingActivity
 import com.android.app.ui.activity.jetpack.room.room1.RoomActivity
 import com.android.app.ui.activity.jetpack.room.room2.Room2Activity
 import android.view.View
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import kotlinx.android.synthetic.main.activity_jet_pack_map.*
 
 /**
  * JetPack的集合
  */
-class JetPackMapActivity : BaseActivity() {
+class JetPackMapActivity : AppBaseActivity() {
 
     override fun getBaseLayout(): Int {
         return R.layout.activity_jet_pack_map
@@ -70,5 +70,12 @@ class JetPackMapActivity : BaseActivity() {
                 startActivity(PagingActivity::class.java)
             }
         }
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
 }

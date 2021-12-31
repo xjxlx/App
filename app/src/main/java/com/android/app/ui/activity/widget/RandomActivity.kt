@@ -3,7 +3,7 @@ package com.android.app.ui.activity.widget
 import android.os.Bundle
 import com.android.app.R
 import android.widget.TextView
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.TextViewUtil
 import com.android.helper.utils.ToastUtil
 import kotlinx.android.synthetic.main.activity_random.*
@@ -11,12 +11,19 @@ import kotlinx.android.synthetic.main.activity_random.*
 /**
  * 随机布局的activity
  */
-class RandomActivity : BaseActivity() {
+class RandomActivity : AppBaseActivity() {
 
     override fun getBaseLayout(): Int {
         return R.layout.activity_random
     }
-
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     override fun initData(savedInstanceState: Bundle?) {
         val listData = arrayListOf<String>()
 
@@ -28,7 +35,7 @@ class RandomActivity : BaseActivity() {
         listData.add("gnimals")
         val inflate = layoutInflater.inflate(R.layout.item_random, null)
         val randomContent = inflate.findViewById<TextView>(R.id.tv_random_content)
-        TextViewUtil.setTextFont(mContext, randomContent, "DINCondensedBold.ttf")
+        TextViewUtil.setTextFont(mActivity, randomContent, "DINCondensedBold.ttf")
 
         rl_layout.textView = randomContent
         rl_layout.setRandomRotatingView(true)

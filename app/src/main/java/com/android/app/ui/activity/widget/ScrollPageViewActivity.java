@@ -4,17 +4,25 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.widget.PageView;
 
 import java.util.ArrayList;
 
-public class ScrollPageViewActivity extends BaseActivity {
+public class ScrollPageViewActivity extends AppBaseActivity {
 
     @Override
     protected int getBaseLayout() {
         return R.layout.activity_scroll_page_view;
+    }
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
     }
 
     @Override

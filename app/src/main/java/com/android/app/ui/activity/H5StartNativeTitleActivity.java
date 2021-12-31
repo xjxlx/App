@@ -6,10 +6,10 @@ import com.android.app.databinding.ActivityH5StartNativeBinding;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.ToastUtil;
 
-public class H5StartNativeTitleActivity extends BaseActivity {
+public class H5StartNativeTitleActivity extends AppBaseActivity {
 
     private ActivityH5StartNativeBinding binding;
 
@@ -20,7 +20,6 @@ public class H5StartNativeTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityH5StartNativeBinding.inflate(getLayoutInflater());
     }
 

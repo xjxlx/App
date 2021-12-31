@@ -8,9 +8,8 @@ import com.android.app.databinding.ActivityWriteXmlBinding;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.FileUtil;
-import com.android.helper.utils.permission.PermissionsCallBackListener;
 import com.android.helper.utils.permission.RxPermissionsUtil;
 import com.android.helper.utils.XmlUtil;
 
@@ -18,14 +17,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WriteXmlTitleActivity extends BaseActivity {
+public class WriteXmlTitleActivity extends AppBaseActivity {
 
     private ActivityWriteXmlBinding binding;
     private File file1;
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityWriteXmlBinding.inflate(getLayoutInflater());
     }
 
@@ -50,7 +48,7 @@ public class WriteXmlTitleActivity extends BaseActivity {
 
                 file1 = new File(file, "dimens.txt");
 
-                new RxPermissionsUtil.Builder(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                new RxPermissionsUtil.Builder(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                         .setAllPerMissionListener(haveAllPermission -> {
                             if (haveAllPermission) {
                                 xmlUtil.writeDat(file1.getAbsolutePath(), "<dimen name=\"dp_", "\">", "dp</dimen>\n", integers);

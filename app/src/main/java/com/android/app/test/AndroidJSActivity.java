@@ -16,14 +16,14 @@ import android.webkit.WebViewClient;
 import androidx.annotation.Nullable;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 /**
  * JS和前端的交互
  */
-public class AndroidJSActivity extends BaseActivity {
+public class AndroidJSActivity extends AppBaseActivity {
 
     private android.widget.TextView tvAndroidcalljs;
     private android.widget.TextView tvAndroidcalljsargs;
@@ -39,8 +39,6 @@ public class AndroidJSActivity extends BaseActivity {
     @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
     @Override
     public void initView() {
-        super.initView();
-
         tvAndroidcalljs = findViewById(R.id.tv_androidcalljs);
         tvAndroidcalljsargs = findViewById(R.id.tv_androidcalljsargs);
         tv_androidgetjsarg = findViewById(R.id.tv_androidgetjsarg);

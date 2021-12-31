@@ -11,8 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.app.databinding.FragmentVpBanner2Binding;
-import com.android.helper.base.BaseBindingFragment;
-import com.android.helper.utils.LogUtil;
+import com.android.helper.base.AppBaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  * Use the {@link VpBanner2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VpBanner2Fragment extends BaseBindingFragment<FragmentVpBanner2Binding> {
+public class VpBanner2Fragment extends AppBaseBindingFragment<FragmentVpBanner2Binding> {
 
     private static VpBanner2Fragment fragment;
 

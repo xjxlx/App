@@ -6,7 +6,7 @@ import com.android.app.ui.activity.jetpack.room.room2.RoomManager.VERSION
 import android.view.View
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomExecuteListener
 import com.android.helper.interfaces.room.RoomInsertListener
@@ -16,7 +16,7 @@ import com.android.helper.utils.room.RoomUtil
 import com.android.helper.utils.room.SQLEntity
 import kotlinx.android.synthetic.main.activity_room2.*
 
-class Room2Activity : BaseActivity() {
+class Room2Activity : AppBaseActivity() {
 
     private val roomManager by lazy {
         return@lazy RoomManager.getInstance()
@@ -166,5 +166,12 @@ class Room2Activity : BaseActivity() {
                 })
             }
         }
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
 }

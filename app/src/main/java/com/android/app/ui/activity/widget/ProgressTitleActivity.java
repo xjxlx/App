@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityProgressBinding;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
-public class ProgressTitleActivity extends BaseActivity {
+public class ProgressTitleActivity extends AppBaseActivity {
 
     private ActivityProgressBinding binding;
 
@@ -17,7 +17,6 @@ public class ProgressTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityProgressBinding.inflate(getLayoutInflater());
     }
 

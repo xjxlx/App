@@ -24,7 +24,7 @@ import com.android.app.R
 import com.android.app.app.Keepalive.LifecycleManager
 import com.android.app.databinding.ActivityRouseDingDingBinding
 import com.android.helper.app.BaseApplication
-import com.android.helper.base.title.BaseBindingTitleActivity
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.*
 import com.android.helper.utils.location.LocationUtil
 
@@ -37,7 +37,7 @@ import com.android.helper.utils.location.LocationUtil
  *      4：对比当前的定位信息，设置轮询的时间
  *      5：唤醒钉钉
  */
-class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
+class RouseDingDingActivity : AppBaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
 
     private lateinit var myLocationStyle: MyLocationStyle
     private lateinit var mAMap: AMap
@@ -118,7 +118,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         distanceQuery.type = DistanceSearch.TYPE_WALK_DISTANCE
         // 6:测量距离请求接口，调用后会发起距离测量请求。
         // distanceSearch.calculateRouteDistanceAsyn(distanceQuery)
-        LocationUtil.Builder(mContext)
+        LocationUtil.Builder(mActivity)
             .setLoop(true)
             .setInterval(5000)
             .setBackgroundRunning(true)
@@ -159,7 +159,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                 }
             }
             .build()
-        val intent = Intent(mContext, SearchMapActivity::class.java)
+        val intent = Intent(mActivity, SearchMapActivity::class.java)
         if (!TextUtils.isEmpty(mCityCode)) {
             intent.putExtra("cityCode", mCityCode)
         }
@@ -181,7 +181,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
 
     private fun notification() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            val serviceRunning = ServiceUtil.isServiceRunning(mContext, NotificationService::class.java)
+            val serviceRunning = ServiceUtil.isServiceRunning(mActivity, NotificationService::class.java)
             // 没有运行的时候去开启
             if (!serviceRunning) {
                 val notificationEnabled = ServiceUtil.notificationEnabled()
@@ -293,6 +293,13 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         super.onDestroy()
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mBinding.mapView.onDestroy();
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
 }
 

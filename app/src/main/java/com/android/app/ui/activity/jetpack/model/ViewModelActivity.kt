@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import com.android.app.R
 import androidx.lifecycle.ViewModelProviders
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.FragmentUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.jetpack.AndroidLifecycle
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_view_model.*
  *      2：使用viewModel，然后横竖屏查看数据是否会丢失
  *      3：多个fragment之间进行数据通讯
  */
-class ViewModelActivity : BaseActivity() {
+class ViewModelActivity : AppBaseActivity() {
 
     private val viewModel by lazy {
         return@lazy ViewModelProviders.of(this).get(TestViewModel::class.java)
@@ -30,7 +30,14 @@ class ViewModelActivity : BaseActivity() {
     override fun getBaseLayout(): Int {
         return R.layout.activity_view_model
     }
-
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     override fun initListener() {
         super.initListener()
 
@@ -63,7 +70,7 @@ class ViewModelActivity : BaseActivity() {
 
         tv_test.text = stringExtra
         // 添加两个fragment
-        val util = FragmentUtil(mContext)
+        val util = FragmentUtil(mActivity)
         util
             .add(R.id.fl_content1, Model1Fragment.newInstance(), "") { successful, tag, t ->
                 LogUtil.e("successful:$successful")

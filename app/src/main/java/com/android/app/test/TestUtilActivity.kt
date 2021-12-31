@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.bean.GsonBean
 import com.android.app.databinding.ActivityTestUtilBinding
-import com.android.helper.base.title.BaseBindingTitleActivity
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.enums.DataEnum
 import com.android.helper.httpclient.CountdownListener
 import com.android.helper.httpclient.RxUtil
@@ -14,7 +14,7 @@ import com.android.helper.utils.JsonUtil
 import com.android.helper.utils.LogUtil
 import io.reactivex.disposables.Disposable
 
-class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
+class TestUtilActivity : AppBaseBindingTitleActivity<ActivityTestUtilBinding>() {
     
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityTestUtilBinding {
         return ActivityTestUtilBinding.inflate(inflater, container, true)
@@ -22,6 +22,13 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
     
     override fun setTitleContent(): String {
         return "工具的测试类"
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
     
     override fun initData(savedInstanceState: Bundle?) {

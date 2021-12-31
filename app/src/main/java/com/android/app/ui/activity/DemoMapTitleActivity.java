@@ -14,11 +14,19 @@ import com.android.app.app.Keepalive.AppLifecycleActivity;
 import com.android.app.databinding.ActivityDemoMapBinding;
 import com.android.app.ui.activity.otherutils.AudioPlayerActivity;
 import com.android.app.ui.activity.otherutils.LocationActivity;
-import com.android.helper.base.BaseBindingActivity;
+import com.android.helper.base.AppBaseBindingActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-public class DemoMapTitleActivity extends BaseBindingActivity<ActivityDemoMapBinding> {
+public class DemoMapTitleActivity extends AppBaseBindingActivity<ActivityDemoMapBinding> {
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
+    }
 
     @Override
     public void initData(Bundle savedInstanceState)  {

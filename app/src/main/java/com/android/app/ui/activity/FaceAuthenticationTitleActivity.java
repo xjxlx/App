@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat;
 import com.android.app.R;
 import com.android.app.databinding.ActivityFaceAuthenticationBinding;
 import com.android.app.widget.GradientProgressBar;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.TextViewUtil;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 补充信息---人脸认证的界面
  */
-public class FaceAuthenticationTitleActivity extends BaseActivity {
+public class FaceAuthenticationTitleActivity extends AppBaseActivity {
 
     private ActivityFaceAuthenticationBinding binding;
     private MediaRecorder mediaRecorder;
@@ -59,14 +59,14 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
     @Override
     public void initView() {
         binding = ActivityFaceAuthenticationBinding.inflate(getLayoutInflater());
-        TextViewUtil.setTextFont(mContext, binding.tvCode1, "DINCondensedBold.ttf");
-        TextViewUtil.setTextFont(mContext, binding.tvCode2, "DINCondensedBold.ttf");
-        TextViewUtil.setTextFont(mContext, binding.tvCode3, "DINCondensedBold.ttf");
-        TextViewUtil.setTextFont(mContext, binding.tvCode4, "DINCondensedBold.ttf");
+        TextViewUtil.setTextFont(mActivity, binding.tvCode1, "DINCondensedBold.ttf");
+        TextViewUtil.setTextFont(mActivity, binding.tvCode2, "DINCondensedBold.ttf");
+        TextViewUtil.setTextFont(mActivity, binding.tvCode3, "DINCondensedBold.ttf");
+        TextViewUtil.setTextFont(mActivity, binding.tvCode4, "DINCondensedBold.ttf");
 
         binding.tvCountNumber.setContent("3");
-        binding.tvCountNumber.setFont(mContext, "DINCondensedBold.ttf");
-        binding.tvCountNumber.setColors(new int[]{ContextCompat.getColor(mContext, R.color.purple_3), ContextCompat.getColor(mContext, R.color.purple_4)});
+        binding.tvCountNumber.setFont(mActivity, "DINCondensedBold.ttf");
+        binding.tvCountNumber.setColors(new int[]{ContextCompat.getColor(mActivity, R.color.purple_3), ContextCompat.getColor(mActivity, R.color.purple_4)});
         binding.tvCountNumber.setPositions(new float[]{0f, 1f});
         binding.tvCountNumber.setVisibility(View.GONE);
     }
@@ -121,7 +121,7 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         // 检测是否有摄像头
-        boolean hardware = checkCameraHardware(mContext);
+        boolean hardware = checkCameraHardware(mActivity);
         if (!hardware) {
             ToastUtil.show("您的设备没有摄像头，暂时无法使用");
             return;
@@ -270,7 +270,7 @@ public class FaceAuthenticationTitleActivity extends BaseActivity {
             }
 
             // 跳转到另一个页面
-            Intent intent = new Intent(mContext, FaceVideoPlayerTitleActivity.class);
+            Intent intent = new Intent(mActivity, FaceVideoPlayerTitleActivity.class);
             intent.putExtra("videoPath", mOutFile.getAbsolutePath());
             startActivity(intent);
 

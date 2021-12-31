@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.android.app.R
 import com.android.app.databinding.ActivityViewPagerBinding
 import com.android.app.test.banner.*
-import com.android.helper.base.BaseBindingActivity
+import com.android.helper.base.AppBaseBindingActivity
 import com.android.helper.base.BaseViewPager2FragmentAdapter
 import com.android.helper.interfaces.listener.OnSelectorListener
 import com.android.helper.widget.banner.ViewPager2Util
@@ -16,8 +16,14 @@ import com.android.helper.widget.banner.ViewPager2Util
 /**
  * 自定义viewpager的类
  */
-class ViewPagerActivity : BaseBindingActivity<ActivityViewPagerBinding>() {
-
+class ViewPagerActivity : AppBaseBindingActivity<ActivityViewPagerBinding>() {
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     override fun initData(savedInstanceState: Bundle?) {
         val list: ArrayList<Int> = ArrayList()
         list.add(R.mipmap.icon_banner_1)

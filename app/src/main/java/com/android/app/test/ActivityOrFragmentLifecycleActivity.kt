@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityOrFragmentLifecycleBinding
 import com.android.app.test.fragment.ActivityOrFragmentFragment
-import com.android.helper.base.BaseBindingActivity
+import com.android.helper.base.AppBaseBindingActivity
 import com.android.helper.utils.FragmentUtil
 import com.android.helper.utils.LogUtil
 
 /**
  * activity 和 fragment 生命周期的监听
  */
-class ActivityOrFragmentLifecycleActivity : BaseBindingActivity<ActivityOrFragmentLifecycleBinding>() {
+class ActivityOrFragmentLifecycleActivity : AppBaseBindingActivity<ActivityOrFragmentLifecycleBinding>() {
 
     private val classTAG = "------> Activity "
 
@@ -66,5 +66,12 @@ class ActivityOrFragmentLifecycleActivity : BaseBindingActivity<ActivityOrFragme
                 LogUtil.e(classTAG + "销毁--->")
             }
         }
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
 }

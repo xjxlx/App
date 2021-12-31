@@ -3,13 +3,13 @@ package com.android.app.ui.activity.hmview;
 import android.os.Bundle;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.ToastUtil;
 
 /**
  * 自定义view的练习
  */
-public class HmCustomViewActivity extends BaseActivity {
+public class HmCustomViewActivity extends AppBaseActivity {
 
     private com.android.app.widget.hm.SwitchView sv;
 
@@ -20,7 +20,6 @@ public class HmCustomViewActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
 
         sv = findViewById(R.id.sv);
 

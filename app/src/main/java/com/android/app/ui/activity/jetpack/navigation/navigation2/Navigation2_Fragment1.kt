@@ -5,10 +5,10 @@ import android.os.Bundle
 import com.android.app.R
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.BaseFragment
+import com.android.helper.base.AppBaseFragment
 import kotlinx.android.synthetic.main.fragment_navigation2_1.*
 
-class Navigation2_Fragment1 : BaseFragment() {
+class Navigation2_Fragment1 : AppBaseFragment() {
 
     override fun getBaseLayout(): Int {
         return R.layout.fragment_navigation2_1

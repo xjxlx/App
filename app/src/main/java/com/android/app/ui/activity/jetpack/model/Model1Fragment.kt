@@ -4,10 +4,10 @@ import android.os.Bundle
 import com.android.app.R
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import com.android.helper.base.BaseFragment
+import com.android.helper.base.AppBaseFragment
 import kotlinx.android.synthetic.main.fragment_model1.*
 
-class Model1Fragment : BaseFragment() {
+class Model1Fragment : AppBaseFragment() {
 
     override fun getBaseLayout(): Int {
         return R.layout.fragment_model1

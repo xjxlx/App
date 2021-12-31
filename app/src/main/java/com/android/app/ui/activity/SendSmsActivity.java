@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.ToastUtil;
@@ -35,7 +35,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SendSmsActivity extends BaseActivity {
+public class SendSmsActivity extends AppBaseActivity {
 
     private String KEY_SAVE = "phone_number_save";
     private List<String> mListAddress = new ArrayList<>();
@@ -54,8 +54,6 @@ public class SendSmsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
         et_add_address = findViewById(R.id.et_add_address);
 
         rv_address_list = findViewById(R.id.rv_address_list);
@@ -115,7 +113,7 @@ public class SendSmsActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
 
-        smsAdapter1 = new SmsAdapter(mContext, 1);
+        smsAdapter1 = new SmsAdapter(mActivity, 1);
 
         HashMap<String, String> map = SpUtil.getMap(KEY_SAVE);
 
@@ -128,13 +126,13 @@ public class SendSmsActivity extends BaseActivity {
 
         // 设置地址
         smsAdapter1.setList(mListAddress);
-        rv_address_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        rv_address_list.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rv_address_list.setAdapter(smsAdapter1);
 
         // 设置结果
-        smsAdapter2 = new SmsAdapter(mContext, 2);
+        smsAdapter2 = new SmsAdapter(mActivity, 2);
         smsAdapter2.setList(mListResult);
-        rv_result_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        rv_result_list.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rv_result_list.setAdapter(smsAdapter2);
     }
 

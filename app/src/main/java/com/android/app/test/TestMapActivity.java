@@ -6,18 +6,26 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
 import static com.android.helper.common.CommonConstants.KEY_BASE_WEB_VIEW_URL;
 
 /**
  * 测试功能的集合
  */
-public class TestMapActivity extends BaseActivity {
+public class TestMapActivity extends AppBaseActivity {
 
     @Override
     protected int getBaseLayout() {
         return R.layout.activity_test_map;
+    }
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
     }
 
     @Override
@@ -63,7 +71,7 @@ public class TestMapActivity extends BaseActivity {
                 startActivity(TestWebSocketActivity.class);
                 break;
             case R.id.tv_test_webview:
-                Intent intent = new Intent(mContext, TestWebViewActivity.class);
+                Intent intent = new Intent(mActivity, TestWebViewActivity.class);
                 String url = "http://wx.smartservice.bjev.com.cn/BAIC_C62X_OM_HTML5_demo/index.html";
                 intent.putExtra(KEY_BASE_WEB_VIEW_URL, url);
                 startActivity(intent);

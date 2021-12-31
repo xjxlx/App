@@ -3,10 +3,10 @@ package com.android.app.ui.activity.animation
 import android.os.Bundle
 import android.view.View
 import com.android.app.R
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.ToastUtil
 
-class AnimationMapActivity : BaseActivity() {
+class AnimationMapActivity : AppBaseActivity() {
 
     override fun getBaseLayout(): Int {
         return R.layout.activity_animation_map
@@ -33,5 +33,12 @@ class AnimationMapActivity : BaseActivity() {
                 ToastUtil.show("自定义时间选择器的dialog")
             }
         }
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
 }

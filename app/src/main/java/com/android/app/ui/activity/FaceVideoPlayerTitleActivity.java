@@ -13,14 +13,14 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 /**
  * 人脸识别的视频播放页面
  */
-public class FaceVideoPlayerTitleActivity extends BaseActivity {
+public class FaceVideoPlayerTitleActivity extends AppBaseActivity {
 
     private ActivityFaceVideoPlayerBinding binding;
     private String videoWidth;
@@ -34,7 +34,6 @@ public class FaceVideoPlayerTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityFaceVideoPlayerBinding.inflate(getLayoutInflater());
     }
 

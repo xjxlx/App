@@ -10,15 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.app.databinding.FragmentQT2Binding;
-import com.android.helper.base.BaseBindingFragment;
-import com.android.helper.utils.ToastUtil;
-import com.android.helper.widget.banner.BannerItemClickListener;
+import com.android.helper.base.AppBaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class QT2Fragment extends BaseBindingFragment<FragmentQT2Binding> {
+public class QT2Fragment extends AppBaseBindingFragment<FragmentQT2Binding> {
 
     private static QT2Fragment fragment;
 

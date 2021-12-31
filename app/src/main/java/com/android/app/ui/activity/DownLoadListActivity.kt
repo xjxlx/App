@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.base.recycleview.Placeholder
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_down_load_list.*
 import java.io.File
 import java.util.*
 
-class DownLoadListActivity : BaseActivity() {
+class DownLoadListActivity : AppBaseActivity() {
 
     private val mList = arrayListOf<Download>()
     private lateinit var file: File
@@ -29,8 +29,6 @@ class DownLoadListActivity : BaseActivity() {
     }
 
     override fun initView() {
-        super.initView()
-
         RxPermissionsUtil
             .Builder(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
             .setAllPerMissionListener {
@@ -48,9 +46,9 @@ class DownLoadListActivity : BaseActivity() {
                         downLoadBean.id = EncryptionUtil.enCodeBase64(downLoadBean.url + downLoadBean.outputPath + index)
                         mList.add(downLoadBean)
                     }
-                    val adapter = DownloadAdapter(mContext, mList)
+                    val adapter = DownloadAdapter(mActivity, mList)
                     rv_download_list.adapter = adapter
-                    rv_download_list.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+                    rv_download_list.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
                     LogUtil.e(Arrays.toString(mList.toArray()))
                     val placeholder = Placeholder.Builder()
                         .setEmpty(R.mipmap.icon_face_authentication_bg, "我是测试哈哈哈")

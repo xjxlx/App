@@ -11,7 +11,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ScreenUtil;
 import com.android.helper.utils.ToastUtil;
@@ -19,7 +19,7 @@ import com.android.helper.utils.ToastUtil;
 /**
  * 自定义gifView
  */
-public class GifViewActivity extends BaseActivity {
+public class GifViewActivity extends AppBaseActivity {
 
     private ImageView mIvBg;
     private ImageView mIvAnimation;
@@ -33,7 +33,6 @@ public class GifViewActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         mIvBg = findViewById(R.id.iv_bg);
         mIvAnimation = findViewById(R.id.iv_animation);
     }
@@ -51,7 +50,7 @@ public class GifViewActivity extends BaseActivity {
 
                 int width = mIvAnimation.getWidth();
 
-                int screenWidth = ScreenUtil.getScreenWidth(mContext);
+                int screenWidth = ScreenUtil.getScreenWidth(mActivity);
                 int toX = screenWidth - width;
             }
         });

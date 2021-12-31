@@ -9,10 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.app.databinding.FragmentActivityOrFragmentBinding
-import com.android.helper.base.BaseBindingFragment
+import com.android.helper.base.AppBaseBindingFragment
 import com.android.helper.utils.LogUtil
 
-class ActivityOrFragmentFragment : BaseBindingFragment<FragmentActivityOrFragmentBinding>() {
+class ActivityOrFragmentFragment : AppBaseBindingFragment<FragmentActivityOrFragmentBinding>() {
 
     private val classTAG = "------> Fragment "
     override fun onAttach(activity: Activity) {

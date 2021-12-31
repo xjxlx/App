@@ -10,20 +10,20 @@ import com.android.app.ui.activity.java.JavaMapActivity
 import com.android.app.ui.activity.jetpack.JetPackMapActivity
 import com.android.app.ui.activity.kotlin.KotlinMap
 import com.android.app.ui.activity.widget.ViewMapTitleActivity
-import com.android.helper.base.BaseFragment
+import com.android.helper.base.AppBaseFragment
 
 /**
  * 待办的fragment
  */
-class TodoFragment : BaseFragment() {
-
+class TodoFragment : AppBaseFragment() {
+    
     override fun getBaseLayout(): Int {
         return R.layout.fragment_todo
     }
-
+    
     override fun initListener() {
         super.initListener()
-
+        
         setViewClickListener(
             R.id.tv_custom_widget,
             R.id.tv_animation_map,
@@ -34,10 +34,10 @@ class TodoFragment : BaseFragment() {
             R.id.tv_kotlin
         )
     }
-
+    
     override fun initData(savedInstanceState: Bundle?) {
     }
-
+    
     override fun onClick(v: View?) {
         super.onClick(v)
         when (v?.id) {
@@ -63,5 +63,14 @@ class TodoFragment : BaseFragment() {
                 startActivity(KotlinMap::class.java)
             }
         }
+    }
+    
+    /**
+     * Fragment初始化view
+     *
+     * @param rootView fragment的根布局
+     */
+    override fun initView(rootView: View?) {
+    
     }
 }

@@ -5,14 +5,14 @@ import android.os.Bundle;
 import com.android.app.R;
 import com.android.app.adapters.UploadAdapter;
 import com.android.helper.utils.download.Download;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class UploadingActivity extends BaseActivity {
+public class UploadingActivity extends AppBaseActivity {
 
     private RecyclerView rv_upload_list;
 
@@ -23,8 +23,6 @@ public class UploadingActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
         rv_upload_list = findViewById(R.id.rv_upload_list);
 
         ArrayList<Download> arrayList = new ArrayList<>();
@@ -32,9 +30,9 @@ public class UploadingActivity extends BaseActivity {
             Download downLoadBean = new Download();
             arrayList.add(downLoadBean);
         }
-        UploadAdapter adapter = new UploadAdapter(mContext, arrayList);
+        UploadAdapter adapter = new UploadAdapter(mActivity, arrayList);
 
-        rv_upload_list.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        rv_upload_list.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rv_upload_list.setAdapter(adapter);
     }
 

@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.android.app.R
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomInsertListener
 import com.android.helper.interfaces.room.RoomQueryListener
@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_room.*
  * 使用的好处：
  *
  */
-class RoomActivity : BaseActivity() {
+class RoomActivity : AppBaseActivity() {
 
     private lateinit var roomManager: RoomDataBaseHelper
     private val observer = Observer<RoomEntityLiveData> { t -> ToastUtil.show("返回的数据为：" + t) }
@@ -250,7 +250,7 @@ class RoomActivity : BaseActivity() {
                 }
                 // 数据库更新
                 versionRoom = Room
-                    .databaseBuilder(mContext, RoomDataBaseHelper::class.java, RoomDataBaseHelper.ROOM_DB_NAME)
+                    .databaseBuilder(mActivity, RoomDataBaseHelper::class.java, RoomDataBaseHelper.ROOM_DB_NAME)
                     .addMigrations(migration5)
                     .build()
             }
@@ -274,5 +274,12 @@ class RoomActivity : BaseActivity() {
                 })
             }
         }
+    }
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
     }
 }

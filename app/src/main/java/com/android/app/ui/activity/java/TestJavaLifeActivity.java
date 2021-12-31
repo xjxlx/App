@@ -5,14 +5,14 @@ import com.android.app.R;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TestJavaLifeActivity extends BaseActivity {
+public class TestJavaLifeActivity extends AppBaseActivity {
 
     private static List<String> list;
 
@@ -27,7 +27,6 @@ public class TestJavaLifeActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         list.add("构造方法！");
         list.add("\r\n");
 

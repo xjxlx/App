@@ -5,13 +5,13 @@ import com.android.app.R;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 
 /**
  * 测试滑动工具的帮助类
  */
-public class TestScrollHelperActivity extends BaseActivity {
+public class TestScrollHelperActivity extends AppBaseActivity {
 
     private android.widget.ImageView mIvHead;
     private android.view.View mVReadView;
@@ -24,8 +24,6 @@ public class TestScrollHelperActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
         mIvHead = findViewById(R.id.iv_head);
         mVReadView = findViewById(R.id.v_read_view);
         mVBlueView = findViewById(R.id.v_blue_view);

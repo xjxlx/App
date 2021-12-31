@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.Proxy.ProxyInterface;
 import com.android.helper.utils.Proxy.ProxyUtil;
@@ -16,7 +16,7 @@ import com.android.helper.utils.Proxy.ProxyUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestHandlerActivity extends BaseActivity implements ProxyInterface {
+public class TestHandlerActivity extends AppBaseActivity implements ProxyInterface {
 
     private TextView textView;
     private final List<String> mList = new ArrayList<String>();
@@ -24,6 +24,14 @@ public class TestHandlerActivity extends BaseActivity implements ProxyInterface 
     @Override
     protected int getBaseLayout() {
         return R.layout.activity_test_handler;
+    }
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
     }
 
     @Override

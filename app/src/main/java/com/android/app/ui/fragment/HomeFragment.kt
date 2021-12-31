@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.FragmentHomeBinding
-import com.android.helper.base.BaseBindingFragment
+import com.android.helper.base.AppBaseBindingFragment
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.dialog.DialogUtil
@@ -17,7 +17,7 @@ import java.io.File
 /**
  * 首页
  */
-class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
+class HomeFragment : AppBaseBindingFragment<FragmentHomeBinding>() {
 
     val mBuilder_w = StringBuilder()
     val mBuilder_n = StringBuilder()

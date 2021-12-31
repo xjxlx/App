@@ -9,11 +9,11 @@ import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.android.app.databinding.ActivitySearchMapBinding
-import com.android.helper.base.title.BaseBindingTitleActivity
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
 
-class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
+class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>() {
 
     private var mCityCode: String? = ""
     private lateinit var adapter: MapAddressAdapter;
@@ -27,13 +27,20 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
     override fun setTitleContent(): String {
         return "搜素选点"
     }
-
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     override fun initData(savedInstanceState: Bundle?) {
         mCityCode = intent.getStringExtra("cityCode")
 
 
-        adapter = MapAddressAdapter(mContext)
-        RecycleUtil.getInstance(mContext, mBinding.rvAddressList)
+        adapter = MapAddressAdapter(mActivity)
+        RecycleUtil.getInstance(mActivity, mBinding.rvAddressList)
             .setVertical()
             .setAdapter(adapter)
 

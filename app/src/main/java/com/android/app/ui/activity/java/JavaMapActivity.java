@@ -4,13 +4,21 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
-public class JavaMapActivity extends BaseActivity {
+public class JavaMapActivity extends AppBaseActivity {
 
     @Override
     protected int getBaseLayout() {
         return R.layout.activity_java_map;
+    }
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
     }
 
     @Override

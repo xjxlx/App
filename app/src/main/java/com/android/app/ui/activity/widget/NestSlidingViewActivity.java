@@ -2,12 +2,12 @@ package com.android.app.ui.activity.widget;
 
 import com.android.app.R;
 import com.android.app.widget.NestSlidingView;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
 import android.os.Bundle;
 import android.view.View;
 
-public class NestSlidingViewActivity extends BaseActivity {
+public class NestSlidingViewActivity extends AppBaseActivity {
 
     @Override
     protected int getBaseLayout() {
@@ -16,7 +16,6 @@ public class NestSlidingViewActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         View btnTest = findViewById(R.id.btn_test);
         View rlMiddle = findViewById(R.id.rl_middle);
         NestSlidingView nsv_layout = findViewById(R.id.nsv_layout);

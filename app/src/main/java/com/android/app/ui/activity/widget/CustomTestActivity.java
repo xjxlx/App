@@ -4,14 +4,22 @@ import android.os.Bundle;
 
 import com.android.app.R;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 
-public class CustomTestActivity extends BaseActivity {
+public class CustomTestActivity extends AppBaseActivity {
 
     @Override
     protected int getBaseLayout() {
         return R.layout.activity_custom_test;
+    }
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
     }
 
     @Override

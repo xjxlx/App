@@ -7,21 +7,17 @@ import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
 import com.android.app.R
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ResourceUtil
 import kotlinx.android.synthetic.main.activity_test_touch.*
 
-class TestTouchActivity : BaseActivity() {
+class TestTouchActivity : AppBaseActivity() {
 
     override fun getBaseLayout(): Int {
         return R.layout.activity_test_touch
     }
-
-    override fun initView() {
-        super.initView()
-     }
-
+ 
     override fun initListener() {
 
         val thread = object : Thread() {
@@ -84,5 +80,12 @@ class TestTouchActivity : BaseActivity() {
         }
         return super.onTouchEvent(event)
     }
-
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
 }

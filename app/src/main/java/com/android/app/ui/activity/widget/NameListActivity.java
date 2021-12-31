@@ -5,14 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.interfaces.listener.DialogChangeListener;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ScreenUtil;
 import com.android.helper.utils.dialog.PopupWindowUtil;
 import com.android.helper.utils.statusBar.StatusBarUtil;
 
-public class NameListActivity extends BaseActivity {
+public class NameListActivity extends AppBaseActivity {
 
     private View viewById;
     private PopupWindowUtil instance;
@@ -25,9 +25,7 @@ public class NameListActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
-        StatusBarUtil.getInstance(mContext).setStatusTranslucent();
+        StatusBarUtil.getInstance(mActivity).setStatusTranslucent();
         screenUtil = new ScreenUtil();
 
         viewById = findViewById(R.id.rl_root);
@@ -38,7 +36,7 @@ public class NameListActivity extends BaseActivity {
                 instance.showAsDropDown(ssss);
             }
         });
-        PopupWindowUtil.Builder builder = new PopupWindowUtil.Builder(mContext, R.layout.pop_test);
+        PopupWindowUtil.Builder builder = new PopupWindowUtil.Builder(mActivity, R.layout.pop_test);
         instance = builder
                 .setWidth(ViewGroup.LayoutParams.MATCH_PARENT)
                 .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
@@ -63,7 +61,7 @@ public class NameListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        screenUtil.adapterFullScreen(mContext);
+        screenUtil.adapterFullScreen(mActivity);
 
         if (instance != null) {
             if (instance.isShowing()) {

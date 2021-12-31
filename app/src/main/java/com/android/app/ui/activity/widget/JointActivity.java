@@ -4,15 +4,23 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.photo.GlideUtil;
 
 /**
  * 自定义左右的布局
  */
-public class JointActivity extends BaseActivity {
+public class JointActivity extends AppBaseActivity {
 
     private GlideUtil mGlideUtil;
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
+    }
 
     @Override
     public void initListener() {
@@ -40,7 +48,7 @@ public class JointActivity extends BaseActivity {
         ImageView iv_right = findViewById(R.id.iv_right);
 
         if (mGlideUtil == null) {
-            mGlideUtil = new GlideUtil.Builder(mContext).setPlaceholderResource(R.mipmap.icon_face_authentication_bg).build();
+            mGlideUtil = new GlideUtil.Builder(mActivity).setPlaceholderResource(R.mipmap.icon_face_authentication_bg).build();
         }
 
         mGlideUtil.loadUrl(left, url);

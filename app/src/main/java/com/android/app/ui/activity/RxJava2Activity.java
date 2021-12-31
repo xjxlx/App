@@ -7,7 +7,7 @@ import com.android.app.R;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.httpclient.RxUtil;
 import com.android.helper.httpclient.TestApi;
@@ -26,7 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 import retrofit2.Response;
 
-public class RxJava2Activity extends BaseActivity {
+public class RxJava2Activity extends AppBaseActivity {
 
 //    //不指定背压策略
 //    MISSING,
@@ -47,7 +47,6 @@ public class RxJava2Activity extends BaseActivity {
     @SuppressLint("CheckResult")
     @Override
     public void initView() {
-        super.initView();
         setonClickListener(R.id.btn_test1, R.id.btn_test2);
 
         findViewById(R.id.btn_test1).setOnClickListener(v -> {

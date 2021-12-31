@@ -18,7 +18,7 @@ import com.android.app.databinding.ActivityMainBinding;
 import com.android.app.ui.fragment.HomeFragment;
 import com.android.app.ui.fragment.PersonalFragment;
 import com.android.app.ui.fragment.TodoFragment;
-import com.android.helper.base.BaseBindingActivity;
+import com.android.helper.base.AppBaseBindingActivity;
 import com.android.helper.base.BaseFragmentPagerAdapter;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
@@ -30,11 +30,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
+public class MainActivity extends AppBaseBindingActivity<ActivityMainBinding> {
 
     private final List<Fragment> mListFragments = new ArrayList<>();
     private final List<String> mListTitle = new ArrayList<>();
     private DialogUtil mDialogUtil;
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @SuppressLint("NonConstantResourceId")
@@ -120,7 +128,7 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         String sdTypePublicPath = FileUtil.getInstance().getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
         LogUtil.e("SD ---> 公共资源目录:  --- " + sdTypePublicPath);
 
-        boolean permission = FileUtil.getInstance().checkAllFilesPermission(mContext);
+        boolean permission = FileUtil.getInstance().checkAllFilesPermission(mActivity);
         LogUtil.e("permission: " + permission);
     }
 

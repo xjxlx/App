@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.FragmentPersonalBinding
 import com.android.app.ui.activity.personal.RouseDingDingActivity
-import com.android.helper.base.BaseBindingFragment
+import com.android.helper.base.AppBaseBindingFragment
 
 /**
  * 个人中心的fragment
  */
-class PersonalFragment : BaseBindingFragment<FragmentPersonalBinding>() {
+class PersonalFragment : AppBaseBindingFragment<FragmentPersonalBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         mBinding.tvRouseDd.setOnClickListener {

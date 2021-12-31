@@ -12,12 +12,12 @@ import android.util.Log;
 import com.android.app.R;
 import com.android.app.databinding.ActivityWorkWxBinding;
 import com.android.app.services.QywxService;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
 /**
  * 企业微信的界面
  */
-public class WorkWxTitleActivity extends BaseActivity {
+public class WorkWxTitleActivity extends AppBaseActivity {
 
     private ActivityWorkWxBinding binding;
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
@@ -29,7 +29,6 @@ public class WorkWxTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityWorkWxBinding.inflate(getLayoutInflater());
     }
 

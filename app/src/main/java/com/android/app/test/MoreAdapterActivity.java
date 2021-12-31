@@ -7,12 +7,12 @@ import com.android.app.R;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.interfaces.listener.CallBackListener;
 import com.android.helper.utils.BitmapUtil;
 import com.android.helper.utils.LogUtil;
 
-public class MoreAdapterActivity extends BaseActivity {
+public class MoreAdapterActivity extends AppBaseActivity {
 
     private androidx.recyclerview.widget.RecyclerView mRvList;
     private ImageView iv_image;
@@ -24,8 +24,6 @@ public class MoreAdapterActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
         mRvList = findViewById(R.id.rv_list);
         iv_image = findViewById(R.id.iv_image);
     }
@@ -35,7 +33,7 @@ public class MoreAdapterActivity extends BaseActivity {
 
         String url = "http://file.jollyeng.com/anims/201903/1552874954.jpg";
 
-        BitmapUtil.getBitmapForService(mContext, "", new CallBackListener<Bitmap>() {
+        BitmapUtil.getBitmapForService(mActivity, "", new CallBackListener<Bitmap>() {
             @Override
             public void onBack(boolean successful, Object tag, Bitmap bitmap) {
                 LogUtil.e("successful:" + successful + " --->tag:" + tag + "  --->bitmap:" + bitmap);

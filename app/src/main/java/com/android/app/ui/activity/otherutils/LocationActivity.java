@@ -15,7 +15,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.android.app.databinding.ActivityLocationBinding;
-import com.android.helper.base.BaseBindingActivity;
+import com.android.helper.base.AppBaseBindingActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.location.LocationUtil;
@@ -28,11 +28,19 @@ import java.util.List;
 /**
  * 地图信息
  */
-public class LocationActivity extends BaseBindingActivity<ActivityLocationBinding> {
+public class LocationActivity extends AppBaseBindingActivity<ActivityLocationBinding> {
 
     @Override
     public ActivityLocationBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return ActivityLocationBinding.inflate(inflater, container, false);
+    }
+
+    /**
+     * Activity初始化view
+     */
+    @Override
+    public void initView() {
+
     }
 
     @Override
@@ -50,7 +58,7 @@ public class LocationActivity extends BaseBindingActivity<ActivityLocationBindin
                 }
                 StringBuffer buffer = new StringBuffer();
 
-                LocationUtil.getLocationForAddress(mContext, address, city, geocodeResult -> {
+                LocationUtil.getLocationForAddress(mActivity, address, city, geocodeResult -> {
                     List<GeocodeAddress> addressList = geocodeResult.getGeocodeAddressList();
                     if (addressList != null && addressList.size() > 0) {
                         for (int i = 0; i < addressList.size(); i++) {
@@ -81,7 +89,7 @@ public class LocationActivity extends BaseBindingActivity<ActivityLocationBindin
             public void onClick(View v) {
                 String location = mBinding.edInputLocation.getText().toString();
                 //  32.828075,112.595871
-                LocationUtil.getAddressForLatitude(mContext, 33.126469, 112.934043, GeocodeSearch.AMAP, new ReGeocodeResultListener() {
+                LocationUtil.getAddressForLatitude(mActivity, 33.126469, 112.934043, GeocodeSearch.AMAP, new ReGeocodeResultListener() {
                     @Override
                     public void onReGeocodeSearched(RegeocodeResult regeocodeResult) {
                         RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();

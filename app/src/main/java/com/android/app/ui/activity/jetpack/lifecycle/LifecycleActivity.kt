@@ -6,7 +6,7 @@ import com.android.app.R
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_lifecycle.*
 
@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_lifecycle.*
  *      1：创建一个简单的音频播放器，在进入页面的时候准备，点击按钮的时候播放，点击停止按钮也可以停止
  *      2：在退出界面的时候，感知布局的状态，进而停止音乐的播放。
  */
-class LifecycleActivity : BaseActivity() {
+class LifecycleActivity : AppBaseActivity() {
 
     private val player: LifecyclePlayer by lazy {
         return@lazy LifecyclePlayer()
@@ -43,8 +43,6 @@ class LifecycleActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
-        super.initView()
-
         tv_explain.text = "假如不适用lifecycle的话，如果说存在多个组件或者模块，在生命周期需要做一些事情的时候，" +
                 "就要全部写入activity或fragment里面，如果数量过多，则会使得代码变得很是臃肿，如果使用了lifecycle," +
                 "则可以让对应的模块在自己的类中去单独处理自己的业务，然后在fragment或者activity里面去设置观察者，" +

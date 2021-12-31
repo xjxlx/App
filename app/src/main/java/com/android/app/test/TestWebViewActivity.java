@@ -12,11 +12,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
 import static com.android.helper.common.CommonConstants.KEY_BASE_WEB_VIEW_URL;
 
-public class TestWebViewActivity extends BaseActivity {
+public class TestWebViewActivity extends AppBaseActivity {
 
     private android.webkit.WebView mWvTest;
     private android.widget.ProgressBar mPbProgress;
@@ -29,7 +29,6 @@ public class TestWebViewActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         mWvTest = findViewById(R.id.wv_test);
         mPbProgress = findViewById(R.id.pb_progress);
 

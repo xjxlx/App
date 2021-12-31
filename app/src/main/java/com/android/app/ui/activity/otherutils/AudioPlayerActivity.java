@@ -16,7 +16,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.android.app.R;
 import com.android.app.ui.activity.java.JavaMapActivity;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.AssetsUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 音频播放工具类
  */
-public class AudioPlayerActivity extends BaseActivity {
+public class AudioPlayerActivity extends AppBaseActivity {
 
     private android.widget.Button mBtnPlayer;
     private android.widget.Button mBtnPause;
@@ -67,8 +67,6 @@ public class AudioPlayerActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
         mBtnPlayer = findViewById(R.id.btn_player);
         mBtnPause = findViewById(R.id.btn_pause);
         mBtnStop = findViewById(R.id.btn_stop);
@@ -85,7 +83,7 @@ public class AudioPlayerActivity extends BaseActivity {
 
         LogUtil.e(AudioConstant.TAG, "initData");
 
-        String json = AssetsUtil.getInstance().getJsonForAssets(mContext, "Audio.json");
+        String json = AssetsUtil.getInstance().getJsonForAssets(mActivity, "Audio.json");
 
         Gson gson = new Gson();
 
@@ -94,7 +92,7 @@ public class AudioPlayerActivity extends BaseActivity {
 
         LogUtil.e("list:" + list);
 
-        playerUtil = new AudioPlayerUtil(mContext);
+        playerUtil = new AudioPlayerUtil(mActivity);
         playerUtil.bindService(success -> {
             playerUtil.autoPlayer(false);
             playerUtil.setSeekBar(mSeekbar);
@@ -127,13 +125,13 @@ public class AudioPlayerActivity extends BaseActivity {
             case R.id.btn_stop:
 
                 if (mNotificationUtil == null) {
-                    mNotificationUtil = new NotificationUtil.Builder(mContext).build();
+                    mNotificationUtil = new NotificationUtil.Builder(mActivity).build();
                 }
 
-                boolean openNotify = mNotificationUtil.checkOpenNotify(mContext);
+                boolean openNotify = mNotificationUtil.checkOpenNotify(mActivity);
                 LogUtil.e("是否有悬浮通知的权限：" + openNotify);
                 if (openNotify) {
-                    mNotificationUtil.goToSetNotify(mContext);
+                    mNotificationUtil.goToSetNotify(mActivity);
                 }
                 break;
         }
@@ -176,7 +174,7 @@ public class AudioPlayerActivity extends BaseActivity {
         }
 
         // 创建Notification的兼容类
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, id);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mActivity, id);
         builder.setSmallIcon(R.mipmap.ic_launcher);// 设置小图标
         builder.setContentTitle("这是一个测试类！");// 设置测试类
         builder.setContentText("Hello World！");   //  设置内容

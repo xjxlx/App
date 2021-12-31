@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.FragmentUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
@@ -30,7 +30,7 @@ import com.android.helper.utils.ToastUtil;
  * <p>
  * 测试：
  */
-public class LiveDataActivity extends BaseActivity {
+public class LiveDataActivity extends AppBaseActivity {
 
     private LiveDataModel mLiveDataModel;
     private TextView mTvLiveDateContent;
@@ -46,8 +46,6 @@ public class LiveDataActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
-
         mTvLiveDateContent = findViewById(R.id.tv_live_date_content);
         mTvMutableLiveDateContent = findViewById(R.id.tv_mutable_live_date_content);
         mMTvHint = findViewById(R.id.tv_hint);
@@ -73,7 +71,7 @@ public class LiveDataActivity extends BaseActivity {
         testLiveData();
         testMutableLiveData();
 
-        FragmentUtil fragmentUtil = new FragmentUtil(mContext);
+        FragmentUtil fragmentUtil = new FragmentUtil(mActivity);
         fragmentUtil.add(R.id.fl_live_data_1, LiveData1Fragment.newInstance(), "", (successful, tag, o) -> {
         });
         fragmentUtil.add(R.id.fl_live_data_2, LiveData2Fragment.newInstance(), "", (successful, tag, o) -> {
@@ -82,7 +80,7 @@ public class LiveDataActivity extends BaseActivity {
 
     private void testLiveData() {
         // liveData的测试
-        mLiveDataModel = ViewModelProviders.of(mContext).get(LiveDataModel.class);
+        mLiveDataModel = ViewModelProviders.of(mActivity).get(LiveDataModel.class);
         mLiveDataModel.getLiveData().observe(this, new Observer<TestLiveData>() {
             @Override
             public void onChanged(TestLiveData testLiveData) {

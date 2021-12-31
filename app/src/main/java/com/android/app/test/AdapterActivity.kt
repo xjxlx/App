@@ -11,12 +11,12 @@ import androidx.annotation.RequiresApi
 import com.android.app.R
 import com.android.app.adapters.TestSingleAdapter
 import com.android.app.databinding.ActivityAdapterBinding
-import com.android.helper.base.BaseBindingActivity
+import com.android.helper.base.AppBaseBindingActivity
 import com.android.helper.base.recycleview.Placeholder
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
 
-class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
+class AdapterActivity : AppBaseBindingActivity<ActivityAdapterBinding>() {
 
     private val list = arrayListOf<String>()
 
@@ -32,9 +32,9 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
         for (it in 0..10) {
             list.add("我是item $it")
         }
-        val adapter = TestSingleAdapter(mContext, list)
+        val adapter = TestSingleAdapter(mActivity, list)
         RecycleUtil
-            .getInstance(mContext, mBinding.rvList)
+            .getInstance(mActivity, mBinding.rvList)
             .setVertical()
             .setAdapter(adapter)
         val placeholder = Placeholder
@@ -55,7 +55,14 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
         super.onDestroy()
         LogUtil.e("⭐️", "onDestroy")
     }
-
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     /**
      * 打开未知应用界面
      */

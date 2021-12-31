@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.ByteString;
 
-public class TestWebSocketActivity extends BaseActivity {
+public class TestWebSocketActivity extends AppBaseActivity {
 
     private final String TAG_SERVICE = "服务端：";
     private final String TAG_APP = "移动端：";
@@ -59,7 +59,6 @@ public class TestWebSocketActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         mBtnStartApp = findViewById(R.id.btn_start_app);
         mBtnStartService = findViewById(R.id.btn_start_service);
 
@@ -298,14 +297,14 @@ public class TestWebSocketActivity extends BaseActivity {
 
     private void addView(String tag, String content) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        TextView textView = new TextView(mContext);
+        TextView textView = new TextView(mActivity);
 
         if (TextUtils.equals(tag, TAG_APP)) {
             params.gravity = Gravity.LEFT;
-            textView.setTextColor(ContextCompat.getColor(mContext, R.color.blue_1));
+            textView.setTextColor(ContextCompat.getColor(mActivity, R.color.blue_1));
         } else if (TextUtils.equals(tag, TAG_SERVICE)) {
             params.gravity = Gravity.RIGHT;
-            textView.setTextColor(ContextCompat.getColor(mContext, R.color.green_1));
+            textView.setTextColor(ContextCompat.getColor(mActivity, R.color.green_1));
         }
         textView.setText(content);
         mRvContent.addView(textView, params);

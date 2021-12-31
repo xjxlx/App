@@ -8,17 +8,16 @@ import com.android.app.databinding.ActivityUnLockBinding;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.SpUtil;
 
-public class UnLockTitleActivity extends BaseActivity {
+public class UnLockTitleActivity extends AppBaseActivity {
 
     private ActivityUnLockBinding binding;
 
     @Override
     public void initView() {
-        super.initView();
-        binding = ActivityUnLockBinding.inflate(getLayoutInflater());
+         binding = ActivityUnLockBinding.inflate(getLayoutInflater());
     }
 
     @Override

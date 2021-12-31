@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityKotlinMapBinding
-import com.android.helper.base.BaseBindingActivity
+import com.android.helper.base.AppBaseBindingActivity
 import com.android.helper.utils.AppUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ToastUtil
@@ -15,7 +15,7 @@ import com.android.helper.utils.ToastUtil
  * @CreateDate: 2021/9/19-16:52
  * @Description: Kotlin的项目
  */
-class KotlinMap : BaseBindingActivity<ActivityKotlinMapBinding>() {
+class KotlinMap : AppBaseBindingActivity<ActivityKotlinMapBinding>() {
 
     var ssss: String = "sss"
     var pack: String = "com.autonavi.minimap"
@@ -24,8 +24,6 @@ class KotlinMap : BaseBindingActivity<ActivityKotlinMapBinding>() {
     }
 
     override fun initView() {
-        super.initView()
-
         val installedAppList = AppUtil.getInstalledAppList()
         if (installedAppList != null && installedAppList.size > 0) {
             for (a in installedAppList.indices) {

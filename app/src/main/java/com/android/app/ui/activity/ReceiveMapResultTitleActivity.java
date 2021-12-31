@@ -14,14 +14,14 @@ import android.widget.TextView;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityReceiveMapResultBinding;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class ReceiveMapResultTitleActivity extends BaseActivity {
+public class ReceiveMapResultTitleActivity extends AppBaseActivity {
 
     private ActivityReceiveMapResultBinding binding;
 
@@ -32,7 +32,6 @@ public class ReceiveMapResultTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityReceiveMapResultBinding.inflate(getLayoutInflater());
     }
 

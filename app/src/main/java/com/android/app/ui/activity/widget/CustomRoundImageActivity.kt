@@ -5,18 +5,18 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import com.android.app.R
 import com.android.app.app.App
-import com.android.helper.base.BaseActivity
+import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.SystemUtil
 import com.android.helper.utils.photo.GlideUtil
 import kotlinx.android.synthetic.main.activity_custom_round_image.*
 import kotlinx.android.synthetic.main.activity_selector_image.*
 
-class CustomRoundImageActivity : BaseActivity() {
+class CustomRoundImageActivity : AppBaseActivity() {
 
     private val glideUtil: GlideUtil by lazy {
         return@lazy GlideUtil
-            .Builder(mContext)
+            .Builder(mActivity)
             .setPlaceholderResource(R.mipmap.icon_head)
             .build()
     }
@@ -32,7 +32,14 @@ class CustomRoundImageActivity : BaseActivity() {
             TODO("VERSION.SDK_INT < M")
         }
     }
-
+    
+    /**
+     * Activity初始化view
+     */
+    override fun initView() {
+    
+    }
+    
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initData(savedInstanceState: Bundle?) {
         val url1 = "http://file.jollyeng.com/picture_book/201805/When I grow up.png";

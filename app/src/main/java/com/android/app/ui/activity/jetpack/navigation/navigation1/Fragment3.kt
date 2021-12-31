@@ -4,11 +4,11 @@ import com.android.app.R
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.BaseFragment
+import com.android.helper.base.AppBaseFragment
 import com.android.helper.utils.LogUtil
 import kotlinx.android.synthetic.main.fragment_3.*
 
-class Fragment3 : BaseFragment() {
+class Fragment3 : AppBaseFragment() {
 
     override fun getBaseLayout(): Int {
         return R.layout.fragment_3

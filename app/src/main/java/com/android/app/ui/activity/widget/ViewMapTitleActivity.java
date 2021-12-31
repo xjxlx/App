@@ -9,9 +9,9 @@ import com.android.app.databinding.ActivityViewMapBinding;
 import com.android.app.test.SlidingMenuActivity;
 import com.android.app.ui.activity.animation.ViewPagerActivity;
 import com.android.app.ui.activity.hmview.HmCustomViewActivity;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 
-public class ViewMapTitleActivity extends BaseActivity {
+public class ViewMapTitleActivity extends AppBaseActivity {
 
     private ActivityViewMapBinding binding;
 
@@ -22,7 +22,6 @@ public class ViewMapTitleActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        super.initView();
         binding = ActivityViewMapBinding.inflate(getLayoutInflater());
     }
 

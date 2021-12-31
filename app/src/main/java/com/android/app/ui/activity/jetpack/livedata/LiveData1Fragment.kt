@@ -5,10 +5,10 @@ import com.android.app.R
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.android.helper.base.BaseFragment
+import com.android.helper.base.AppBaseFragment
 import kotlinx.android.synthetic.main.fragment_live_data1.*
 
-class LiveData1Fragment : BaseFragment() {
+class LiveData1Fragment : AppBaseFragment() {
 
     override fun getBaseLayout(): Int {
         return R.layout.fragment_live_data1

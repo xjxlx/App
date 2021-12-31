@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import com.android.app.R;
 import com.android.app.app.App;
 import com.android.app.databinding.ActivityAppLifecycleBinding;
-import com.android.helper.base.BaseBindingActivity;
+import com.android.helper.base.AppBaseBindingActivity;
 import com.android.helper.common.EventMessage;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.LogWriteUtil;
@@ -23,7 +23,6 @@ import com.android.helper.utils.permission.RxPermissionsUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.ToastUtil;
-import com.android.helper.utils.permission.SinglePermissionsCallBackListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -42,7 +41,7 @@ import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 /**
  * App保活
  */
-public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecycleBinding> {
+public class AppLifecycleActivity extends AppBaseBindingActivity<ActivityAppLifecycleBinding> {
 
     private LifecycleManager mLifecycleManager;
     private LogWriteUtil mWriteUtil;
@@ -52,8 +51,6 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
 
     @Override
     public void initView() {
-        super.initView();
-
         boolean registered = EventBus.getDefault().isRegistered(this);
         if (!registered) {
             EventBus.getDefault().register(this);
@@ -85,8 +82,8 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
 
         mLifecycleManager.startLifecycle(getApplication(), name, jobName);
 
-        mAppLifecycleAdapter = new AppLifecycleAdapter(mContext);
-        RecycleUtil.getInstance(mContext, mBinding.rvLogList)
+        mAppLifecycleAdapter = new AppLifecycleAdapter(mActivity);
+        RecycleUtil.getInstance(mActivity, mBinding.rvLogList)
                 .setVertical()
                 .setAdapter(mAppLifecycleAdapter);
 
@@ -97,9 +94,9 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
             mAppLifecycleAdapter.setList(read);
         }
 
-        mDeviceAdapter = new DeviceAdapter(mContext);
+        mDeviceAdapter = new DeviceAdapter(mActivity);
         RecycleUtil
-                .getInstance(mContext, mBinding.rvBluetoothList)
+                .getInstance(mActivity, mBinding.rvBluetoothList)
                 .setVertical()
                 .setAdapter(mDeviceAdapter);
     }
@@ -114,7 +111,7 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
                 boolean batteryOptimizations = SystemUtil.getInstance(App.getInstance()).isIgnoringBatteryOptimizations();
                 if (!batteryOptimizations) {
                     // 3: 打开充电的权限
-                    mLifecycleManager.checkBatteryPermissions(mContext);
+                    mLifecycleManager.checkBatteryPermissions(mActivity);
                 } else {
                     ToastUtil.show("电池优化权限已经打开了！");
                 }
@@ -123,10 +120,10 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
             case R.id.bt_open_auto_qd:
                 // 自动启动权限
                 // 4：自动启动的权限
-                mLifecycleManager.checkAutoStartupPermissions(mContext);
+                mLifecycleManager.checkAutoStartupPermissions(mActivity);
                 break;
             case R.id.bt_refresh_data:
-                boolean serviceRunning = ServiceUtil.isServiceRunning(mContext, AppLifecycleService.class);
+                boolean serviceRunning = ServiceUtil.isServiceRunning(mActivity, AppLifecycleService.class);
                 ToastUtil.show("刷新数据 ：" + serviceRunning);
 
                 List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
@@ -172,7 +169,7 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
             };
         }
 
-        new RxPermissionsUtil.Builder(mContext, list)
+        new RxPermissionsUtil.Builder(mActivity, list)
                 .setSinglePerMissionListener((status, permission) -> {
                     if (status == 1) {
                         LogUtil.e("异常的权限：" + permission);

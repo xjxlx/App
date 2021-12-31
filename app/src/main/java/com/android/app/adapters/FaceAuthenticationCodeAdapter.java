@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.android.app.R;
-import com.android.helper.base.BaseActivity;
+import com.android.helper.base.AppBaseActivity;
 import com.android.helper.base.BaseVH;
 import com.android.helper.base.recycleview.BaseRecycleAdapter;
 import com.android.helper.utils.TextViewUtil;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FaceAuthenticationCodeAdapter extends BaseRecycleAdapter<String, FaceAuthenticationCodeAdapter.VH> {
 
-    public FaceAuthenticationCodeAdapter(BaseActivity mContext) {
+    public FaceAuthenticationCodeAdapter(AppBaseActivity mContext) {
         super(mContext);
     }
 
