@@ -39,7 +39,7 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
             .setAdapter(adapter)
         val placeholder = Placeholder
             .Builder()
-            .setEmpty(R.drawable.icon_default, "测试的数据")
+            .setListEmpty(R.drawable.icon_default, "测试的数据")
             .Build()
         
         adapter.setPlaceholderData(placeholder)

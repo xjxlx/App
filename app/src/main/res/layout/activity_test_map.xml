@@ -75,6 +75,11 @@
             style="@style/style_todo_item"
             android:text="测试工具" />
 
+        <TextView
+            android:id="@+id/tv_test_activity"
+            style="@style/style_todo_item"
+            android:text="测试封装Activity" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

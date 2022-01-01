@@ -12,9 +12,10 @@ import com.android.helper.httpclient.RxUtil
 import com.android.helper.utils.DateUtil
 import com.android.helper.utils.JsonUtil
 import com.android.helper.utils.LogUtil
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
-class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
+class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding,String>() {
     
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityTestUtilBinding {
         return ActivityTestUtilBinding.inflate(inflater, container, true)
@@ -58,5 +59,14 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
                     }
                 })
         }
+    }
+    override fun onHttpSuccess(t: String) {
+
+    }
+    override fun onHttpError(e: Throwable) {
+
+    }
+    override fun getObservable(): Observable<String>? {
+         return null
     }
 }

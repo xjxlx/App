@@ -41,13 +41,14 @@ public class App extends Application {
                 // 设置title的资源信息
                 TitleBuilder builder = new TitleBuilder()
                         .setTitleLayoutId(R.layout.base_title_activity)
+                        .setTitleBarLayoutId(R.id.base_title)
                         .setLeftBackLayoutId(R.id.ll_base_title_back)
-                        .setLeftBackTextId(R.id.tv_base_title_back_title)
-                        .setShowBackText(true)
                         .setTitleId(R.id.tv_base_title)
                         .setRightLayoutId(R.id.fl_base_title_right_parent)
                         .setRightTextId(R.id.tv_base_title_right_title)
-                        .setContentLayoutId(R.id.fl_activity_content);
+                        .setContentLayoutId(R.id.fl_activity_content)
+                        .setPlaceHolderLayoutId(R.id.fl_placeholder);
+
                 TitleBar.setGlobalTitleBar(builder);
             }
 
