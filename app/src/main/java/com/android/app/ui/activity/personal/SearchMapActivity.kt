@@ -12,9 +12,8 @@ import com.android.app.databinding.ActivitySearchMapBinding
 import com.android.helper.base.title.BaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
-import io.reactivex.Observable
 
-class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding, String>() {
+class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
 
     private var mCityCode: String? = ""
     private lateinit var adapter: MapAddressAdapter;
@@ -90,15 +89,5 @@ class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding, Str
         })
         //     发送请求
         poiSearch.searchPOIAsyn()
-    }
-
-    override fun onHttpSuccess(t: String) {
-    }
-
-    override fun onHttpError(e: Throwable) {
-    }
-
-    override fun getObservable(): Observable<String>? {
-        return null
     }
 }

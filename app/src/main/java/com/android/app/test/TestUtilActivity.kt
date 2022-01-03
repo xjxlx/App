@@ -12,26 +12,24 @@ import com.android.helper.httpclient.RxUtil
 import com.android.helper.utils.DateUtil
 import com.android.helper.utils.JsonUtil
 import com.android.helper.utils.LogUtil
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
-class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding,String>() {
-    
+class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding>() {
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityTestUtilBinding {
         return ActivityTestUtilBinding.inflate(inflater, container, true)
     }
-    
+
     override fun setTitleContent(): String {
         return "工具的测试类"
     }
-    
+
     /**
      * Activity初始化view
      */
     override fun initView() {
-    
     }
-    
+
     override fun initData(savedInstanceState: Bundle?) {
         mBinding.btnTest.setOnClickListener {
             // [{"pc": "http://cdn.smartservice.bjev.com.cn/2021/09/02/07bd10223f5c45a098b154e7a2d51d8e.gif", "isDefalut": 1}]
@@ -42,7 +40,7 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding,String
                 LogUtil.e("gsonBean: $gsonBean")
             }
             LogUtil.e("convertList:$convertList")
-            
+
             RxUtil
                 .Builder(this)
                 .build()
@@ -53,20 +51,10 @@ class TestUtilActivity : BaseBindingTitleActivity<ActivityTestUtilBinding,String
                      * @param countdown  当前的倒计时
                      */
                     override fun countdown(disposable: Disposable?, counter: Long, countdown: Long) {
-                        
                         val timeToTimeMillis = DateUtil.getTimeToTimeMillis(countdown, DataEnum.AUTO_DIGITS)
                         LogUtil.e("timeToTimeMillis:    $timeToTimeMillis")
                     }
                 })
         }
-    }
-    override fun onHttpSuccess(t: String) {
-
-    }
-    override fun onHttpError(e: Throwable) {
-
-    }
-    override fun getObservable(): Observable<String>? {
-         return null
     }
 }

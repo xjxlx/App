@@ -12,7 +12,7 @@ import com.android.app.R
 import com.android.app.adapters.TestSingleAdapter
 import com.android.app.databinding.ActivityAdapterBinding
 import com.android.helper.base.BaseBindingActivity
-import com.android.helper.base.recycleview.Placeholder
+import com.android.helper.base.recycleview.PlaceholderResource
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
 
@@ -37,9 +37,10 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
             .getInstance(mActivity, mBinding.rvList)
             .setVertical()
             .setAdapter(adapter)
-        val placeholder = Placeholder
+        val placeholder = PlaceholderResource
             .Builder()
-            .setListEmpty(R.drawable.icon_default, "测试的数据")
+            .setListEmptyContent("测试的数据")
+            .setListEmptyResource(R.drawable.icon_default)
             .Build()
         
         adapter.setPlaceholderData(placeholder)

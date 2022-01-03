@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
 import com.android.helper.base.AppBaseActivity
-import com.android.helper.base.recycleview.Placeholder
+import com.android.helper.base.recycleview.PlaceholderResource
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
@@ -50,8 +50,9 @@ class DownLoadListActivity : AppBaseActivity() {
                     rv_download_list.adapter = adapter
                     rv_download_list.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
                     LogUtil.e(Arrays.toString(mList.toArray()))
-                    val placeholder = Placeholder.Builder()
-                        .setListEmpty(R.mipmap.icon_face_authentication_bg, "我是测试哈哈哈")
+                    val placeholder = PlaceholderResource.Builder()
+                        .setListEmptyContent("我是测试哈哈哈")
+                        .setListEmptyResource(R.mipmap.icon_face_authentication_bg)
                         .Build()
 
                     adapter.setPlaceholderData(placeholder)

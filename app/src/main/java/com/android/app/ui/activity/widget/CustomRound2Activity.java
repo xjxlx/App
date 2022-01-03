@@ -12,9 +12,7 @@ import com.android.helper.base.title.BaseBindingTitleActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-import io.reactivex.Observable;
-
-public class CustomRound2Activity extends BaseBindingTitleActivity<ActivityCustomRound2Binding,String> {
+public class CustomRound2Activity extends BaseBindingTitleActivity<ActivityCustomRound2Binding> {
 
     @Override
     public ActivityCustomRound2Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
@@ -39,18 +37,4 @@ public class CustomRound2Activity extends BaseBindingTitleActivity<ActivityCusto
         return "自定义圆形图片";
     }
 
-    @Override
-    public Observable<String> getObservable() {
-        return null;
-    }
-
-    @Override
-    public void onHttpSuccess(@NotNull String s) {
-
-    }
-
-    @Override
-    public void onHttpError(@NotNull Throwable e) {
-
-    }
 }

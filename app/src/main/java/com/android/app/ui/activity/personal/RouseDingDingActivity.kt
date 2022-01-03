@@ -27,7 +27,6 @@ import com.android.helper.app.BaseApplication
 import com.android.helper.base.title.BaseBindingTitleActivity
 import com.android.helper.utils.*
 import com.android.helper.utils.location.LocationUtil
-import io.reactivex.Observable
 
 /**
  * 唤醒钉钉的页面
@@ -38,7 +37,7 @@ import io.reactivex.Observable
  *      4：对比当前的定位信息，设置轮询的时间
  *      5：唤醒钉钉
  */
-class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding, String>() {
+class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
 
     private lateinit var myLocationStyle: MyLocationStyle
     private lateinit var mAMap: AMap
@@ -300,16 +299,6 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
      * Activity初始化view
      */
     override fun initView() {
-    }
-
-    override fun onHttpSuccess(t: String) {
-    }
-
-    override fun onHttpError(e: Throwable) {
-    }
-
-    override fun getObservable(): Observable<String>? {
-        return null
     }
 }
 

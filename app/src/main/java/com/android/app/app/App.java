@@ -2,22 +2,16 @@ package com.android.app.app;
 
 import android.app.Application;
 
-import androidx.fragment.app.FragmentActivity;
-
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
 import com.android.app.BuildConfig;
-import com.android.app.MainActivity;
 import com.android.app.R;
 import com.android.helper.app.ApplicationInterface;
 import com.android.helper.app.BaseApplication;
-import com.android.helper.base.title.TitleBar;
-import com.android.helper.base.title.TitleBuilder;
+import com.android.helper.base.title.PageLayoutBuilder;
+import com.android.helper.base.title.PageLayoutManager;
 import com.android.helper.httpclient.AutoInterceptor;
 import com.tencent.bugly.crashreport.CrashReport;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Interceptor;
 
@@ -39,7 +33,7 @@ public class App extends Application {
             public void initApp() {
 
                 // 设置title的资源信息
-                TitleBuilder builder = new TitleBuilder()
+                PageLayoutBuilder builder = new PageLayoutBuilder()
                         .setTitleLayoutId(R.layout.base_title_activity)
                         .setTitleBarLayoutId(R.id.base_title)
                         .setLeftBackLayoutId(R.id.ll_base_title_back)
@@ -49,7 +43,7 @@ public class App extends Application {
                         .setContentLayoutId(R.id.fl_activity_content)
                         .setPlaceHolderLayoutId(R.id.fl_placeholder);
 
-                TitleBar.setGlobalTitleBar(builder);
+                PageLayoutManager.setGlobalTitleBar(builder);
             }
 
             @Override
