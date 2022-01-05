@@ -90,6 +90,11 @@
             style="@style/style_item_selector"
             android:text="自定义圆形图片" />
 
+        <TextView
+            android:id="@+id/tv_custom_page_list"
+            style="@style/style_item_selector"
+            android:text="自定义分页列表的view" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -88,7 +88,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-
+        <activity android:name=".ui.activity.widget.PageListActivity"></activity>
         <activity android:name=".test.TestActivityActivity" />
         <activity android:name=".ui.activity.widget.CustomRound2Activity" />
         <activity android:name=".test.TestUtilActivity" />
