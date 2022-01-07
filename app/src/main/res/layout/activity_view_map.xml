@@ -95,6 +95,11 @@
             style="@style/style_item_selector"
             android:text="自定义分页列表的view" />
 
+        <TextView
+            android:id="@+id/tv_custom_charging"
+            style="@style/style_item_selector"
+            android:text="自定义充电" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
