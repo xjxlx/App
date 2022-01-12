@@ -25,4 +25,12 @@
         android:layout_marginTop="@dimen/dp_30"
         android:layout_marginEnd="@dimen/dp_20" />
 
+    <com.android.helper.widget.ElectricityView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pb"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_20" />
+
 </RelativeLayout>
