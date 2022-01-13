@@ -8,11 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.ActivityCustomRound2Binding;
-import com.android.helper.base.title.BaseBindingTitleActivity;
+import com.android.helper.base.title.AppBaseBindingTitleActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-public class CustomRound2Activity extends BaseBindingTitleActivity<ActivityCustomRound2Binding> {
+public class CustomRound2Activity extends AppBaseBindingTitleActivity<ActivityCustomRound2Binding> {
 
     @Override
     public ActivityCustomRound2Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {

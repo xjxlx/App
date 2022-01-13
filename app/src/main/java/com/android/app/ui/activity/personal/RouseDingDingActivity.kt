@@ -24,7 +24,7 @@ import com.android.app.R
 import com.android.app.app.Keepalive.LifecycleManager
 import com.android.app.databinding.ActivityRouseDingDingBinding
 import com.android.helper.app.BaseApplication
-import com.android.helper.base.title.BaseBindingTitleActivity
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.*
 import com.android.helper.utils.location.LocationUtil
 
@@ -37,8 +37,8 @@ import com.android.helper.utils.location.LocationUtil
  *      4：对比当前的定位信息，设置轮询的时间
  *      5：唤醒钉钉
  */
-class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
-
+class RouseDingDingActivity : AppBaseBindingTitleActivity<ActivityRouseDingDingBinding>() {
+    
     private lateinit var myLocationStyle: MyLocationStyle
     private lateinit var mAMap: AMap
     private var mCityCode = "" // 城市编码
@@ -54,7 +54,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                         val latLng = LatLng(latLonPoint.latitude, latLonPoint.longitude)
                         SpUtil.putString("latitude", latLonPoint.latitude.toString())
                         SpUtil.putString("longitude", latLonPoint.longitude.toString())
-
+                        
                         addMarker(latLng, title!!, "")
                         moveMap(latLng)
                     }
@@ -65,18 +65,18 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
             }
         }
     }
-
+    
     override fun setTitleContent(): String {
         return "唤醒钉钉"
     }
-
+    
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityRouseDingDingBinding {
         return ActivityRouseDingDingBinding.inflate(inflater, container, true)
     }
-
+    
     override fun initData(savedInstanceState: Bundle?) {
         lifecycle()
-
+        
         notification()
         // //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mBinding.mapView.onCreate(savedInstanceState)
@@ -93,12 +93,12 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                     var distance = distanceItem.distance
                     // 行驶时间 单位：秒
                     val duration = distanceItem.duration
-
+                    
                     ToastUtil.show("距离：$distance   时间：$duration")
                     LogUtil.e("距离：$distance   时间：$duration")
-
+                    
                     distance = 20f;
-
+                    
                     if (distance < 50) {
                         val packageManager = packageManager
                         var intent: Intent? = Intent()
@@ -144,16 +144,16 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
                         // 6:测量距离请求接口，调用后会发起距离测量请求。
                         distanceSearch.calculateRouteDistanceAsyn(distanceQuery)
                     }
-
+                    
                     if (!mMoved) {
                         LogUtil.e("latitude:$latitude  longitude:$longitude")
                         val latLng = LatLng(latitude, longitude)
                         moveMap(latLng)
                         // 定位蓝点
                         locationPoint()
-
+                        
                         touchSetting()
-
+                        
                         mMoved = true
                     }
                 }
@@ -178,7 +178,7 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
             }
         }
     }
-
+    
     private fun notification() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             val serviceRunning = ServiceUtil.isServiceRunning(mActivity, NotificationService::class.java)
@@ -196,12 +196,12 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
             }
         }
     }
-
+    
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         LogUtil.e("onNewIntent:")
     }
-
+    
     private fun addMarker(latLng: LatLng, title: String, description: String) {
         // 添加标记点
         val addMarker = mAMap.addMarker(MarkerOptions().position(latLng))
@@ -250,51 +250,51 @@ class RouseDingDingActivity : BaseBindingTitleActivity<ActivityRouseDingDingBind
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER);
         // 控制是否显示定位蓝点
         myLocationStyle.showMyLocation(true)
-
+        
         myLocationStyle.strokeColor(ResourceUtil.getColor(R.color.red_9))//设置定位蓝点精度圆圈的边框颜色的方法。
         // myLocationStyle.radiusFillColor(ResourceUtil.getColor(R.color.green_3))//设置定位蓝点精度圆圈的边框颜色的方法。
         myLocationStyle.strokeWidth(10f) // 设置定位蓝点精度圈的边框宽度的方法。
         mAMap.myLocationStyle = myLocationStyle //设置定位蓝点的Style
         mAMap.isMyLocationEnabled = true;// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
     }
-
+    
     /**
      * 账号保活
      */
     private fun lifecycle() {
         val serviceName = "com.android.app.ui.activity.personal.MapService";
         val jobServiceName = "com.android.app.app.Keepalive.AppJobService";
-
+        
         LifecycleManager
             .getInstance() // com.android.app.ui.activity.personal.MapService
             .startLifecycle(BaseApplication.getInstance().application, serviceName, jobServiceName)
     }
-
+    
     //</editor-fold>
     override fun onResume() {
         super.onResume()
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
         mBinding.mapView.onResume()
     }
-
+    
     override fun onPause() {
         super.onPause()
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mBinding.mapView.onPause()
     }
-
+    
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mBinding.mapView.onSaveInstanceState(outState)
     }
-
+    
     override fun onDestroy() {
         super.onDestroy()
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mBinding.mapView.onDestroy();
     }
-
+    
     /**
      * Activity初始化view
      */

@@ -43,7 +43,7 @@ class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {
             .setListEmptyResource(R.drawable.icon_default)
             .Build()
         
-        adapter.setPlaceholderData(placeholder)
+        adapter.setPlaceholder(placeholder)
         
         adapter.setItemClickListener { view, binding, position, t ->
             list[position] = "" + System.currentTimeMillis()

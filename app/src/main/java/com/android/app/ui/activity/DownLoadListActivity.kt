@@ -55,7 +55,7 @@ class DownLoadListActivity : AppBaseActivity() {
                         .setListEmptyResource(R.mipmap.icon_face_authentication_bg)
                         .Build()
 
-                    adapter.setPlaceholderData(placeholder)
+                    adapter.setPlaceholder(placeholder)
                 }
             }
             .build()
