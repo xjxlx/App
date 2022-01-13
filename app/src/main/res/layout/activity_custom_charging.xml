@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.widget.CustomChargingActivity">
 
-    <!--    android:background="@color/red_2"-->
-
     <com.android.helper.widget.ChargingProgressView
         android:id="@+id/cpv"
         android:layout_width="match_parent"
