@@ -88,7 +88,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-
+        <activity android:name=".ui.activity.kotlin.ArrayAndListActivity"></activity>
         <activity android:name=".ui.activity.widget.CustomChargingActivity" />
         <activity android:name=".ui.activity.widget.PageListActivity" />
         <activity android:name=".test.TestActivityActivity" />
