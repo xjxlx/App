@@ -57,12 +57,17 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
             }
         });
 
-        mBinding.ev.setMaxIntervalScope(63f);
-        mBinding.ev.setCurrentValue(20f);
+        mBinding.ev.setMaxIntervalScope(62);
+        mBinding.ev.setCurrentValue(20);
         mBinding.ev.setProgressListener(new ElectricityView.ProgressListener() {
             @Override
-            public void onProgress(float progress) {
+            public void onProgress(int progress) {
                 LogUtil.e("收到的值：progress ：" + progress);
+            }
+
+            @Override
+            public void onTouchUp(int progress) {
+
             }
         });
 

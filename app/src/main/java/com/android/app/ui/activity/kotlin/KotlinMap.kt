@@ -13,48 +13,50 @@ import com.android.helper.utils.LogUtil
  * @Description: Kotlin的项目
  */
 class KotlinMap : AppBaseBindingTitleActivity<ActivityKotlinMapBinding>() {
-    
+
     var ssss: String = "sss"
-    
+
     override fun initData(savedInstanceState: Bundle?) {
-        val s = "abcdefg"
-        var a = s[0]
-        LogUtil.e("abc  ${a + "sss"}")
-        
-        LogUtil.e("{\"key+:\"value\"}")
-        LogUtil.e("{\"key:value}\"")
-        LogUtil.e("{$s:$a}")
-        // && 和 ||
-        val a1 = true
-        val a2 = false
-        val and = a1.and(a2)
-        val and2 = a2.or(a1)
-        if (and) {
-            LogUtil.e("true")
-        } else {
-            LogUtil.e("false")
+        // 指定类型
+        var array1 = arrayOf(1, 2, 3)
+        // 指定长度
+        var array2 = BooleanArray(1)
+        // 不指定类型的数组，自动推断，但是不能为null
+        val array3 = arrayOf(5)
+        // array3[2] = null
+        // 可空的数组
+        val arrayOfNulls = arrayOfNulls<String>(3)
+        arrayOfNulls[1] = null
+        arrayOfNulls[2] = ""
+
+        val intArray = IntArray(4) { 21 }
+
+        // 角标便利
+        for (a in 0 until intArray.size) {
+            LogUtil.e("a 1:" + intArray[a])
         }
-        if (and2) {
-            LogUtil.e("true")
-        } else {
-            LogUtil.e("false")
+
+        // 高级角标便利
+        for (a in intArray.indices) {
+            LogUtil.e("a 2:" + intArray[a])
+
         }
-        LogUtil.e("java && " + { and })
-        // 区间运算符
-        for (a in 1..3) {
-            LogUtil.e("a :$a")
+
+        // 元素便利
+        for (element in intArray) {
+            LogUtil.e("a 3:$element")
         }
-        
-        for (b in 3 downTo 1) {
-            LogUtil.e("b :$b")
+
+        // 同时便利角标和元素
+        for ((index,item)in intArray.withIndex()){
+            LogUtil.e("角标：$index 元素：$item")
         }
-        
     }
-    
+
     override fun setTitleContent(): String {
         return "ktolin集合"
     }
-    
+
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityKotlinMapBinding {
         return ActivityKotlinMapBinding.inflate(inflater, container, false)
     }

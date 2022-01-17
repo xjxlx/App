@@ -88,14 +88,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.widget.CustomChargingActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+        <activity android:name=".ui.activity.widget.CustomChargingActivity" />
         <activity android:name=".ui.activity.widget.PageListActivity" />
         <activity android:name=".test.TestActivityActivity" />
         <activity android:name=".ui.activity.widget.CustomRound2Activity" />
