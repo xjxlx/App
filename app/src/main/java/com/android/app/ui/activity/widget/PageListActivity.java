@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityPageListBinding;
-import com.android.helper.base.title.BaseBindingTitleActivity;
+import com.android.helper.base.title.AppBaseBindingTitleActivity;
 import com.android.helper.utils.ConvertUtil;
 import com.android.helper.widget.pagelistview.PageListAdapter;
 
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * 自定义横向的滑动列表
  */
-public class PageListActivity extends BaseBindingTitleActivity<ActivityPageListBinding> {
+public class PageListActivity extends AppBaseBindingTitleActivity<ActivityPageListBinding> {
 
     @Override
     protected String setTitleContent() {
