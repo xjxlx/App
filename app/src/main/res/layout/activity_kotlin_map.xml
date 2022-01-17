@@ -8,9 +8,14 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tv_array_and_list"
+            android:id="@+id/tv_array"
             style="@style/style_todo_item"
-            android:text="数组和集合" />
+            android:text="数组" />
+
+        <TextView
+            android:id="@+id/tv_list"
+            style="@style/style_todo_item"
+            android:text="集合" />
 
     </LinearLayout>
 

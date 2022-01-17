@@ -3,18 +3,18 @@ package com.android.app.ui.activity.kotlin
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.android.app.databinding.ActivityArrayAndListBinding
+import com.android.app.databinding.ActivityArrayBinding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 
-class ArrayAndListActivity : AppBaseBindingTitleActivity<ActivityArrayAndListBinding>() {
+class kotArrayActivity : AppBaseBindingTitleActivity<ActivityArrayBinding>() {
 
     override fun setTitleContent(): String {
         return "数组和集合"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityArrayAndListBinding {
-        return ActivityArrayAndListBinding.inflate(inflater, container, true)
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityArrayBinding {
+        return ActivityArrayBinding.inflate(inflater, container, true)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
