@@ -88,7 +88,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.kotlin.KotListActivity"></activity>
+        <activity android:name=".ui.activity.kotlin.LambdaActivity"></activity>
+        <activity android:name=".ui.activity.kotlin.KotListActivity" />
         <activity android:name=".ui.activity.kotlin.kotArrayActivity" />
         <activity android:name=".ui.activity.widget.CustomChargingActivity" />
         <activity android:name=".ui.activity.widget.PageListActivity" />

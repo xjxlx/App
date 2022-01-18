@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.collection.arrayMapOf
 import androidx.collection.arraySetOf
-import com.amap.api.mapcore.util.it
 import com.android.app.databinding.ActivityKotListBinding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
@@ -80,5 +79,100 @@ class KotListActivity : AppBaseBindingTitleActivity<ActivityKotListBinding>() {
             LogUtil.e("item forEachIndexed: index:$index  item： $item")
         }
 
+        val arrayListOf1 = arrayListOf<kotlin.String>()
+//        arrayListOf1.add("1")
+//        arrayListOf1.add("2")
+//        arrayListOf1.add("3")
+//        arrayListOf1.add("4")
+//        arrayListOf1.add("5")
+
+        arrayListOf1.add("赵")
+        arrayListOf1.add("钱")
+        arrayListOf1.add("孙")
+        arrayListOf1.add("李")
+
+        arrayListOf1.forEach {
+            LogUtil.e("forEach ---> 普通:$it")
+        }
+
+        // 反转
+        arrayListOf1.reverse();
+
+        arrayListOf1.forEach {
+            LogUtil.e("forEach ---> reverse:$it")
+        }
+
+        // 随机排序
+        arrayListOf1.shuffle()
+        arrayListOf1.forEach {
+            LogUtil.e("forEach ---> shuffle:$it")
+        }
+
+        // 从小到大
+        arrayListOf1.sort()
+        arrayListOf1.forEach {
+            LogUtil.e("forEach ---> sort:$it")
+        }
+
+        Person().test1(1)
+
+        Dialog.showDialog()
+
+        Person.test2()
+
+        // 普通的调用
+        foo(1, 2, qux = {
+            return@foo "21"
+        })
+
+        // 具名参数的调用方式1
+        foo(baz = 1, qux = {
+            return@foo "1"
+        })
+
+        // 具名参数的调用方式2
+        foo(baz = 2) {
+            return@foo "222"
+        }
+
+        foo1(str2 = 1)
+        foo1(1, 2, str2 = 3)
     }
+
+    public fun test3(a: Int = 3) {
+
+    }
+
+    class Person {
+
+        private fun max(a: Int, b: kotlin.String): kotlin.String {
+            return "abc"
+        }
+
+        public fun test1(a: Int) {
+
+        }
+
+        companion object {
+
+            public fun test2() {
+                LogUtil.e("我是伴生类的成员方法！")
+            }
+        }
+    }
+
+    object Dialog {
+
+        public fun showDialog() {
+            LogUtil.e("showDialog!")
+        }
+    }
+
+    //    具名参数
+    private fun foo(bar: Int = 0, baz: Int = 1, qux: () -> String1) {}
+
+    private fun foo1(vararg str: Int, str2: Int) {
+
+    }
+
 }
