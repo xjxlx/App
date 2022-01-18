@@ -30,6 +30,10 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
     @Override
     public void initData(Bundle savedInstanceState) {
 
+        mBinding.cpv.setInterval(0.6f, 1f);
+        mBinding.cpv.setOptimumValue(0.8f);
+        mBinding.cpv.setRemainingChargeTime("5小时20分");
+
         mBinding.pb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -40,10 +44,6 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
                 LogUtil.e("v:" + v + "   v1:" + v1);
 
                 mBinding.cpv.setPercentage(v1);
-                mBinding.cpv.setInterval(0.3f, 0.9f);
-                mBinding.cpv.setOptimumValue(0.8f);
-                mBinding.cpv.setRemainingChargeTime("5小时20分");
-
             }
 
             @Override
