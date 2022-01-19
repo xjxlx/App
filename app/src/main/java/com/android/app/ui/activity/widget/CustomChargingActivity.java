@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.android.app.databinding.ActivityCustomChargingBinding;
 import com.android.helper.base.title.AppBaseBindingTitleActivity;
 import com.android.helper.utils.LogUtil;
+import com.android.helper.widget.ChargingProgressView;
 import com.android.helper.widget.ElectricityView;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,17 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
         mBinding.cpv.setInterval(0.6f, 1f);
         mBinding.cpv.setOptimumValue(0.8f);
         mBinding.cpv.setRemainingChargeTime("5小时20分");
+        mBinding.cpv.setProgressListener(new ChargingProgressView.ProgressListener() {
+            @Override
+            public void onProgress(String progress) {
+                LogUtil.e("ProgressListener ---> progress:" + progress);
+            }
+
+            @Override
+            public void onTouchUp(String progress) {
+                LogUtil.e("ProgressListener ---> onTouchUp:" + progress);
+            }
+        });
 
         mBinding.pb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
