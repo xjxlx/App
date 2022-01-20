@@ -27,15 +27,11 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
         do {
             LogUtil.e("index:${index++}")
         } while (index < 3)
+
+
     }
 
     private fun off(a: Int, b: Int): Int {
-//        return if (a > b) {
-//            a
-//        } else {
-//            b
-//        }
-
         return if (a > b) a else b
     }
 
@@ -53,5 +49,13 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
     private fun <A> off5(t: A) where A : JSONArray, A : Comparable<A> {
         LogUtil.e("off4")
     }
+
+}
+
+open class TestBase {
+
+}
+
+class Test1 : TestBase() {
 
 }
