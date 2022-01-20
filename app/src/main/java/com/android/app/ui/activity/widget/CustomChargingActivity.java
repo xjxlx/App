@@ -35,10 +35,6 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
         mBinding.cpv.setOptimumValue(0.8f);
         mBinding.cpv.setRemainingChargeTime("5小时20分");
         mBinding.cpv.setProgressListener(new ChargingProgressView.ProgressListener() {
-            @Override
-            public void onProgress(String progress) {
-                LogUtil.e("ProgressListener ---> progress:" + progress);
-            }
 
             @Override
             public void onTouchUp(String progress) {
@@ -71,16 +67,8 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
 
         mBinding.ev.setMaxIntervalScope(62);
         mBinding.ev.setCurrentValue(20);
-        mBinding.ev.setProgressListener(new ElectricityView.ProgressListener() {
-            @Override
-            public void onProgress(int progress) {
-                LogUtil.e("收到的值：progress ：" + progress);
-            }
+        mBinding.ev.setProgressListener(progress -> {
 
-            @Override
-            public void onTouchUp(int progress) {
-
-            }
         });
 
     }
