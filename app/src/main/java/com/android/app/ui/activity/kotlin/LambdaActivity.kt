@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import com.android.app.databinding.ActivityLambdaBinding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
-import org.json.JSONArray
 
 class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
 
@@ -19,43 +18,76 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        off(2, 3)
+        val tz = TZ()
+//
+//        val add = tz.add(1, 2)
+//        LogUtil.e("add --->  $add")
+//
+//        val add2 = tz.add2("oo", "xx")
+//        LogUtil.e("add2  :  $add2")
+//
+//        val arrayListOf = arrayListOf<String>()
+//        for (item in 0..5) {
+//            arrayListOf.add("hello word ---> index:$item")
+//        }
 
-        of1(12)
+        val ktTz = KtTz()
+        val abc2 = ktTz.abc2
+        LogUtil.e("abc2 ---> $abc2")
 
-        var index = 0
-        do {
-            LogUtil.e("index:${index++}")
-        } while (index < 3)
-
-
+        ktTz.abc2 = "哈哈哈哈哈哈！"
+        val abc21 = ktTz.abc2
+        LogUtil.e("abc2 【2】 ---> $abc21")
+        LogUtil.e("abc2 【2】 ---> ${ktTz.ts}")
     }
 
-    private fun off(a: Int, b: Int): Int {
-        return if (a > b) a else b
+    fun TZ.add(a: Int, b: Int): Int {
+        return a + b
     }
 
-    private fun of1(a: Any) {
-        when (a) {
-            2090 -> LogUtil.e("2090")
-            is Int -> LogUtil.e("int")
-            is Float -> LogUtil.e("int")
-            is Double -> LogUtil.e("int")
-            else -> LogUtil.e("any")
+    fun TZ.add2(a: String, b: String): String {
+        return a + b
+    }
+
+    fun <T> ArrayList<T>.add3(t: T): ArrayList<T> {
+        this.add(t)
+        return this
+    }
+
+    //添加一个对象到集合中，并且返回这个集合
+    fun <T> MutableList<T>.addBy(t: T): MutableList<T> {
+        this.add(t)
+        return this //返回集合本身
+    }
+
+    //自定义扩展属性，
+    var <T> ArrayList<T>.lastData: T
+        //获取集合中最后一个对象
+        get() = this[this.size - 1]
+        //设置集合中最后一个对象的值
+        set(value) {
+            this[this.size - 1] = value
         }
+
+    var KtTz.abc2: String
+        get() {
+            return ts
+        }
+        set(value) {
+            ts = value
+        }
+
+}
+// 拓展函数
+
+// 拓展属性
+
+// 伴生类拓展
+
+class TZ {
+    val abc = "abc";
+    fun test1() {
+        LogUtil.e("logu----> test ---> 1")
     }
-
-    // 泛型约束 ,多个类型的约束
-    private fun <A> off5(t: A) where A : JSONArray, A : Comparable<A> {
-        LogUtil.e("off4")
-    }
-
 }
 
-open class TestBase {
-
-}
-
-class Test1 : TestBase() {
-
-}
