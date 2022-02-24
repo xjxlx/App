@@ -133,6 +133,23 @@ public class AppJobService extends JobService {
         builder.setWhen(System.currentTimeMillis());
         NotificationUtil notificationUtil = builder.build();
         notificationUtil.sendNotification(222);
+
+        // 启动主应用
+        String serviceName = LifecycleManager.getInstance().getServiceName();
+        if (!TextUtils.isEmpty(serviceName)) {
+            // 后台服务
+            boolean serviceRunning = ServiceUtil.isServiceRunning(context, serviceName);
+            LogUtil.e("☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
+            LogUtil.writeLifeCycle("☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
+
+            if (!serviceRunning) {
+                Intent intentService = new Intent();
+                intentService.setClassName(context, serviceName);
+                intentService.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intentService.putExtra(CommonConstants.KEY_LIFECYCLE_FROM, LifecycleAppEnum.FROM_ACCOUNT.getFrom());
+                ServiceUtil.startService(context, intentService);
+            }
+        }
     }
 
     @Override
