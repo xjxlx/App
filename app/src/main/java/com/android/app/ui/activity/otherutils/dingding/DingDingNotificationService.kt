@@ -100,12 +100,20 @@ class DingDingNotificationService : NotificationListenerService() {
                 if (TextUtils.equals(packageName, "com.tencent.mm")) {
                 }
 
+
+
                 if (content.contains("指令：打开钉钉")) {
+                    // 移动应用到前台
+                    setTopApp(baseContext)
+
                     // 打开钉钉
                     LogUtil.e("执行命令：打开钉钉！")
                     openApplication("com.alibaba.android.rimet")
 
                 } else if (content.contains("指令：切换应用")) {
+                    // 移动应用到前台
+                    setTopApp(baseContext)
+
                     // 切换本身应用
                     val runningForeground = isRunningForeground(baseContext)
                     LogUtil.e("本应用已经位于最前端：$runningForeground")
