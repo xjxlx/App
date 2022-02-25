@@ -37,20 +37,6 @@ public class NameListActivity extends AppBaseActivity {
             }
         });
         PopupWindowUtil.Builder builder = new PopupWindowUtil.Builder(mActivity, R.layout.pop_test);
-        instance = builder
-                .setWidth(ViewGroup.LayoutParams.MATCH_PARENT)
-                .setHeight(ViewGroup.LayoutParams.MATCH_PARENT)
-                .setPopupWindowChangeListener(new DialogChangeListener() {
-                    @Override
-                    public void onShow(View view) {
-                        LogUtil.e("v:onShow");
-                    }
-
-                    @Override
-                    public void onDismiss() {
-                        LogUtil.e("v:onDismiss");
-                    }
-                }).Build();
     }
 
     @Override

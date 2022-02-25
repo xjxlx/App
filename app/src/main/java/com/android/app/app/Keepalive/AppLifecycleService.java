@@ -72,7 +72,7 @@ public class AppLifecycleService extends Service {
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.mipmap.ic_launcher)//小图标一定需要设置,否则会报错(如果不设置它启动服务前台化不会报错,但是你会发现这个通知不会启动),如果是普通通知,不设置必然报错
                     .build();
-            startForeground(1, notification);//服务前台化只能使用startForeground()方法,不能使用 notificationManager.notify(1,notification); 这个只是启动通知使用的,使用这个方法你只需要等待几秒就会发现报错了
+            startForeground(CODE_NOTIFICATION, notification);//服务前台化只能使用startForeground()方法,不能使用 notificationManager.notify(1,notification); 这个只是启动通知使用的,使用这个方法你只需要等待几秒就会发现报错了
         }
     }
 
@@ -113,7 +113,7 @@ public class AppLifecycleService extends Service {
             removeCallbacksAndMessages(null);
 
             // 隐藏通知栏
-            stopForeground(true);
+            // stopForeground(true);
 
             // 3:启动jobService
             String jobServiceName = LifecycleManager.getInstance().getJobServiceName();
