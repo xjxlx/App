@@ -92,25 +92,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-        <service
-            android:name=".ui.activity.otherutils.dingding.DingDingNotificationService"
-            android:enabled="true"
-            android:exported="true"
-            android:label="钉钉消息的监听"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-        </service>
 
-        <activity
-            android:name=".ui.activity.otherutils.dingding.OpenDingDingActivity"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".ui.activity.kotlin.LambdaActivity" />
         <activity android:name=".ui.activity.kotlin.KotListActivity" />
         <activity android:name=".ui.activity.kotlin.kotArrayActivity" />
