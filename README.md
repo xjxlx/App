@@ -91,4 +91,4 @@
 # 1: 先从github 或者 阿里云 clone 地址去下载代码
 # 2：如果是从github 上面下载下来的，就去设置对应的 阿里云的 运程地址
 # 3：方法：git remote set-url --add origin https://codeup.aliyun.com/6123a7e01bd96aa110f27e23/App.git
-# 4：或者 去设置阿里云的地址：git remote set-url --add origin https://codeup.aliyun.com/6123a7e01bd96aa110f27e23/App.git
+# 4：或者 去设置阿里云的地址：git remote set-url --add origin https://github.com/xjxlx/App.git
