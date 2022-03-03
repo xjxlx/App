@@ -12,7 +12,7 @@
 
 2.    dependencies {        
 	        implementation 'com.gitee.xjxlx:apphelper:1.0.1.0.0'
-            implementation 'com.github.xjxlx:apphelper:1.1.0.2.5'
+           implementation 'com.github.xjxlx:App:2.3.2'
       }
 
 3.    api('com.gitee.xjxlx:apphelper:1.0.1.0.0') {     
