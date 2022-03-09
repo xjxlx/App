@@ -23,6 +23,11 @@
             style="@style/style_todo_item"
             android:text="lambda表达式" />
 
+        <TextView
+            android:id="@+id/tv_czf"
+            style="@style/style_todo_item"
+            android:text="操作符" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

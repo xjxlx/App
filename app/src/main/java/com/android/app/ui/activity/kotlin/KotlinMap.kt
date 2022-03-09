@@ -25,7 +25,7 @@ class KotlinMap : AppBaseBindingTitleActivity<ActivityKotlinMapBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        setonClickListener(R.id.tv_array, R.id.tv_list, R.id.tv_lambda)
+        setonClickListener(R.id.tv_array, R.id.tv_list, R.id.tv_lambda, R.id.tv_czf)
     }
 
     override fun onClick(v: View?) {
@@ -41,6 +41,10 @@ class KotlinMap : AppBaseBindingTitleActivity<ActivityKotlinMapBinding>() {
 
             R.id.tv_lambda -> {
                 startActivity(LambdaActivity::class.java)
+            }
+
+            R.id.tv_czf -> {
+                startActivity(CzfActivity::class.java)
             }
         }
     }
