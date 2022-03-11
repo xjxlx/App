@@ -152,8 +152,8 @@ dependencies {
     implementation files('libs/nineoldandroids-2.4.0.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'com.github.xjxlx:App:2.3.2'
-    // implementation project(path: ':apphelper')
+//    implementation 'com.github.xjxlx:App:2.3.2'
+    implementation project(path: ':apphelper')
     implementation 'com.github.xjxlx:dimens:1.0.0.0.1'
 
     implementation configDependencies["room-runtime"]

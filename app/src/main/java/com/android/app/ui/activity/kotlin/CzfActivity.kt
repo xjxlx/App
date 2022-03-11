@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityCzfBinding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.helper.utils.LogUtil
+import com.android.helper.widget.ElectricityView
 
 class CzfActivity() : AppBaseBindingTitleActivity<ActivityCzfBinding>() {
 
@@ -17,6 +19,15 @@ class CzfActivity() : AppBaseBindingTitleActivity<ActivityCzfBinding>() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+
+        mBinding.electricityView.setProgressListener(object : ElectricityView.ProgressListener {
+            /**
+             * 手指抬起的进度
+             */
+            override fun onTouchUp(progress: Int) {
+                LogUtil.e("progress:$progress")
+            }
+        })
 
     }
 }
