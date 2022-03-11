@@ -20,6 +20,7 @@ class CzfActivity() : AppBaseBindingTitleActivity<ActivityCzfBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
+        mBinding.electricityView.setMinIntervalScope(5)
         mBinding.electricityView.setProgressListener(object : ElectricityView.ProgressListener {
             /**
              * 手指抬起的进度
