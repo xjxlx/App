@@ -32,7 +32,7 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
         mBinding.cpv.setInterval(0.6f, 1f);
         mBinding.cpv.setOptimumValue(0.8f);
         mBinding.cpv.setRemainingChargeTime("5小时20分");
-        mBinding.cpv.setProgressListener(progress -> LogUtil.e("ProgressListener ---> onTouchUp:" + progress));
+        // mBinding.cpv.setProgressListener(progress -> LogUtil.e("ProgressListener ---> onTouchUp:" + progress));
 
         mBinding.pb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -59,9 +59,7 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
 
         mBinding.ev.setMaxIntervalScope(62);
         mBinding.ev.setCurrentValue(20);
-        mBinding.ev.setProgressListener(progress -> {
-            LogUtil.e("------->progress:" + progress);
-        });
 
     }
+
 }
