@@ -20,15 +20,15 @@ class CzfActivity() : AppBaseBindingTitleActivity<ActivityCzfBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
+        mBinding.electricityView.setCurrentValue(62)
         mBinding.electricityView.setMinIntervalScope(5)
-        mBinding.electricityView.setProgressListener(object : ElectricityView.ProgressListener {
+        mBinding.electricityView.setMaxIntervalScope(62)
+        mBinding.electricityView.setProgressListener { progress ->
             /**
              * 手指抬起的进度
              */
-            override fun onTouchUp(progress: Int) {
-                LogUtil.e("progress:$progress")
-            }
-        })
+            LogUtil.e("progress:$progress")
+        }
 
     }
 }
