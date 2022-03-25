@@ -41,7 +41,6 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
      */
     @Override
     public void initView() {
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
