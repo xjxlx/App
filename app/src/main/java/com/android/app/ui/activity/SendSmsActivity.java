@@ -74,15 +74,15 @@ public class SendSmsActivity extends AppBaseActivity {
         });
 
         btn_clear_addrss.setOnClickListener(v -> {
-            boolean b = SpUtil.clearMap(KEY_SAVE);
-            if (b) {
-                ToastUtil.show("清空成功！");
-                // 刷新adapter
-                mListAddress.clear();
-                smsAdapter1.setList(mListAddress);
-            } else {
-                ToastUtil.show("清空失败！");
-            }
+//            boolean b = SpUtil.clearMap(KEY_SAVE);
+//            if (b) {
+//                ToastUtil.show("清空成功！");
+//                // 刷新adapter
+//                mListAddress.clear();
+//                smsAdapter1.setList(mListAddress);
+//            } else {
+//                ToastUtil.show("清空失败！");
+//            }
         });
 
         // 清空输入数据

@@ -2,7 +2,7 @@
 	path = apphelper
 
 ;   gitee 平时用这个
- 	url = git@github.com:xjxlx/apphelper.git
+ 	url = https://github.com/xjxlx/apphelper.git
 
 
 
