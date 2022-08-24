@@ -10,7 +10,7 @@ ext {
     ]
 
     library = [
-            room      : "2.2.5",
+            room      : "2.4.2",
             navigation: "2.2.2"
     ]
 
