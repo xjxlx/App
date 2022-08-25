@@ -100,6 +100,11 @@
             style="@style/style_item_selector"
             android:text="自定义充电" />
 
+        <TextView
+            android:id="@+id/tv_custom_number_scroll"
+            style="@style/style_item_selector"
+            android:text="自定义数字滑动" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
