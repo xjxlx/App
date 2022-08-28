@@ -67,6 +67,8 @@ public class NumberScrollView extends View {
     // 字体颜色
     private final int[] colors = new int[]{Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT};
     private final HashMap<String, Integer> mFontSizeMap = new HashMap<String, Integer>();
+    private final HashMap<String, Integer> mAlpha = new HashMap<>();
+
     private final int mMaxSize = 40;
 
     private final Paint mPaintMinute = new Paint();
@@ -77,6 +79,7 @@ public class NumberScrollView extends View {
     private String mSelectorNumber = "";
     private int mCenterPosition = 0;// 中心位置
     private int mIntervalCenter = 0;// 间距的一半
+    private int mIntervalWidth;// 宽度的一半
 
     public NumberScrollView(Context context) {
         super(context);
@@ -98,6 +101,7 @@ public class NumberScrollView extends View {
         mPaintNumber.setStyle(Paint.Style.FILL);
         mPaintNumber.setTypeface(Typeface.DEFAULT_BOLD);
 
+
         mPaintMinute.setColor(Color.WHITE);
         mPaintMinute.setTextSize(ConvertUtil.toDp(20));
         mPaintMinute.setStyle(Paint.Style.FILL);
@@ -112,7 +116,7 @@ public class NumberScrollView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mMeasuredWidth = MeasureSpec.getSize(widthMeasureSpec);
         mMeasuredHeight = MeasureSpec.getSize(heightMeasureSpec);
-
+        mIntervalWidth = mMeasuredWidth / 2;
         mCenterPosition = mMeasuredWidth / 2;
 
 
@@ -200,7 +204,6 @@ public class NumberScrollView extends View {
         float endX = mMeasuredWidth;
         float endY = drawRoundRect.bottom;
 
-
         @SuppressLint("DrawAllocation")
         LinearGradient linearGradient = new LinearGradient(startX, startY, endX, endY, colors,
                 null,
@@ -216,9 +219,11 @@ public class NumberScrollView extends View {
             int integer = mLocationMap.get(number);
             // 从新设置字体的大小
             mPaintNumber.setTextSize(mFontSizeMap.get(number));
-
+            Integer integer1 = mAlpha.get(number);
+            LogUtil.e("alpha:  key:" + number + " value:" + integer1);
+            mPaintNumber.setAlpha(integer1);
             // 绘制文字
-            canvas.drawText(number, integer, mNumberTop, mPaintNumber);
+            canvas.drawText(number, integer + ssssss, mNumberTop, mPaintNumber);
             // 重新存入当前的值 + dx的偏移值
             mLocationMap.put(number, integer + mDx);
         }
@@ -231,6 +236,8 @@ public class NumberScrollView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 startX = (int) event.getX();
+                ssssss = 0;
+
                 return true;
 
             case MotionEvent.ACTION_MOVE:
@@ -256,27 +263,28 @@ public class NumberScrollView extends View {
                     LogUtil.e("dx: " + mDx + " 开始移动！");
                     invalidate();
                     startX = (int) endX;
-
-                    return super.onTouchEvent(event);
-                }
-
-            case MotionEvent.ACTION_UP:
-
-                Set<Map.Entry<String, Integer>> entries = mLocationMap.entrySet();
-                for (Map.Entry<String, Integer> entry : entries) {
-                    String key = entry.getKey();
-                    int value = entry.getValue();
-                    float width = mSizeMap.get(key)[0];
-
-                    if (value > (drawRoundRect.left) && value < drawRoundRect.right - width) {
-                        ToastUtil.show("当前选中的是：" + key);
-                        break;
-                    }
                 }
                 break;
+            case MotionEvent.ACTION_UP:
+                LogUtil.e("当前选中的是: " + mSelectorNumber);
+                ToastUtil.show("当前选中的是：" + mSelectorNumber);
+                // 当前position的位置
+                Integer currentPosition = mLocationMap.get(mSelectorNumber);
+                ssssss = (int) (mIntervalWidth - currentPosition - mSizeMap.get(mSelectorNumber)[0]);
+
+                LogUtil.e(" 中心：" + mIntervalWidth + " \r\n"
+                        + " current:" + currentPosition + "\r\n"
+                        + " 文字宽度：" + mSizeMap.get(mSelectorNumber)[0] + "\r\n"
+                        + " 差值：" + (mIntervalWidth - currentPosition - mSizeMap.get(mSelectorNumber)[0]) + "\r\n"
+                        + " 间距一半：" + mIntervalCenter
+                );
+                invalidate();
+                break;
         }
-        return true;
+        return super.onTouchEvent(event);
     }
+
+    private int ssssss = 0;
 
     private void initSelector() {
         // 当前选中的字体最大，剩余的逐渐减小
@@ -290,10 +298,21 @@ public class NumberScrollView extends View {
              */
             // 当前的位置
             float width = mSizeMap.get(key)[0];
+            /**
+             * 1:左侧距离： x > 文字的原始左侧 + 间距的一半
+             * 2: 右侧距离：x < 文字的原始位置+ 文字宽度 + 间距的一半
+             */
 
-            LogUtil.e("key: " + key + " value: " + value);
+//            LogUtil.e(" 中心位置是：" + mIntervalWidth + "\r\n"
+//                    + " key:" + key + "\r\n"
+//                    + " value:" + value + "\r\n"
+//                    + " 文字的宽度 ：" + width + "\r\n"
+//                    + " 左侧的边界：" + (value - mIntervalCenter) + "\r\n"
+//                    + " 右侧的边界：" + (value + width + mIntervalCenter) + "\r\n"
+//            );
 
-            if ((value > drawRoundRect.left - mIntervalCenter)) {
+            // 左侧：中心线 > 当前
+            if ((mIntervalWidth > value - mIntervalCenter) && (mIntervalWidth < (value + mIntervalCenter + width * 2))) {
                 LogUtil.e("挡圈选中的是：" + key);
                 mSelectorNumber = key;
                 mFontSizeMap.put(key, (int) ConvertUtil.toDp(mMaxSize));
@@ -316,6 +335,7 @@ public class NumberScrollView extends View {
         for (int j = mSelectorIndex; j >= 0; j--) {
             b++;
             mFontSizeMap.put(numbers[j], (int) ConvertUtil.toDp(mMaxSize - (b * 2)));
+            mAlpha.put(numbers[j], 255);
         }
 
         // 正序
@@ -323,8 +343,11 @@ public class NumberScrollView extends View {
         for (int k = mSelectorIndex; k < numbers.length; k++) {
             a++;
             mFontSizeMap.put(numbers[k], (int) ConvertUtil.toDp(mMaxSize - (a * 2)));
+            mAlpha.put(numbers[k], 255);
         }
         LogUtil.e(" --->" + mFontSizeMap.toString());
+
+        mAlpha.put(mSelectorNumber, (int) (255 * 0.4));
     }
 
 }
