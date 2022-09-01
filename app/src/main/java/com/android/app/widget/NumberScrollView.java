@@ -68,7 +68,6 @@ public class NumberScrollView extends View {
     private final int[] colors = new int[]{Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT};
     private final HashMap<String, Integer> mFontSizeMap = new HashMap<String, Integer>();
     private final HashMap<String, Integer> mAlpha = new HashMap<>();
-
     private final int mMaxSize = 40;
 
     private final Paint mPaintMinute = new Paint();
@@ -80,6 +79,7 @@ public class NumberScrollView extends View {
     private int mCenterPosition = 0;// 中心位置
     private int mIntervalCenter = 0;// 间距的一半
     private int mIntervalWidth;// 宽度的一半
+    private int ssssss = 0;
 
     public NumberScrollView(Context context) {
         super(context);
@@ -284,7 +284,6 @@ public class NumberScrollView extends View {
         return super.onTouchEvent(event);
     }
 
-    private int ssssss = 0;
 
     private void initSelector() {
         // 当前选中的字体最大，剩余的逐渐减小

@@ -8,12 +8,13 @@ buildscript {
     }
 
     repositories {
+        maven { url "https://maven.aliyun.com/repository/central" }
+
         google()
         jcenter()
 
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url "https://maven.aliyun.com/repository/central" }
     }
 
     dependencies {
@@ -35,12 +36,13 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://maven.aliyun.com/repository/central" }
+
         google()
         jcenter()
 
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url "https://maven.aliyun.com/repository/central" }
     }
 }
 task clean(type: Delete) {
