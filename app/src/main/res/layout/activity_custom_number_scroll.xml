@@ -6,10 +6,15 @@
     android:background="@color/black_20"
     tools:context=".ui.activity.widget.CustomNumberScrollActivity">
 
-
     <com.android.app.widget.NumberScrollView
+        android:id="@+id/nb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true" />
+        android:layout_marginTop="@dimen/dp_300" />
+
+    <com.android.app.widget.ScrollNumberView2
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_100" />
 
 </RelativeLayout>
