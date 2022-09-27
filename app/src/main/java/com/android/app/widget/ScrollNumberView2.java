@@ -57,7 +57,7 @@ public class ScrollNumberView2 extends View {
 
     // 字体颜色
     private final int[] mColors = new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT};
-    float[] positions = new float[]{0.1f, 0.43f, 0.5f, 0.57f, 1f};
+    float[] positions = new float[]{0.1f, 0.28f, 0.5f, 0.73f, 1f};
     // 文字左侧的左边距
     private int mNumberLeftValue = 0;
 
@@ -204,8 +204,7 @@ public class ScrollNumberView2 extends View {
                 positions,
                 Shader.TileMode.MIRROR);
 
-        //todo  渐变
-//        mPaintNumber.setShader(linearGradient);
+        mPaintNumber.setShader(linearGradient);
 
         /*
          * 上一个文字的宽度
@@ -253,10 +252,10 @@ public class ScrollNumberView2 extends View {
             mMapPosition.put(number, new Position((x + dx), (int) (x + dx + itemWidth)));
         }
 
-        mPaintNumber.setStrokeWidth(1);
-        mPaintNumber.setColor(Color.WHITE);
-        canvas.drawLine(centerLines, 0, centerLines + 2, roundRectHeight, mPaintNumber);
-        canvas.drawLine(drawRoundRect.left, drawRoundRect.top + (roundRectHeight / 2), drawRoundRect.right, drawRoundRect.top + (roundRectHeight / 2), mPaintNumber);
+//        mPaintNumber.setStrokeWidth(1);
+//        mPaintNumber.setColor(Color.WHITE);
+//        canvas.drawLine(centerLines, 0, centerLines + 2, roundRectHeight, mPaintNumber);
+//        canvas.drawLine(drawRoundRect.left, drawRoundRect.top + (roundRectHeight / 2), drawRoundRect.right, drawRoundRect.top + (roundRectHeight / 2), mPaintNumber);
 
         if (isFirst) {
             // 滑动的时候，动态改变当前选中的角标
