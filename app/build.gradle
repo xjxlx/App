@@ -45,20 +45,19 @@ android {
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'x86','arm64-v8a' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi', 'x86', 'arm64-v8a' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
 
     signingConfigs {
         test {
-            // storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
             storeFile file('../jks/apphelper.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'apphelper'
         }
+
         config {
-            // storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
             storeFile file('../jks/apphelper.jks')
             storePassword '123456'
             keyAlias 'apphelper'
@@ -75,7 +74,7 @@ android {
         }
         debug {
             // 给applicationId添加后缀“.debug”
-            // applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
             signingConfig signingConfigs.test
             minifyEnabled false
             shrinkResources false
@@ -106,38 +105,61 @@ android {
         checkReleaseBuilds false  //打包release版本的时候进行检测
     }
 
-    flavorDimensions 'default' // 默认的维度
+    // 设置不同的维度
+    flavorDimensions "default"
 
     productFlavors {
-        //不同渠道
-        _ {
-            dimension "default"
-            //替换AndroidManifest中的值
-            manifestPlaceholders = [channel_value: "qq"]
+        // 免费版
+        free {
+//            dimension "free"
+            applicationId "com.android.app.free"
+            // 定义app_icon字段，在AndroidManifest.xml文件中用到
+            manifestPlaceholders = [
+                    channel_value: "free",
+                    app_icon     : "@mipmap/ic_launcher"
+            ]
+            versionName "1.0.0"
+            versionCode 1
+            // 自动生成@string/app_name为App小助手Free
+            resValue "string", "app_name", "App小助手Free"
+        }
+
+        // 收费版
+        pro {
+//            dimension "pro"
+            applicationId "com.android.app.pro"
+            // 定义app_icon字段，在AndroidManifest.xml文件中用到
+            manifestPlaceholders = [
+                    channel_value: "pro",
+                    app_icon     : "@mipmap/ic_launcher_round"
+            ]
+            versionName "2.0.0"
+            versionCode 2
+            // 自动生成@string/app_name为App小助手pro
+            resValue "string", "app_name", "App小助手pro"
         }
     }
 
-
-    productFlavors.all {
-        flavor -> flavor.manifestPlaceholders = [channel_value: name]
-    }
+//    productFlavors.all {
+//        flavor -> flavor.manifestPlaceholders = [channel_value: name]
+//    }
 
     //这里修改apk文件名
-    android.applicationVariants.all { variant ->
-        //判断是release还是debug版本
-        def buildType = variant.buildType.name
-        variant.outputs.all {
-            if (buildType == "release") {
-                // 获取渠道名字
-                def productFlavors = productFlavors.name
-                // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
-                def file = new File(project.rootDir.absolutePath + File.separator + "outputs" + File.separator + "release" + File.separator + productFlavors)
-                variant.getPackageApplicationProvider().get().outputDirectory = file
-                // 文件名字 =  AppHelper-v + 版本名字 + 渠道名字 + 当前时间
-                outputFileName = "AppHelper-v${variant.versionName}${productFlavors}-${releaseTime()}.apk"
-            }
-        }
-    }
+//    android.applicationVariants.all { variant ->
+//        //判断是release还是debug版本
+//        def buildType = variant.buildType.name
+//        variant.outputs.all {
+//            if (buildType == "release") {
+//                // 获取渠道名字
+//                def productFlavors = productFlavors.name
+//                // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
+//                def file = new File(project.rootDir.absolutePath + File.separator + "outputs" + File.separator + "release" + File.separator + productFlavors)
+//                variant.getPackageApplicationProvider().get().outputDirectory = file
+//                // 文件名字 =  AppHelper-v + 版本名字 + 渠道名字 + 当前时间
+//                outputFileName = "AppHelper-v${variant.versionName}${productFlavors}-${releaseTime()}.apk"
+//            }
+//        }
+//    }
 }
 
 // 显示的时间格式，形如20171110
@@ -146,8 +168,8 @@ static def releaseTime() {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation files('libs/nineoldandroids-2.4.0.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
