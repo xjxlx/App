@@ -93,11 +93,15 @@
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
 
+        <activity
+            android:name=".test.TestIpActivity"
+            android:exported="false" />
         <activity android:name=".ui.activity.widget.CustomNumberScrollActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
         <activity android:name=".ui.activity.kotlin.CzfActivity" />

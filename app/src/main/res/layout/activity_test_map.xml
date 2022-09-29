@@ -80,6 +80,11 @@
             style="@style/style_todo_item"
             android:text="测试封装Activity" />
 
+        <TextView
+            android:id="@+id/tv_test_ip"
+            style="@style/style_todo_item"
+            android:text="测试局域网的数据传递" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
