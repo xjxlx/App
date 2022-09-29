@@ -120,8 +120,9 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
 
             mStringBuffer.append("客户端：" + mServiceReader.read());
             Message message = mHandler.obtainMessage();
-            message.what = 66;
+            message.what = 44;
             message.obj = mStringBuffer.toString().trim();
+
             // 设置收到的数据
             mHandler.sendMessage(message);
         } catch (Exception e) {
@@ -144,12 +145,15 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
             try {
                 // 启动一个ServerSocket
 
+                Message message = mHandler.obtainMessage();
+                message.what = 44;
+
                 if (mServerSocket == null) {
                     mServerSocket = new ServerSocket(port);
                 }
 
                 while (flag) {
-                    if (mServiceClient == null || mServiceClient.isClosed() || !mServiceClient.isConnected()) {
+                    if (mServiceClient == null) {
                         mServiceClient = mServerSocket.accept(); // 接受客户端请求
                     }
 
@@ -159,24 +163,18 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
                     }
                 }
 
+                message.obj = "service 启动成功！";
+                mHandler.sendMessage(message);
+
             } catch (IOException e) {
                 e.printStackTrace();
 
                 Message message = mHandler.obtainMessage();
-                message.what = 66;
+                message.what = 33;
                 message.obj = "服务端：异常：" + e.getMessage();
                 mHandler.sendMessage(message);
 
                 // 关掉所有
-                if (mServiceClient != null) {
-                    try {
-                        mServiceClient.close();
-                        mServiceClient = null;
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-
                 if (mServerSocket != null) {
                     try {
                         mServerSocket.close();
@@ -185,9 +183,17 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
                         ex.printStackTrace();
                     }
                 }
+
+                if (mServiceClient != null) {
+                    try {
+                        mServiceClient.close();
+                        mServiceClient = null;
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
         }
-
     }
 
     private boolean checked() {
@@ -208,18 +214,27 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
         boolean checked = checked();
         if (checked) {
             try {
-
                 // 取得输出流向客户端返回应答数据, 编码要与输入流匹配
-                if (mServiceOut == null) {
-                    mServiceOut = new PrintStream(mServiceClient.getOutputStream(), true, "gbk");
+                if (mServiceClient != null) {
+                    if (mServiceOut == null) {
+                        mServiceOut = new PrintStream(mServiceClient.getOutputStream(), true, "gbk");
+                    }
                 }
-                mServiceOut.println(mBinding.etInputContent.toString().trim());
+
+                String trim = mBinding.etInputContent.toString().trim();
+                if (mServiceOut != null) {
+                    mServiceOut.println(trim);
+                    Message message = mHandler.obtainMessage();
+                    message.what = 44;
+                    message.obj = "服务端：发送完毕：" + trim;
+                    mHandler.sendMessage(message);
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
 
                 Message message = mHandler.obtainMessage();
-                message.what = 66;
+                message.what = 33;
                 message.obj = "服务端：异常：" + e.getMessage();
                 mHandler.sendMessage(message);
 

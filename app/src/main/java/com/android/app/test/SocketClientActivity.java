@@ -27,8 +27,6 @@ import java.net.Socket;
 
 public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySocketClientBinding> {
 
-    private String mIpAddress;
-
     @Override
     protected String setTitleContent() {
         return "客户端Socket";
@@ -68,12 +66,12 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
 
             case R.id.btn_get_ip:
 
-                mIpAddress = NetworkUtil.getIPAddress(this);
-                LogUtil.e("------>" + mIpAddress);
+                String ipAddress = NetworkUtil.getIPAddress(this);
+                LogUtil.e("------>" + ipAddress);
 
                 Message message = mHandler.obtainMessage();
                 message.what = 999;
-                message.obj = mIpAddress;
+                message.obj = ipAddress;
                 mHandler.sendMessage(message);
                 break;
 
@@ -87,10 +85,16 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                         // 创建Socket对象
                         if (mClientSocket == null) {
                             try {
-                                mClientSocket = new Socket(mIpAddress, port);
+                                mClientSocket = new Socket(mBinding.etInput.getText().toString(), port);
+
+                                Message message2 = mHandler.obtainMessage();
+                                message2.what = 44;
+                                message2.obj = "初始化客户端Socket成功";
+                                mHandler.sendMessage(message2);
+
                             } catch (IOException e) {
                                 e.printStackTrace();
-
+                                LogUtil.e("IOException:" + e.getMessage());
                                 Message message1 = mHandler.obtainMessage();
                                 message1.what = 33;
                                 message1.obj = e.getMessage();
@@ -106,8 +110,8 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                                     LogUtil.e("client 链接错误：" + ex.getMessage());
 
                                     Message message = mHandler.obtainMessage();
-                                    message1.what = 33;
-                                    message1.obj = ex.getMessage();
+                                    message.what = 33;
+                                    message.obj = ex.getMessage();
                                     mHandler.sendMessage(message);
                                 }
                             }
@@ -197,16 +201,20 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
             String content = mBinding.etInputContent.getText().toString();
             try {
                 // 发送数据，设置编码Utf-8
-                if (mClientPrintStream == null) {
+                if (mClientPrintStream == null && mClientSocket != null) {
                     mClientPrintStream = new PrintStream(mClientSocket.getOutputStream(), true, charsetName);
                 }
 
                 // 发送数据出去
-                mClientPrintStream.println(content);
+                if (mClientPrintStream != null) {
+                    mClientPrintStream.println(content);
+                }
 
                 Message message1 = mHandler.obtainMessage();
                 message1.what = 44;
-                message1.obj = "发送接受完毕！";
+                message1.obj = "发送接受完毕:内容是：" + content;
+                mHandler.sendMessage(message1);
+
             } catch (IOException e) {
                 e.printStackTrace();
                 String message2 = e.getMessage();
@@ -226,10 +234,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
         }
     }
 
-    private boolean flag = true;
-    private Socket mServiceClient = null;
-
-    private String value = "";
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
@@ -239,8 +243,7 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
             switch (msg.what) {
                 case 999:
                     String address = (String) msg.obj;
-                    value += address + "    ";
-                    mBinding.tvAddress.setText("Address:" + value);
+                    mBinding.tvAddress.setText("Address:" + address);
                     break;
 
                 case 11:
