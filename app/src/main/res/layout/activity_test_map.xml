@@ -85,6 +85,16 @@
             style="@style/style_todo_item"
             android:text="测试局域网的数据传递" />
 
+        <TextView
+            android:id="@+id/tv_test_client_socket"
+            style="@style/style_todo_item"
+            android:text="客户端Socket" />
+
+        <TextView
+            android:id="@+id/tv_test_service_socket"
+            style="@style/style_todo_item"
+            android:text="服务端Socket" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

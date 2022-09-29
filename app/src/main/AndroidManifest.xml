@@ -92,7 +92,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-
+        <activity
+            android:name=".test.ServiceSocketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".test.SocketClientActivity"
+            android:exported="false" />
         <activity
             android:name=".test.TestIpActivity"
             android:exported="false" />
