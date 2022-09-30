@@ -17,7 +17,6 @@ import com.android.app.databinding.ActivitySocketClientBinding;
 import com.android.helper.base.title.AppBaseBindingTitleActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NetworkUtil;
-import com.android.helper.utils.ToastUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +25,14 @@ import java.io.PrintStream;
 import java.net.Socket;
 
 public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySocketClientBinding> {
+
+    private final int port = 9999;// 端口号
+    private final String encoding = "UTF-8";
+    private final StringBuffer mStringBuffer = new StringBuffer();
+    private BufferedReader mClientBufferedReader; // 客户端的读取数据流
+    private int number = 0;
+    private Socket mClientSocket = null; // 客户端端口
+    private PrintStream mClientPrintStream; // 客户端的写数据流
 
     @Override
     protected String setTitleContent() {
@@ -40,21 +47,68 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
     @Override
     public void initData(Bundle savedInstanceState) {
 
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                // 创建Socket对象
+                try {
+                    mClientSocket = new Socket(mBinding.etInput.getText().toString(), port);
+                    sendMessage("初始化客户端Socket成功");
+
+                    // 循环读取数据
+                    new Thread(() -> {
+                        sendMessage("开始读取服务端数据！");
+                        try {
+                            // 取得输入流读取客户端传送的数据,要接收中文只需将编码设置为"UTF-8"
+                            boolean connected = mClientSocket.isConnected();
+                            if (connected) {
+                                mClientBufferedReader = new BufferedReader(new InputStreamReader(mClientSocket.getInputStream(), encoding));
+
+                                sendMessage("开始循环获取数据！");
+
+                                String info = null;
+                                while ((info = mClientBufferedReader.readLine()) != null) {
+                                    sendMessage("服务端消息：" + info);
+                                }
+                            } else {
+                                sendMessage("服务端Socket链接断开！");
+                            }
+                        } catch (Exception e) {
+                            sendMessage("读取服务器数据异常：" + e.getMessage());
+
+                            if (mClientBufferedReader != null) {
+                                try {
+                                    mClientBufferedReader.close();
+                                    mClientBufferedReader = null;
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }
+                    }).start();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    sendMessage("初始化客户端Socket失败：" + e.getMessage());
+                    try {
+                        if (mClientSocket != null) {
+                            mClientSocket.close();
+                            mClientSocket = null;
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
-
-    private int port = 9999;// 端口号
-    private String charsetName = "UTF-8";
-    private final StringBuffer mStringBuffer = new StringBuffer();
-
-    // 客户端
-    private PrintStream mClientPrintStream; // 客户端的写数据流
-    private BufferedReader mClientBufferedReader; // 客户端的读取数据流
-    private Socket mClientSocket = null; // 客户端端口
 
     @Override
     public void initListener() {
         super.initListener();
-        setonClickListener(R.id.btn_get_ip, R.id.btn_send_data, R.id.btn_get_data, R.id.btn_init_data);
+        setonClickListener(R.id.btn_get_ip, R.id.btn_send_data);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -63,9 +117,7 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
         super.onClick(v);
 
         switch (v.getId()) {
-
             case R.id.btn_get_ip:
-
                 String ipAddress = NetworkUtil.getIPAddress(this);
                 LogUtil.e("------>" + ipAddress);
 
@@ -73,52 +125,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                 message.what = 999;
                 message.obj = ipAddress;
                 mHandler.sendMessage(message);
-                break;
-
-            case R.id.btn_init_data: // 初始化socket
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-
-                        // 创建Socket对象
-                        if (mClientSocket == null) {
-                            try {
-                                mClientSocket = new Socket(mBinding.etInput.getText().toString(), port);
-
-                                Message message2 = mHandler.obtainMessage();
-                                message2.what = 44;
-                                message2.obj = "初始化客户端Socket成功";
-                                mHandler.sendMessage(message2);
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                LogUtil.e("IOException:" + e.getMessage());
-                                Message message1 = mHandler.obtainMessage();
-                                message1.what = 33;
-                                message1.obj = e.getMessage();
-                                mHandler.sendMessage(message1);
-
-                                try {
-                                    if (mClientSocket != null) {
-                                        mClientSocket.close();
-                                        mClientSocket = null;
-                                    }
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                    LogUtil.e("client 链接错误：" + ex.getMessage());
-
-                                    Message message = mHandler.obtainMessage();
-                                    message.what = 33;
-                                    message.obj = ex.getMessage();
-                                    mHandler.sendMessage(message);
-                                }
-                            }
-                        }
-                    }
-                }.start();
-
                 break;
 
             case R.id.btn_send_data:
@@ -130,106 +136,36 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                 };
                 new Thread(runnable).start();
                 break;
-
-            case R.id.btn_get_data:
-                // 接收数据
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-
-                        // 准备从服务器端接收回应的BufferedReader, 设置编码
-                        if (mClientBufferedReader == null) {
-                            try {
-                                mClientBufferedReader = new BufferedReader(new InputStreamReader(mClientSocket.getInputStream(), charsetName));
-
-                                mStringBuffer.append("服务端：" + mClientBufferedReader.read());
-                                // 设置服务端的回应数据
-                                mBinding.tvContent.setText(mStringBuffer.toString());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-
-                                try {
-                                    if (mClientBufferedReader != null) {
-                                        mClientBufferedReader.close();
-                                        mClientBufferedReader = null;
-                                    }
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                    LogUtil.e("Socket读取数据异常：" + ex.getMessage());
-
-                                    Message message1 = mHandler.obtainMessage();
-                                    message1.what = 33;
-                                    message1.obj = ex.getMessage();
-                                    mHandler.sendMessage(message1);
-
-                                }
-                            }
-                        }
-
-                    }
-                }.start();
-
-                break;
         }
-    }
-
-    private boolean checked() {
-        Message message = mHandler.obtainMessage();
-        if (TextUtils.isEmpty(mBinding.etInput.getText().toString())) {
-            message.obj = "Ip地址为空！";
-            message.what = 11;
-            mHandler.sendMessage(message);
-            return false;
-        }
-
-        if (TextUtils.isEmpty(mBinding.etInputContent.getText().toString())) {
-            message.obj = "要发送的内容为空！";
-            message.what = 22;
-            mHandler.sendMessage(message);
-            return false;
-        }
-        return true;
     }
 
     private void sendClientCSocket() {
-        boolean checked = checked();
-        if (checked) {
+        String content = mBinding.etInputContent.getText().toString();
+        if (!TextUtils.isEmpty(content)) {
             // 启动的时候，需要把socket设置为异步线程
             //准备向服务器端发送信息的socket
-            String content = mBinding.etInputContent.getText().toString();
             try {
-                // 发送数据，设置编码Utf-8
-                if (mClientPrintStream == null && mClientSocket != null) {
-                    mClientPrintStream = new PrintStream(mClientSocket.getOutputStream(), true, charsetName);
+                if (mClientSocket != null) {
+                    boolean connected = mClientSocket.isConnected();
+                    if (connected) {
+                        if (mClientPrintStream == null) {
+                            mClientPrintStream = new PrintStream(mClientSocket.getOutputStream(), true, encoding);
+                        }
+                        // 发送数据出去
+                        mClientPrintStream.println(content + number);
+                        ++number;
+                    } else {
+                        sendMessage("客户端链接失败！");
+                    }
                 }
-
-                // 发送数据出去
-                if (mClientPrintStream != null) {
-                    mClientPrintStream.println(content);
-                }
-
-                Message message1 = mHandler.obtainMessage();
-                message1.what = 44;
-                message1.obj = "发送接受完毕:内容是：" + content;
-                mHandler.sendMessage(message1);
-
             } catch (IOException e) {
                 e.printStackTrace();
-                String message2 = e.getMessage();
-                LogUtil.e("error:" + message2);
-
-                Message message1 = mHandler.obtainMessage();
-                message1.what = 33;
-                message1.obj = message2;
-                mHandler.sendMessage(message1);
+                sendMessage("客户端数据发送失败：" + e.getMessage());
 
                 if (mClientPrintStream != null) {
                     mClientPrintStream.close();
                     mClientPrintStream = null;
                 }
-
             }
         }
     }
@@ -246,18 +182,48 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                     mBinding.tvAddress.setText("Address:" + address);
                     break;
 
-                case 11:
-                case 22:
-                    ToastUtil.show((String) msg.obj);
-                    break;
-
-                case 33:
-                    mBinding.tvContent.setText("错误：" + msg.obj);
-                    break;
-                case 44:
-                    mBinding.tvContent.setText("正常：" + msg.obj);
+                case 66:
+                    String content = (String) msg.obj;
+                    mBinding.tvContent.setText(content);
                     break;
             }
         }
     };
+
+    private void sendMessage(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            Message message = mHandler.obtainMessage();
+            message.what = 66;
+            mStringBuffer.append(content);
+            mStringBuffer.append("\r\n");
+            message.obj = mStringBuffer.toString();
+
+            mHandler.sendMessage(message);
+
+            LogUtil.e(content);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        try {
+            if (mClientSocket != null) {
+                mClientSocket.close();
+                mClientSocket = null;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        if (mClientBufferedReader != null) {
+            try {
+                mClientBufferedReader.close();
+                mClientBufferedReader = null;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

@@ -27,7 +27,6 @@
             android:text="Address:" />
     </LinearLayout>
 
-
     <EditText
         android:id="@+id/et_input_content"
         android:layout_width="match_parent"
@@ -35,6 +34,7 @@
         android:layout_below="@+id/ll_ips"
         android:layout_margin="@dimen/dp_10"
         android:background="@color/blue_1"
+        android:text="我是服务端的内容，当前的编号是："
         tools:text="请输入发送的内容" />
 
     <RelativeLayout
@@ -45,25 +45,12 @@
         android:layout_marginTop="@dimen/dp_10">
 
         <Button
-            android:id="@+id/btn_init_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="初始化" />
-
-        <Button
             android:id="@+id/btn_send_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="发送数据" />
 
-        <Button
-            android:id="@+id/btn_get_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="接收数据" />
     </RelativeLayout>
 
     <TextView
