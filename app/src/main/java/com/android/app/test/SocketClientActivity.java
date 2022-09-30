@@ -47,6 +47,47 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
     @Override
     public void initData(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    public void initListener() {
+        super.initListener();
+        setonClickListener(R.id.btn_get_ip, R.id.btn_send_data, R.id.btn_init_data);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.btn_get_ip:
+                String ipAddress = NetworkUtil.getIPAddress(this);
+                LogUtil.e("------>" + ipAddress);
+
+                Message message = mHandler.obtainMessage();
+                message.what = 999;
+                message.obj = ipAddress;
+                mHandler.sendMessage(message);
+                break;
+
+            case R.id.btn_init_data:
+                initSocket();
+                break;
+
+            case R.id.btn_send_data:
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        sendClientCSocket();
+                    }
+                };
+                new Thread(runnable).start();
+                break;
+        }
+    }
+
+    private void initSocket() {
         new Thread() {
             @Override
             public void run() {
@@ -103,40 +144,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                 }
             }
         }.start();
-    }
-
-    @Override
-    public void initListener() {
-        super.initListener();
-        setonClickListener(R.id.btn_get_ip, R.id.btn_send_data);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-
-        switch (v.getId()) {
-            case R.id.btn_get_ip:
-                String ipAddress = NetworkUtil.getIPAddress(this);
-                LogUtil.e("------>" + ipAddress);
-
-                Message message = mHandler.obtainMessage();
-                message.what = 999;
-                message.obj = ipAddress;
-                mHandler.sendMessage(message);
-                break;
-
-            case R.id.btn_send_data:
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        sendClientCSocket();
-                    }
-                };
-                new Thread(runnable).start();
-                break;
-        }
     }
 
     private void sendClientCSocket() {
