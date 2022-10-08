@@ -1,6 +1,7 @@
 package com.android.app.test;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityServiceSocketBinding;
+import com.android.app.ui.services.KeepService;
 import com.android.helper.base.title.AppBaseBindingTitleActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NetworkUtil;
@@ -38,6 +40,7 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
     private final StringBuffer mStringBuffer = new StringBuffer();
 
     private int number = 0;
+    private String mIpAddress;
 
     @Override
     protected String setTitleContent() {
@@ -115,7 +118,7 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
     @Override
     public void initListener() {
         super.initListener();
-        setonClickListener(R.id.btn_get_ip, R.id.btn_send_data);
+        setonClickListener(R.id.btn_get_ip, R.id.btn_send_data, R.id.btn_send_broadcast, R.id.btn_start, R.id.btn_keep, R.id.btn_stop);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -126,14 +129,13 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
         switch (v.getId()) {
 
             case R.id.btn_get_ip:
-                String ipAddress = NetworkUtil.getIPAddress(this);
-                LogUtil.e("------>" + ipAddress);
+                mIpAddress = NetworkUtil.getIPAddress(this);
+                LogUtil.e("------>" + mIpAddress);
 
                 Message message = mHandler.obtainMessage();
                 message.what = 999;
-                message.obj = ipAddress;
+                message.obj = mIpAddress;
                 mHandler.sendMessage(message);
-
                 break;
 
             case R.id.btn_send_data:
@@ -145,7 +147,50 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
                     }
                 }.start();
                 break;
+
+            case R.id.btn_send_broadcast:
+                sendBroadcast();
+                break;
+
+            case R.id.btn_start:
+                //  吸气
+                KeepService.start();
+
+                break;
+
+            case R.id.btn_keep:
+                // 屏住呼吸
+                KeepService.keep();
+
+                break;
+
+            case R.id.btn_stop:
+                // 呼气
+                KeepService.stop();
+                break;
         }
+    }
+
+    private void sendBroadcast() {
+        if (TextUtils.isEmpty(mIpAddress)) {
+            mIpAddress = "xxx.xxx.xxx.xxx";
+        }
+
+        //:在android中数据的传递都是使用的Intent
+        Intent intent = new Intent();
+        //:设置Intent_filter
+        intent.setAction("com.xjx.test");
+        intent.putExtra("ip", mIpAddress);
+        // 显示指定应用
+        intent.setPackage("com.xjx.kotlin");
+        //:发送无序广播
+        sendBroadcast(intent);
+//        ToastUtil.show("广播发送成功，Ip地址为：" + mIpAddress);
+
+        String packageName = getPackageName();
+        LogUtil.e("packageName:::  " + packageName);
+        String canonicalName = KeepService.class.getCanonicalName();
+        LogUtil.e("canonicalName:::  " + canonicalName);
     }
 
     private void sendServiceSocket() {
@@ -178,7 +223,6 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
         }
     }
 
-    private String value = "";
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
@@ -188,8 +232,7 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
             switch (msg.what) {
                 case 999:
                     String address = (String) msg.obj;
-                    value += address + "    ";
-                    mBinding.tvAddress.setText("Address:" + value);
+                    mBinding.tvAddress.setText("Address:" + address);
                     break;
 
                 case 66:
@@ -249,6 +292,5 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
             mPrintStream.close();
             mPrintStream = null;
         }
-
     }
 }

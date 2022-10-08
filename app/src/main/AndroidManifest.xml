@@ -81,8 +81,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <!--    ${app_icon}-->
-    <!--    android:icon="@mipmap/ic_launcher"-->
     <application
         android:name=".app.App"
         android:allowBackup="false"
@@ -94,9 +92,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
+
+        <service
+            android:name=".ui.services.KeepService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.xjx.keep" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".test.ServiceSocketActivity"
-            android:exported="false" />
+            android:exported="true" />
+
         <activity
             android:name=".test.SocketClientActivity"
             android:exported="false" />
@@ -150,9 +159,7 @@
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/account_authenticator" />
-        </service>
-
-        <!--com.android.app.account.authority-->
+        </service> <!-- com.android.app.account.authority -->
         <provider
             android:name="com.android.helper.utils.account.SyncProvider"
             android:authorities="${applicationId}.authority"
