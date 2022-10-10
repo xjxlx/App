@@ -92,6 +92,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
+        <activity
+            android:name=".ui.activity.widget.CustomBreathingViewActivity"
+            android:exported="true" />
 
         <service
             android:name=".ui.services.KeepService"
@@ -105,7 +108,6 @@
         <activity
             android:name=".test.ServiceSocketActivity"
             android:exported="true" />
-
         <activity
             android:name=".test.SocketClientActivity"
             android:exported="false" />
