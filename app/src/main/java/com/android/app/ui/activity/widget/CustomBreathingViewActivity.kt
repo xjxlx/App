@@ -22,7 +22,7 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
         setonClickListener(mBinding.btnStart1, mBinding.btnStart2, mBinding.btnStart3, mBinding.btnStop)
     }
 
-    override fun onViewClick(v: View?) {
+    override fun onClick(v: View?) {
         super.onViewClick(v)
         when (v?.id) {
             R.id.btn_start1 -> {

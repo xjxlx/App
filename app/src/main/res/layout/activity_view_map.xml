@@ -104,10 +104,16 @@
             android:id="@+id/tv_custom_number_scroll"
             style="@style/style_item_selector"
             android:text="自定义数字滑动" />
+
         <TextView
             android:id="@+id/tv_custom_breathing"
             style="@style/style_item_selector"
             android:text="自定义呼吸效果" />
+
+        <TextView
+            android:id="@+id/tv_custom_viewpager2"
+            style="@style/style_item_selector"
+            android:text="自定义ViewPager2" />
 
     </LinearLayout>
 
