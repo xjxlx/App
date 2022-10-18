@@ -1,39 +1,37 @@
 package com.android.app.ui.activity.widget;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 
-import com.android.app.R;
-import com.android.app.widget.ScrollNumberView3;
+import com.android.app.databinding.ActivityCustomNumberScrollBinding;
+import com.android.helper.base.title.AppBaseBindingTitleActivity;
 
-public class CustomNumberScrollActivity extends FragmentActivity {
-//
-//    @Override
-//    protected int getTitleLayout() {
-//        return R.layout.activity_custom_number_scroll;
-//    }
-//
-//    @Override
-//    protected String setTitleContent() {
-//        return "自定义数字滑动";
-//    }
-//
+public class CustomNumberScrollActivity extends AppBaseBindingTitleActivity<ActivityCustomNumberScrollBinding> {
+
+    private final String[] mNumbers = new String[]{
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20"
+    };
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_number_scroll);
+    protected String setTitleContent() {
+        return "滑动数字";
+    }
 
-        ScrollNumberView3 scrollNumberView3 = findViewById(R.id.sc3);
+    @Override
+    public ActivityCustomNumberScrollBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return ActivityCustomNumberScrollBinding.inflate(inflater, container, true);
+    }
 
-        findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scrollNumberView3.invalidate();
-            }
+    @Override
+    public void initData(Bundle savedInstanceState) {
+        mBinding.sc3.setOnClickListener((View.OnClickListener) v -> {
+            mBinding.sc3.invalidate();
+            mBinding.sc3.requestLayout();
         });
     }
 }

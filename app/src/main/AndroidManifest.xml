@@ -94,7 +94,7 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.widget.ViewPager2Activity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.activity.widget.CustomBreathingViewActivity"
             android:exported="true" />
@@ -103,9 +103,9 @@
             android:name=".ui.services.KeepService"
             android:enabled="true"
             android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="com.xjx.keep" />-->
-            <!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="com.xjx.keep" />
+            </intent-filter>
         </service>
 
         <activity
@@ -118,10 +118,10 @@
             android:name=".test.TestIpActivity"
             android:exported="false" />
         <activity android:name=".ui.activity.widget.CustomNumberScrollActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.kotlin.CzfActivity" />
         <activity android:name=".ui.activity.kotlin.LambdaActivity" />

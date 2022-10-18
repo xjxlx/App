@@ -7,9 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -29,8 +27,8 @@ import java.util.Set;
  */
 public class ScrollNumberView3 extends View {
 
-    // 默认选中的文字
-    private String mDefaultNumberContent = "5";
+    // 默认选中的文字的角标
+    private int mDefaultIndex = 4;
 
     /**
      * 用来存储文字的字体大小
@@ -62,6 +60,8 @@ public class ScrollNumberView3 extends View {
     private final float mNumberMaxSize = 100;// 文字的最大值
 
     private final HashMap<String, Position> mMapNumberPosition = new HashMap<>();// 存储每个文字位置的集合
+    private final HashMap<String, Integer> mMapIndex = new HashMap<>();// 存储文字的角标
+    private float mOffset; // 文字间隔的一半
 
     public ScrollNumberView3(Context context) {
         super(context);
@@ -99,6 +99,13 @@ public class ScrollNumberView3 extends View {
 //        mPaintNumber.setStyle(Paint.Style.FILL);
 //        mPaintNumber.setTextSize(ConvertUtil.toDp(mNumberMinSize));
 //        mPaintNumber.setColor(Color.WHITE);
+
+        for (int i = 0; i < mNumbers.length; i++) {
+            String number = mNumbers[i];
+            mMapIndex.put(number, i);
+        }
+
+        mOffset = mNumberInterval / 2;
     }
 
     @Override
@@ -129,23 +136,23 @@ public class ScrollNumberView3 extends View {
         super.onDraw(canvas);
 
         // 计算出默认文字和其他文字字体的大小
-        calculateDefaultSelectorPosition(mDefaultNumberContent);
+        calculateDefaultSelectorPosition();
 
         // 绘制指定大小的透明背景
         canvas.drawRoundRect(mCenterRect, 20, 20, mPaintCenterRect);
 
         // 绘制阴影线
-        int lineWidth = roundRectWidth / 2;
-        int lineHeight = roundRectHeight / 2;
-        canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top, mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
-        canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight, mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
+//        int lineWidth = roundRectWidth / 2;
+//        int lineHeight = roundRectHeight / 2;
+//        canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top, mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
+//        canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight, mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
 
         // 绘制数字
-        mPaintNumber.setTextAlign(Paint.Align.CENTER);
-        float[] numberSize = CustomViewUtil.getTextSize(mPaintNumber, mDefaultNumberContent);
-        float baseLine = CustomViewUtil.getBaseLine(mPaintNumber, mDefaultNumberContent);
-        float x = mCenterRect.left + roundRectWidth / 2;
-        float y = mCenterRect.top + (roundRectHeight - numberSize[1]) / 2 + baseLine;
+//        mPaintNumber.setTextAlign(Paint.Align.CENTER);
+//        float[] numberSize = CustomViewUtil.getTextSize(mPaintNumber, mDefaultNumberContent);
+//        float baseLine = CustomViewUtil.getBaseLine(mPaintNumber, mDefaultNumberContent);
+//        float x = mCenterRect.left + roundRectWidth / 2;
+//        float y = mCenterRect.top + (roundRectHeight - numberSize[1]) / 2 + baseLine;
 
 //        canvas.drawText(mDefaultNumberContent, x, y, mPaintNumber);
 
@@ -159,7 +166,7 @@ public class ScrollNumberView3 extends View {
                 float startX = position.startX;
                 float startY = position.startY;
 
-                if (TextUtils.equals(number, mDefaultNumberContent)) {
+                if (mDefaultIndex == i) {
                     canvas.drawText(number, x1 + mDx, y1, paint);
                 } else {
                     canvas.drawText(number, startX + mDx, startY, paint);
@@ -299,29 +306,21 @@ public class ScrollNumberView3 extends View {
 
     /**
      * 计算默认选中的内容，并设定其他位置文字的大小
-     *
-     * @param selectorContent 当前选中的文字
      */
-    private void calculateDefaultSelectorPosition(String selectorContent) {
-        // 获取当前选中文字的角标
-        int index = 0;
-        for (int i = 0; i < mNumbers.length; i++) {
-            String mNumber = mNumbers[i];
-            if (TextUtils.equals(mNumber, selectorContent)) {
-                index = i;
-                // 存入最大的数据
-                mMapFontSize.put(selectorContent, mNumberMaxSize);
+    private void calculateDefaultSelectorPosition() {
+        // 获取选中的文字
+        String defaultNumber = mNumbers[mDefaultIndex];
+        // 存入最大的数据
+        mMapFontSize.put(defaultNumber, mNumberMaxSize);
 
-                calculateSelectorPosition(mNumber, 0, index);
-                break;
-            }
-        }
+        // 设置文字的大小，并计算位置
+        calculateSelectorPosition(defaultNumber, 0, mDefaultIndex);
 
         // 左侧的文字，大小逐渐减小
         float valueLeft;
         int temp = 0;
 
-        for (int i = index - 1; i >= 0; i--) {
+        for (int i = mDefaultIndex - 1; i >= 0; i--) {
             String item = mNumbers[i];
             temp++;
 
@@ -340,7 +339,7 @@ public class ScrollNumberView3 extends View {
         // 右侧的文字，大小逐渐变大
         float valueRight;
         temp = 0;
-        for (int i = index + 1; i < mNumbers.length; i++) {
+        for (int i = mDefaultIndex + 1; i < mNumbers.length; i++) {
             String item = mNumbers[i];
             temp++;
             valueRight = mNumberMaxSize - temp * 6;
@@ -352,90 +351,79 @@ public class ScrollNumberView3 extends View {
 
             calculateSelectorPosition(item, 2, i);
         }
-
     }
 
     private void calculateSelectorPosition(String selectorContent, int type, int index) {
         // 获取存储的position对象
         Position position = mMapNumberPosition.get(selectorContent);
+
         if (position == null) {
             position = new Position();
         }
 
-        // 获取指定的paint
         Paint paint = position.getPaint();
         if (paint == null) {
             paint = new Paint();
             paint.setColor(Color.WHITE);
             paint.setAntiAlias(true);
             paint.setTypeface(Typeface.DEFAULT_BOLD);
-            position.paint = paint;
         }
 
         // 获取选中文字的大小
         Float size = mMapFontSize.get(selectorContent);
-
         // 设置文字大小
-        if (size != null) {
-            paint.setTextSize(size);
-        }
+        paint.setTextSize(size);
 
         // 获取选中文字的大小
         float[] numberSize = CustomViewUtil.getTextSize(paint, selectorContent);
-
+        float numberWidth = numberSize[0];
+        float numberHeight = numberSize[1];
         // 获取选中文字的基线
         float baseLine = CustomViewUtil.getBaseLine(paint, selectorContent);
 
-        // 存入默认选中数据的position值
-        if (TextUtils.equals(selectorContent, mDefaultNumberContent)) {
-            position.x = mCenterRect.right - roundRectWidth / 2;
-            position.y = mCenterRect.top + (roundRectHeight - numberSize[1]) / 2 + baseLine;
-            position.paint.setTextAlign(Paint.Align.CENTER);
+        if (type == 0) {
+            position.x = mCenterRect.left + roundRectWidth / 2;
+            position.y = mCenterRect.top + (roundRectHeight - numberHeight) / 2 + baseLine;
+            paint.setTextAlign(Paint.Align.CENTER);
 
             // 计算出中心位置距离矩形的间距
-            float mStartX = mCenterRect.left + (roundRectWidth - numberSize[0]) / 2;
-            float mEndX = mStartX + numberSize[0];
-            position.startX = mStartX;
-            position.endX = mEndX;
+            position.startX = mCenterRect.left + (roundRectWidth - numberWidth) / 2;
+            position.endX = mStartX + numberWidth;
 
-        } else {
-            // 左侧的值
-            if (type == 1) {
-                if (index >= 0) {
-                    // 获取当前值右侧的值
-                    String number = mNumbers[index + 1];
-                    Position positionRight = mMapNumberPosition.get(number);
-                    float startX = 0;
-                    if (positionRight != null) {
-                        // 上一个view左侧的值
-                        startX = positionRight.startX;
-                    }
+        } else if (type == 1) {
 
-                    // 获取当前的position
-                    position.endX = startX - mNumberInterval;
-                    // right  = startX + 当前文字的宽度
-                    position.startX = position.endX - numberSize[0];
-
-                    // y = 矩形的高度 - 文字的高度 /2
-                    position.startY = (roundRectHeight - numberSize[1]) / 2 + baseLine;
-                }
-                // x轴 = 上一个的值 - 间距 - 文字的宽度
-
-            } else if (type == 2) {
-                // 获取左侧的值
-                float endX = 0;
-                String number = mNumbers[index - 1];
-                Position positionLeft = mMapNumberPosition.get(number);
-                if (positionLeft != null) {
-                    endX = positionLeft.endX;
-                }
-
-                position.startX = endX + mNumberInterval;
-                position.endX = position.startX + numberSize[0];
-                position.startY = (roundRectHeight - numberSize[1]) / 2 + baseLine;
+            // 获取当前值右侧的值
+            String number = mNumbers[index + 1];
+            Position positionRight = mMapNumberPosition.get(number);
+            float startX = 0;
+            if (positionRight != null) {
+                // 上一个view左侧的值
+                startX = positionRight.startX;
             }
+
+            // 获取当前的position
+            position.endX = startX - mNumberInterval;
+            // right  = startX + 当前文字的宽度
+            position.startX = position.endX - numberWidth;
+
+            // y = 矩形的高度 - 文字的高度 /2
+            position.startY = (roundRectHeight - numberHeight) / 2 + baseLine;
+            paint.setTextAlign(Paint.Align.LEFT);
+        } else if (type == 2) {
+            // 获取左侧的值
+            float endX = 0;
+            String number = mNumbers[index - 1];
+            Position positionLeft = mMapNumberPosition.get(number);
+            if (positionLeft != null) {
+                endX = positionLeft.endX;
+            }
+
+            position.startX = endX + mNumberInterval;
+            position.endX = position.startX + numberWidth;
+            position.startY = (roundRectHeight - numberHeight) / 2 + baseLine;
             paint.setTextAlign(Paint.Align.LEFT);
         }
+        position.paint = paint;
 
         // 存储位置的信息
         mMapNumberPosition.put(selectorContent, position);
@@ -443,44 +431,32 @@ public class ScrollNumberView3 extends View {
 
     boolean isTouch = true;
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-
-                break;
-        }
-        return super.dispatchTouchEvent(event);
-    }
-
     float mStartX;
-    float mEndX;
     int mDx = 0;
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mStartX = event.getX();
-                return isTouch;
-
-            case MotionEvent.ACTION_MOVE:
-                float endX = event.getX();
-                mDx += (int) (endX - mStartX);
-                calculateSelectorPosition();
-
-                invalidate();
-
-                mStartX = endX;
-                break;
-            case MotionEvent.ACTION_UP:
-
-                break;
-        }
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                mStartX = event.getX();
+//                return isTouch;
+//
+//            case MotionEvent.ACTION_MOVE:
+//                float endX = event.getX();
+//                mDx += (int) (endX - mStartX);
+//                calculateSelectorPosition();
+//
+//                invalidate();
+//
+//                mStartX = endX;
+//                break;
+//            case MotionEvent.ACTION_UP:
+//
+//                break;
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
     //    /**
 //     * 偏移的x轴的数据
@@ -566,28 +542,12 @@ public class ScrollNumberView3 extends View {
             float startX = position.getStartX();
             float endX = position.getEndX();
 
-            // 判定哪个view在中间矩形的位置
-            // 逻辑：
-            /*
-             *逻辑：
-             *  1：大于文字左侧的开始位置 + 间距的一半
-             *  2：小于文字右侧的结束位置 + 间距的一半
-             */
-
-            LogUtil.e("mCenterRect.left:" + mCenterRect.left + "   mCenterRect.right:" + mCenterRect.right);
-            LogUtil.e("XXX:" + startX + mDx + "  XXXX:" + endX + mDx);
-            if (startX + mDx - mNumberInterval / 2 > (mCenterRect.left) && (endX + mDx + mNumberInterval / 2) < mCenterRect.right) {
+            // 如果正好在圈里，则必然是选中的
+            if (startX + mDx > (mCenterRect.left) && (endX + mDx) < mCenterRect.right) {
                 LogUtil.e("当前选中的是：" + key);
-//                mDefaultNumberContent = key;
+                mDefaultIndex = mMapIndex.get(key);
                 return;
             }
-
-//
-//            if (startX >= drawRoundRect.left - mIntegerHalf && endX <= drawRoundRect.right + mIntegerHalf) {
-//                LogUtil.e("当前的选中为：" + key);
-//                mDefaultNumberContent = key;
-//                return;
-//            }
         }
     }
 //

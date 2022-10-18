@@ -8,7 +8,7 @@ import com.android.app.R
 import com.android.app.databinding.ActivityViewPager2Binding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 
-class ViewPager2Activity : AppBaseBindingTitleActivity<ActivityViewPager2Binding>() {
+class ViewPager2Activity : AppBaseBindingTitleActivity<com.android.app.databinding.ActivityViewPager2Binding>() {
 
     override fun setTitleContent(): String {
         return "ViewPager2"
@@ -21,12 +21,10 @@ class ViewPager2Activity : AppBaseBindingTitleActivity<ActivityViewPager2Binding
         return ActivityViewPager2Binding.inflate(inflater, container, true)
     }
 
-
     private val mImageIds = intArrayOf(
         R.mipmap.a1, R.mipmap.a2,
         R.mipmap.a3, R.mipmap.a4, R.mipmap.a5, R.mipmap.a6
     )
-
 
     override fun initData(savedInstanceState: Bundle?) {
         for (item in mImageIds) {
