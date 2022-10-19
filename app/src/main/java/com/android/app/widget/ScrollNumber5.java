@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -33,12 +32,11 @@ public class ScrollNumber5 extends View {
     private int mMaxWidth;// 屏幕最大的宽度
     private final int roundRectWidth = (int) ConvertUtil.toDp(125f); // 矩形的宽度
     private final int roundRectHeight = (int) ConvertUtil.toDp(125f); // 矩形的高度
-    private final int minuteInterval = (int) ConvertUtil.toDp(26);
 
     /**
      * 每个文字的间距
      */
-    private final float mNumberInterval = ConvertUtil.toDp(125);
+    private final float mNumberInterval = ConvertUtil.toDp(100);
 
     private final Paint mPaintCenterRect = new Paint();
     // 阴影线
@@ -47,17 +45,15 @@ public class ScrollNumber5 extends View {
     private final Paint mPaintNumber = new Paint();// 数字的paint
     private final float mNumberMinSize = 48;// 文字的最小值
     private final float mNumberMaxSize = 100;// 文字的最大值
-    private int mSelectorIndex = 9; // 选中的数字的角标
+    public int mSelectorIndex = 9; // 选中的数字的角标
     private HashMap<String, Point> mMapPoint = new HashMap<>();
+    private float mDx;
 
-    private GestureDetector mDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return super.onScroll(e1, e2, distanceX, distanceY);
-        }
-    });
     private int mScreenWidth;
     private int mScreenHeight;
+    private int mStartX;
+    // 存储一份原始的数据
+    private HashMap<String, Float> mMapFontSize = new HashMap<>();
 
     public ScrollNumber5(Context context) {
         super(context);
@@ -86,15 +82,12 @@ public class ScrollNumber5 extends View {
         // 获取view的宽度
         mMaxWidth = MeasureSpec.getSize(widthMeasureSpec);
 
-//        if (mMMaxWidth > 0) {
-//            centerLines = mMMaxWidth / 2;
-//        }
-//
         mCenterRect.left = (mMaxWidth - roundRectWidth) / 2;
         mCenterRect.right = mCenterRect.left + roundRectWidth;
         mCenterRect.top = 0;
         mCenterRect.bottom = mCenterRect.top + roundRectHeight;
-//        // 计算出总体的高度后，重新去设置高度
+        // 计算出总体的高度后，重新去设置高度
+
         setMeasuredDimension(mMaxWidth, 500);
     }
 
@@ -105,42 +98,43 @@ public class ScrollNumber5 extends View {
         // 绘制指定大小的透明背景
         canvas.drawRoundRect(mCenterRect, 20, 20, mPaintCenterRect);
 
+        if (mMapPoint.size() == 0) {
+        }
+
         // 绘制阴影线
         int lineWidth = roundRectWidth / 2;
         int lineHeight = roundRectHeight / 2;
         canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top, mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
         canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight, mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
 
-        calculatePosition();
         // 绘制中间的数字
 
-//        String number = mNumbers[mSelectorIndex];
-//        Point point = mMapPoint.get(number);
-//        mPaintNumber.setTextSize(point.textSize);
-//        canvas.drawText(number, point.x, point.y, mPaintNumber);
-
         for (int i = 0; i < mNumbers.length; i++) {
-            String number1 = mNumbers[i];
-            Point point1 = mMapPoint.get(number1);
-            if (point1 != null) {
-                mPaintNumber.setTextSize(point1.textSize);
-                canvas.drawText(number1, point1.x, point1.y, mPaintNumber);
+            String number = mNumbers[i];
+            Point point = mMapPoint.get(number);
+            if (point != null) {
+                mPaintNumber.setTextSize(point.textSize);
+                canvas.drawText(number, point.x + mDx, point.y, mPaintNumber);
             }
         }
     }
 
-    private void calculatePosition() {
+    private synchronized void calculatePosition() {
         // 1:计算中间的位置
+        if (mSelectorIndex < mNumbers.length) {
+            String number = mNumbers[mSelectorIndex];
+            // 设置文字的大小
+            mPaintNumber.setTextSize(mNumberMaxSize);
 
-        String number = mNumbers[mSelectorIndex];
-        // 设置文字的大小
-        mPaintNumber.setTextSize(mNumberMaxSize);
-        saveParameter(1, number, mSelectorIndex);
+            // 存储文字的大小
+            mMapFontSize.put(number, mNumberMaxSize);
+
+            saveParameter(1, number, mSelectorIndex);
+        }
 
         // 计算左侧的数据
         for (int i = mSelectorIndex - 1; i >= 0; i--) {
             String numberLeft = mNumbers[i];
-            LogUtil.e("i:" + i + " number:" + numberLeft);
 
             saveParameter(2, numberLeft, i);
         }
@@ -148,17 +142,13 @@ public class ScrollNumber5 extends View {
         // 计算右侧的值
         for (int i = mSelectorIndex + 1; i < mNumbers.length; i++) {
             String numberRight = mNumbers[i];
-            LogUtil.e("i:" + i + " numberRight:" + numberRight);
-
             saveParameter(3, numberRight, i);
         }
     }
 
-    private void saveParameter(int type, String number, int index) {
-        Point point = mMapPoint.get(number);
-        if (point == null) {
-            point = new Point();
-        }
+    private synchronized void saveParameter(int type, String number, int index) {
+
+        Point point = getPoint(number);
 
         // 计算中间的数字
         if (type == 1) {
@@ -171,7 +161,6 @@ public class ScrollNumber5 extends View {
             if (mScreenHeight == 0) {
                 mScreenHeight = getHeight();
             }
-            LogUtil.e("screenWidth:" + mScreenWidth + "  screenHeight:" + mScreenHeight);
 
             // 获取文字的高度
             float middleNumberHeight = CustomViewUtil.getTextSize(mPaintNumber, number)[1];
@@ -189,18 +178,14 @@ public class ScrollNumber5 extends View {
             // 计算左侧的数字
 
             // 获取右侧的X值
-            if (index + 1 <= mNumbers.length) {
+            if (index + 1 < mNumbers.length) {
                 // 上一个数字
                 String numberRight = mNumbers[index + 1];
                 Point pointRight = mMapPoint.get(numberRight);
                 if (pointRight != null) {
                     // 重新设置文字的大小
                     float textSize = pointRight.textSize;
-                    if (textSize - 8 >= mNumberMinSize) {
-                        point.textSize = textSize - 8;
-                    } else {
-                        point.textSize = mNumberMinSize;
-                    }
+                    point.textSize = Math.max(textSize - 8, mNumberMinSize);
 
                     // 设置文字大小，重新测量位置
                     mPaintNumber.setTextSize(point.textSize);
@@ -214,7 +199,11 @@ public class ScrollNumber5 extends View {
                     float leftBaseLine = CustomViewUtil.getBaseLine(mPaintNumber, number);
 
                     // 左侧x = 上一个的x + 间距 + 本身的宽度
-                    point.x = pointRight.x - mNumberInterval - leftTextViewWidth;
+                    if (index > 0) {
+                        point.x = pointRight.x - mNumberInterval - leftTextViewWidth;
+                    } else if (index == 0) {
+                        point.x = pointRight.x - mNumberInterval;
+                    }
                     point.y = mCenterRect.top + (roundRectHeight - leftNumberHeight) / 2 + leftBaseLine;
                     point.textWidth = leftTextViewWidth;
                 }
@@ -252,11 +241,80 @@ public class ScrollNumber5 extends View {
         mMapPoint.put(number, point);
     }
 
+    private Point getPoint(String number) {
+        Point point = mMapPoint.get(number);
+        if (point == null) {
+            point = new Point();
+        }
+        return point;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mDetector.onTouchEvent(event);
-        return true;
-//        return super.onTouchEvent(event);
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mStartX = (int) event.getRawX();
+                return true;
+
+            case MotionEvent.ACTION_MOVE:
+                int endX = (int) event.getRawX();
+
+                mDx += endX - mStartX;
+
+                calculatePosition();
+                mStartX = endX;
+                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                sss();
+
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public synchronized void sss() {
+        for (int i = 0; i < mNumbers.length; i++) {
+            // 当前数字
+            String number = mNumbers[i];
+
+            // 原始的位置
+            Point point = getPoint(number);
+            float x = point.x;
+            float textWidth = point.textWidth;
+
+            /**
+             * 文字的位置逻辑：
+             * 1：中心线的位置
+             *
+             * 1：文字原来位置 + 文字的宽度一半 =  文字最中心的位置
+             * 2：目前位置 >= 文字原来位置 - 间距的一半
+             * 3：目前位置 <= 文字原来位置 + 文字的宽度 + 间距的一半
+             */
+
+//            LogUtil.e("number:" + number
+//                    + " 文字的中心位置" + getWidth() / 2
+//                    + " 文字现在的位置：" + position
+//                    + " 文字左侧的边界：" + (point.x - mNumberInterval / 2)
+//                    + "  文字右侧的边距：" + (point.x + mNumberInterval / 2));
+
+            LogUtil.e(
+                    "number: " + number
+                            + " left:" + mCenterRect.left
+                            + " x-l:" + (point.x + mDx)
+                            + " right:" + mCenterRect.right
+                            + " x-r:" + (point.x + point.textWidth + mDx)
+                            + " mDx:" + (mDx)
+            );
+
+            if (point.x + mDx > mCenterRect.left && point.x + mDx + point.textWidth > mCenterRect.right) {
+                LogUtil.e("选中饿了！" + number);
+                mSelectorIndex = i;
+                break;
+            }
+        }
+        invalidate();
     }
 
     private static class Point {

@@ -18,13 +18,12 @@
     <!--        android:layout_height="wrap_content"-->
     <!--        android:layout_marginTop="@dimen/dp_100" />-->
 
-    <com.android.app.widget.ScrollNumber5
+    <com.android.app.widget.ScrollNumberView4
         android:id="@+id/sc3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/dp_20"
-        android:background="@color/blue_1" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_20" />
 
     <Button
         android:id="@+id/btn_start"

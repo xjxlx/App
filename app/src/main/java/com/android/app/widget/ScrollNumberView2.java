@@ -45,7 +45,6 @@ public class ScrollNumberView2 extends View {
      */
     private Paint mPaintMinute;
     private RectF drawRoundRect;
-    //    private final float roundRectWidth = ConvertUtil.toDp(92.69f);
     private final float roundRectWidth = ConvertUtil.toDp(125f);
     private final float roundRectHeight = ConvertUtil.toDp(125f);
     private final float minuteInterval = ConvertUtil.toDp(26);
@@ -246,6 +245,7 @@ public class ScrollNumberView2 extends View {
             y = (int) ((drawRoundRect.bottom - itemHeight) / 2 + baseLine);
 
             canvas.drawText(number, x + dx + touchOffsetX, y, mPaintNumber);
+
             previousNumberWidth = itemWidth;
 
             // 存储view当前的位置
@@ -276,13 +276,17 @@ public class ScrollNumberView2 extends View {
 
             // 计算文字的大小
             float[] itemSize = CustomViewUtil.getTextSize(mPaintNumber, number);
+
             if (mContentMaxHeight < itemSize[1]) {
                 mContentMaxHeight = itemSize[1];
             }
 
+            float textViewWidth = CustomViewUtil.getTextViewWidth(mPaintNumber, number);
+
+            mSum += textViewWidth;
+            itemSize[0] = textViewWidth;
             mMapSize.put(number, itemSize);
 
-            mSum += itemSize[0];
             if (i > 0) {
                 mSum += mNumberInterval;
             }
