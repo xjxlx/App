@@ -29,7 +29,7 @@ public class CustomNumberScrollActivity extends AppBaseBindingTitleActivity<Acti
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mBinding.sc3.setOnClickListener((View.OnClickListener) v -> {
+        mBinding.btnStart.setOnClickListener((View.OnClickListener) v -> {
             mBinding.sc3.invalidate();
             mBinding.sc3.requestLayout();
         });
