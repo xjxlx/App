@@ -1,7 +1,5 @@
 package com.android.app.widget
 
-import android.animation.Animator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -53,9 +51,8 @@ class BreatheView2 : View {
     private var isStartSecond = false // 是否已经开始了第二个，避免重复性执行
     private var isStartThree = false // 是否已经开始了第三个，避免重复性执行
 
-    private var isStop = false //  是否停止整体的播放逻辑
+    private var isStopAll = false //  是否停止整体的播放逻辑
     private var isStopOne = false// 第一个是否已经结束了
-    private var isStopTwo = false// 第二个是否已经结束了
 
     private var isPrepareTwo = false // 第二个是否已经准备好了
     private var isStopLoopThree = false // 停止第三个循环
@@ -92,52 +89,46 @@ class BreatheView2 : View {
         mCY = (measuredHeight / 2).toFloat()
         // 圆心最大的直径宽度
         mMaxRadius = (measuredWidth / 2).toFloat()
-
         // 每一份占据的透明度
-        mAlphasZoom = (150 / mMaxRadius)
-        LogUtil.e("mAlphasZoom:$mAlphasZoom")
+        mAlphasZoom = (mColorValue / mMaxRadius)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.let { it ->
-            LogUtil.e("onDraw")
-
             // 绘制边线
             it.drawRect(mRectStrokeLine, mPaintStrokeLine)
 
             // 绘制透明圆圈
-            if (mFlagType == 1) {
-                for (item in mListLoopSmallToBig) {
-                    item.paint?.let { paint ->
-
-                        LogUtil.e("item:" + item.radius + "  alpha:" + paint.alpha + "   -->" + mListLoopSmallToBig.size)
-
-                        it.drawCircle(mCx, mCY, item.radius, paint)
-                    }
+            when (mFlagType) {
+                1 -> {
+                    drawCircle(it, mListLoopSmallToBig)
                 }
-            } else if (mFlagType == 2) {
 
-                for (item in mListSmallToBig) {
-                    it.drawCircle(mCx, mCY, item.radius, item.paint!!)
+                2 -> {
+                    drawCircle(it, mListSmallToBig)
                 }
-            } else if (mFlagType == 3) {
 
-                for (item in mListBigToSmall) {
-                    it.drawCircle(mCx, mCY, item.radius, item.paint!!)
+                3 -> {
+                    drawCircle(it, mListBigToSmall)
                 }
             }
+        }
+    }
+
+    private fun drawCircle(canvas: Canvas?, list: List<Circle>) {
+        for (item in list) {
+            canvas?.drawCircle(mCx, mCY, item.radius, item.paint!!)
         }
     }
 
     /**
      * 开始扩散
      */
-    public fun startTransparentCircle() {
+    fun startTransparentCircle() {
         if (!isStartOne) {
             isStartOne = true // 第一个已经开始了
-
-            isStop = false // 重置整体播放状态
+            isStopAll = false // 重置整体播放状态
 
             isStopOne = false // 重置第一个播放完毕的状态
             isPrepareTwo = false // 重置第二个准备好的状态
@@ -151,7 +142,7 @@ class BreatheView2 : View {
     /**
      * 从小到大的处理逻辑
      */
-    public fun startSmallSolidCircle() {
+    fun startSmallSolidCircle() {
         isPrepareTwo = true // 标记：第二个已经准备好了
 
         initSmallToBigCircle()
@@ -166,8 +157,7 @@ class BreatheView2 : View {
          */
         if (!isStartSecond && isPrepareTwo && isStopOne) {
 
-            LogUtil.e("initBigSolidCircle")
-
+            isStopAll = false // 重置整体播放状态
             isStartSecond = true // 标记第二个已经开始了
             mFlagType = 2
 
@@ -182,9 +172,9 @@ class BreatheView2 : View {
     fun startBigToSmallCircle() {
         if (!isStartThree) {
             isStartThree = true
-
+            isStopAll = false // 重置整体播放状态
             mFlagType = 3
-            isStopLoopThree = false
+            isStopLoopThree = false // 第三个loop
 
             // 添加一个圆圈
             addPoint(whatBigToSmall, 1)
@@ -203,12 +193,12 @@ class BreatheView2 : View {
         isStartOne = false
 
         isStopOne = false
-
         isPrepareTwo = false
+        isStopAll = true
     }
 
     fun sendMessage(type: Int) {
-        if (!isStop) {
+        if (!isStopAll) {
             mHandler.removeMessages(type)
             mHandler.sendEmptyMessage(type)
         }
@@ -223,8 +213,11 @@ class BreatheView2 : View {
         invalidate()
     }
 
+    /**
+     * 发送轮训消息
+     */
     fun sendMessageDelayed(type: Int, delayMillis: Long) {
-        if (!isStop) {
+        if (!isStopAll) {
             // 如果loop从小到大的逻辑，如果第二个准备好了，就停止
             if (type == whatLoopSmallToBigAdd) {
                 if (isPrepareTwo) {
@@ -235,7 +228,6 @@ class BreatheView2 : View {
             // 如果loop从大
             if (type == whatLoopBigToSmallAdd) {
                 if (isStopLoopThree) {
-                    LogUtil.e("停止了继续发送！")
                     return
                 }
             }
@@ -362,6 +354,10 @@ class BreatheView2 : View {
     }
 
     fun addPoint(type: Int, tag: Int) {
+        if (isStopAll) {
+            return
+        }
+
         val circle = Circle()
         val paint = Paint()
 
@@ -425,43 +421,6 @@ class BreatheView2 : View {
         override fun toString(): String {
             return "Point(paint=$paint, radius=$radius)"
         }
-    }
-
-    var change = 0f
-    private fun animation() {
-        val animation = ValueAnimator.ofFloat(0f, 6f)
-
-
-        animation.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-                LogUtil.e("onAnimationStart")
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                LogUtil.e("onAnimationEnd")
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-                LogUtil.e("onAnimationCancel")
-
-            }
-
-            override fun onAnimationRepeat(animation: Animator?) {
-                LogUtil.e("onAnimationRepeat")
-            }
-        })
-
-
-        animation.addUpdateListener { animation ->
-            val animatedValue = animation.animatedValue as Float
-            if (change != animatedValue) {
-                LogUtil.e("animatedValue:$animatedValue  change:$change")
-                change = animatedValue
-            }
-        }
-        animation.repeatCount = 0
-        animation.duration = 6000
-        animation.start()
     }
 
 }
