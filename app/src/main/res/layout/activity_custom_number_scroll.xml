@@ -18,7 +18,7 @@
     <!--        android:layout_height="wrap_content"-->
     <!--        android:layout_marginTop="@dimen/dp_100" />-->
 
-    <com.android.app.widget.ScrollNumberView2
+    <com.android.app.widget.Number6
         android:id="@+id/sc3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
