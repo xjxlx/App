@@ -58,7 +58,7 @@ public class ScrollNumberView2 extends View {
     private final int[] mColors = new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT};
     float[] positions = new float[]{0.1f, 0.28f, 0.5f, 0.73f, 1f};
     // 文字左侧的左边距
-    private int mNumberLeftValue = 0;
+    private final int mNumberLeftValue = 0;
 
     private final String[] mNumbers = new String[]{
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20"
@@ -148,7 +148,7 @@ public class ScrollNumberView2 extends View {
         drawRoundRect.top = 0;
         drawRoundRect.bottom = drawRoundRect.top + roundRectHeight;
 
-        LogUtil.e("left:" + drawRoundRect.toString());
+        LogUtil.e("left:" + drawRoundRect);
 
         // 计算出总体的高度后，重新去设置高度
         setMeasuredDimension(mMaxWidth, 500);
@@ -244,7 +244,11 @@ public class ScrollNumberView2 extends View {
             float baseLine = CustomViewUtil.getBaseLine(mPaintNumber, number);
             y = (int) ((drawRoundRect.bottom - itemHeight) / 2 + baseLine);
 
-            canvas.drawText(number, x + dx + touchOffsetX, y, mPaintNumber);
+            if (TextUtils.equals(number, mDefaultNumberContent) && isUp) {
+                canvas.drawText(number, (getWidth() - itemWidth) / 2, y, mPaintNumber);
+            } else {
+                canvas.drawText(number, x + dx + touchOffsetX, y, mPaintNumber);
+            }
 
             previousNumberWidth = itemWidth;
 
@@ -275,17 +279,21 @@ public class ScrollNumberView2 extends View {
             mPaintNumber.setTextSize(ConvertUtil.toDp(mMapFontSize.get(number)));
 
             // 计算文字的大小
-            float[] itemSize = CustomViewUtil.getTextSize(mPaintNumber, number);
+//            float[] itemSize = CustomViewUtil.getTextSize(mPaintNumber, number);
 
-            if (mContentMaxHeight < itemSize[1]) {
-                mContentMaxHeight = itemSize[1];
+            float textHeight = CustomViewUtil.getTextHeight(mPaintNumber, number);
+            if (mContentMaxHeight < textHeight) {
+                mContentMaxHeight = textHeight;
             }
+            float[] arr = new float[2];
 
             float textViewWidth = CustomViewUtil.getTextViewWidth(mPaintNumber, number);
+            arr[0] = textViewWidth;
+            arr[1] = textHeight;
 
             mSum += textViewWidth;
-            itemSize[0] = textViewWidth;
-            mMapSize.put(number, itemSize);
+//            itemSize[0] = textViewWidth;
+            mMapSize.put(number, arr);
 
             if (i > 0) {
                 mSum += mNumberInterval;
@@ -348,17 +356,20 @@ public class ScrollNumberView2 extends View {
     private int dx;
     private int startX;
     private boolean isFirst = true;
+    private boolean isUp = false;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                isUp = false;
                 startX = (int) event.getX();
                 return true;
 
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_HOVER_MOVE:
+                isUp = false;
                 LogUtil.e("----ACTION_MOVE");
                 float endX = event.getX();
                 int v = (int) (endX - startX);
@@ -402,6 +413,7 @@ public class ScrollNumberView2 extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
+                isUp = true;
                 LogUtil.e("----ACTION_UP");
 
                 scrollDefault();
