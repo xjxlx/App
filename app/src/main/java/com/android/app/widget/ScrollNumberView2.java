@@ -171,14 +171,10 @@ public class ScrollNumberView2 extends View {
         float minuteX = 0;
         float minuteY = 0;
         String minute = "分钟";
-        float[] minuteSize = CustomViewUtil.getTextSize(mPaintMinute, minute);
-        if (minuteSize != null) {
-            float minuteWidth = minuteSize[0];
-            minuteX = drawRoundRect.left + ((roundRectWidth - minuteWidth) / 2);
-
-            float minuteHeight = minuteSize[1];
-            minuteY = drawRoundRect.bottom + minuteInterval + minuteHeight;
-        }
+        float textViewWidth = CustomViewUtil.getTextViewWidth(mPaintMinute, minute);
+        minuteX = drawRoundRect.left + ((roundRectWidth - textViewWidth) / 2);
+        float minuteHeight = CustomViewUtil.getTextHeight(mPaintMinute, minute);
+        minuteY = drawRoundRect.bottom + minuteInterval + minuteHeight;
         canvas.drawText(minute, minuteX, minuteY, mPaintMinute);
 
         // 计算当前默认选中的view以及其他view的字体大小
@@ -256,10 +252,10 @@ public class ScrollNumberView2 extends View {
             mMapPosition.put(number, new Position((x + dx), (int) (x + dx + itemWidth)));
         }
 
-//        mPaintNumber.setStrokeWidth(1);
-//        mPaintNumber.setColor(Color.WHITE);
-//        canvas.drawLine(centerLines, 0, centerLines + 2, roundRectHeight, mPaintNumber);
-//        canvas.drawLine(drawRoundRect.left, drawRoundRect.top + (roundRectHeight / 2), drawRoundRect.right, drawRoundRect.top + (roundRectHeight / 2), mPaintNumber);
+        mPaintNumber.setStrokeWidth(1);
+        mPaintNumber.setColor(Color.WHITE);
+        canvas.drawLine(centerLines, 0, centerLines + 2, roundRectHeight, mPaintNumber);
+        canvas.drawLine(drawRoundRect.left, drawRoundRect.top + (roundRectHeight / 2), drawRoundRect.right, drawRoundRect.top + (roundRectHeight / 2), mPaintNumber);
 
         if (isFirst) {
             // 滑动的时候，动态改变当前选中的角标
@@ -279,8 +275,6 @@ public class ScrollNumberView2 extends View {
             mPaintNumber.setTextSize(ConvertUtil.toDp(mMapFontSize.get(number)));
 
             // 计算文字的大小
-//            float[] itemSize = CustomViewUtil.getTextSize(mPaintNumber, number);
-
             float textHeight = CustomViewUtil.getTextHeight(mPaintNumber, number);
             if (mContentMaxHeight < textHeight) {
                 mContentMaxHeight = textHeight;
@@ -292,7 +286,6 @@ public class ScrollNumberView2 extends View {
             arr[1] = textHeight;
 
             mSum += textViewWidth;
-//            itemSize[0] = textViewWidth;
             mMapSize.put(number, arr);
 
             if (i > 0) {

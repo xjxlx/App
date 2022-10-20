@@ -89,6 +89,9 @@ public class ScrollNumberView4 extends LinearLayout {
         }
 
         setWillNotDraw(false);
+
+        setLayerType(LAYER_TYPE_SOFTWARE,null);
+
     }
 
     @Override
@@ -193,7 +196,14 @@ public class ScrollNumberView4 extends LinearLayout {
 
         LogUtil.e("onDraw");
         // 绘制指定大小的透明背景
+
+        int save = canvas.save();
+
+        canvas.clipRect(mCenterRect);
+
         canvas.drawRoundRect(mCenterRect, 20, 20, mPaintCenterRect);
 
+        // 恢复画布状态，即裁剪之前
+        canvas.restoreToCount(save);
     }
 }
