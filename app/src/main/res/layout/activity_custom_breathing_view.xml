@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,50 +8,56 @@
     android:paddingRight="@dimen/dp_30"
     tools:context=".ui.activity.widget.CustomBreathingViewActivity">
 
-    <com.android.app.widget.BreatheView
-        android:id="@+id/bv_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_100" />
-
     <RelativeLayout
-        android:id="@+id/rl_temp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bv_view"
-        android:layout_marginTop="@dimen/dp_30">
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_start1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="开始扩散" />
-
-        <Button
-            android:id="@+id/btn_start2"
+        <com.android.app.widget.BreatheView2
+            android:id="@+id/bv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="小到大" />
+            android:layout_marginTop="@dimen/dp_50" />
+
+        <RelativeLayout
+            android:id="@+id/rl_temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bv_view"
+            android:layout_marginTop="@dimen/dp_30">
+
+            <Button
+                android:id="@+id/btn_start1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="开始扩散" />
+
+            <Button
+                android:id="@+id/btn_start2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="小到大" />
+
+            <Button
+                android:id="@+id/btn_start3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="大到小" />
+
+        </RelativeLayout>
 
         <Button
-            android:id="@+id/btn_start3"
+            android:id="@+id/btn_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="大到小" />
+            android:layout_below="@+id/rl_temp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_30"
+            android:text="停止所有" />
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_temp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_30"
-        android:text="停止所有" />
-
-</RelativeLayout>
+</androidx.core.widget.NestedScrollView>

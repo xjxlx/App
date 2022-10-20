@@ -30,11 +30,11 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
             }
 
             R.id.btn_start2 -> {
-                mBinding.bvView.startBigSolidCircle()
+                mBinding.bvView.startSmallSolidCircle()
             }
 
             R.id.btn_start3 -> {
-                mBinding.bvView.startSmallSolidCircle()
+                mBinding.bvView.startBigToSmallCircle()
             }
 
             R.id.btn_stop -> {
@@ -45,6 +45,6 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
 
     override fun onDestroy() {
         super.onDestroy()
-        mBinding.bvView.clear()
+//        mBinding.bvView.clear()
     }
 }

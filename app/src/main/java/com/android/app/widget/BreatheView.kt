@@ -1,5 +1,7 @@
 package com.android.app.widget
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.os.Handler
@@ -124,12 +126,17 @@ class BreatheView : View {
 
             val paint = Paint()
 
+            if (mFlagType == 1) {
+                paint.style = Paint.Style.STROKE
+            } else {
+                paint.style = Paint.Style.FILL
+            }
+
             // 透明圆圈
             paint.color = Color.WHITE
             paint.alpha = 255
-            paint.strokeWidth = 1f
+            paint.strokeWidth = 15f
             paint.isAntiAlias = true
-            paint.style = Paint.Style.FILL
 
             point.paint = paint
             mListRadius.add(point)
@@ -239,6 +246,8 @@ class BreatheView : View {
             // 从大到小的逻辑
             whatBigToSmall -> {
                 val iterator = mListRadius.iterator()
+                LogUtil.e("mListRadius:" + mListRadius.size)
+
                 while (iterator.hasNext()) {
                     // 获取每一个元素
                     val next = iterator.next()
@@ -308,7 +317,9 @@ class BreatheView : View {
             if (mFlagType == 1) {
                 mHandler.removeMessages(whatSmallToBig)
                 mHandler.removeMessages(whatBigToSmall)
-                mHandler.sendEmptyMessageDelayed(whatGradientAdd, 500)
+
+                // 每隔多少时间新增一个圈
+                mHandler.sendEmptyMessageDelayed(whatGradientAdd, 700)
             }
         }
     }
@@ -337,6 +348,10 @@ class BreatheView : View {
                 mHandler.removeCallbacksAndMessages(null)
                 addPoint(whatBigToSmall)
                 isStartThree = true
+
+                // 循环添加圆圈
+                loopAdd()
+
                 invalidate()
             }
         }
@@ -385,7 +400,6 @@ class BreatheView : View {
         override fun toString(): String {
             return "Point(x=$x, y=$y, radius=$radius, paint=${paint?.alpha})"
         }
-
     }
 
 }
