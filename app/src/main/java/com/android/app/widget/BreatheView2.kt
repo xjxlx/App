@@ -22,8 +22,8 @@ class BreatheView2 : View {
     private val mRectStrokeLine = RectF() // 边线
     private val mPaintStrokeLine = Paint() // 绘制边线
 
-    private val mWidth = 600 // 绘制区域的宽度
-    private val mHeight = 600 // 绘制区域的高度
+    private val mWidth = 500 // 绘制区域的宽度
+    private val mHeight = 500 // 绘制区域的高度
     private var mFlagType = 1 // 1: 循环播放从小到大的圆圈，2：一个从小到大的实心圆圈，3：一个从大到小的实心圆圈
     private var intervalWidth = 10 // 每隔view间隔的宽度
 
@@ -59,6 +59,10 @@ class BreatheView2 : View {
     private val mColorValue = 150
     private val mColorMaxValue = 255
 
+    private val mStrokeWidth = 10f // 文字的宽度
+    private var mStrokeWithZoom = 0f // 文字宽度的比例
+    private val mSendInterval_what_1 = 50
+
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         initView(context)
     }
@@ -91,6 +95,8 @@ class BreatheView2 : View {
         mMaxRadius = (measuredWidth / 2).toFloat()
         // 每一份占据的透明度
         mAlphasZoom = (mColorValue / mMaxRadius)
+        // 文字的宽度比例
+        mStrokeWithZoom = mStrokeWidth / mMaxRadius
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -250,6 +256,8 @@ class BreatheView2 : View {
                         point.radius += intervalWidth
                         // 透明逐渐变小
                         point.paint?.alpha = (mColorValue - point.radius * mAlphasZoom).toInt()
+                        // 圆圈宽度的递减
+                        point.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * point.radius
 
                         // 删除多余的数据
                         if (point.radius >= mMaxRadius || point.paint?.alpha!! <= 0) {
@@ -311,6 +319,11 @@ class BreatheView2 : View {
                         } else if (next.tag == 2) {
                             next.radius -= intervalWidth
                             next.paint?.alpha = (next.radius * mAlphasZoom).toInt()
+                            next.strokeWithChange += intervalWidth
+
+                            // 圆圈宽度的递减
+                            next.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * next.strokeWithChange
+                            LogUtil.e("----->" + next.paint?.strokeWidth)
                         }
 
                         // 删除多余的数据
@@ -364,23 +377,25 @@ class BreatheView2 : View {
         // 添加从小到大渐变的圆圈
         if (type == whatGradient) {
             paint.color = Color.WHITE
-            paint.strokeWidth = 15f
+            paint.strokeWidth = mStrokeWidth
             paint.style = Paint.Style.STROKE
             paint.alpha = mColorValue
 
             circle.paint = paint
             circle.radius = 0f
+            circle.strokeWithChange = 0f
 
             mListLoopSmallToBig.add(circle)
         } else if (type == whatSmallToBig) {
             // 从小到大的实心圆圈
             paint.color = Color.WHITE
-            paint.strokeWidth = 15f
+            paint.strokeWidth = mStrokeWidth
             paint.style = Paint.Style.FILL_AND_STROKE
             paint.alpha = mColorMaxValue
 
             circle.paint = paint
             circle.radius = 0f
+            circle.strokeWithChange = 0f
 
             mListSmallToBig.add(circle)
         } else if (type == whatBigToSmall) {
@@ -390,21 +405,24 @@ class BreatheView2 : View {
                 paint.color = Color.WHITE
                 paint.style = Paint.Style.FILL_AND_STROKE
                 paint.alpha = mColorMaxValue
+                paint.strokeWidth = mStrokeWidth
 
                 circle.paint = paint
                 circle.radius = mMaxRadius
                 circle.tag = tag// 增加标记
+                circle.strokeWithChange = 0f
 
             } else if (tag == 2) {
                 // 从大到小的渐变圆
                 paint.color = Color.WHITE
                 paint.style = Paint.Style.STROKE
-                paint.strokeWidth = 15f
+                paint.strokeWidth = mStrokeWidth
                 paint.alpha = mColorValue
 
                 circle.paint = paint
                 circle.radius = mMaxRadius
                 circle.tag = tag// 增加标记
+                circle.strokeWithChange = 0f
             }
 
             mListBigToSmall.add(circle)
@@ -418,6 +436,7 @@ class BreatheView2 : View {
         var paint: Paint? = null
         var radius: Float = 0f
         var tag = 0
+        var strokeWithChange = 0f
         override fun toString(): String {
             return "Point(paint=$paint, radius=$radius)"
         }

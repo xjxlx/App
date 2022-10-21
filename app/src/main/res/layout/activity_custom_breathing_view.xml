@@ -9,22 +9,16 @@
     tools:context=".ui.activity.widget.CustomBreathingViewActivity">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.android.app.widget.BreatheView2
-            android:id="@+id/bv_view"
+        <LinearLayout
+            android:id="@+id/rl_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_50" />
-
-        <RelativeLayout
-            android:id="@+id/rl_temp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bv_view"
-            android:layout_marginTop="@dimen/dp_30">
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/dp_30"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_start1"
@@ -47,16 +41,23 @@
                 android:layout_alignParentRight="true"
                 android:text="大到小" />
 
-        </RelativeLayout>
+            <Button
+                android:id="@+id/btn_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_temp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="停止所有" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_stop"
+        <com.android.app.widget.BreatheView2
+            android:id="@+id/bv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_temp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_30"
-            android:text="停止所有" />
+            android:layout_alignTop="@+id/rl_temp"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_toEndOf="@+id/rl_temp" />
 
     </RelativeLayout>
 
