@@ -20,10 +20,11 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
 
     override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(mBinding.btnStart1, mBinding.btnStart2, mBinding.btnStart3, mBinding.btnStop)
+
     }
 
     override fun onClick(v: View?) {
-        super.onViewClick(v)
+        super.onClick(v)
         when (v?.id) {
             R.id.btn_start1 -> {
                 mBinding.bvView.startTransparentCircle()

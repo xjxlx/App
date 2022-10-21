@@ -1,5 +1,6 @@
 package com.android.app.widget
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,6 +10,8 @@ import android.os.Handler
 import android.os.Message
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import com.android.helper.utils.LogUtil
 
 /**
@@ -62,6 +65,7 @@ class BreatheView2 : View {
     private val mStrokeWidth = 10f // 文字的宽度
     private var mStrokeWithZoom = 0f // 文字宽度的比例
     private val mSendInterval_what_1 = 50
+    private var mCircleBigToSmall: Circle? = null // 从大到小的实心圆圈
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         initView(context)
@@ -169,6 +173,7 @@ class BreatheView2 : View {
 
             // 单独添加一个从小到大的圆圈
             addPoint(whatSmallToBig, 0)
+            animationSmallToBig()
         }
     }
 
@@ -185,8 +190,9 @@ class BreatheView2 : View {
             // 添加一个圆圈
             addPoint(whatBigToSmall, 1)
 
-            // 发送循环标记
-            sendMessageDelayed(whatLoopBigToSmallAdd, 500)
+
+
+            animationBigToSmall()
         }
     }
 
@@ -290,22 +296,22 @@ class BreatheView2 : View {
                 // 从小到大的实心圆圈
                 whatSmallToBig -> {
 
-                    val iterator = mListSmallToBig.iterator()
-                    while (iterator.hasNext()) {
-                        val circle = iterator.next()
-                        circle.radius += intervalWidth
-
-                        // 删除多余的数据
-                        if (circle.radius >= mMaxRadius) {
-                            iterator.remove()
-                            LogUtil.e("删除 ---> 实心 从小到大 ！！")
-                        }
-                    }
-                    if (mListSmallToBig.size > 0) {
-                        updateStatus(whatSmallToBig)
-                    } else {
-                        isStartSecond = false
-                    }
+//                    val iterator = mListSmallToBig.iterator()
+//                    while (iterator.hasNext()) {
+//                        val circle = iterator.next()
+//                        circle.radius += intervalWidth
+//
+//                        // 删除多余的数据
+//                        if (circle.radius >= mMaxRadius) {
+//                            iterator.remove()
+//                            LogUtil.e("删除 ---> 实心 从小到大 ！！")
+//                        }
+//                    }
+//                    if (mListSmallToBig.size > 0) {
+//                        updateStatus(whatSmallToBig)
+//                    } else {
+//                        isStartSecond = false
+//                    }
                 }
 
                 // 从大到小的实心圆圈
@@ -315,7 +321,8 @@ class BreatheView2 : View {
                         val next = iterator.next()
 
                         if (next.tag == 1) { // 实心圆圈
-                            next.radius -= intervalWidth
+                            // next.radius -= intervalWidth
+
                         } else if (next.tag == 2) {
                             next.radius -= intervalWidth
                             next.paint?.alpha = (next.radius * mAlphasZoom).toInt()
@@ -350,11 +357,17 @@ class BreatheView2 : View {
                 whatLoopBigToSmallAdd -> {
                     // 开始添加渐变的圆圈
                     if (!isStopLoopThree) {
+                        // 只有在实心圆圈大于 40 的时候，采取发送轮训，否则就不发送，避免最后大圆圈消失了，还有几个小圆圈
+                        if (mCircleBigToSmall?.radius!! >= 80f) {
 
-                        addPoint(whatBigToSmall, 2)
+                            addPoint(whatBigToSmall, 2)
 
-                        // 指定间隔时间，生成一个新的圆圈
-                        sendMessageDelayed(whatLoopBigToSmallAdd, 600)
+                            // 指定间隔时间，生成一个新的圆圈
+                            sendMessageDelayed(whatLoopBigToSmallAdd, 500)
+                        } else {
+                            LogUtil.e("移除了多余的handler")
+                            removeHandler(whatLoopBigToSmallAdd)
+                        }
                     }
                 }
             }
@@ -364,6 +377,10 @@ class BreatheView2 : View {
 
     private fun clearHandler() {
         mHandler.removeCallbacksAndMessages(null)
+    }
+
+    private fun removeHandler(what: Int) {
+        mHandler.removeMessages(what)
     }
 
     fun addPoint(type: Int, tag: Int) {
@@ -397,6 +414,7 @@ class BreatheView2 : View {
             circle.radius = 0f
             circle.strokeWithChange = 0f
 
+            mListSmallToBig.clear()
             mListSmallToBig.add(circle)
         } else if (type == whatBigToSmall) {
 
@@ -431,7 +449,7 @@ class BreatheView2 : View {
         sendMessage(type)
     }
 
-    internal class Circle {
+    class Circle {
 
         var paint: Paint? = null
         var radius: Float = 0f
@@ -442,4 +460,78 @@ class BreatheView2 : View {
         }
     }
 
+    /**
+     * 从小到大的插值气动画效果
+     */
+    private fun animationSmallToBig() {
+        val next = mListSmallToBig[0]
+
+        var changeValue = 0f
+        val animation = ValueAnimator.ofFloat(0f, mMaxRadius - 5)
+        animation.duration = 1500
+        animation.interpolator = DecelerateInterpolator()
+        animation.addUpdateListener { anim ->
+            if (changeValue != anim.animatedValue) {
+                LogUtil.e("animation:" + anim.animatedValue)
+                changeValue = anim.animatedValue as Float
+
+                next.radius = changeValue
+
+                invalidate()
+
+                // 删除多余的数据
+                if (next.radius >= mMaxRadius - 5) {
+                    isStartSecond = false
+                    LogUtil.e("删除 ---> 实心 从小到大 ！！")
+                    animation.cancel()
+                }
+            }
+        }
+        animation.start()
+    }
+
+    /**
+     * 从大到小的动画
+     */
+    private fun animationBigToSmall() {
+        val iterator = mListBigToSmall.iterator()
+        while (iterator.hasNext()) {
+            val next = iterator.next()
+            if (next.tag == 1) {
+                mCircleBigToSmall = next
+                break
+            }
+        }
+
+        var changeValue = 0f
+        val animation = ValueAnimator.ofFloat(mMaxRadius - 5, 0f)
+        animation.duration = 2500
+        // 开始慢，后面快的速度插值器
+        animation.interpolator = AccelerateDecelerateInterpolator()
+        // 在半径70%的时候，去进行发送轮训的标记
+        val flag = (mMaxRadius * 0.7f).toInt()
+        var isSend = true
+        animation.addUpdateListener { anim ->
+            if (changeValue != anim.animatedValue) {
+                LogUtil.e("animation:" + anim.animatedValue)
+                changeValue = anim.animatedValue as Float
+
+                mCircleBigToSmall?.radius = changeValue
+
+                if (changeValue <= flag && isSend) {
+                    isSend = false
+                    // 发送循环标记
+                    LogUtil.e("开始发送标记！")
+                    sendMessage(whatLoopBigToSmallAdd)
+                }
+
+                // 删除多余的数据
+                if (changeValue == 0f) {
+                    LogUtil.e("删除 ---> 实心 从大到小 ！！")
+                    animation.cancel()
+                }
+            }
+        }
+        animation.start()
+    }
 }
