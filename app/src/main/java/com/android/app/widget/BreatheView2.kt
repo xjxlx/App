@@ -12,6 +12,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import androidx.collection.arrayMapOf
+import com.amap.api.maps.model.Circle
 import com.android.helper.utils.LogUtil
 
 /**
@@ -19,7 +21,7 @@ import com.android.helper.utils.LogUtil
  * @CreateDate: 2022/10/20-10:59
  * @Description:
  */
-class BreatheView2 : View {
+class BreatheView2(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val TAG = "Touch"
     private val mRectStrokeLine = RectF() // 边线
@@ -64,12 +66,11 @@ class BreatheView2 : View {
 
     private val mStrokeWidth = 10f // 文字的宽度
     private var mStrokeWithZoom = 0f // 文字宽度的比例
-    private val mSendInterval_what_1 = 50
     private var mCircleBigToSmall: Circle? = null // 从大到小的实心圆圈
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        initView(context)
-    }
+    private val mListAnimation = arrayMapOf<Long, ValueAnimator>()// 用来存储动画的集合
+    private val mListCircleSmallToBig = arrayMapOf<Long, Circle>()// 用来存储从小到大的动画集合圆圈
+    private val mFaultTolerant = 5 // 绘制圆圈的容错值
 
     private fun initView(context: Context) {
         LogUtil.e("initView!")
@@ -142,6 +143,7 @@ class BreatheView2 : View {
 
             isStopOne = false // 重置第一个播放完毕的状态
             isPrepareTwo = false // 重置第二个准备好的状态
+            isPrepareTwo = false
 
             mFlagType = 1
 
@@ -171,8 +173,14 @@ class BreatheView2 : View {
             isStartSecond = true // 标记第二个已经开始了
             mFlagType = 2
 
+            mListCircleSmallToBig.clear() // 清空第一个渐变的圆圈
+
             // 单独添加一个从小到大的圆圈
             addPoint(whatSmallToBig, 0)
+
+            removeHandler(whatLoopSmallToBigAdd)
+
+            clearAnimationList()
             animationSmallToBig()
         }
     }
@@ -190,8 +198,6 @@ class BreatheView2 : View {
             // 添加一个圆圈
             addPoint(whatBigToSmall, 1)
 
-
-
             animationBigToSmall()
         }
     }
@@ -207,6 +213,9 @@ class BreatheView2 : View {
         isStopOne = false
         isPrepareTwo = false
         isStopAll = true
+
+        // 清空动画集合
+        clearAnimationList()
     }
 
     fun sendMessage(type: Int) {
@@ -230,14 +239,13 @@ class BreatheView2 : View {
      */
     fun sendMessageDelayed(type: Int, delayMillis: Long) {
         if (!isStopAll) {
-            // 如果loop从小到大的逻辑，如果第二个准备好了，就停止
+            // 如果loop从小到大的逻辑，如果第二个准备好了就停止
             if (type == whatLoopSmallToBigAdd) {
                 if (isPrepareTwo) {
                     return
                 }
             }
 
-            // 如果loop从大
             if (type == whatLoopBigToSmallAdd) {
                 if (isStopLoopThree) {
                     return
@@ -256,22 +264,56 @@ class BreatheView2 : View {
                 // 开始扩散
                 whatGradient -> {
                     val iterator = mListLoopSmallToBig.iterator()
+
                     while (iterator.hasNext()) {
                         val point = iterator.next()
-                        // 宽度增加
-                        point.radius += intervalWidth
-                        // 透明逐渐变小
-                        point.paint?.alpha = (mColorValue - point.radius * mAlphasZoom).toInt()
-                        // 圆圈宽度的递减
-                        point.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * point.radius
+                        // 只有不在集合内，通过动画插值器去控制渐变的效果
+                        val values = mListCircleSmallToBig.values
+                        if (point !in values) {
+                            animationSmallToBigGradual(point)
+                            mListCircleSmallToBig[point.id] = point
+                        }
+                        LogUtil.e("---->circle:size::  " + mListCircleSmallToBig.size)
+                        LogUtil.e("---->animation:size::  " + mListAnimation.size)
+//
+//                        // 开始处理动画
+//                        animationSmallToBigGradual(point)
+//                        //  宽度增加
+//                        point.radius += intervalWidth
+//                        // 透明逐渐变小
+//                        point.paint?.alpha = (mColorValue - point.radius * mAlphasZoom).toInt()
+//                        // 圆圈宽度的递减
+//                        point.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * point.radius
 
                         // 删除多余的数据
-                        if (point.radius >= mMaxRadius || point.paint?.alpha!! <= 0) {
+                        if (point.radius >= mMaxRadius - mFaultTolerant || point.paint?.alpha!! <= 0) {
                             iterator.remove()
                             LogUtil.e("删除！！")
                             invalidate()
                         }
                     }
+
+                    // 移除多余已经停止的动画
+                    val iteratorAnimation = mListAnimation.iterator()
+                    while (iteratorAnimation.hasNext()) {
+                        val next = iteratorAnimation.next()
+                        if (!next.value.isRunning) {
+                            // 动画都停止了，圆圈也就没用了,干掉它
+                            iteratorAnimation.remove()
+                        }
+                    }
+
+                    // 动画都停止了，圆圈也就没用了,干掉它 todo  怎么删掉它
+//                    val iteratorCircle = mListCircleSmallToBig.iterator()
+//                    while (iteratorCircle.hasNext()) {
+//                        val next1 = iteratorCircle.next()
+//                        val key = next1.key
+//                        LogUtil.e("key:----" + key + "   ###  " + (System.currentTimeMillis() - key))
+//                        if (System.currentTimeMillis() - key > 3000) {
+////                            iteratorCircle.remove()
+//                        }
+//                    }
+
                     // 更新UI
                     if (mListLoopSmallToBig.size > 0) {
                         updateStatus(whatGradient)
@@ -279,6 +321,7 @@ class BreatheView2 : View {
                         isStartOne = false // 重置第一个动画的播放状态
                         isStopOne = true // 标记第一个动画已经播放完毕
 
+                        LogUtil.e("开始播放第二个动画！")
                         initSmallToBigCircle()
                     }
                 }
@@ -322,7 +365,9 @@ class BreatheView2 : View {
 
                         if (next.tag == 1) { // 实心圆圈
                             // next.radius -= intervalWidth
-
+                            if (next.radius <= 0) {
+                                isStartThree = false
+                            }
                         } else if (next.tag == 2) {
                             next.radius -= intervalWidth
                             next.paint?.alpha = (next.radius * mAlphasZoom).toInt()
@@ -455,6 +500,8 @@ class BreatheView2 : View {
         var radius: Float = 0f
         var tag = 0
         var strokeWithChange = 0f
+        var id = System.currentTimeMillis()
+        var isStop = false
         override fun toString(): String {
             return "Point(paint=$paint, radius=$radius)"
         }
@@ -467,12 +514,13 @@ class BreatheView2 : View {
         val next = mListSmallToBig[0]
 
         var changeValue = 0f
-        val animation = ValueAnimator.ofFloat(0f, mMaxRadius - 5)
+        val animation = ValueAnimator.ofFloat(0f, mMaxRadius - mFaultTolerant)
+        mListAnimation[next.id] = animation
+
         animation.duration = 1500
         animation.interpolator = DecelerateInterpolator()
         animation.addUpdateListener { anim ->
             if (changeValue != anim.animatedValue) {
-                LogUtil.e("animation:" + anim.animatedValue)
                 changeValue = anim.animatedValue as Float
 
                 next.radius = changeValue
@@ -480,10 +528,10 @@ class BreatheView2 : View {
                 invalidate()
 
                 // 删除多余的数据
-                if (next.radius >= mMaxRadius - 5) {
-                    isStartSecond = false
+                if (next.radius >= mMaxRadius - mFaultTolerant) {
                     LogUtil.e("删除 ---> 实心 从小到大 ！！")
                     animation.cancel()
+                    isStartSecond = false
                 }
             }
         }
@@ -504,7 +552,10 @@ class BreatheView2 : View {
         }
 
         var changeValue = 0f
-        val animation = ValueAnimator.ofFloat(mMaxRadius - 5, 0f)
+        val animation = ValueAnimator.ofFloat(mMaxRadius - mFaultTolerant, 0f)
+        mListAnimation[mCircleBigToSmall?.id] = animation
+
+
         animation.duration = 2500
         // 开始慢，后面快的速度插值器
         animation.interpolator = AccelerateDecelerateInterpolator()
@@ -534,4 +585,57 @@ class BreatheView2 : View {
         }
         animation.start()
     }
+
+    /**
+     * 从小到大动画的渐变
+     */
+    private fun animationSmallToBigGradual(circle: Circle?) {
+        if (circle != null) {
+            var changeValue = 0f
+            val animation = ValueAnimator.ofFloat(0f, mMaxRadius - mFaultTolerant)
+
+            mListAnimation[circle.id] = animation
+
+            var temp = 0
+            animation.duration = 2500
+            animation.interpolator = DecelerateInterpolator()
+            animation.addUpdateListener { anim ->
+                if (changeValue != anim.animatedValue) {
+                    LogUtil.e("animation:" + anim.animatedValue)
+                    changeValue = anim.animatedValue as Float
+
+                    // 宽度增加
+                    circle.radius = changeValue
+                    // 透明逐渐变小
+                    circle.paint?.alpha = (mColorValue - circle.radius * mAlphasZoom).toInt()
+                    // 圆圈宽度的递减
+                    circle.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * circle.radius
+
+                    if (isPrepareTwo) {
+                        circle.radius = (changeValue + temp * mFaultTolerant)
+                        if (temp < 3) {
+                            temp++
+                        }
+                        LogUtil.e("增大 ---> ")
+                    }
+                }
+            }
+            animation.start()
+        }
+    }
+
+    // 清空动画的集合
+    private fun clearAnimationList() {
+        clearHandler()
+        LogUtil.e("mListAnimation:" + mListAnimation.size)
+        for (item in mListAnimation) {
+            item.value.cancel()
+            item.value.removeAllUpdateListeners()
+        }
+    }
+
+    init {
+        initView(context)
+    }
+
 }
