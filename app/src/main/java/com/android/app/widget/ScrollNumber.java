@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -19,28 +21,33 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.android.helper.utils.ConvertUtil;
+
 import java.util.HashMap;
 
 /**
  * @author : 流星
- * @CreateDate: 2022/10/19-22:05
+ * @CreateDate: 2022/10/22-14:58
  * @Description:
  */
-public class Number6 extends View {
+public class ScrollNumber extends View {
+
     private String TAG = "NumberTouch";
     private final String[] mNumbers = new String[]{
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20"
     };
 
     private final RectF mCenterRect = new RectF();
-    private int mMaxWidth;// 屏幕最大的宽度
-    private final int roundRectWidth = (int) toDp(125f); // 矩形的宽度
-    private final int roundRectHeight = (int) toDp(125f); // 矩形的高度
+    private float mMaxWidth;// 屏幕最大的宽度
+    private float mMaxHeight; // 屏幕最大的高度
+    private int mRoundRectWidth = (int) toDp(110); // 矩形的宽度
+    private final int mRoundRectHeight = (int) toDp(128); // 矩形的高度
+    private final float minuteInterval = ConvertUtil.toDp(35); // 分钟和矩形的间隔
 
     /**
      * 每个文字的间距
      */
-    private final float mNumberInterval = toDp(160);
+    private final float mNumberInterval = toDp(65);
     // 间隙的一半
     private final float mIntervalHalf = mNumberInterval / 2;
 
@@ -49,16 +56,27 @@ public class Number6 extends View {
     private final Paint mPaintCenterRectLine = new Paint();
 
     private final Paint mPaintNumber = new Paint();// 数字的paint
-    private final int mNumberMinSize = 48;// 文字的最小值
+    private final int mNumberMinSize = 40;// 文字的最小值
     private final int mNumberMaxSize = 100;// 文字的最大值
     public int mSelectorIndex = 6; // 选中的数字的角标
     private float mDx;
+    private float mCurrentDx;
+    private int initSelectorIndex = mSelectorIndex;
 
-    private final HashMap<String, Point> mMap = new HashMap<>();
+    // 字体颜色
+    private final int[] mColors = new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT};
+    float[] positions = new float[]{0.1f, 0.28f, 0.5f, 0.73f, 1f};
+    /**
+     * 底部的分钟
+     */
+    private Paint mPaintMinute;
+
+    private final HashMap<String, Point> mMapPoint = new HashMap<>();
 
     private final GestureDetector mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            mCurrentDx = distanceX;
 
             if (distanceX > 0) {
                 log("-----> 左侧");
@@ -70,29 +88,22 @@ public class Number6 extends View {
                 }
             } else {
                 log("-----> 右侧");
-
                 String rightNumber = mNumbers[mNumbers.length - 1];
                 Point pointRight = getPoint(rightNumber);
                 if (pointRight.endX <= mCenterRect.right) {
                     return true;
                 }
             }
-
             mDx += distanceX;
 
             calculationPosition();
 
             invalidate();
-            return super.onScroll(e1, e2, distanceX, distanceY);
-//            return true;
+            return true;
         }
     });
 
-    public Number6(Context context) {
-        super(context);
-    }
-
-    public Number6(Context context, @Nullable AttributeSet attrs) {
+    public ScrollNumber(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
@@ -106,6 +117,12 @@ public class Number6 extends View {
 
         // 线的颜色
         mPaintCenterRectLine.setColor(Color.WHITE);
+
+        mPaintMinute = new Paint();
+        mPaintMinute.setColor(Color.WHITE);
+        mPaintMinute.setTextSize(ConvertUtil.toSp(36));
+        mPaintMinute.setStyle(Paint.Style.FILL);
+        mPaintMinute.setTypeface(Typeface.DEFAULT_BOLD);
     }
 
     @Override
@@ -114,33 +131,75 @@ public class Number6 extends View {
         // 获取view的宽度
         mMaxWidth = MeasureSpec.getSize(widthMeasureSpec);
 
-        if (mMaxWidth > 0) {
-            mCenterRect.left = (mMaxWidth - roundRectWidth) / 2;
-            mCenterRect.right = mCenterRect.left + roundRectWidth;
-            mCenterRect.top = 0;
-            mCenterRect.bottom = mCenterRect.top + roundRectHeight;
-        }
-
-        setMeasuredDimension(mMaxWidth, 500);
+        setMeasuredDimension((int) mMaxWidth, (int) mMaxHeight);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        //动态改变选中文字的宽度
+        String number = mNumbers[mSelectorIndex];
+        int selector = Integer.parseInt(number);
+        if (selector >= 10) {
+            mRoundRectWidth = 130;
+        } else {
+            mRoundRectWidth = 110;
+        }
+
+        // 阴影矩形
+        mCenterRect.left = (mMaxWidth - mRoundRectWidth) / 2;
+        mCenterRect.right = mCenterRect.left + mRoundRectWidth;
+        mCenterRect.top = 0;
+        mCenterRect.bottom = mCenterRect.top + mRoundRectHeight;
+
         // 绘制指定大小的透明背景
         canvas.drawRoundRect(mCenterRect, 20, 20, mPaintCenterRect);
 
         // 绘制阴影线
-        int lineWidth = roundRectWidth / 2;
-        int lineHeight = roundRectHeight / 2;
-        canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top, mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
-        canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight, mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
+//        int lineWidth = mRoundRectWidth / 2;
+//        int lineHeight = mRoundRectHeight / 2;
+//        canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top, mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
+//        canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight, mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
+
+        // 绘制底部固定文字
+        String minute = "分钟";
+        float textViewWidth = getTextViewWidth(mPaintMinute, minute);
+        float minuteX = mCenterRect.left + ((mRoundRectWidth - textViewWidth) / 2);
+        float minuteHeight = getTextHeight(mPaintMinute, minute);
+        float baseLine = getBaseLine(mPaintMinute, minute);
+        float minuteY = mCenterRect.bottom + minuteInterval + minuteHeight / 2 + baseLine;
+        canvas.drawText(minute, minuteX, minuteY, mPaintMinute);
+
+        // 重新测量高度
+        if (mMaxHeight < mRoundRectHeight + minuteInterval + minuteHeight + baseLine) {
+            // 屏幕的高度 =  矩形高度 + 间距 +分钟的高度
+            mMaxHeight = mCenterRect.bottom + minuteInterval + minuteHeight + baseLine;
+            requestLayout();
+        }
 
         drawTextNumber(canvas);
     }
 
     private void drawTextNumber(Canvas canvas) {
+        // 绘制滑动的文字
+        float mNumberStartX = 0;
+        float mNumberStartY = mCenterRect.bottom;
+        float mNumberEndX = mMaxWidth;
+        float mNumberEndY = mCenterRect.bottom;
+
+        @SuppressLint("DrawAllocation")
+        LinearGradient linearGradient = new LinearGradient(
+                mNumberStartX,
+                mNumberStartY,
+                mNumberEndX,
+                mNumberEndY,
+                mColors,
+                positions,
+                Shader.TileMode.MIRROR);
+
+        mPaintNumber.setShader(linearGradient);
+
         // 找到中间的数据
         String middleNumber = mNumbers[mSelectorIndex];
         // 设置文字大小
@@ -152,8 +211,14 @@ public class Number6 extends View {
 
         Point pointMiddle = getPoint(middleNumber);
         pointMiddle.textSize = mNumberMaxSize;
-        pointMiddle.startX = (getWidth() - middleWidth) / 2 + mDx;
-        pointMiddle.y = mCenterRect.top + (roundRectHeight - middleHeight) / 2 + middleBaseLine;
+        if (pointMiddle.startX == 0) {
+            // 目标选中的位置，始终在最中心的位置
+            pointMiddle.startX = (getWidth() - middleWidth) / 2 + mDx;
+        } else {
+            // 滑动的时候，则每次增加当前的偏移值
+            pointMiddle.startX += mCurrentDx;
+        }
+        pointMiddle.y = mCenterRect.top + (mRoundRectHeight - middleHeight) / 2 + middleBaseLine;
         pointMiddle.numberWidth = middleWidth;
         pointMiddle.endX = pointMiddle.startX + middleWidth;
         canvas.drawText(middleNumber, pointMiddle.startX, pointMiddle.y, mPaintNumber);
@@ -166,7 +231,7 @@ public class Number6 extends View {
         int leftTotalInterval = 0;
         for (int i = mSelectorIndex - 1; i >= 0; i--) {
             String leftNumber = mNumbers[i];
-            int size = 0;
+            int size;
             if (mNumberMaxSize - tempIndex * 6 > mNumberMinSize) {
                 size = mNumberMaxSize - tempIndex * 6;
             } else {
@@ -186,8 +251,8 @@ public class Number6 extends View {
             Point pointLeft = getPoint(leftNumber);
             pointLeft.textSize = size;
             pointLeft.numberWidth = leftTextViewWidth;
-            pointLeft.startX = x + mDx;
-            pointLeft.y = mCenterRect.top + (roundRectHeight - leftTextHeight) / 2 + leftBaseLine;
+            pointLeft.startX = x;
+            pointLeft.y = mCenterRect.top + (mRoundRectHeight - leftTextHeight) / 2 + leftBaseLine;
             pointLeft.endX = pointLeft.startX + leftTextViewWidth;
 
             canvas.drawText(leftNumber, x, pointLeft.y, mPaintNumber);
@@ -203,7 +268,7 @@ public class Number6 extends View {
         for (int i = mSelectorIndex + 1; i < mNumbers.length; i++) {
             String rightNumber = mNumbers[i];
 
-            int size = 0;
+            int size;
             if (mNumberMaxSize - tempIndex * 6 > mNumberMinSize) {
                 size = mNumberMaxSize - tempIndex * 6;
             } else {
@@ -220,10 +285,10 @@ public class Number6 extends View {
             float x = pointMiddle.endX + rightTotalInterval + rightTotalWidth;
 
             Point pointRight = getPoint(rightNumber);
-            pointRight.startX = x + mDx;
+            pointRight.startX = x;
             pointRight.textSize = size;
             pointRight.numberWidth = rightTextViewWidth;
-            pointRight.y = mCenterRect.top + (roundRectHeight - rightTextHeight) / 2 + rightBaseLine;
+            pointRight.y = mCenterRect.top + (mRoundRectHeight - rightTextHeight) / 2 + rightBaseLine;
             pointRight.endX = pointRight.startX + rightTextViewWidth;
 
             canvas.drawText(rightNumber, x, pointRight.y, mPaintNumber);
@@ -241,14 +306,18 @@ public class Number6 extends View {
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             mDx = 0;
+            String number = mNumbers[mSelectorIndex];
+            Point point = mMapPoint.get(number);
+            if (point != null) {
+                point.startX = 0;
+            }
             invalidate();
         }
-//        return super.onTouchEvent(event);
         return true;
     }
 
     public Point getPoint(String number) {
-        Point point = mMap.get(number);
+        Point point = mMapPoint.get(number);
         if (point == null) {
             point = new Point();
         }
@@ -256,25 +325,34 @@ public class Number6 extends View {
     }
 
     public void setPoint(String number, Point point) {
-        mMap.put(number, point);
-        log("number:" + number + "  point:" + point + "  selector:" + mNumbers[mSelectorIndex]);
+        mMapPoint.put(number, point);
     }
 
     private void calculationPosition() {
-        for (int i = 0; i < mMap.size(); i++) {
+        for (int i = 0; i < mMapPoint.size(); i++) {
             String mNumber = mNumbers[i];
-            Point point = mMap.get(mNumber);
+            Point point = mMapPoint.get(mNumber);
             if (point != null) {
-                float startX = point.startX;
-                // 左侧大于
-                /**
-                 * 1:x轴大于 矩形左侧 + 间隙的一半
-                 * 2:x轴 + 文字宽度 <
-                 */
-
-                if (startX + mDx >= (mCenterRect.left - mIntervalHalf) && (startX + mDx + point.getNumberWidth()) <= (mCenterRect.right + mIntervalHalf)) {
-                    log("--->i:" + mNumbers[i]);
-                    mSelectorIndex = i;
+                if (mDx > 0) { //手指向左移动，
+                    log("⭐️--->向左");
+                    // 文字右侧位置 > 矩形左侧边缘  && 文字左侧位置 < 矩形右侧边缘
+                    if (mCenterRect.left < point.endX && mCenterRect.right > point.startX) {
+                        Log.e("选中位置", i + "");
+                        mSelectorIndex = i;
+                        break;
+                    }
+                } else if (mDx < 0) { //手指向右移动
+                    log("⭐️--->向右");
+                    // 文字左侧 小于 矩形右侧  && 文字右侧 大于 矩形左侧
+                    if (mCenterRect.right > point.startX && mCenterRect.left < point.endX) {
+                        Log.e("选中位置", i + "");
+                        mSelectorIndex = i;
+                        Log.e("L_mSelectorIndex", mSelectorIndex + "");
+                        break;
+                    }
+                } else {
+//                    mSelectorIndex = initSelectorIndex;
+                    log("选中的是：" + mSelectorIndex);
                     break;
                 }
             }
