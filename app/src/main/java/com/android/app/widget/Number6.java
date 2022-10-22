@@ -2,21 +2,22 @@ package com.android.app.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-
-import com.android.helper.utils.ConvertUtil;
-import com.android.helper.utils.CustomViewUtil;
-import com.android.helper.utils.LogUtil;
 
 import java.util.HashMap;
 
@@ -26,20 +27,20 @@ import java.util.HashMap;
  * @Description:
  */
 public class Number6 extends View {
-
+    private String TAG = "NumberTouch";
     private final String[] mNumbers = new String[]{
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20"
     };
 
     private final RectF mCenterRect = new RectF();
     private int mMaxWidth;// 屏幕最大的宽度
-    private final int roundRectWidth = (int) ConvertUtil.toDp(125f); // 矩形的宽度
-    private final int roundRectHeight = (int) ConvertUtil.toDp(125f); // 矩形的高度
+    private final int roundRectWidth = (int) toDp(125f); // 矩形的宽度
+    private final int roundRectHeight = (int) toDp(125f); // 矩形的高度
 
     /**
      * 每个文字的间距
      */
-    private final float mNumberInterval = ConvertUtil.toDp(160);
+    private final float mNumberInterval = toDp(160);
     // 间隙的一半
     private final float mIntervalHalf = mNumberInterval / 2;
 
@@ -60,7 +61,7 @@ public class Number6 extends View {
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
             if (distanceX > 0) {
-                LogUtil.e("-----> 左侧");
+                log("-----> 左侧");
                 String left = mNumbers[0];
                 Point pointLeft = getPoint(left);
                 float leftStartX = pointLeft.getStartX();
@@ -68,7 +69,7 @@ public class Number6 extends View {
                     return true;
                 }
             } else {
-                LogUtil.e("-----> 右侧");
+                log("-----> 右侧");
 
                 String rightNumber = mNumbers[mNumbers.length - 1];
                 Point pointRight = getPoint(rightNumber);
@@ -76,7 +77,6 @@ public class Number6 extends View {
                     return true;
                 }
             }
-
 
             mDx += distanceX;
 
@@ -146,9 +146,9 @@ public class Number6 extends View {
         // 设置文字大小
         mPaintNumber.setTextSize(mNumberMaxSize);
         // 获取文字宽度
-        float middleWidth = CustomViewUtil.getTextViewWidth(mPaintNumber, middleNumber);
-        float middleHeight = CustomViewUtil.getTextHeight(mPaintNumber, middleNumber);
-        float middleBaseLine = CustomViewUtil.getBaseLine(mPaintNumber, middleNumber);
+        float middleWidth = getTextViewWidth(mPaintNumber, middleNumber);
+        float middleHeight = getTextHeight(mPaintNumber, middleNumber);
+        float middleBaseLine = getBaseLine(mPaintNumber, middleNumber);
 
         Point pointMiddle = getPoint(middleNumber);
         pointMiddle.textSize = mNumberMaxSize;
@@ -175,9 +175,9 @@ public class Number6 extends View {
 
             // 设置字体大小
             mPaintNumber.setTextSize(size);
-            float leftTextViewWidth = CustomViewUtil.getTextViewWidth(mPaintNumber, leftNumber);
-            float leftTextHeight = CustomViewUtil.getTextHeight(mPaintNumber, leftNumber);
-            float leftBaseLine = CustomViewUtil.getBaseLine(mPaintNumber, leftNumber);
+            float leftTextViewWidth = getTextViewWidth(mPaintNumber, leftNumber);
+            float leftTextHeight = getTextHeight(mPaintNumber, leftNumber);
+            float leftBaseLine = getBaseLine(mPaintNumber, leftNumber);
 
             leftTotalWidth += leftTextViewWidth;
             leftTotalInterval += mNumberInterval;
@@ -196,7 +196,6 @@ public class Number6 extends View {
             setPoint(leftNumber, pointLeft);
         }
 
-
         // 绘制右侧位置
         tempIndex = 1;
         int rightTotalWidth = 0;
@@ -213,9 +212,9 @@ public class Number6 extends View {
 
             // 设置大小
             mPaintNumber.setTextSize(size);
-            float rightTextViewWidth = CustomViewUtil.getTextViewWidth(mPaintNumber, rightNumber);
-            float rightTextHeight = CustomViewUtil.getTextHeight(mPaintNumber, rightNumber);
-            float rightBaseLine = CustomViewUtil.getBaseLine(mPaintNumber, rightNumber);
+            float rightTextViewWidth = getTextViewWidth(mPaintNumber, rightNumber);
+            float rightTextHeight = getTextHeight(mPaintNumber, rightNumber);
+            float rightBaseLine = getBaseLine(mPaintNumber, rightNumber);
 
             rightTotalInterval += mNumberInterval;
             float x = pointMiddle.endX + rightTotalInterval + rightTotalWidth;
@@ -234,7 +233,6 @@ public class Number6 extends View {
             setPoint(rightNumber, pointRight);
         }
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -259,7 +257,7 @@ public class Number6 extends View {
 
     public void setPoint(String number, Point point) {
         mMap.put(number, point);
-        LogUtil.e("number:" + number + "  point:" + point + "  selector:" + mNumbers[mSelectorIndex]);
+        log("number:" + number + "  point:" + point + "  selector:" + mNumbers[mSelectorIndex]);
     }
 
     private void calculationPosition() {
@@ -275,14 +273,13 @@ public class Number6 extends View {
                  */
 
                 if (startX + mDx >= (mCenterRect.left - mIntervalHalf) && (startX + mDx + point.getNumberWidth()) <= (mCenterRect.right + mIntervalHalf)) {
-                    LogUtil.e("--->i:" + mNumbers[i]);
+                    log("--->i:" + mNumbers[i]);
                     mSelectorIndex = i;
                     break;
                 }
             }
         }
     }
-
 
     public static class Point {
         private float numberWidth;
@@ -338,6 +335,60 @@ public class Number6 extends View {
                     ", startX=" + startX +
                     ", textSize=" + textSize +
                     '}';
+        }
+    }
+
+    /**
+     * @param dp 具体的dp值
+     * @return 使用标准的dp值
+     */
+    public static float toDp(float dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
+    }
+
+    /**
+     * @param paint   画笔
+     * @param content 内容
+     * @return 返回测量文字的宽度
+     */
+    public static float getTextViewWidth(Paint paint, String content) {
+        if (paint == null || TextUtils.isEmpty(content)) {
+            return 0;
+        }
+        return paint.measureText(content, 0, content.length());
+    }
+
+    /**
+     * @param paint   画笔
+     * @param content 内容
+     * @return 获取文字的高度
+     */
+    public static float getTextHeight(Paint paint, String content) {
+        if ((paint != null) && (!TextUtils.isEmpty(content))) {
+            Rect rect = new Rect();
+            paint.getTextBounds(content, 0, content.length(), rect);
+            return rect.height();
+        }
+        return 0;
+    }
+
+    /**
+     * @param paint   画笔
+     * @param content 内容
+     * @return 根据画笔和内容返回baseLine的基线, 适用于view写在开始的位置
+     */
+    public static float getBaseLine(Paint paint, String content) {
+        if (paint == null || (TextUtils.isEmpty(content))) {
+            return 0f;
+        }
+        Rect rect = new Rect();
+        paint.getTextBounds(content, 0, content.length(), rect);
+        return (float) Math.abs(rect.top);
+    }
+
+    public void log(String value) {
+        if (!TextUtils.isEmpty(value)) {
+            Log.e(TAG, value);
         }
     }
 
