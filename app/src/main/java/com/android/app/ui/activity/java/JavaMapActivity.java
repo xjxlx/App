@@ -24,7 +24,7 @@ public class JavaMapActivity extends AppBaseActivity {
     @Override
     public void initListener() {
         super.initListener();
-        setonClickListener(R.id.tv_java_life);
+        setonClickListener(R.id.tv_java_life, R.id.tv_back);
     }
 
     @Override
@@ -36,6 +36,10 @@ public class JavaMapActivity extends AppBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_back:
+                finish();
+                break;
+
             case R.id.tv_java_life:
                 startActivity(TestJavaLifeActivity.class);
                 break;

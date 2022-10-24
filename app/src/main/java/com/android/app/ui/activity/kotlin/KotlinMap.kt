@@ -25,12 +25,16 @@ class KotlinMap : AppBaseBindingTitleActivity<ActivityKotlinMapBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        setonClickListener(R.id.tv_array, R.id.tv_list, R.id.tv_lambda, R.id.tv_czf)
+        setonClickListener(R.id.tv_array, R.id.tv_list, R.id.tv_lambda, R.id.tv_back, R.id.tv_czf)
     }
 
     override fun onClick(v: View?) {
         super.onClick(v)
         when (v?.id) {
+            R.id.tv_back -> {
+                finish()
+            }
+
             R.id.tv_array -> {
                 startActivity(kotArrayActivity::class.java)
             }

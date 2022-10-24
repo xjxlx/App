@@ -31,7 +31,9 @@ public class TestMapActivity extends AppBaseActivity {
     @Override
     public void initListener() {
         super.initListener();
-        setonClickListener(R.id.tv_test_handler, R.id.tv_elv, R.id.tv_flex_box, R.id.tv_test_js_to_android,
+        setonClickListener(
+                R.id.tv_back,
+                R.id.tv_test_handler, R.id.tv_elv, R.id.tv_flex_box, R.id.tv_test_js_to_android,
                 R.id.tv_test_scroll_help, R.id.tv_test_more_adapter, R.id.tv_test_ch, R.id.tv_test_web_socket,
                 R.id.tv_test_webview, R.id.tv_test_touch, R.id.tv_test_lifecycle, R.id.tv_test_adapter, R.id.tv_test_util,
                 R.id.tv_test_activity, R.id.tv_test_ip, R.id.tv_test_client_socket, R.id.tv_test_service_socket
@@ -48,6 +50,9 @@ public class TestMapActivity extends AppBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_back:
+                finish();
+                break;
             case R.id.tv_test_handler:
                 startActivity(TestHandlerActivity.class);
                 break;

@@ -30,6 +30,7 @@ public class ViewMapTitleActivity extends AppBaseActivity {
         super.initListener();
 
         setonClickListener(
+                R.id.tv_back,
                 R.id.tv_progress,
                 R.id.tv_multiple_list_view, R.id.tv_custom_text, R.id.tv_custom_round,
                 R.id.tv_custom_random, R.id.tv_custom_left_and_right, R.id.tv_custom_progress,
@@ -51,6 +52,9 @@ public class ViewMapTitleActivity extends AppBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_back:
+                finish();
+                break;
             case R.id.tv_progress:
                 startActivity(ProgressTitleActivity.class);
                 break;
