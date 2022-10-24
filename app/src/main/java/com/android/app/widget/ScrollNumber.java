@@ -61,7 +61,6 @@ public class ScrollNumber extends View {
     public int mSelectorIndex = 6; // 选中的数字的角标
     private float mDx;
     private float mCurrentDx;
-    private int initSelectorIndex = mSelectorIndex;
 
     // 字体颜色
     private final int[] mColors = new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT};
@@ -232,8 +231,8 @@ public class ScrollNumber extends View {
         for (int i = mSelectorIndex - 1; i >= 0; i--) {
             String leftNumber = mNumbers[i];
             int size;
-            if (mNumberMaxSize - tempIndex * 6 > mNumberMinSize) {
-                size = mNumberMaxSize - tempIndex * 6;
+            if (mNumberMaxSize - tempIndex * 10 > mNumberMinSize) {
+                size = mNumberMaxSize - tempIndex * 10;
             } else {
                 size = mNumberMinSize;
             }
@@ -269,8 +268,8 @@ public class ScrollNumber extends View {
             String rightNumber = mNumbers[i];
 
             int size;
-            if (mNumberMaxSize - tempIndex * 6 > mNumberMinSize) {
-                size = mNumberMaxSize - tempIndex * 6;
+            if (mNumberMaxSize - tempIndex * 10 > mNumberMinSize) {
+                size = mNumberMaxSize - tempIndex * 10;
             } else {
                 size = mNumberMinSize;
             }
