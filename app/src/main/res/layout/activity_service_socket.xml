@@ -59,6 +59,7 @@
             android:text="发送广播" />
 
         <LinearLayout
+            android:id="@+id/ll_temp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_send_data"
@@ -99,4 +100,10 @@
         android:layout_marginRight="@dimen/dp_20"
         android:text="获取到的数据为：" />
 
+    <WebView
+        android:id="@+id/wb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_temp"
+        android:background="@color/blue_1" />
 </RelativeLayout>

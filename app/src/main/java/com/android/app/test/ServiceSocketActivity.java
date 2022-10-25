@@ -2,6 +2,7 @@ package com.android.app.test;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,14 +25,18 @@ import com.android.app.ui.services.KeepService;
 import com.android.helper.base.title.AppBaseBindingTitleActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NetworkUtil;
+import com.android.helper.utils.ToastUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URL;
 
 public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityServiceSocketBinding> {
 
@@ -167,6 +177,81 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
             case R.id.btn_stop:
                 // 呼气
                 KeepService.stop();
+
+                try {
+                    WebSettings settings = mBinding.wb.getSettings();
+//                    String urlValue = "https://www.baidu.com/";
+                    String urlValue = "http://192.168.8.126:8080/abc.json";
+
+                    // 开始配置webView
+                    settings.setBuiltInZoomControls(true);// 显示缩放按钮(wap网页不支持)
+                    settings.setJavaScriptEnabled(true);// 支持js功能
+
+                    //设置自适应屏幕，两者合用
+                    settings.setUseWideViewPort(true);// 支持双击缩放(wap网页不支持)
+                    settings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+                    settings.setLoadsImagesAutomatically(true); //支持自动加载图片
+                    settings.setDefaultTextEncodingName("utf-8");//设置编码格式
+                    //不显示webview缩放按钮
+                    settings.setDisplayZoomControls(false);
+                    //禁止屏幕缩放
+                    settings.setSupportZoom(false);
+                    settings.setBuiltInZoomControls(false);
+
+                    settings.setBlockNetworkImage(false);//解决图片不显示
+
+                    //  WebSettings.LOAD_DEFAULT 如果本地缓存可用且没有过期则使用本地缓存，否加载网络数据 默认值
+                    //  WebSettings.LOAD_CACHE_ELSE_NETWORK 优先加载本地缓存数据，无论缓存是否过期
+                    //  WebSettings.LOAD_NO_CACHE  只加载网络数据，不加载本地缓存
+                    //  WebSettings.LOAD_CACHE_ONLY 只加载缓存数据，不加载网络数据
+                    //Tips:有网络可以使用LOAD_DEFAULT 没有网时用LOAD_CACHE_ELSE_NETWORK
+                    settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+                    // 解决图片不显示问题
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+                    }
+                    // 使用该方法，就不会去启动其他的浏览器
+                    mBinding.wb.setWebViewClient(new WebViewClient());
+
+                    // 使用该方法，去加载进度条
+                    mBinding.wb.setWebChromeClient(new WebChromeClient() {
+                        @Override
+                        public void onProgressChanged(WebView view, int newProgress) {
+                            if (newProgress >= 100) {
+
+                            } else {
+                                //更新进度
+                            }
+                            super.onProgressChanged(view, newProgress);
+                        }
+
+                        @Override
+                        public void onShowCustomView(View view, CustomViewCallback callback) {
+                            super.onShowCustomView(view, callback);
+                        }
+
+                        @Override
+                        public void onHideCustomView() {
+                            super.onHideCustomView();
+                        }
+
+                        @Override
+                        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                            return super.onJsAlert(view, url, message, result);
+                        }
+                    });
+                    //加载网页链接
+                    mBinding.wb.loadUrl(urlValue);
+                } catch (Exception e) {
+                    mBinding.wb.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ToastUtil.show("数据异常：" + e.getMessage());
+                        }
+                    });
+                }
+
                 break;
         }
     }
