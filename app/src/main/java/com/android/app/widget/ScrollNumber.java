@@ -96,7 +96,6 @@ public class ScrollNumber extends View {
             mDx += distanceX;
 
             calculationPosition();
-
             invalidate();
             return true;
         }
@@ -130,6 +129,10 @@ public class ScrollNumber extends View {
         // 获取view的宽度
         mMaxWidth = MeasureSpec.getSize(widthMeasureSpec);
 
+        // 先给他设置一个高度，然后再去计算，这个计算结果可能会有多次
+        if (mMaxHeight <= 0) {
+            mMaxHeight = mCenterRect.bottom + minuteInterval;
+        }
         setMeasuredDimension((int) mMaxWidth, (int) mMaxHeight);
     }
 
