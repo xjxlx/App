@@ -22,6 +22,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.android.helper.utils.ConvertUtil;
+import com.android.helper.utils.LogUtil;
 
 import java.util.HashMap;
 
@@ -40,7 +41,7 @@ public class ScrollNumber extends View {
     private final RectF mCenterRect = new RectF();
     private float mMaxWidth;// 屏幕最大的宽度
     private float mMaxHeight; // 屏幕最大的高度
-    private int mRoundRectWidth = (int) toDp(110); // 矩形的宽度
+    private int mRoundRectWidth = (int) toDp(128); // 矩形的宽度
     private final int mRoundRectHeight = (int) toDp(128); // 矩形的高度
     private final float minuteInterval = ConvertUtil.toDp(35); // 分钟和矩形的间隔
 
@@ -58,7 +59,7 @@ public class ScrollNumber extends View {
     private final Paint mPaintNumber = new Paint();// 数字的paint
     private final int mNumberMinSize = 40;// 文字的最小值
     private final int mNumberMaxSize = 100;// 文字的最大值
-    public int mSelectorIndex = 6; // 选中的数字的角标
+    private int mSelectorIndex = 6; // 选中的数字的角标
     private float mDx;
     private float mCurrentDx;
 
@@ -71,6 +72,7 @@ public class ScrollNumber extends View {
     private Paint mPaintMinute;
 
     private final HashMap<String, Point> mMapPoint = new HashMap<>();
+    private SelectorListener mSelectorListener;
 
     private final GestureDetector mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
         @Override
@@ -93,7 +95,7 @@ public class ScrollNumber extends View {
                     return true;
                 }
             }
-            mDx += distanceX;
+            mDx += (-distanceX);
 
             calculationPosition();
             invalidate();
@@ -139,15 +141,6 @@ public class ScrollNumber extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        //动态改变选中文字的宽度
-        String number = mNumbers[mSelectorIndex];
-        int selector = Integer.parseInt(number);
-        if (selector >= 10) {
-            mRoundRectWidth = 130;
-        } else {
-            mRoundRectWidth = 110;
-        }
 
         // 阴影矩形
         mCenterRect.left = (mMaxWidth - mRoundRectWidth) / 2;
@@ -322,18 +315,23 @@ public class ScrollNumber extends View {
         mGestureDetector.onTouchEvent(event);
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
+            LogUtil.e("up:");
             mDx = 0;
             String number = mNumbers[mSelectorIndex];
             Point point = mMapPoint.get(number);
             if (point != null) {
                 point.startX = 0;
             }
+
+            if (mSelectorListener != null) {
+                mSelectorListener.onSelector(mSelectorIndex + 1);
+            }
             invalidate();
         }
         return true;
     }
 
-    public Point getPoint(String number) {
+    private Point getPoint(String number) {
         Point point = mMapPoint.get(number);
         if (point == null) {
             point = new Point();
@@ -341,7 +339,7 @@ public class ScrollNumber extends View {
         return point;
     }
 
-    public void setPoint(String number, Point point) {
+    private void setPoint(String number, Point point) {
         mMapPoint.put(number, point);
     }
 
@@ -437,7 +435,7 @@ public class ScrollNumber extends View {
      * @param dp 具体的dp值
      * @return 使用标准的dp值
      */
-    public static float toDp(float dp) {
+    private static float toDp(float dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
@@ -446,7 +444,7 @@ public class ScrollNumber extends View {
      * @param content 内容
      * @return 返回测量文字的宽度
      */
-    public static float getTextViewWidth(Paint paint, String content) {
+    private static float getTextViewWidth(Paint paint, String content) {
         if (paint == null || TextUtils.isEmpty(content)) {
             return 0;
         }
@@ -458,7 +456,7 @@ public class ScrollNumber extends View {
      * @param content 内容
      * @return 获取文字的高度
      */
-    public static float getTextHeight(Paint paint, String content) {
+    private static float getTextHeight(Paint paint, String content) {
         if ((paint != null) && (!TextUtils.isEmpty(content))) {
             Rect rect = new Rect();
             paint.getTextBounds(content, 0, content.length(), rect);
@@ -472,7 +470,7 @@ public class ScrollNumber extends View {
      * @param content 内容
      * @return 根据画笔和内容返回baseLine的基线, 适用于view写在开始的位置
      */
-    public static float getBaseLine(Paint paint, String content) {
+    private static float getBaseLine(Paint paint, String content) {
         if (paint == null || (TextUtils.isEmpty(content))) {
             return 0f;
         }
@@ -481,10 +479,20 @@ public class ScrollNumber extends View {
         return (float) Math.abs(rect.top);
     }
 
-    public void log(String value) {
+    private void log(String value) {
         if (!TextUtils.isEmpty(value)) {
             Log.e(TAG, value);
         }
+    }
+
+    public void setSelectorListener(SelectorListener selectorListener) {
+        if (selectorListener != null) {
+            mSelectorListener = selectorListener;
+        }
+    }
+
+    public interface SelectorListener {
+        void onSelector(int selector);
     }
 
 }
