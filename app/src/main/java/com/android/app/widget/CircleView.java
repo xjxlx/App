@@ -78,7 +78,6 @@ public class CircleView extends View {
             }
         }
 
-        LogUtil.e("strokeWidth:" + mStrokeWidth);
         canvas.drawArc(mRectF, mStartAngle, mChangeAngle, false, mPaint);
     }
 
