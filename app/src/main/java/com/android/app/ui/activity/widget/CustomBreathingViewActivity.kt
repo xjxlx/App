@@ -27,19 +27,20 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
         super.onClick(v)
         when (v?.id) {
             R.id.btn_start1 -> {
-                mBinding.bvView.startTransparentCircle()
+                mBinding.bvView.startSmallToBigAlphaLoop()
             }
 
             R.id.btn_start2 -> {
-                mBinding.bvView.startSmallSolidCircle()
+                mBinding.bvView.startSmallToBig()
             }
 
             R.id.btn_start3 -> {
-                mBinding.bvView.startBigToSmallCircle()
+//                mBinding.bvView.startBigToSmall()
+                mBinding.bvView.startBigToSmallAlphaLoop()
             }
 
             R.id.btn_stop -> {
-                mBinding.bvView.clear()
+                mBinding.bvView.pause(true)
             }
         }
     }

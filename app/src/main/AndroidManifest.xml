@@ -99,12 +99,19 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".ui.activity.widget.ViewPager2Activity"
             android:exported="true" />
+
         <activity
             android:name=".ui.activity.widget.CustomBreathingViewActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".ui.services.KeepService"

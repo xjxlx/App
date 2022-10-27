@@ -51,7 +51,7 @@
                 android:text="停止所有" />
         </LinearLayout>
 
-        <com.android.app.widget.BreatheView2
+        <com.android.app.widget.BreatheView3
             android:id="@+id/bv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
