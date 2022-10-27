@@ -120,6 +120,11 @@
             style="@style/style_item_selector"
             android:text="自定义ViewPager2" />
 
+        <TextView
+            android:id="@+id/tv_custom_yh"
+            style="@style/style_item_selector"
+            android:text="自定义动态圆环" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
