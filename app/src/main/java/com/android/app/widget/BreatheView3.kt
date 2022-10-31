@@ -64,6 +64,7 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
     // 用来存储动画的集合
     private val mListAnimation = hashMapOf<Circle, ValueAnimator>()
     private lateinit var mAnimationLoop: ValueAnimator // 动画的轮询，使用无限动画的轮询去代替handler
+    private lateinit var mAnimationInterval: ValueAnimator // 用来倒计时
 
     init {
         initView(context)
@@ -99,10 +100,8 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
 
             override fun onAnimationRepeat(animation: Animator?) {
                 if (mLoopType == 3 && mLoopTag == 3) {
-                    if (mListBigToSmall.size == 0 && mListAnimation.size == 0) {
-                        // 开始轮询小到大的透明
-                        startSmallToBigAlphaLoop()
-                    }
+                    // 开始轮询小到大的透明
+                    startSmallToBigAlphaLoop()
                 }
 
                 if (mLoopTag != 2) {
@@ -111,6 +110,37 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
             }
         })
         mAnimationLoop.start()
+
+        // 用来倒计时的动画
+        mAnimationInterval = ValueAnimator()
+        mAnimationInterval.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                LogUtil.e("***m: onAnimationStart ")
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                LogUtil.e("***m: onAnimationEnd ")
+                if (mLoopType == 1) {
+                    when (mLoopTag) {
+                        1 -> {
+                            // 开启实心小到大
+                            startSmallToBig()
+                        }
+
+                        2 -> {
+                            // 开启大到小的实心
+                            startBigToSmall()
+                        }
+                    }
+                }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+        })
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -174,6 +204,11 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         if (mAnimationLoop.isPaused) {
             mAnimationLoop.resume()
         }
+
+        // 开始计时 ---> 实心小到大
+        mAnimationInterval.duration = mDurationAlphaSmallToBig
+        mAnimationInterval.setFloatValues(0f, 1f)
+        mAnimationInterval.start()
     }
 
     /**
@@ -186,6 +221,11 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
             mAnimationLoop.resume()
         }
         addPoint()
+
+        // 开始计时 ---> 实心大到小
+        mAnimationInterval.duration = mDurationSmallToBig
+        mAnimationInterval.setFloatValues(0f, 1f)
+        mAnimationInterval.start()
     }
 
     /**
@@ -474,6 +514,7 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                     // 在某个阶段的时候，就开始停止轮询
                     mLoopType = 3
                     mLoopTag = 3
+                    LogUtil.e("发送轮训小到大的透明！")
                 }
                 iteratorBigToSmall.remove()
             }
