@@ -35,12 +35,12 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
             }
 
             R.id.btn_start3 -> {
-//                mBinding.bvView.startBigToSmall()
-                mBinding.bvView.startBigToSmallAlphaLoop()
+                mBinding.bvView.startBigToSmall()
+//                mBinding.bvView.startBigToSmallAlphaLoop()
             }
 
             R.id.btn_stop -> {
-                mBinding.bvView.pause(true)
+                mBinding.bvView.clear()
             }
         }
     }

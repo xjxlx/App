@@ -1,14 +1,12 @@
 package com.android.app.widget
 
+import android.animation.Animator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.os.Handler
-import android.os.Message
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -18,13 +16,12 @@ import com.android.helper.utils.LogUtil
 /**
  * @author : 流星
  * @CreateDate: 2022/10/20-10:59
- * @Description:
+ * @Description:使用这个组件的时候，必须给开始吸气，屏住呼吸 和 呼气的时间给加入到里面
  */
 class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private val mRectStrokeLine = RectF() // 边线
     private val mPaintStrokeLine = Paint() // 绘制边线
-    private var intervalWidth = 10 // 每隔view间隔的宽度
     private var mCx: Float = 0F // 初始的X轴
     private var mCY: Float = 0F // 初始的Y轴
     private var mMaxRadius = 0f // 最大的扩散宽度
@@ -34,25 +31,22 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
     /**
      * 从小到大的透明渐变圆的持续时间
      */
-    private var mDurationAlphaSmallToBig: Long = 4000
+    var mDurationAlphaSmallToBig: Long = 4000
 
     /**
      * 从小到大的实心圆的持续时间
      */
-    private var mDurationSmallToBig: Long = 2000
+    var mDurationSmallToBig: Long = 2000
 
     /**
      * 从大到小实心圆的持续时间
      */
-    private var mDurationBigToSmall: Long = 4000
+    var mDurationBigToSmall: Long = 4000
 
-    // handler的自动循环
-    private val mWhatLoop = 1;
-
-    // 当前轮询的type 1:小到大，2： 大到小
+    // 当前轮询的type 1:小到大，2： 大到小 ,3:暂停的状态
     private var mLoopType = 0
 
-    // 1: 透明扩散 2: 实心
+    // 1: 透明扩散 2: 实心 ，3：暂停的状态
     private var mLoopTag = 0
 
     // 从小到大的圆圈集合
@@ -69,15 +63,13 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
 
     // 用来存储动画的集合
     private val mListAnimation = hashMapOf<Circle, ValueAnimator>()
-
-    private var isStopAll = false // 是否停止所有的操作
+    private lateinit var mAnimationLoop: ValueAnimator // 动画的轮询，使用无限动画的轮询去代替handler
 
     init {
         initView(context)
     }
 
     private fun initView(context: Context) {
-        LogUtil.e("initView!")
         // 绘制边线
         mPaintStrokeLine.color = Color.BLACK
         mPaintStrokeLine.isAntiAlias = true
@@ -89,6 +81,36 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         mRectStrokeLine.top = 0f
         mRectStrokeLine.right = mRectStrokeLine.left + mWidth - mPaintStrokeLine.strokeWidth
         mRectStrokeLine.bottom = mRectStrokeLine.top + mHeight - mPaintStrokeLine.strokeWidth
+
+        // 定时器，用来处理消息和停止消息
+        mAnimationLoop = ValueAnimator.ofFloat(0f, 700f)
+        mAnimationLoop.duration = 800
+        mAnimationLoop.repeatCount = ValueAnimator.INFINITE
+        mAnimationLoop.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                LogUtil.e("---->   onAnimationEnd")
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+                if (mLoopType == 3 && mLoopTag == 3) {
+                    if (mListBigToSmall.size == 0 && mListAnimation.size == 0) {
+                        // 开始轮询小到大的透明
+                        startSmallToBigAlphaLoop()
+                    }
+                }
+
+                if (mLoopTag != 2) {
+                    addPoint()
+                }
+            }
+        })
+        mAnimationLoop.start()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -149,8 +171,9 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
     public fun startSmallToBigAlphaLoop() {
         mLoopType = 1
         mLoopTag = 1
-        removeAll()
-        sendMessage()
+        if (mAnimationLoop.isPaused) {
+            mAnimationLoop.resume()
+        }
     }
 
     /**
@@ -159,7 +182,9 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
     public fun startSmallToBig() {
         mLoopType = 1
         mLoopTag = 2
-        removeAll()
+        if (mAnimationLoop.isPaused) {
+            mAnimationLoop.resume()
+        }
         addPoint()
     }
 
@@ -169,62 +194,19 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
     public fun startBigToSmall() {
         mLoopType = 2
         mLoopTag = 2
-        removeAll()
+        if (mAnimationLoop.isPaused) {
+            mAnimationLoop.resume()
+        }
         addPoint()
     }
 
     /**
      * 大道小的透明
      */
-    fun startBigToSmallAlphaLoop() {
+    private fun startBigToSmallAlphaLoop() {
         LogUtil.e("发送小到大的轮询标记！")
         mLoopType = 2
         mLoopTag = 1
-        removeAll()
-        sendMessage()
-    }
-
-    @SuppressLint("HandlerLeak")
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-
-            if (isStop) {
-                LogUtil.e("isStop:" + isStop)
-            } else {
-
-            }
-
-            // 开启自循环
-            if (msg.what == mWhatLoop) {
-                addPoint()
-
-                // 发送轮询消息
-                sendDelayedMessageLoop()
-            }
-        }
-    }
-
-    /**
-     * 发送轮询消息
-     */
-    private fun sendDelayedMessageLoop() {
-        mHandler.removeMessages(mWhatLoop, null)
-        mHandler.sendEmptyMessageDelayed(mWhatLoop, 700)
-    }
-
-    /**
-     * 开启轮询
-     */
-    private fun sendMessage() {
-        mHandler.removeMessages(mWhatLoop, null)
-        mHandler.sendEmptyMessage(mWhatLoop)
-    }
-
-    private fun removeAll() {
-        mHandler.removeMessages(mWhatLoop, null)
-        mHandler.removeCallbacksAndMessages(null)
-        LogUtil.e("⭐️⭐️⭐️ ---> 移除了所有的操作")
     }
 
     /**
@@ -232,18 +214,25 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
      */
     public fun pause(isPause: Boolean) {
         if (isPause) {
-            removeAll()
+            // 停止轮询的集合
+            mAnimationLoop.pause()
+
             // 停止所有动画
             mListAnimation.forEach { (t, u) ->
                 u.pause()
             }
+
         } else {
-            sendMessage()
+            // 开启轮询的集合
+            if (mAnimationLoop.isPaused) {
+                mAnimationLoop.resume()
+            }
             // 开启所有动画
             mListAnimation.forEach { (t, u) ->
-                u.resume()
+                if (u.isPaused) {
+                    u.resume()
+                }
             }
-
         }
     }
 
@@ -294,8 +283,6 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                     circle.paint = paint
                     circle.radius = mMaxRadius
 
-                    LogUtil.e("⭐️⭐️⭐️ ---> 大到小 实心 ---> 添加")
-
                     mListBigToSmall.add(circle)
                     animationBigToSmall(circle)
 
@@ -329,7 +316,6 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         animator.addUpdateListener { value ->
             val animatedValue = value.animatedValue as Float
             if (temp != animatedValue) {
-
                 // 宽度逐渐增加
                 circle.radius = animatedValue
                 // 透明度逐渐减小
@@ -349,8 +335,8 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
             mListAnimation[circle] = animator
         }
 
-        // 删除小到大多余的圆圈
-        removeSmallToBigList()
+        // 删除多余的数据
+        removeList()
     }
 
     /**
@@ -361,6 +347,7 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         var temp = 0F
         val animator = ValueAnimator.ofFloat(0f, mMaxRadius)
         animator.duration = mDurationSmallToBig
+        // 减速插值器
         animator.interpolator = DecelerateInterpolator()
         animator.addUpdateListener { value ->
             val animatedValue = value.animatedValue as Float
@@ -379,38 +366,8 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         if (!mListAnimation.containsKey(circle)) {
             mListAnimation[circle] = animator
         }
-
-        // 删除小到大多余的圆圈
-        removeSmallToBigList()
-    }
-
-    /**
-     * 移除小到大的闲置集合
-     */
-    private fun removeSmallToBigList() {
-        // 删除多余的动画集合
-        val iteratorAnimation = mListAnimation.iterator()
-        while (iteratorAnimation.hasNext()) {
-            val next = iteratorAnimation.next()
-            if (next.key.radius >= mMaxRadius) {
-                // 停止动画
-                next.value.cancel()
-                // 取消监听
-                next.value.removeAllUpdateListeners()
-                iteratorAnimation.remove()
-                LogUtil.e("删除了多余的动画 ---> 小到大渐变  size:" + mListAnimation.size)
-            }
-        }
-
-        // 删除多余的圆环集合
-        val iteratorSmallToBig = mListSmallToBig.iterator()
-        while (iteratorSmallToBig.hasNext()) {
-            val next = iteratorSmallToBig.next()
-            if (next.radius >= mMaxRadius) {
-                iteratorSmallToBig.remove()
-                LogUtil.e("删除了多余的圆圈 ---> 小到大渐变 size:" + mListSmallToBig.size)
-            }
-        }
+        // 删除多余的数据
+        removeList()
     }
 
     /**
@@ -430,8 +387,6 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         animator.interpolator = AccelerateInterpolator()
         animator.addUpdateListener { value ->
             val animatedValue = value.animatedValue as Float
-            LogUtil.e("⭐️⭐️⭐️ ---> 大到小 实心  $animatedValue")
-
             if (temp != animatedValue) {
                 // 宽度逐渐增加
                 circle.radius = animatedValue
@@ -442,13 +397,10 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                     // 大到小的透明
                     startBigToSmallAlphaLoop()
                 }
-
-                // 刷新布局
-                if (animatedValue >= 0) {
-                    invalidate()
-                }
                 temp = animatedValue
             }
+            // 刷新布局
+            invalidate()
         }
         animator.start()
 
@@ -457,8 +409,8 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
             mListAnimation[circle] = animator
         }
 
-        // 删除小到大多余的圆圈
-        removeBigToSmallList()
+        // 删除多余的数据
+        removeList()
     }
 
     /**
@@ -469,8 +421,9 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         var temp = 0F
 
         val animator = ValueAnimator.ofFloat(mMaxRadius - mStrokeWidth, 0f)
-        animator.duration = mDurationBigToSmall
-        // 加速度插值器
+        animator.duration = 1500
+        // 加速度插值器 todo  此处的插值器改用什么
+        // animator.interpolator = AccelerateInterpolator()
         animator.interpolator = DecelerateInterpolator()
         animator.addUpdateListener { value ->
             val animatedValue = value.animatedValue as Float
@@ -479,18 +432,14 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
             if (temp != animatedValue) {
                 // 宽度逐渐递减
                 circle.radius = animatedValue
-
-                LogUtil.e("animatedValue ---> $animatedFraction")
                 // 透明逐渐变小
-                circle.paint?.alpha = (animatedValue * mAlphasZoom).toInt()
+                circle.paint?.alpha = mColorValue - (mColorValue * animatedFraction).toInt()
                 // 圆圈宽度的递减
-                circle.paint?.strokeWidth = mStrokeWithZoom * animatedValue
-
+                circle.paint?.strokeWidth = mStrokeWidth - (mStrokeWidth * animatedFraction)
                 // 刷新布局
                 temp = animatedValue
-
-                invalidate()
             }
+            invalidate()
         }
         animator.start()
 
@@ -498,16 +447,59 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         if (!mListAnimation.containsKey(circle)) {
             mListAnimation[circle] = animator
         }
-
-        // 删除小到大多余的圆圈
-        removeBigToSmallList()
+        // 删除多余的数据
+        removeList()
     }
 
     /**
-     * 移除大到小的闲置集合
+     * 移除闲置集合
      */
-    private fun removeBigToSmallList() {
+    private fun removeList() {
+        // 删除小到大多余的圆环集合
+        val iteratorSmallToBig = mListSmallToBig.iterator()
+        while (iteratorSmallToBig.hasNext()) {
+            val next = iteratorSmallToBig.next()
+            if (next.radius >= mMaxRadius) {
+                iteratorSmallToBig.remove()
+            }
+        }
+
+        // 删除大到小多余的圆环集合
+        val iteratorBigToSmall = mListBigToSmall.iterator()
+        while (iteratorBigToSmall.hasNext()) {
+            val next = iteratorBigToSmall.next()
+            val radius = next.radius
+            if (radius <= 0) {
+                if (mLoopType == 2 && next.tag == 2) {
+                    // 在某个阶段的时候，就开始停止轮询
+                    mLoopType = 3
+                    mLoopTag = 3
+                }
+                iteratorBigToSmall.remove()
+            }
+        }
+
         // 删除多余的动画集合
+        val iteratorAnimation = mListAnimation.iterator()
+        while (iteratorAnimation.hasNext()) {
+            val next = iteratorAnimation.next()
+            if (!next.value.isRunning) {
+                // 停止动画
+                next.value.cancel()
+                // 取消监听
+                next.value.removeAllUpdateListeners()
+                iteratorAnimation.remove()
+            }
+        }
+
+        LogUtil.e("删除了多余的圆圈 ---> 大到小渐变 size:" + mListBigToSmall.size + " 小到大的size:" + mListSmallToBig.size + "  animation:" + mListAnimation.size)
+    }
+
+    public fun clear() {
+        mAnimationLoop.pause()
+        mAnimationLoop.cancel()
+        mAnimationLoop.removeAllUpdateListeners()
+
         val iteratorAnimation = mListAnimation.iterator()
         while (iteratorAnimation.hasNext()) {
             val next = iteratorAnimation.next()
@@ -520,23 +512,5 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                 LogUtil.e("删除了多余的动画 ---> 大到大渐变  size:" + mListAnimation.size)
             }
         }
-
-        // 删除多余的圆环集合
-        val iteratorSmallToBig = mListBigToSmall.iterator()
-        while (iteratorSmallToBig.hasNext()) {
-            val next = iteratorSmallToBig.next()
-            if (next.radius <= 0) {
-                // 标记大到小的实心圆已经结束了
-                if (mLoopType == 2 && next.tag == 2) {
-                    LogUtil.e("⭐️⭐️⭐️ ---> 大到小 透明 ---> 移除所有")
-                    isStop = true
-                    removeAll()
-                }
-                iteratorSmallToBig.remove()
-                LogUtil.e("删除了多余的圆圈 ---> 大到小渐变 size:" + mListBigToSmall.size)
-            }
-        }
     }
-
-    var isStop = false
 }
