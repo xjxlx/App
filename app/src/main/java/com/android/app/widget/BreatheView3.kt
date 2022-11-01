@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import com.android.helper.interfaces.listener.CallBackListener
 import com.android.helper.utils.LogUtil
 
 /**
@@ -100,8 +101,15 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
 
             override fun onAnimationRepeat(animation: Animator?) {
                 if (mLoopType == 3 && mLoopTag == 3) {
+                    // 移除剩余的信息
+                    removeList()
                     // 开始轮询小到大的透明
-                    startSmallToBigAlphaLoop()
+                    if (mListAnimation.size == 0 && mListBigToSmall.size == 0) {
+                        startSmallToBigAlphaLoop()
+                    }
+
+                    // 解释的标记
+                    mCallBackListener?.onEndBigToSmallAlpha()
                 }
 
                 if (mLoopTag != 2) {
@@ -209,6 +217,9 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
         mAnimationInterval.duration = mDurationAlphaSmallToBig
         mAnimationInterval.setFloatValues(0f, 1f)
         mAnimationInterval.start()
+
+        // 开始播放小到大的开始回调
+        mCallBackListener?.onStartSmallToBigAlpha()
     }
 
     /**
@@ -362,7 +373,6 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                 circle.paint?.alpha = (mColorValue - circle.radius * mAlphasZoom).toInt()
                 // 画笔宽度逐渐减小
                 circle.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * circle.radius
-
                 // 刷新布局
                 invalidate()
                 temp = animatedValue;
@@ -400,6 +410,26 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                 temp = animatedValue;
             }
         }
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                // 开始播放小到大的开始回调
+                mCallBackListener?.onStartSmallToBig()
+                LogUtil.e("小到大 -- 开始")
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                // 开始播放小到大的开始回调
+                mCallBackListener?.onEndSmallToBig()
+                LogUtil.e("小到大 -- 结束")
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+        })
+
         animator.start()
 
         // 加入集合
@@ -553,5 +583,18 @@ class BreatheView3(context: Context, attrs: AttributeSet) : View(context, attrs)
                 LogUtil.e("删除了多余的动画 ---> 大到大渐变  size:" + mListAnimation.size)
             }
         }
+    }
+
+    private var mCallBackListener: CallBackListener? = null
+    public fun setCallBackListener(callBackListener: CallBackListener) {
+        this.mCallBackListener = callBackListener
+    }
+
+    public interface CallBackListener {
+
+        fun onStartSmallToBigAlpha();
+        fun onStartSmallToBig()
+        fun onEndSmallToBig()
+        fun onEndBigToSmallAlpha()
     }
 }

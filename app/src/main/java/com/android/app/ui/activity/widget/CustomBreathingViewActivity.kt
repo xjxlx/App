@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
+import com.android.app.widget.BreatheView3
 import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.helper.utils.LogUtil
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
 
@@ -21,6 +23,23 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
     override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(mBinding.btnStart1, mBinding.btnStart2, mBinding.btnStart3, mBinding.btnStop)
 
+        mBinding.bvView.setCallBackListener(object : BreatheView3.CallBackListener {
+            override fun onStartSmallToBigAlpha() {
+                LogUtil.e(" **** 小到大 透明  的开始")
+            }
+
+            override fun onStartSmallToBig() {
+                LogUtil.e(" **** 小到大 实心  的开始")
+            }
+
+            override fun onEndSmallToBig() {
+                LogUtil.e(" **** 小到大 实心  的结束")
+            }
+
+            override fun onEndBigToSmallAlpha() {
+                LogUtil.e(" **** 大到小 透明  的结束")
+            }
+        })
     }
 
     override fun onClick(v: View?) {
