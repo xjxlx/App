@@ -216,5 +216,8 @@ dependencies {
     // bugly
     implementation 'com.tencent.bugly:crashreport:3.4.4'
     implementation 'com.tencent.bugly:nativecrashreport:3.9.2'
-
+    // 高德
+    implementation 'com.amap.api:location:5.6.1' // 定位
+    implementation 'com.amap.api:search:8.1.0' // 搜索
+    implementation 'com.amap.api:3dmap:8.1.0' // 地图
 }
