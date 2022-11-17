@@ -90,6 +90,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="false"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
         <activity
@@ -106,12 +107,7 @@
 
         <activity
             android:name=".ui.activity.widget.CustomBreathingViewActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
         <service
             android:name=".ui.services.KeepService"

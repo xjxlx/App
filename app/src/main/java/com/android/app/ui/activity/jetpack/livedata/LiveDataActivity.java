@@ -1,9 +1,6 @@
 package com.android.app.ui.activity.jetpack.livedata;
 
 import android.annotation.SuppressLint;
-
-import com.android.app.R;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,8 +8,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.android.app.R;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.FragmentUtil;
 import com.android.helper.utils.LogUtil;
@@ -54,19 +52,14 @@ public class LiveDataActivity extends AppBaseActivity {
     @Override
     public void initListener() {
         super.initListener();
-        setonClickListener(R.id.bt_live_data, R.id.bt_mutable_live_data,
-                R.id.btn_test_start_for_rever, R.id.btn_test_stop_for_rever);
+        setonClickListener(R.id.bt_live_data, R.id.bt_mutable_live_data, R.id.btn_test_start_for_rever, R.id.btn_test_stop_for_rever);
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
         ;
 
-        mMTvHint.setText("使用好处：\n" +
-                "1:在需要观察的界面使用viewModel的对象去观察数据源的变化，可以一个地方设置，所有地方公用，已经离不开这种模式了，" +
-                "只要一个地方设置了数据，其他地方只有监听对象，就能立马更新数据，可以做到数据的实时同步。" + "\r\n" +
-                "2：liveData 的内部方法onChanged,只有在页面可见的时候发生作用，避免了一些子线程或者页面不可见时候更新界面导致的" +
-                "崩溃，减少了很多代码的检查操作。");
+        mMTvHint.setText("使用好处：\n" + "1:在需要观察的界面使用viewModel的对象去观察数据源的变化，可以一个地方设置，所有地方公用，已经离不开这种模式了，" + "只要一个地方设置了数据，其他地方只有监听对象，就能立马更新数据，可以做到数据的实时同步。" + "\r\n" + "2：liveData 的内部方法onChanged,只有在页面可见的时候发生作用，避免了一些子线程或者页面不可见时候更新界面导致的" + "崩溃，减少了很多代码的检查操作。");
 
         testLiveData();
         testMutableLiveData();
@@ -80,7 +73,7 @@ public class LiveDataActivity extends AppBaseActivity {
 
     private void testLiveData() {
         // liveData的测试
-        mLiveDataModel = ViewModelProviders.of(mActivity).get(LiveDataModel.class);
+        mLiveDataModel = new ViewModelProvider(this).get(LiveDataModel.class);
         mLiveDataModel.getLiveData().observe(this, new Observer<TestLiveData>() {
             @Override
             public void onChanged(TestLiveData testLiveData) {
@@ -105,7 +98,7 @@ public class LiveDataActivity extends AppBaseActivity {
     }
 
     private void testMutableLiveData() {
-        mMutableLiveModel = ViewModelProviders.of(this).get(MutableLiveModel.class);
+        mMutableLiveModel = new ViewModelProvider(this).get(MutableLiveModel.class);
 
         mObserver = new Observer<TestMutableLiveData>() {
             @Override
