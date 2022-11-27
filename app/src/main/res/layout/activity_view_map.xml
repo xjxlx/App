@@ -81,6 +81,11 @@
             android:text="自定义侧滑的布局" />
 
         <TextView
+            android:id="@+id/tv_custom_menu2"
+            style="@style/style_item_selector"
+            android:text="自定义侧滑的布局2" />
+
+        <TextView
             android:id="@+id/tv_custom_name_list"
             style="@style/style_item_selector"
             android:text="自定义名字的首字母列表" />

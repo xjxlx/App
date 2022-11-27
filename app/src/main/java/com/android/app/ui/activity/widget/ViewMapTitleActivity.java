@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityViewMapBinding;
+import com.android.app.test.CustomSlingScrollMainActivity;
 import com.android.app.test.SlidingMenuActivity;
 import com.android.app.ui.activity.animation.ViewPagerActivity;
 import com.android.app.ui.activity.hmview.HmCustomViewActivity;
@@ -29,17 +30,7 @@ public class ViewMapTitleActivity extends AppBaseActivity {
     public void initListener() {
         super.initListener();
 
-        setonClickListener(
-                R.id.tv_back,
-                R.id.tv_progress,
-                R.id.tv_multiple_list_view, R.id.tv_custom_text, R.id.tv_custom_round,
-                R.id.tv_custom_random, R.id.tv_custom_left_and_right, R.id.tv_custom_progress,
-                R.id.tv_custom_touch, R.id.tv_custom_input_password, R.id.tv_scroll_view,
-                R.id.tv_page_view, R.id.tv_test_hm, R.id.tv_custom_menu, R.id.tv_custom_name_list,
-                R.id.tv_custom_viewpager, R.id.tv_custom_round_2, R.id.tv_custom_page_list,
-                R.id.tv_custom_charging, R.id.tv_custom_number_scroll, R.id.tv_custom_breathing,
-                R.id.tv_custom_viewpager2, R.id.tv_custom_yh
-        );
+        setonClickListener(R.id.tv_back, R.id.tv_progress, R.id.tv_multiple_list_view, R.id.tv_custom_text, R.id.tv_custom_round, R.id.tv_custom_random, R.id.tv_custom_left_and_right, R.id.tv_custom_progress, R.id.tv_custom_touch, R.id.tv_custom_input_password, R.id.tv_scroll_view, R.id.tv_page_view, R.id.tv_test_hm, R.id.tv_custom_menu, R.id.tv_custom_name_list, R.id.tv_custom_viewpager, R.id.tv_custom_round_2, R.id.tv_custom_page_list, R.id.tv_custom_charging, R.id.tv_custom_number_scroll, R.id.tv_custom_breathing, R.id.tv_custom_viewpager2, R.id.tv_custom_yh, R.id.tv_custom_menu2);
     }
 
     @Override
@@ -95,6 +86,9 @@ public class ViewMapTitleActivity extends AppBaseActivity {
                 break;
             case R.id.tv_custom_menu:
                 startActivity(SlidingMenuActivity.class);
+                break;
+            case R.id.tv_custom_menu2:
+                startActivity(CustomSlingScrollMainActivity.class);
                 break;
             case R.id.tv_custom_name_list:
                 startActivity(NameListActivity.class);
