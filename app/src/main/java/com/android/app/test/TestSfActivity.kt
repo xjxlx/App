@@ -1,5 +1,6 @@
 package com.android.app.test
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,27 +10,37 @@ import com.android.helper.utils.LogUtil
 
 class TestSfActivity : AppBaseBindingTitleActivity<ActivityTestSfBinding>() {
 
-    override fun initData(savedInstanceState: Bundle?) {
-        val list = arrayListOf<Float>()
-
-        for (item in 1 until 9) {
-            list.add(item * 0.1F)
-        }
-
-        LogUtil.e("list  :$list")
-
-        for (item in list.indices) {
-            val current = list[item]
-//            LogUtil.e("item  :" + current)
-            if (current >= start && current <= end) {
-                getSodRatio(current, start, end, ratio)
+    private val animation by lazy {
+        ValueAnimator
+            .ofFloat(0f, 2f)
+            .apply {
+                duration = 3000
+                addUpdateListener {
+                    val animatedValue = it.animatedValue as Float
+                    if (animatedValue >= start && animatedValue <= end) {
+                        val sodRatio = getDistance(animatedValue, start, end, startRatio, endRatio, reverse)
+                    }
+                }
             }
-        }
     }
 
+    private var reverse = false
     private val start = 0.2f
-    private val end = 0.6f
-    private val ratio = 1.5f
+    private val end = 0.8f
+    private val startRatio = 2f
+    private val endRatio = 6f
+
+    override fun initData(savedInstanceState: Bundle?) {
+        mBinding.btnStart.setOnClickListener {
+            reverse = false
+            animation.start()
+        }
+
+        mBinding.btnStop.setOnClickListener {
+            reverse = true
+            animation.reverse()
+        }
+    }
 
     override fun setTitleContent(): String {
         return "测试算法"
@@ -39,18 +50,26 @@ class TestSfActivity : AppBaseBindingTitleActivity<ActivityTestSfBinding>() {
         return ActivityTestSfBinding.inflate(inflater, container, true)
     }
 
-    private fun getSodRatio(percentage: Float, startTime: Float, endTime: Float, scaleRatio: Float): Float {
-        // 使用的时间
+    private fun getDistance(currentTime: Float, startTime: Float, endTime: Float, startDistance: Float, endDistance: Float, isReverse: Boolean): Float {
+        var distance = 0f
+        // 求出时间差值
         val intervalTim = endTime - startTime
-        // 移动的距离
-        val ratioInterval = scaleRatio - 1
-        // 距离 = 时间 * 单位
-        // 距离 = ratioInterval ，时间 = intervalTim ，单位 =距离 / 时间
-        // 得到每一份单位的缩放值的比例
-        val unitRatio = (ratioInterval / intervalTim)
-        // 缩放的最大值 - (最大进度 -当前进度 = 从当前开始计算的时间 )  * 比值
-        val currentRatio = scaleRatio - (endTime - percentage) * unitRatio
-        LogUtil.e(" 当前： " + percentage + " 最终的缩放值：" + currentRatio)
-        return currentRatio
+        // 求出距离的差值
+        val distanceInterval = endDistance - startDistance
+        // v = s / t
+        val speed = (distanceInterval / intervalTim)
+        if (!isReverse) {
+            // s = v * t
+            // 从0开始计算
+            distance = speed * (currentTime - startTime) + startDistance
+        } else {
+            // s = t * v
+            // 从0 开始计算，此处是负数
+            val currentDistance = (currentTime - endTime) * speed
+            distance = endDistance + currentDistance
+        }
+        LogUtil.e(" 当前 SSS： $currentTime 最终的缩放值：$distance   isReverse： $isReverse  currentTime: $currentTime")
+        return distance
     }
+
 }
