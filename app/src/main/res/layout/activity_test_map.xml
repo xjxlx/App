@@ -100,6 +100,11 @@
             style="@style/style_todo_item"
             android:text="服务端Socket" />
 
+        <TextView
+            android:id="@+id/tv_test_sf"
+            style="@style/style_todo_item"
+            android:text="测试算法" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
