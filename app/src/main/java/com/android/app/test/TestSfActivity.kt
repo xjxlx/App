@@ -9,6 +9,7 @@ import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 
 class TestSfActivity : AppBaseBindingTitleActivity<ActivityTestSfBinding>() {
+    val allDistance = 300f
 
     private val animation by lazy {
         ValueAnimator
@@ -18,7 +19,12 @@ class TestSfActivity : AppBaseBindingTitleActivity<ActivityTestSfBinding>() {
                 addUpdateListener {
                     val animatedValue = it.animatedValue as Float
                     if (animatedValue >= start && animatedValue <= end) {
-                        val sodRatio = getDistance(animatedValue, start, end, startRatio, endRatio, reverse)
+//                       getDistance(animatedValue, start, end, startRatio, endRatio, reverse)
+                    }
+                    val animatedFraction = it.animatedFraction
+
+                    if (animatedFraction >= 0.6f) {
+                        getBigToSmallValue(it.animatedFraction, 0.6f, 1f, 255f, 0f)
                     }
                 }
             }
@@ -72,4 +78,14 @@ class TestSfActivity : AppBaseBindingTitleActivity<ActivityTestSfBinding>() {
         return distance
     }
 
+    private fun getBigToSmallValue(currentTime: Float, startTime: Float, endTime: Float, startDistance: Float, endDistance: Float): Float {
+        val gradient: Float
+        val intervalTime = endTime - startTime
+        val intervalDistance = startDistance - endDistance
+        val speed = intervalDistance / intervalTime
+        // s = v * t
+        gradient = startDistance - speed * (currentTime - startTime)
+        LogUtil.e("gradient - currentTime:$currentTime startTime:$startTime  endTime: $endTime  startDistance:$startDistance endDistance: $endDistance sss: $gradient")
+        return gradient
+    }
 }
