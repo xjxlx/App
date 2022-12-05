@@ -6,7 +6,7 @@
     android:background="@color/black_20"
     tools:context=".ui.activity.widget.CustomNumberScrollActivity">
 
-    <com.android.app.widget.ScrollNumber
+    <com.android.app.widget.ScrollNumberView
         android:id="@+id/sc3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
