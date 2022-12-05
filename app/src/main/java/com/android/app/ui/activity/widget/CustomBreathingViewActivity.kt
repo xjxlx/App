@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
-import com.android.app.widget.BreatheView3
+import com.android.app.widget.BreatheView
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
 
@@ -23,21 +22,15 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
     override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(mBinding.btnStart1, mBinding.btnStart2, mBinding.btnStart3, mBinding.btnStop)
 
-        mBinding.bvView.setCallBackListener(object : BreatheView3.CallBackListener {
-            override fun onStartSmallToBigAlpha() {
-                LogUtil.e(" **** 小到大 透明  的开始")
+        mBinding.bvView.setCallBackListener(object : BreatheView.CallBackListener {
+            override fun onStart() {
+
             }
 
-            override fun onStartSmallToBig() {
-                LogUtil.e(" **** 小到大 实心  的开始")
+            override fun onRestart() {
             }
 
-            override fun onEndSmallToBig() {
-                LogUtil.e(" **** 小到大 实心  的结束")
-            }
-
-            override fun onEndBigToSmallAlpha() {
-                LogUtil.e(" **** 大到小 透明  的结束")
+            override fun statusChange(status: Int) {
             }
         })
     }
@@ -46,16 +39,7 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
         super.onClick(v)
         when (v?.id) {
             R.id.btn_start1 -> {
-                mBinding.bvView.startSmallToBigAlphaLoop()
-            }
-
-            R.id.btn_start2 -> {
-                mBinding.bvView.startSmallToBig()
-            }
-
-            R.id.btn_start3 -> {
-                mBinding.bvView.startBigToSmall()
-//                mBinding.bvView.startBigToSmallAlphaLoop()
+                mBinding.bvView.startAnimation()
             }
 
             R.id.btn_stop -> {

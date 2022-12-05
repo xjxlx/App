@@ -1,406 +1,544 @@
 package com.android.app.widget
 
 import android.animation.Animator
+import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
-import android.os.Handler
-import android.os.Looper
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import com.android.helper.utils.ConvertUtil
 import com.android.helper.utils.LogUtil
 
-/**
- * @author : 流星
- * @CreateDate: 2022/10/9-11:15
- * @Description:呼吸的view
- */
-class BreatheView : View {
+class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    private val TAG = "Touch"
-    private val mRectStrokeLine = RectF() // 边线
-    private val mPaintStrokeLine = Paint() // 绘制边线
+    private val mRectStrokeLine = RectF()
+    private val mPaintStrokeLine = Paint()
+    private var mCx: Float = 0F
+    private var mCY: Float = 0F
+    private var mMaxRadius = 0f
+    private var mAlphasZoom = 0f
+    private var mStrokeWithZoom = 0f
+    var durationAlphaSmallToBig: Long = 4000
+    var durationSmallToBig: Long = 2000
+    var durationBigToSmall: Long = 4000
+    // mLoopType 1:small to big  2：big to small  3:pause
+    private var mLoopType = 0
+    // mLoopTag 1:alpha-loop  2: solid 3：pause
+    private var mLoopTag = 0
+    private val mListSmallToBig = mutableListOf<Circle>()
+    private val mListBigToSmall = mutableListOf<Circle>()
+    private val mStrokeWidth = ConvertUtil.toPx(10f)
+    private val mColorValue = 150
+    private val mColorMaxValue = 255
 
-    private val mWidth = 600 // 绘制区域的宽度
-    private val mHeight = 600 // 绘制区域的高度
-    private var mFlagType = 1 // 1: 循环播放从小到大的圆圈，2：一个从小到大的实心圆圈，3：一个从大到小的实心圆圈
+    private var mWidth = ConvertUtil.toPx(300f)
+    private var mHeight = ConvertUtil.toPx(300f)
 
-    private val mPaintBigSolidCircle = Paint()  // 大的实心圆圈
-    private val mPaintSmallSolidCircle = Paint() // 小的实心圆圈
+    private val mListAnimation = hashMapOf<Circle, ValueAnimator>()
+    private lateinit var mAnimationLoop: ValueAnimator
+    private lateinit var mAnimationInterval: ValueAnimator
+    private var mCurrentStatus = 0
 
-    private val mListRadius = mutableListOf<Point>() // 扩散的透明圆圈宽度
-    private var mCx: Float = 0F // 初始的X轴
-    private var mCY: Float = 0F // 初始的Y轴
-    private var mMaxRadius = 0f // 最大的扩散宽度
-
-    private var intervalWidth = 10f // 每隔view间隔的宽度
-    private var mAlphasZoom = 0f // 透明度的比例
-
-    private val whatGradient = 1 // 渐变的what
-    private val whatGradientAdd = 2 // 渐变增加的what
-    private val whatSmallToBig = 3 // 从小到大的what
-    private val whatBigToSmall = 4 // 从大到小的what
-
-    private var isStop = false// 是否停止并清除所有圆圈
-    private var isStartOne = false // 是否已经开始了第一个
-    private var isStartSecond = false // 是否已经开始了第二个
-    private var isStartThree = false // 是否已经开始了第三个
-
-    constructor(context: Context) : this(context, null) {}
-
-    constructor(context: Context, attributes: AttributeSet?) : super(context, attributes) {
-        initView(context, attributes)
+    init {
+        initView(context)
     }
 
-    private fun initView(context: Context, attributes: AttributeSet?) {
-        // 绘制边线
+    private fun initView(context: Context) {
         mPaintStrokeLine.color = Color.BLACK
         mPaintStrokeLine.isAntiAlias = true
         mPaintStrokeLine.strokeWidth = 2f
         mPaintStrokeLine.style = Paint.Style.STROKE
 
-        // 边线
         mRectStrokeLine.left = 0f
         mRectStrokeLine.top = 0f
         mRectStrokeLine.right = mRectStrokeLine.left + mWidth - mPaintStrokeLine.strokeWidth
         mRectStrokeLine.bottom = mRectStrokeLine.top + mHeight - mPaintStrokeLine.strokeWidth
 
-        // 大的实心圆圈
-        mPaintBigSolidCircle.color = Color.WHITE
-        mPaintBigSolidCircle.alpha = 255
+        mAnimationLoop = ValueAnimator.ofFloat(0f, 700f)
+        mAnimationLoop.duration = 800
+        mAnimationLoop.repeatCount = ValueAnimator.INFINITE
+        mAnimationLoop.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+            }
 
-        // 小的实心圆圈
-        mPaintSmallSolidCircle.color = Color.WHITE
-        mPaintSmallSolidCircle.alpha = 255
+            override fun onAnimationEnd(animation: Animator?) {
+                LogUtil.e("---->   onAnimationEnd")
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+                if (mLoopType == 3 && mLoopTag == 3) {
+                    removeList()
+                    if (mListAnimation.size == 0 && mListBigToSmall.size == 0) {
+                        mCallBackListener?.onRestart()
+                        startSmallToBigAlphaLoop(false)
+                    }
+                }
+
+                if (mLoopTag != 2) {
+                    addPoint()
+                }
+            }
+        })
+        mAnimationLoop.start()
+
+        mAnimationInterval = ValueAnimator()
+        mAnimationInterval.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                LogUtil.e("***m: onAnimationStart ")
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                LogUtil.e("***m: onAnimationEnd ")
+                if (mLoopType == 1) {
+                    when (mLoopTag) {
+                        1 -> {
+                            startSmallToBig()
+                        }
+
+                        2 -> {
+                            startBigToSmall()
+                        }
+                    }
+                }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+        })
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        setMeasuredDimension(mWidth, mHeight)
+        setMeasuredDimension(mWidth.toInt(), mHeight.toInt())
 
-        // 中心X轴
         mCx = (measuredWidth / 2).toFloat()
-        // 中心Y轴
         mCY = (measuredHeight / 2).toFloat()
-        // 圆心最大的直径宽度
         mMaxRadius = (measuredWidth / 2).toFloat()
-
-        // 每一份占据的透明度
-        mAlphasZoom = (255 / mMaxRadius)
-        LogUtil.e("mAlphasZoom:$mAlphasZoom")
+        mAlphasZoom = (mColorValue / mMaxRadius)
+        mStrokeWithZoom = mStrokeWidth / mMaxRadius
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
         canvas?.let { it ->
+            // it.drawRect(mRectStrokeLine, mPaintStrokeLine)
 
-            // 绘制边线
-            it.drawRect(mRectStrokeLine, mPaintStrokeLine)
+            when (mLoopType) {
+                1 -> {
+                    drawCircle(it, mListSmallToBig)
+                }
 
-            // 绘制透明圆圈
-            mListRadius.forEach { point ->
-                point.paint?.let { paint ->
-                    it.drawCircle(point.x, point.y, point.radius, paint)
+                2 -> {
+                    drawCircle(it, mListBigToSmall)
                 }
             }
         }
     }
 
-    /**
-     * 添加一个圆圈
-     */
-    private fun addPoint(what: Int) {
-        if (!isStop) {
-
-            val point = Point()
-            point.x = mCx
-            point.y = mCY
-
-            if (mFlagType == 1 || mFlagType == 2) {
-                point.radius = 0f
-            } else if (mFlagType == 3) {
-                point.radius = mMaxRadius
-            }
-
-            val paint = Paint()
-
-            if (mFlagType == 1) {
-                paint.style = Paint.Style.STROKE
-            } else {
-                paint.style = Paint.Style.FILL
-            }
-
-            // 透明圆圈
-            paint.color = Color.WHITE
-            paint.alpha = 255
-            paint.strokeWidth = 15f
-            paint.isAntiAlias = true
-
-            point.paint = paint
-            mListRadius.add(point)
-
-            // 发送滚动的指令
-            mHandler.sendEmptyMessage(what)
+    private fun drawCircle(canvas: Canvas?, list: List<Circle>) {
+        for (item in list) {
+            canvas?.drawCircle(mCx, mCY, item.radius, item.paint!!)
         }
     }
 
-    private val mHandler = Handler(Looper.myLooper()!!) { msg ->
-        LogUtil.e("what:" + msg.what)
-
-        if (isStop) {
-            return@Handler true
-        }
-
-        when (msg.what) {
-            // 处理渐变的圆圈
-            whatGradient -> {
-                isStartSecond = true // 从小到大的开始标记
-                isStartThree = true // 从小到大的标记
-
-                val iterator = mListRadius.iterator()
-                while (iterator.hasNext()) {
-                    // 获取每一个元素
-                    val next = iterator.next()
-
-                    // 圆圈的半径逐渐变大
-                    val radius = next.radius
-                    if (radius < mMaxRadius) {
-                        // 长度逐渐加大
-                        next.radius += intervalWidth
-                    }
-
-                    // 透明度逐渐减小
-                    val paint = next.paint
-                    if (paint != null) {
-                        paint.alpha = (255 - next.radius * mAlphasZoom).toInt()
-                    }
-
-                    LogUtil.e("radius:" + next.radius + "  alpha:" + paint?.alpha + "  size:" + mListRadius.size)
-                    if (radius >= mMaxRadius || paint?.alpha!! <= 0) {
-                        iterator.remove()
-                        LogUtil.e("删除！！")
-                        invalidate()
-                    }
-                }
-
-                if (mListRadius.size > 0) {
-                    updateStatus(whatGradient)
-                } else {
-                    isStartThree = false // 从小到大的开始标记
-                    isStartSecond = false // 从小到大的开始标记
-                    isStartOne = false
-
-                    // 等到数据清空了，开始处理从小到大的源泉
-                    if (mFlagType == 2) {
-                        LogUtil.e("集合数据为空，开始处理从小到大的逻辑！")
-                        initSmallToBig()
-                    }
-                }
-            }
-
-            // 循环添加圆圈
-            whatGradientAdd -> {
-                addPoint(whatGradient)
-                loopAdd()
-            }
-
-            // 从小到大的逻辑
-            whatSmallToBig -> {
-                val iterator = mListRadius.iterator()
-                while (iterator.hasNext()) {
-                    // 获取每一个元素
-                    val next = iterator.next()
-
-                    // 圆圈的半径逐渐变大
-                    val radius = next.radius
-                    if (radius < mMaxRadius) {
-                        // 长度逐渐加大
-                        next.radius += intervalWidth
-                    }
-
-                    // 透明度逐渐减小
-                    val paint = next.paint
-
-                    LogUtil.e("radius:" + next.radius + "  alpha:" + paint?.alpha + "  size:" + mListRadius.size)
-                    if (radius >= mMaxRadius || paint?.alpha!! <= 0) {
-                        iterator.remove()
-                        LogUtil.e("删除 --- 从小到大的圆圈！！")
-                        isStartThree = false // 从小到大的开始标记
-                        isStartSecond = false // 从小到大的开始标记
-                        isStartOne = false
-
-                        // 设置从大到小的圆圈
-                        if (mFlagType == 3) {
-                            initBigToSmall()
-                        }
-                    }
-                }
-
-                if (mListRadius.size > 0) {
-                    updateStatus(whatSmallToBig)
-                }
-            }
-
-            // 从大到小的逻辑
-            whatBigToSmall -> {
-                val iterator = mListRadius.iterator()
-                LogUtil.e("mListRadius:" + mListRadius.size)
-
-                while (iterator.hasNext()) {
-                    // 获取每一个元素
-                    val next = iterator.next()
-
-                    val radius = next.radius
-
-                    if (radius > 0) {
-                        // 长度逐渐加大
-                        next.radius -= intervalWidth
-                    }
-
-                    LogUtil.e("radius:" + next.radius + "  size:" + mListRadius.size)
-                    if (radius <= 0) {
-                        iterator.remove()
-                        isStartThree = false // 从小到大的开始标记
-                        isStartSecond = false // 从小到大的开始标记
-                        isStartOne = false
-                        LogUtil.e("删除 --- 从大到小的圆圈！！")
-                    }
-                }
-
-                if (mListRadius.size > 0) {
-                    updateStatus(whatBigToSmall)
-                }
-            }
-        }
-        true
-    }
-
-    /**
-     * 更新动效
-     */
-    private fun updateStatus(what: Int) {
-        if (isStop) {
-            return
-        }
-
-        // 循环便利对象集合，让他动起来
-        mHandler.removeMessages(what)
-        mHandler.sendEmptyMessageDelayed(what, 50)
-        invalidate()
-    }
-
-    /**
-     * 开始扩散圆圈
-     */
-    fun startTransparentCircle() {
-        isStop = false
-        if (!isStop) {
-            mFlagType = 1
-            if (!isStartOne) {
-                isStartOne = true
-                addPoint(whatGradient)
-                // 开始循环添加圆圈
-                loopAdd()
-                invalidate()
-            }
-        }
-    }
-
-    /**
-     * 循环添加圆圈
-     */
-    private fun loopAdd() {
-        if (!isStop) {
-            // 只有等于1的时候，才会去循环添加
-            if (mFlagType == 1) {
-                mHandler.removeMessages(whatSmallToBig)
-                mHandler.removeMessages(whatBigToSmall)
-
-                // 每隔多少时间新增一个圈
-                mHandler.sendEmptyMessageDelayed(whatGradientAdd, 700)
-            }
-        }
-    }
-
-    /**
-     * 从小到大的处理逻辑
-     */
-    private fun initSmallToBig() {
-        if (!isStop) {
-            if (!isStartSecond) {
-                mHandler.removeCallbacksAndMessages(null)
-                // 添加一个圆圈
-                addPoint(whatSmallToBig)
-                isStartSecond = true
-                invalidate()
-            }
-        }
-    }
-
-    /**
-     * 从大到小的圆圈
-     */
-    private fun initBigToSmall() {
-        if (!isStop) {
-            if (!isStartThree) {
-                mHandler.removeCallbacksAndMessages(null)
-                addPoint(whatBigToSmall)
-                isStartThree = true
-
-                // 循环添加圆圈
-                loopAdd()
-
-                invalidate()
-            }
-        }
-    }
-
-    /**
-     * 开始从小到大圆圈
-     */
-    fun startBigSolidCircle() {
-        isStop = false
-        if (!isStop) {
-            mFlagType = 2
-            initSmallToBig()
-        }
-    }
-
-    /**
-     * 开始从大到小圆圈
-     */
-    fun startSmallSolidCircle() {
-        isStop = false
-        if (!isStop) {
-            mFlagType = 3
-            initBigToSmall()
-        }
-    }
-
-    /**
-     * 清除掉所有的view
-     */
-    fun clear() {
-        isStop = true
-        mListRadius.clear()
-
-        isStartThree = false // 从小到大的开始标记
-        isStartSecond = false // 从小到大的开始标记
-        isStartOne = false
-    }
-
-    internal class Point {
-
-        var x = 0f
-        var y = 0f
-        var radius = 0f
+    class Circle {
         var paint: Paint? = null
+        var radius: Float = 0f
+        var tag = 0
         override fun toString(): String {
-            return "Point(x=$x, y=$y, radius=$radius, paint=${paint?.alpha})"
+            return "Point(paint=$paint, radius=$radius)"
         }
     }
 
-}
+    private fun startSmallToBigAlphaLoop(restart: Boolean) {
+        mLoopType = 1
+        mLoopTag = 1
 
+        if (restart) {
+            mListAnimation.clear()
+            mListBigToSmall.clear()
+            mListSmallToBig.clear()
+        }
+
+        if (mAnimationLoop.isPaused) {
+            mAnimationLoop.resume()
+        }
+
+        mCallBackListener?.onStart()
+
+        mAnimationInterval.duration = durationAlphaSmallToBig
+        mAnimationInterval.setFloatValues(0f, 1f)
+        mAnimationInterval.start()
+    }
+
+    private fun startSmallToBig() {
+        mLoopType = 1
+        mLoopTag = 2
+        if (mAnimationLoop.isPaused) {
+            mAnimationLoop.resume()
+        }
+        addPoint()
+
+        mAnimationInterval.duration = durationSmallToBig
+        mAnimationInterval.setFloatValues(0f, 1f)
+        mAnimationInterval.start()
+    }
+
+    private fun startBigToSmall() {
+        mLoopType = 2
+        mLoopTag = 2
+        if (mAnimationLoop.isPaused) {
+            mAnimationLoop.resume()
+        }
+        addPoint()
+    }
+
+    private fun startBigToSmallAlphaLoop() {
+        LogUtil.e("发送小到大的轮询标记！")
+        mLoopType = 2
+        mLoopTag = 1
+    }
+
+    fun pause(isPause: Boolean) {
+        if (isPause) {
+            mAnimationInterval.pause()
+
+            mAnimationLoop.pause()
+            mListAnimation.forEach { (t, u) ->
+                u.pause()
+            }
+        } else {
+            if (mAnimationLoop.isPaused) {
+                mAnimationLoop.resume()
+            }
+
+            if (mAnimationInterval.isPaused) {
+                mAnimationInterval.resume()
+            }
+
+            mListAnimation.forEach { (t, u) ->
+                if (u.isPaused) {
+                    u.resume()
+                }
+            }
+        }
+    }
+
+    private fun addPoint() {
+        val circle = Circle()
+        circle.tag = mLoopTag
+        val paint = Paint()
+
+        when (mLoopType) {
+            1 -> {
+                if (mLoopTag == 1) {
+                    paint.color = Color.WHITE
+                    paint.strokeWidth = mStrokeWidth
+                    paint.style = Paint.Style.STROKE
+                    paint.alpha = mColorValue
+
+                    circle.paint = paint
+                    circle.radius = 0f
+                    mListSmallToBig.add(circle)
+
+                    animationSmallToBigLoop(circle)
+                } else if (mLoopTag == 2) {
+                    paint.color = Color.WHITE
+                    paint.strokeWidth = 0F
+                    paint.style = Paint.Style.FILL
+                    paint.alpha = mColorMaxValue
+
+                    circle.paint = paint
+                    circle.radius = 0f
+                    mListSmallToBig.add(circle)
+
+                    animationSmallToBig(circle)
+                }
+            }
+
+            2 -> {
+                if (mLoopTag == 2) {
+                    paint.color = Color.WHITE
+                    paint.style = Paint.Style.FILL
+                    paint.alpha = mColorMaxValue
+                    paint.strokeWidth = mStrokeWidth
+                    circle.paint = paint
+                    circle.radius = mMaxRadius
+
+                    mListBigToSmall.add(circle)
+                    animationBigToSmall(circle)
+                } else if (mLoopTag == 1) {
+
+                    paint.color = Color.WHITE
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = mStrokeWidth
+                    paint.alpha = mColorValue
+                    circle.paint = paint
+                    circle.radius = mMaxRadius
+
+                    mListBigToSmall.add(circle)
+                    animationBigToSmallLoop(circle)
+                }
+            }
+        }
+    }
+
+    private fun animationSmallToBigLoop(circle: Circle) {
+        var temp = 0F
+        val animator = ValueAnimator.ofFloat(0f, mMaxRadius)
+        animator.duration = durationAlphaSmallToBig
+        animator.interpolator = DecelerateInterpolator()
+        animator.addUpdateListener { value ->
+            val animatedValue = value.animatedValue as Float
+            if (temp != animatedValue) {
+                circle.radius = animatedValue
+                circle.paint?.alpha = (mColorValue - circle.radius * mAlphasZoom).toInt()
+                circle.paint?.strokeWidth = mStrokeWidth - mStrokeWithZoom * circle.radius
+                invalidate()
+                temp = animatedValue
+            }
+        }
+        animator.addListener(object : AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                if (mCurrentStatus != 1) {
+                    mCallBackListener?.statusChange(1)
+                    mCurrentStatus = 1
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+        })
+        animator.start()
+
+        if (!mListAnimation.containsKey(circle)) {
+            mListAnimation[circle] = animator
+        }
+
+        removeList()
+    }
+
+    private fun animationSmallToBig(circle: Circle) {
+        var temp = 0F
+        val animator = ValueAnimator.ofFloat(0f, mMaxRadius)
+        animator.duration = durationSmallToBig
+        animator.interpolator = DecelerateInterpolator()
+        animator.addUpdateListener { value ->
+            val animatedValue = value.animatedValue as Float
+
+            if (temp != animatedValue) {
+                circle.radius = animatedValue
+                invalidate()
+                temp = animatedValue
+            }
+        }
+
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                LogUtil.e("小到大 -- 开始")
+                if (mCurrentStatus != 2) {
+                    mCallBackListener?.statusChange(2)
+                    mCurrentStatus = 2
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                LogUtil.e("小到大 -- 结束")
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+        })
+
+        animator.start()
+
+        if (!mListAnimation.containsKey(circle)) {
+            mListAnimation[circle] = animator
+        }
+        removeList()
+    }
+
+    private fun animationBigToSmall(circle: Circle) {
+        LogUtil.e("开始了小到大 --->")
+        var temp = 0F
+        var isSend = false
+
+        val range = mMaxRadius * 0.8f
+
+        val animator = ValueAnimator.ofFloat(mMaxRadius, 0f)
+        animator.duration = durationBigToSmall
+        animator.interpolator = AccelerateInterpolator()
+        animator.addUpdateListener { value ->
+            val animatedValue = value.animatedValue as Float
+            if (temp != animatedValue) {
+                circle.radius = animatedValue
+                if (animatedValue < range && !isSend) {
+                    isSend = true
+                    LogUtil.e("⭐️⭐️⭐️ ---> 大到小 实心 ---> 发送轮巡")
+                    startBigToSmallAlphaLoop()
+                }
+                temp = animatedValue
+            }
+            invalidate()
+        }
+        animator.addListener(object : AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+                if (mCurrentStatus != 3) {
+                    mCallBackListener?.statusChange(3)
+                    mCurrentStatus = 3
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+        })
+
+        animator.start()
+
+        if (!mListAnimation.containsKey(circle)) {
+            mListAnimation[circle] = animator
+        }
+
+        removeList()
+    }
+
+    private fun animationBigToSmallLoop(circle: Circle) {
+        LogUtil.e("开始了小到大 --->")
+        var temp = 0F
+
+        val animator = ValueAnimator.ofFloat(mMaxRadius - mStrokeWidth, 0f)
+        animator.duration = 1500
+        animator.interpolator = DecelerateInterpolator()
+        animator.addUpdateListener { value ->
+            val animatedValue = value.animatedValue as Float
+            val animatedFraction = value.animatedFraction
+
+            if (temp != animatedValue) {
+                circle.radius = animatedValue
+                circle.paint?.alpha = mColorValue - (mColorValue * animatedFraction).toInt()
+                circle.paint?.strokeWidth = mStrokeWidth - (mStrokeWidth * animatedFraction)
+                temp = animatedValue
+            }
+            invalidate()
+        }
+        animator.start()
+
+        if (!mListAnimation.containsKey(circle)) {
+            mListAnimation[circle] = animator
+        }
+        removeList()
+    }
+
+    private fun removeList() {
+        val iteratorSmallToBig = mListSmallToBig.iterator()
+        while (iteratorSmallToBig.hasNext()) {
+            val next = iteratorSmallToBig.next()
+            if (next.radius >= mMaxRadius) {
+                iteratorSmallToBig.remove()
+            }
+        }
+
+        val iteratorBigToSmall = mListBigToSmall.iterator()
+        while (iteratorBigToSmall.hasNext()) {
+            val next = iteratorBigToSmall.next()
+            val radius = next.radius
+            if (radius <= 0) {
+                if (mLoopType == 2 && next.tag == 2) {
+                    mLoopType = 3
+                    mLoopTag = 3
+                    LogUtil.e("发送轮训小到大的透明！")
+                }
+                iteratorBigToSmall.remove()
+            }
+        }
+
+        val iteratorAnimation = mListAnimation.iterator()
+        while (iteratorAnimation.hasNext()) {
+            val next = iteratorAnimation.next()
+            if (!next.value.isRunning) {
+                next.value.removeAllUpdateListeners()
+                iteratorAnimation.remove()
+            }
+        }
+
+        LogUtil.e("删除了多余的圆圈 ---> 大到小渐变 size:" + mListBigToSmall.size + " 小到大的size:" + mListSmallToBig.size + "  animation:" + mListAnimation.size)
+    }
+
+    fun clear() {
+        mAnimationLoop.pause()
+        mAnimationLoop.cancel()
+        mAnimationLoop.removeAllUpdateListeners()
+
+        mAnimationInterval.pause()
+        mAnimationInterval.cancel()
+        mAnimationInterval.removeAllUpdateListeners()
+
+        mListSmallToBig.clear()
+        mListBigToSmall.clear()
+
+        val iteratorAnimation = mListAnimation.iterator()
+        while (iteratorAnimation.hasNext()) {
+            val next = iteratorAnimation.next()
+            if (!next.value.isRunning) {
+                next.value.removeAllUpdateListeners()
+                iteratorAnimation.remove()
+                LogUtil.e("删除了多余的动画 ---> 大到大渐变  size:" + mListAnimation.size)
+            }
+        }
+    }
+
+    fun startAnimation() {
+        mCallBackListener?.onStart()
+        startSmallToBigAlphaLoop(true)
+    }
+
+    private var mCallBackListener: CallBackListener? = null
+    fun setCallBackListener(callBackListener: CallBackListener) {
+        this.mCallBackListener = callBackListener
+    }
+
+    interface CallBackListener {
+        /**
+         * animation - status
+         */
+        fun onStart()
+
+        /**
+         * animation - restart
+         */
+        fun onRestart()
+
+        /**
+         * status  - change
+         */
+        fun statusChange(status: Int)
+    }
+}

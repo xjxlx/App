@@ -127,7 +127,13 @@
             android:exported="true" />
         <activity
             android:name=".ui.activity.widget.CustomBreathingViewActivity"
-            android:exported="true" />
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".ui.services.KeepService"
