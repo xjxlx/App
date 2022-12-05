@@ -154,7 +154,7 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         }
     }
 
-    class Circle {
+    inner class Circle {
         var paint: Paint? = null
         var radius: Float = 0f
         var tag = 0
@@ -176,8 +176,6 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         if (mAnimationLoop.isPaused) {
             mAnimationLoop.resume()
         }
-
-        mCallBackListener?.onStart()
 
         mAnimationInterval.duration = durationAlphaSmallToBig
         mAnimationInterval.setFloatValues(0f, 1f)
