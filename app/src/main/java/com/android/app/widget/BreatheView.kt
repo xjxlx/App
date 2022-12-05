@@ -14,8 +14,9 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.android.helper.utils.ConvertUtil
 import com.android.helper.utils.LogUtil
+import kotlin.math.min
 
-class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class BreatheView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
     private val mRectStrokeLine = RectF()
     private val mPaintStrokeLine = Paint()
@@ -27,8 +28,10 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     var durationAlphaSmallToBig: Long = 4000
     var durationSmallToBig: Long = 2000
     var durationBigToSmall: Long = 4000
+
     // mLoopType 1:small to big  2：big to small  3:pause
     private var mLoopType = 0
+
     // mLoopTag 1:alpha-loop  2: solid 3：pause
     private var mLoopTag = 0
     private val mListSmallToBig = mutableListOf<Circle>()
@@ -37,28 +40,16 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private val mColorValue = 150
     private val mColorMaxValue = 255
 
-    private var mWidth = ConvertUtil.toPx(300f)
-    private var mHeight = ConvertUtil.toPx(300f)
-
     private val mListAnimation = hashMapOf<Circle, ValueAnimator>()
     private lateinit var mAnimationLoop: ValueAnimator
     private lateinit var mAnimationInterval: ValueAnimator
     private var mCurrentStatus = 0
 
     init {
-        initView(context)
-    }
-
-    private fun initView(context: Context) {
         mPaintStrokeLine.color = Color.BLACK
         mPaintStrokeLine.isAntiAlias = true
         mPaintStrokeLine.strokeWidth = 2f
         mPaintStrokeLine.style = Paint.Style.STROKE
-
-        mRectStrokeLine.left = 0f
-        mRectStrokeLine.top = 0f
-        mRectStrokeLine.right = mRectStrokeLine.left + mWidth - mPaintStrokeLine.strokeWidth
-        mRectStrokeLine.bottom = mRectStrokeLine.top + mHeight - mPaintStrokeLine.strokeWidth
 
         mAnimationLoop = ValueAnimator.ofFloat(0f, 700f)
         mAnimationLoop.duration = 800
@@ -119,16 +110,37 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         })
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        if (changed) {
+            val w = right.minus(left)
+            val h = bottom.minus(top)
+            mCx = w.div(2F)
+            mCY = h.div(2F)
+            val size = min(w, h).toFloat()
+            mMaxRadius = size.div(2F)
+            mAlphasZoom = mColorValue.div(size)
+            mStrokeWithZoom = mStrokeWidth.div(size)
 
-        setMeasuredDimension(mWidth.toInt(), mHeight.toInt())
-
-        mCx = (measuredWidth / 2).toFloat()
-        mCY = (measuredHeight / 2).toFloat()
-        mMaxRadius = (measuredWidth / 2).toFloat()
-        mAlphasZoom = (mColorValue / mMaxRadius)
-        mStrokeWithZoom = mStrokeWidth / mMaxRadius
+            mRectStrokeLine.set(
+                w
+                    .minus(size)
+                    .div(2F)
+                    .plus(mPaintStrokeLine.strokeWidth.div(2F)),
+                h
+                    .minus(size)
+                    .div(2F)
+                    .plus(mPaintStrokeLine.strokeWidth.div(2F)),
+                w
+                    .plus(size)
+                    .div(2F)
+                    .minus(mPaintStrokeLine.strokeWidth.div(2F)),
+                h
+                    .plus(size)
+                    .div(2F)
+                    .minus(mPaintStrokeLine.strokeWidth.div(2F)),
+            )
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -154,7 +166,7 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         }
     }
 
-    inner class Circle {
+    class Circle {
         var paint: Paint? = null
         var radius: Float = 0f
         var tag = 0
@@ -176,6 +188,8 @@ class BreatheView(context: Context, attrs: AttributeSet) : View(context, attrs) 
         if (mAnimationLoop.isPaused) {
             mAnimationLoop.resume()
         }
+
+        mCallBackListener?.onStart()
 
         mAnimationInterval.duration = durationAlphaSmallToBig
         mAnimationInterval.setFloatValues(0f, 1f)
