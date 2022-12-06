@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
-import com.android.app.widget.BreatheView
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
@@ -20,36 +19,25 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        setonClickListener(mBinding.btnStart1, mBinding.btnStart2, mBinding.btnStart3, mBinding.btnStop)
-
-        mBinding.bvView.setCallBackListener(object : BreatheView.CallBackListener {
-            override fun onStart() {
-
-            }
-
-            override fun onRestart() {
-            }
-
-            override fun statusChange(status: Int) {
-            }
-        })
+        setonClickListener(mBinding.btnStart, mBinding.btnPause, mBinding.btnClear)
     }
 
     override fun onClick(v: View?) {
         super.onClick(v)
         when (v?.id) {
-            R.id.btn_start1 -> {
+            R.id.btn_start -> {
                 mBinding.bvView.startAnimation()
             }
 
-            R.id.btn_stop -> {
+            R.id.btn_pause -> {
+                val pause = mBinding.bvView.isPause()
+                mBinding.bvView.pause(!pause)
+            }
+
+            R.id.btn_clear -> {
                 mBinding.bvView.clear()
             }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        mBinding.bvView.clear()
-    }
 }

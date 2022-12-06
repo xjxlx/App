@@ -21,40 +21,34 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_start1"
+                android:id="@+id/btn_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="开始扩散" />
+                android:text="开始" />
+
 
             <Button
-                android:id="@+id/btn_start2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="小到大" />
-
-            <Button
-                android:id="@+id/btn_start3"
+                android:id="@+id/btn_pause"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="大到小" />
+                android:text="暂停" />
 
             <Button
-                android:id="@+id/btn_stop"
+                android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_temp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_20"
-                android:text="停止所有" />
+                android:text="清空" />
         </LinearLayout>
 
-        <com.android.app.widget.BreatheView
+        <com.android.app.widget.BreatheView4
             android:id="@+id/bv_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="@dimen/dp_300"
             android:layout_alignTop="@+id/rl_temp"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_toEndOf="@+id/rl_temp" />
