@@ -10,7 +10,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.core.animation.addListener
 import com.android.helper.utils.ConvertUtil
@@ -59,8 +58,6 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     // todo 大到小透明 等待多久之后，开启大到小的透明圆环
     var mDdurationBigToSmallLoopAwait: Long = 200L
-    // todo 大到小，从开始透明圆 到结束 透明圆，用了多久
-    var mDdurationBigToSmall: Long = 4000L
 
     private val mTimerTask: ValueAnimator by lazy {
         ValueAnimator.ofFloat(0f, 1f)
@@ -90,7 +87,6 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
                 mLoopTag = 1
                 mLooper.start()
 
-                postDelayed(mDdurationBigToSmall)
             } else if (mLoopType == 2 && mLoopTag == 1) {
                 // big to small finish ,cancel animation loop
                 mLooper.cancel()
@@ -338,7 +334,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
             .apply {
                 duration = mDdurationBigToSmallSolid
                 // interpolator ++
-                interpolator = AccelerateInterpolator()
+//                interpolator = AccelerateInterpolator()
                 addUpdateListener {
                     val fraction = it.animatedFraction
                     val radius = getDistance(fraction, 0f, 1f, 1f, 0f)
@@ -351,9 +347,11 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
                         mCallBackListener?.statusChange(3)
                         mCurrentStatus = 3
                     }
-
                     // await the  tim after ,start big to small transparent
                     postDelayed(mDdurationBigToSmallLoopAwait)
+                }, onEnd = {
+                    // finish big to small loop
+                    postDelayed(0)
                 })
                 start()
             }
@@ -506,6 +504,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
         mListAnimation.clear()
         mListBigToSmall.clear()
         mListSmallToBig.clear()
+        clear()
 
         addPoint()
 

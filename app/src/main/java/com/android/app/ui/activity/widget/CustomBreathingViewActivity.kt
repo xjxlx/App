@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
+import com.android.app.widget.BreatheView4
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
@@ -18,8 +19,35 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
         return ActivityCustomBreathingViewBinding.inflate(inflater, container, true)
     }
 
+    private var count = 0
     override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(mBinding.btnStart, mBinding.btnPause, mBinding.btnClear)
+
+        mBinding.bvView.setCallBackListener(object : BreatheView4.CallBackListener {
+            override fun onStart() {
+                mBinding.tvType.text = "开始"
+            }
+
+            override fun onRestart() {
+                mBinding.tvType.text = "重新开始" + (count++)
+            }
+
+            override fun statusChange(status: Int) {
+                var msg = ""
+                when (status) {
+                    1 -> {
+                        msg = " 吸气"
+                    }
+                    2 -> {
+                        msg = " 憋气"
+                    }
+                    3 -> {
+                        msg = " 呼气"
+                    }
+                }
+                mBinding.tvStatus.text = msg
+            }
+        })
     }
 
     override fun onClick(v: View?) {
