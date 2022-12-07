@@ -22,7 +22,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val mPaintStrokeLine = Paint()
     private var mCx: Float = 0F
     private var mCY: Float = 0F
-    private val mColorValue = 150
+    private val mColorValue = 200
     private val mColorMaxValue = 255
     private var mMaxRadius = 0f
     // mLoopType 1:small to big  2：big to small  3:pause
@@ -188,6 +188,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun drawCircle(canvas: Canvas?, list: List<Circle>) {
         for (item in list) {
+            LogUtil.e("draw --- " + item.paint!!.alpha)
             canvas?.drawCircle(mCx, mCY, item.radius, item.paint!!)
         }
     }
@@ -265,13 +266,24 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
                 interpolator = DecelerateInterpolator()
                 addUpdateListener {
                     val fraction = it.animatedFraction
+                    if (fraction < 0.5) {
+                        // transparent  ---> solid
+                        val ratioAlphaTransparentSolid = getDistance(fraction, 0f, 0.5f, 0f, 0.5f)
+                        val toInt = (ratioAlphaTransparentSolid * mColorValue).toInt()
+                        circle.paint?.alpha = toInt
+                    } else {
+                        // solid ---> transparent
+                        val ratioBigToSmall = getDistance(fraction, 0.5f, 1f, 0.5f, 0f)
+                        circle.paint?.alpha = (ratioBigToSmall * mColorValue).toInt()
+                    }
+                    // radius : small ---> big
                     val ratioSmallToBig = getDistance(fraction, 0f, 1f, 0f, 1f)
                     circle.radius = ratioSmallToBig * mMaxRadius
 
-                    val ratioBigToSmall = getDistance(fraction, 0f, 1f, 1f, 0f)
-                    circle.paint?.alpha = (ratioBigToSmall * mColorValue).toInt()
-                    circle.paint?.strokeWidth = ratioBigToSmall * mStrokeWidth
-
+                    // stroke : big ---> small
+                    val ratioStroke = getDistance(fraction, 0f, 1f, 1f, 0f)
+                    circle.paint?.strokeWidth = ratioStroke * mStrokeWidth
+                    LogUtil.e("fraction ------>" + fraction + "alpha: " + circle.paint?.alpha)
                     invalidate()
                 }
 
@@ -287,7 +299,6 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
         if (!mListAnimation.containsKey(circle)) {
             mListAnimation[circle] = animator
         }
-        removeList()
     }
 
     /**
