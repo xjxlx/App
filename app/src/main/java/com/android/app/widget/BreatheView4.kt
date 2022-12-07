@@ -280,9 +280,9 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
                     val ratioSmallToBig = getDistance(fraction, 0f, 1f, 0f, 1f)
                     circle.radius = ratioSmallToBig * mMaxRadius
 
-                    if (fraction > 0.8) {
+                    if (fraction > 0.7) {
                         // stroke : big ---> small
-                        val ratioStroke = getDistance(fraction, 0.8f, 1f, 0.8f, 0f)
+                        val ratioStroke = getDistance(fraction, 0.7f, 1f, 0.7f, 0f)
                         circle.paint?.strokeWidth = ratioStroke * mStrokeWidth
                         LogUtil.e("fraction ------>" + fraction + "alpha: " + circle.paint?.alpha)
                     } else {
