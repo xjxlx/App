@@ -22,7 +22,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val mPaintStrokeLine = Paint()
     private var mCx: Float = 0F
     private var mCY: Float = 0F
-    private val mColorValue = 200
+    private val mColorValue = 150
     private val mColorMaxValue = 255
     private var mMaxRadius = 0f
     // mLoopType 1:small to big  2：big to small  3:pause
@@ -349,7 +349,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
             .apply {
                 duration = mDdurationBigToSmallSolid
                 // interpolator ++
-//                interpolator = AccelerateInterpolator()
+                // interpolator = AccelerateInterpolator()
                 addUpdateListener {
                     val fraction = it.animatedFraction
                     val radius = getDistance(fraction, 0f, 1f, 1f, 0f)
@@ -381,6 +381,7 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
      * big to small loop transparent
      */
     private fun animationBigToSmallLoop(circle: Circle) {
+        val alphaRatio = 0.5f
         val animator = ValueAnimator
             .ofFloat(0f, 1f)
             .apply {
@@ -389,10 +390,18 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
                 interpolator = DecelerateInterpolator()
                 addUpdateListener {
                     val fraction = it.animatedFraction
+
+                    if (fraction < alphaRatio) {
+                        val alphaDistance = getDistance(fraction, 0f, alphaRatio, 0f, 1f)
+                        circle.paint?.alpha = (mColorValue * alphaDistance).toInt()
+                    } else {
+                        val alphaDistance = getDistance(fraction, alphaRatio, 1f, 1f, 0f)
+                        circle.paint?.alpha = (mColorValue * alphaDistance).toInt()
+                    }
+
                     val distance = getDistance(fraction, 0f, 1f, 1f, 0f)
                     circle.radius = mMaxRadius * distance
-                    circle.paint?.alpha = (mColorValue * distance).toInt()
-                    circle.paint?.strokeWidth = mStrokeWidth * distance
+                    // circle.paint?.strokeWidth = mStrokeWidth * distance
                     invalidate()
                 }
 
@@ -406,11 +415,9 @@ class BreatheView4 @JvmOverloads constructor(context: Context, attrs: AttributeS
                 })
                 start()
             }
-
         if (!mListAnimation.containsKey(circle)) {
             mListAnimation[circle] = animator
         }
-        removeList()
     }
 
     /**
