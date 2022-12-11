@@ -8,6 +8,7 @@ import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
 import com.android.app.widget.BreatheView4
 import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.helper.utils.LogUtil
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
 
@@ -54,12 +55,16 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
         super.onClick(v)
         when (v?.id) {
             R.id.btn_start -> {
-                mBinding.bvView.startAnimation()
+                //   mBinding.bvView.startAnimation()
+//                mBinding.ivAnimation.translationX = 200f
+                val translationX = mBinding.ivAnimation.translationX
+                LogUtil.e("translationX: "+translationX)
             }
 
             R.id.btn_pause -> {
-                val pause = mBinding.bvView.isPause()
-                mBinding.bvView.pause(!pause)
+//                val pause = mBinding.bvView.isPause()
+//                mBinding.bvView.pause(!pause)
+                mBinding.ivAnimation.x = 200f
             }
 
             R.id.btn_clear -> {

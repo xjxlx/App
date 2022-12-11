@@ -129,10 +129,10 @@
             android:name=".ui.activity.widget.CustomBreathingViewActivity"
             android:exported="true">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
 
         <service
@@ -283,9 +283,7 @@
         <activity android:name=".ui.activity.animation.RadiationAnimationActivity" />
         <activity android:name=".ui.activity.animation.GifViewActivity" />
         <activity android:name=".ui.activity.animation.AnimationMapActivity" />
-        <activity
-            android:name=".ui.activity.widget.JointActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.widget.JointActivity" />
         <activity
             android:name=".ui.activity.widget.RandomActivity"
             android:screenOrientation="landscape" />

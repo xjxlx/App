@@ -47,13 +47,14 @@
 
         <com.android.app.widget.BreatheView4
             android:id="@+id/bv_view"
-            android:layout_width="@dimen/dp_300"
-            android:layout_height="@dimen/dp_300"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"
             android:layout_alignTop="@+id/rl_temp"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_toEndOf="@+id/rl_temp" />
 
         <LinearLayout
+            android:id="@+id/ll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bv_view"
@@ -75,6 +76,13 @@
                 android:textSize="@dimen/sp_16" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_content"
+            android:src="@mipmap/a1" />
 
     </RelativeLayout>
 
