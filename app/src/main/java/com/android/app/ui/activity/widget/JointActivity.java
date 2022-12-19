@@ -44,7 +44,9 @@ public class JointActivity extends AppBaseActivity {
 //            }
 //        });
 
-        String url = "http://file.jollyeng.com/picture_book/201903/1553490074.png";
+//        String url = "http://file.jollyeng.com/picture_book/201903/1553490074.png";
+//        String url = "https://dlfile.buddyeng.cn/image/default/F024D032C86E4DAA93B96C4B620E9C41-6-2.png";
+        String url = "https://dlfile.buddyeng.cn/image/default/AF0BCC65ADCA4FC8AC4E56BEF5074FC8-6-2.png";
 
         ImageView left = findViewById(R.id.iv_left);
         ImageView iv_right = findViewById(R.id.iv_right);
@@ -55,14 +57,12 @@ public class JointActivity extends AppBaseActivity {
                     .build();
         }
 
-
         View ll_left = findViewById(R.id.ll_left);
         View ll_right = findViewById(R.id.ll_right);
         ImageView iv____ss = findViewById(R.id.iv____ss);
         mGlideUtil.loadUrl(left, url);
         mGlideUtil.loadUrl(iv_right, url);
         mGlideUtil.loadUrl(iv____ss, url);
-
 
         findViewById(R.id.change).setOnClickListener(new OnClickListener() {
             @Override
