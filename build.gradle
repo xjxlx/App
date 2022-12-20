@@ -8,13 +8,13 @@ buildscript {
     }
 
     repositories {
-        maven { url "https://maven.aliyun.com/repository/central" }
-
-        google()
-        jcenter()
-
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 
     dependencies {
@@ -36,13 +36,13 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url "https://maven.aliyun.com/repository/central" }
-
-        google()
-        jcenter()
-
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
         maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        gradlePluginPortal()
     }
 }
 task clean(type: Delete) {
