@@ -6,10 +6,20 @@
     android:background="@color/black_20"
     tools:context=".ui.activity.widget.CustomNumberScrollActivity">
 
-
-    <com.android.app.widget.NumberScrollView
-        android:layout_width="match_parent"
+    <com.android.app.widget.ScrollNumberView
+        android:id="@+id/sc3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_50" />
+    <!--    android:background="@color/blue_1"-->
 
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:text="开始" />
 </RelativeLayout>

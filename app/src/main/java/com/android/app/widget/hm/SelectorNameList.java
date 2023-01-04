@@ -86,7 +86,7 @@ public class SelectorNameList extends BaseView {
         // 统计出所有字的高度
         for (String value : mIndexArr) {
             // 获取字的宽高
-            float width = CustomViewUtil.getTextWidth(mPaint, value);
+            float width = CustomViewUtil.getTextViewWidth(mPaint, value);
 
             // 对比出最大的宽度
             mTotalWidth = Math.max(tempWidth, width);

@@ -1,11 +1,10 @@
 package com.android.app.ui.activity.jetpack.model
 
 import android.os.Bundle
-import com.android.app.R
 import android.view.View
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
+import com.android.app.R
 import com.android.helper.base.AppBaseFragment
-import kotlinx.android.synthetic.main.fragment_model1.*
 import kotlinx.android.synthetic.main.fragment_model2.*
 
 class Model2Fragment : AppBaseFragment() {
@@ -17,15 +16,16 @@ class Model2Fragment : AppBaseFragment() {
     override fun initView(view: View?) {
     }
 
-     override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
 
         btn_f2_change.setOnClickListener {
-            val get = ViewModelProviders.of(mContext).get(TestViewModel::class.java)
+            val get = ViewModelProvider(this).get(TestViewModel::class.java)
             tv_content_fr_2.text = get.name
         }
     }
 
     companion object {
+
         private val fragment by lazy {
             return@lazy Model2Fragment()
         }

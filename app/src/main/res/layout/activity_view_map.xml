@@ -11,6 +11,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_back"
+            style="@style/style_todo_item"
+            android:text="返回" />
+
+        <TextView
             android:id="@+id/tv_progress"
             style="@style/style_item_selector"
             android:text="progress" />
@@ -76,6 +81,11 @@
             android:text="自定义侧滑的布局" />
 
         <TextView
+            android:id="@+id/tv_custom_menu2"
+            style="@style/style_item_selector"
+            android:text="自定义侧滑的布局2" />
+
+        <TextView
             android:id="@+id/tv_custom_name_list"
             style="@style/style_item_selector"
             android:text="自定义名字的首字母列表" />
@@ -104,6 +114,21 @@
             android:id="@+id/tv_custom_number_scroll"
             style="@style/style_item_selector"
             android:text="自定义数字滑动" />
+
+        <TextView
+            android:id="@+id/tv_custom_breathing"
+            style="@style/style_item_selector"
+            android:text="自定义呼吸效果" />
+
+        <TextView
+            android:id="@+id/tv_custom_viewpager2"
+            style="@style/style_item_selector"
+            android:text="自定义ViewPager2" />
+
+        <TextView
+            android:id="@+id/tv_custom_yh"
+            style="@style/style_item_selector"
+            android:text="自定义动态圆环" />
 
     </LinearLayout>
 

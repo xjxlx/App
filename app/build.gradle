@@ -45,20 +45,22 @@ android {
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'x86','arm64-v8a' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi', 'x86', 'arm64-v8a' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
+
+        // 设置默认的维度
+        flavorDimensions "default"
     }
 
     signingConfigs {
         test {
-            // storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
             storeFile file('../jks/apphelper.jks')
             storePassword '123456'
             keyPassword '123456'
             keyAlias 'apphelper'
         }
+
         config {
-            // storeFile file('/Users/dasouche/StudioWorks/App/jks/apphelper.jks')
             storeFile file('../jks/apphelper.jks')
             storePassword '123456'
             keyAlias 'apphelper'
@@ -75,7 +77,7 @@ android {
         }
         debug {
             // 给applicationId添加后缀“.debug”
-            // applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
             signingConfig signingConfigs.test
             minifyEnabled false
             shrinkResources false
@@ -106,21 +108,55 @@ android {
         checkReleaseBuilds false  //打包release版本的时候进行检测
     }
 
-    flavorDimensions 'default' // 默认的维度
-
     productFlavors {
-        //不同渠道
-        _ {
-            dimension "default"
-            //替换AndroidManifest中的值
-            manifestPlaceholders = [channel_value: "qq"]
+        // 免费版
+        free {
+            applicationId "com.android.app.free"
+            // 定义app_icon字段，在AndroidManifest.xml文件中用到
+            manifestPlaceholders = [
+                    channel_value: "free",
+                    app_icon     : "@mipmap/ic_launcher"
+            ]
+            versionName "1.0.0"
+            versionCode 1
+            // 自动生成@string/app_name为App小助手Free
+            resValue "string", "app_name", "App小助手Free"
+        }
+
+        // 收费版
+        pro {
+            applicationId "com.android.app.pro"
+            // 定义app_icon字段，在AndroidManifest.xml文件中用到
+            manifestPlaceholders = [
+                    channel_value: "pro",
+                    app_icon     : "@mipmap/ic_launcher_round"
+            ]
+            versionName "2.0.0"
+            versionCode 2
+            // 自动生成@string/app_name为App小助手pro
+            resValue "string", "app_name", "App小助手pro"
+
+            //  buildConfigField("String","CHANNEL","\"huawei\"")
+        }
+
+        // 教育版
+        education {
+            applicationId "com.android.app.education"
+            // 定义app_icon字段，在AndroidManifest.xml文件中用到
+            manifestPlaceholders = [
+                    channel_value: "education",
+                    app_icon     : "@mipmap/ic_launcher_foreground"
+            ]
+            versionName "2.0.0"
+            versionCode 2
+            // 自动生成@string/app_name为App小助手education
+            resValue "string", "app_name", "App小助手education"
         }
     }
 
-
-    productFlavors.all {
-        flavor -> flavor.manifestPlaceholders = [channel_value: name]
-    }
+//    productFlavors.all {
+//        flavor -> flavor.manifestPlaceholders = [channel_value: name]
+//    }
 
     //这里修改apk文件名
     android.applicationVariants.all { variant ->
@@ -130,6 +166,7 @@ android {
             if (buildType == "release") {
                 // 获取渠道名字
                 def productFlavors = productFlavors.name
+                println "${"productFlavors:" + productFlavors}"
                 // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
                 def file = new File(project.rootDir.absolutePath + File.separator + "outputs" + File.separator + "release" + File.separator + productFlavors)
                 variant.getPackageApplicationProvider().get().outputDirectory = file
@@ -146,8 +183,8 @@ static def releaseTime() {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation files('libs/nineoldandroids-2.4.0.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -179,5 +216,10 @@ dependencies {
     // bugly
     implementation 'com.tencent.bugly:crashreport:3.4.4'
     implementation 'com.tencent.bugly:nativecrashreport:3.9.2'
+    // 高德
+    implementation 'com.amap.api:location:5.6.1' // 定位
+    implementation 'com.amap.api:search:8.1.0' // 搜索
+    implementation 'com.amap.api:3dmap:8.1.0' // 地图
+    implementation 'org.greenrobot:eventbus:3.2.0'
 
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_1"
+    android:paddingLeft="@dimen/dp_30"
+    android:paddingRight="@dimen/dp_30"
+    tools:context=".ui.activity.widget.CustomBreathingViewActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/rl_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/dp_30"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="开始" />
+
+
+            <Button
+                android:id="@+id/btn_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="暂停" />
+
+            <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_temp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="清空" />
+        </LinearLayout>
+
+        <com.android.app.widget.BreatheView4
+            android:id="@+id/bv_view"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"
+            android:layout_alignTop="@+id/rl_temp"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_toEndOf="@+id/rl_temp" />
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bv_view"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white_1"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/sp_10"
+                android:textColor="@color/white_1"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_content"
+            android:src="@mipmap/a1" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

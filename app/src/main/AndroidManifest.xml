@@ -84,16 +84,84 @@
     <application
         android:name=".app.App"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="${app_icon}"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="false"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
+        <activity
+            android:name=".test.TestSfActivity"
+            android:exported="true">
 
-        <activity android:name=".ui.activity.widget.CustomNumberScrollActivity" />
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".test.CustomSlingScrollMainActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+
+        </activity>
+        <activity
+            android:name=".ui.activity.widget.CustomYhActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activity.widget.ViewPager2Activity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.activity.widget.CustomBreathingViewActivity"
+            android:exported="true">
+
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
+
+        <service
+            android:name=".ui.services.KeepService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.xjx.keep" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".test.ServiceSocketActivity"
+            android:exported="true" />
+        <activity
+            android:name=".test.SocketClientActivity"
+            android:exported="false" />
+        <activity
+            android:name=".test.TestIpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.widget.CustomNumberScrollActivity"
+            android:screenOrientation="landscape">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity android:name=".ui.activity.kotlin.CzfActivity" />
         <activity android:name=".ui.activity.kotlin.LambdaActivity" />
         <activity android:name=".ui.activity.kotlin.KotListActivity" />
@@ -133,11 +201,10 @@
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/account_authenticator" />
-        </service>
-
+        </service> <!-- com.android.app.account.authority -->
         <provider
             android:name="com.android.helper.utils.account.SyncProvider"
-            android:authorities="com.android.app.account.authority"
+            android:authorities="${applicationId}.authority"
             android:label="2:使用provider用来同步账号之间的数据" />
 
         <service
@@ -216,9 +283,7 @@
         <activity android:name=".ui.activity.animation.RadiationAnimationActivity" />
         <activity android:name=".ui.activity.animation.GifViewActivity" />
         <activity android:name=".ui.activity.animation.AnimationMapActivity" />
-        <activity
-            android:name=".ui.activity.widget.JointActivity"
-            android:screenOrientation="landscape" />
+        <activity android:name=".ui.activity.widget.JointActivity" />
         <activity
             android:name=".ui.activity.widget.RandomActivity"
             android:screenOrientation="landscape" />

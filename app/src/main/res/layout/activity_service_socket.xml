@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".test.ServiceSocketActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_ips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_get_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取ip" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="Address:" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_input_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_ips"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@color/blue_1"
+        android:text="我是服务端的内容，当前的编号是："
+        tools:text="请输入发送的内容" />
+
+    <RelativeLayout
+        android:id="@+id/rl_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_input_content"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <Button
+            android:id="@+id/btn_send_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="发送数据" />
+
+        <Button
+            android:id="@+id/btn_send_broadcast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="发送广播" />
+
+        <LinearLayout
+            android:id="@+id/ll_temp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_send_data"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="吸气" />
+
+            <Button
+                android:id="@+id/btn_keep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:text="保持呼吸" />
+
+            <Button
+                android:id="@+id/btn_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:text="呼气" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_temp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/dp_20"
+        android:text="获取到的数据为：" />
+
+    <WebView
+        android:id="@+id/wb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_temp"
+        android:background="@color/blue_1" />
+</RelativeLayout>

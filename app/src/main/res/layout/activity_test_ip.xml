@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dp_20"
+    android:paddingRight="@dimen/dp_20"
+    tools:context=".test.TestIpActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_flag_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="我是客户端" />
+
+        <Button
+            android:id="@+id/btn_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/dp_20"
+            android:gravity="right"
+            android:text="我是我是服务端" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_flag_type"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_get_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取ip" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:text="Address:" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_ips"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@color/blue_1"
+        tools:text="请输入Ip的地址" />
+
+    <EditText
+        android:id="@+id/et_input_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_input"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@color/blue_1"
+        tools:text="请输入发送的内容" />
+
+    <Button
+        android:id="@+id/btn_send_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_input_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="发送数据" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_send_data"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/dp_20"
+        android:text="获取到的数据为：" />
+
+</RelativeLayout>
+

@@ -2,8 +2,8 @@ package com.android.app.ui.activity.jetpack.model
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.android.app.R
-import androidx.lifecycle.ViewModelProviders
 import com.android.helper.base.AppBaseActivity
 import com.android.helper.utils.FragmentUtil
 import com.android.helper.utils.LogUtil
@@ -24,20 +24,20 @@ import kotlinx.android.synthetic.main.activity_view_model.*
 class ViewModelActivity : AppBaseActivity() {
 
     private val viewModel by lazy {
-        return@lazy ViewModelProviders.of(this).get(TestViewModel::class.java)
+        return@lazy ViewModelProvider(this).get(TestViewModel::class.java)
     }
 
     override fun getBaseLayout(): Int {
         return R.layout.activity_view_model
     }
-    
+
     /**
      * Activity初始化view
      */
     override fun initView() {
-    
+
     }
-    
+
     override fun initListener() {
         super.initListener()
 

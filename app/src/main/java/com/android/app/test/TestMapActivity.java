@@ -1,5 +1,7 @@
 package com.android.app.test;
 
+import static com.android.helper.common.CommonConstants.KEY_BASE_WEB_VIEW_URL;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +9,6 @@ import android.view.View;
 
 import com.android.app.R;
 import com.android.helper.base.AppBaseActivity;
-
-import static com.android.helper.common.CommonConstants.KEY_BASE_WEB_VIEW_URL;
 
 /**
  * 测试功能的集合
@@ -31,11 +31,8 @@ public class TestMapActivity extends AppBaseActivity {
     @Override
     public void initListener() {
         super.initListener();
-        setonClickListener(R.id.tv_test_handler, R.id.tv_elv, R.id.tv_flex_box, R.id.tv_test_js_to_android,
-                R.id.tv_test_scroll_help, R.id.tv_test_more_adapter, R.id.tv_test_ch, R.id.tv_test_web_socket,
-                R.id.tv_test_webview, R.id.tv_test_touch, R.id.tv_test_lifecycle, R.id.tv_test_adapter, R.id.tv_test_util,
-                R.id.tv_test_activity
-        );
+        setonClickListener(R.id.tv_back, R.id.tv_test_handler, R.id.tv_elv, R.id.tv_flex_box, R.id.tv_test_js_to_android, R.id.tv_test_scroll_help, R.id.tv_test_more_adapter, R.id.tv_test_ch, R.id.tv_test_web_socket, R.id.tv_test_webview, R.id.tv_test_touch, R.id.tv_test_lifecycle, R.id.tv_test_adapter, R.id.tv_test_util, R.id.tv_test_activity, R.id.tv_test_ip, R.id.tv_test_client_socket,
+                R.id.tv_test_service_socket,R.id.tv_test_sf);
     }
 
     @Override
@@ -48,6 +45,9 @@ public class TestMapActivity extends AppBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_back:
+                finish();
+                break;
             case R.id.tv_test_handler:
                 startActivity(TestHandlerActivity.class);
                 break;
@@ -92,6 +92,18 @@ public class TestMapActivity extends AppBaseActivity {
                 break;
             case R.id.tv_test_activity:
                 startActivity(TestActivityActivity.class);
+                break;
+            case R.id.tv_test_ip:
+                startActivity(TestIpActivity.class);
+                break;
+            case R.id.tv_test_client_socket:
+                startActivity(SocketClientActivity.class);
+                break;
+            case R.id.tv_test_service_socket:
+                startActivity(ServiceSocketActivity.class);
+                break;
+            case R.id.tv_test_sf:
+                startActivity(TestSfActivity.class);
                 break;
         }
     }
