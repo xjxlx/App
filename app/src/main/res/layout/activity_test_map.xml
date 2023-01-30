@@ -105,6 +105,11 @@
             style="@style/style_todo_item"
             android:text="测试算法" />
 
+        <TextView
+            android:id="@+id/tv_scroll_top"
+            style="@style/style_todo_item"
+            android:text="顶起键盘" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
