@@ -36,6 +36,15 @@
                 android:text="暂停" />
 
             <Button
+                android:id="@+id/btn_resume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_temp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="重新开始" />
+
+            <Button
                 android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,13 +54,13 @@
                 android:text="清空" />
         </LinearLayout>
 
-        <com.android.app.widget.BreatheView4
+        <com.android.app.widget.BreathView5
             android:id="@+id/bv_view"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_200"
-            android:layout_alignTop="@+id/rl_temp"
-            android:layout_marginStart="@dimen/dp_20"
-            android:layout_toEndOf="@+id/rl_temp" />
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="@dimen/dp_300"
+            android:layout_below="@+id/rl_temp"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:background="@color/black" />
 
         <LinearLayout
             android:id="@+id/ll_content"
