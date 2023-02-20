@@ -616,12 +616,15 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
     }
 
     fun stop() {
-        mListAnimation.forEach {
-            it.pause()
-            it.cancel()
-            it.removeAllUpdateListeners()
+        val iterator = mListAnimation.iterator()
+        while (iterator.hasNext()) {
+            val next = iterator.next()
+            next.pause()
+            next.removeAllListeners()
+            next.cancel()
+            iterator.remove()
         }
-        mListAnimation.clear()
+
         mListCircle.clear()
     }
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.helper.utils.DeviceUtil
 import com.android.helper.utils.LogUtil
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
@@ -43,6 +44,7 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
 
             R.id.btn_clear -> {
                 mBinding.bvView.stop()
+                DeviceUtil.instance?.getDeviceId2("111")
             }
         }
     }
