@@ -59,7 +59,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath in 】  all duration
          */
-        var BREATH_IN_ALL_DURATION = 6000L
+        var BREATH_IN_ALL_DURATION = 7000L
 
         /**
          *【 breath in 】 all  count
@@ -314,7 +314,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         var lastTime = 0F
 
         animator.duration = duration
-        animator.interpolator = DecelerateInterpolator()
+        animator.interpolator = DecelerateInterpolator(0.6F)
         animator.addUpdateListener {
             val fraction = it.animatedFraction
             if (temp != fraction) {
@@ -534,6 +534,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
 
         animator.start()
         mListAnimation.add(animator)
+        removeList()
     }
 
     /**
