@@ -125,41 +125,49 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /***************************** breath out start *************************************/
 
         /**
-         *【 breath out 】breath out all duration
+         *【 breath out 】breath out count
          */
-        private var BREATH_OUT_ALL_DURATION = 4000L
+        private const val BREATH_OUT_ALL_COUNT = 7
 
         /**
-         * 【 breath out 】breath count
+         *【 breath out 】single loop duration
          */
-        private const val BREATH_OUT_COUNT = 7
+        private const val BREATH_OUT_LOOP_DURATION = 1000L
 
         /**
-         *【 breath out 】breath out sold duration occupy all duration ration
+         *【 breath out 】single loop interval duration  = single loop interval * all duration ratio
          */
-        private const val BREATH_OUT_SOLID_RATIO = 0.9F
+        private const val BREATH_OUT_LOOP_INTERVAL_DURATION = BREATH_OUT_LOOP_DURATION * 0.66F
 
         /**
-         *【 breath out 】breath out loop single duration  1000F / BREATH_OUT_ALL_DURATION
+         * 【 breath out 】sold interval loop duration
          */
-        private const val BREATH_OUT_LOOP_RATIO = 0.25F
+        private const val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION = 400L
 
         /**
-         *【 breath out 】breath out single interval duration
-         *  s = v * t
-         *  v =  all duration  -  single duration / count
+         *【 breath out 】animation all duration  =  single duration +  loop interval duration * ( count -1 ) + sold interval loop duration
          */
-        private var BREATH_OUT_SINGLE_INTERVAL_DURATION = getFloatValue((BREATH_OUT_ALL_DURATION - (BREATH_OUT_ALL_DURATION * BREATH_OUT_LOOP_RATIO)) / BREATH_OUT_COUNT)
+        private const val BREATH_OUT_ALL_DURATION = BREATH_OUT_LOOP_DURATION + (BREATH_OUT_LOOP_INTERVAL_DURATION * (BREATH_OUT_ALL_COUNT - 1)) + BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION
 
         /**
-         *【 breath out 】breath out single interval duration ratio
+         * 【 breath out 】sold interval loop duration ratio
          */
-        private var BREATH_OUT_SINGLE_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_OUT_SINGLE_INTERVAL_DURATION / BREATH_OUT_ALL_DURATION)
+        private val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
 
         /**
-         *【 breath out 】breath out loop single alpha end time ratio
+         *【 breath out 】 sold duration ratio
          */
-        private const val BREATH_OUT_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO = 0.48F
+        private const val BREATH_OUT_SOLD_DURATION_RATIO = 0.98F
+
+        /**
+         *【 breath out 】 loop interval duration ratio = all duration - single duration - sold to loop duration / count -1
+         */
+        private val BREATH_OUT_LOOP_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_OUT_LOOP_INTERVAL_DURATION / BREATH_OUT_ALL_DURATION)
+
+        /**
+         *【 breath out 】 single loop duration ratio =  interval duration / all duration
+         */
+        private val BREATH_OUT_LOOP_DURATION_RATIO = getFloatValue(BREATH_OUT_LOOP_DURATION / BREATH_OUT_ALL_DURATION)
 
         /***************************** breath out end *************************************/
         //</editor-fold>
@@ -328,18 +336,15 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
                     animationSmallToBigLoop(startTime, endTime, ratioCount)
                     LogUtil.e("animationSmallToBig --->--->---> loop ---> ratioCount: $ratioCount   startTime：  $startTime  duration:starTime  ${startTime * BREATH_IN_ALL_DURATION}   endTime: $endTime  durationEndTime: ${endTime * BREATH_IN_ALL_DURATION}")
                 }
+
                 /**
                  * sold circle
                  * startTime = last circle startTime + single circle interval ratio
                  */
                 if (ratioCount == BREATH_IN_COUNT) {
                     val alpha = BREATH_IN_SINGLE_INTERVAL_DURATION_RATIO
-
                     val scaleTime = lastTime + alpha
-                    LogUtil.e("animationSmallToBig --->  lastTime:$lastTime  alpha:$alpha  scaleTime:$scaleTime")
-
                     LogUtil.e("animationSmallToBig --->  interval ---->>:${lastTime.times(BREATH_IN_ALL_DURATION)}" + "------->>>>L>${(scaleTime.times(BREATH_IN_ALL_DURATION))}")
-
                     if (fraction >= scaleTime && startSolid) {
                         startSolid = false
                         animationSmallToBigSolid(ratioCount)
@@ -350,14 +355,8 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
             invalidate()
             temp = fraction
         }
-        animator.addListener(onStart = {
-
-        }, onEnd = {
-            LogUtil.e("animationSmallToBig -----> all ${(System.currentTimeMillis() - startTimeInterval)} ")
-        })
         animator.start()
         mListAnimation.add(animator)
-        removeList()
     }
 
     /**
@@ -406,11 +405,6 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
                 circleLoop.radius = distanceRadio
             }
         }
-        animator.addListener(onStart = {
-            LogUtil.e("animationSmallToBig -----> loop ---> start count: " + (ratioCount) + "  interval " + (System.currentTimeMillis() - startTimeInterval))
-        }, onEnd = {
-            LogUtil.e("animationSmallToBig -----> loop ---> end count: " + (ratioCount) + "  interval " + (System.currentTimeMillis() - startTimeInterval))
-        })
         animator.start()
 
         mListAnimation.add(animator)
@@ -437,11 +431,8 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
             circleSolid.radius = distanceRadio
         }
 
-        animator.addListener(onStart = {
-            LogUtil.e("animationSmallToBig -----> solid: start: count: --->>>>>>>> " + count + "ssssssssssssssss: " + (System.currentTimeMillis() - startTimeInterval))
-        }, onEnd = {
+        animator.addListener(onEnd = {
             LogUtil.e("animationSmallToBig -----> solid: end:" + (System.currentTimeMillis() - startTimeInterval))
-
             // breath hold wait
             animationHoldBreathWait()
         })
@@ -467,123 +458,6 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
     }
 
     /**
-     *  big  to small
-     */
-    private fun animationBigToSmall() {
-        var temp = 0F
-        LogUtil.e("animationBigToSmallSolid --->")
-        val animator = ValueAnimator.ofFloat(0F, 1F)
-        val duration = BREATH_OUT_ALL_DURATION
-
-        val circleSolid = getCircle(2, 2)
-        var ratioCount = 0
-
-        LogUtil.e("--->>>animationBigToSmallSolid ---> BREATH_OUT_ALL_DURATION: $duration")
-        animator.duration = duration
-        animator.interpolator = DecelerateInterpolator()
-        animator.addUpdateListener {
-            val fraction = it.animatedFraction
-            if (temp != fraction) {
-
-                // solid
-                if (fraction <= BREATH_OUT_SOLID_RATIO) {
-                    // radius
-                    val distanceRadio = GradientUtil.getDistance(fraction, 0F, BREATH_OUT_SOLID_RATIO, mMaxRadius, 0F, false)
-                    LogUtil.e("animationBigToSmallSolid ---> mMaxRadius: $mMaxRadius  distanceRadio: $distanceRadio")
-                    circleSolid.radius = distanceRadio
-
-                    // alpha
-                    val alphaStartTime = 0.8F
-                    if (fraction in alphaStartTime..BREATH_OUT_SOLID_RATIO) {
-                        val distanceAlpha = GradientUtil.getDistance(fraction, alphaStartTime, BREATH_OUT_SOLID_RATIO, BREATH_COMMON_ALPHA_SOLID_VALUE, 0F, false)
-                        LogUtil.e("animationBigToSmallSolid ---> distanceAlpha: $distanceAlpha ")
-                        circleSolid.paint.alpha = distanceAlpha.roundToInt()
-                    }
-                }
-
-                // loop
-                if (fraction >= BREATH_OUT_SINGLE_INTERVAL_DURATION_RATIO && fraction <= (1F - BREATH_OUT_LOOP_RATIO)) {
-                    val tempCount = (fraction / BREATH_OUT_SINGLE_INTERVAL_DURATION_RATIO).roundToInt()
-                    if (ratioCount != tempCount) {
-                        ratioCount = tempCount
-
-                        // startTime =  BREATH_OUT_SINGLE_INTERVAL_RATIO * ratio
-                        val startTime = BREATH_OUT_SINGLE_INTERVAL_DURATION_RATIO * ratioCount
-                        // endTime = startTime +  BREATH_OUT_LOOP_RATIO
-                        val endTime = startTime + BREATH_OUT_LOOP_RATIO
-
-                        LogUtil.e("ratioCount: $ratioCount startTime: $startTime  endTime: $endTime")
-                        animationBigToSmallLoop(startTime, endTime, ratioCount)
-                    }
-                }
-            }
-            temp = fraction
-            invalidate()
-        }
-
-        animator.addListener(onEnd = {
-            // add  big to small loop
-            if (BREATH_COMMON_FINISH_LOOP_INTERVAL > 0) {
-                //  if breath finish loop wait > 0 ,execute wait animation
-                animationFinishLoopWait()
-            } else {
-                // if breath finish loop interval > 0 , restart animation
-                animationSmallToBig()
-            }
-        })
-
-        animator.start()
-        mListAnimation.add(animator)
-        removeList()
-    }
-
-    /**
-     * big to small loop
-     */
-    private fun animationBigToSmallLoop(startTime: Float, endTime: Float, ratioCount: Int) {
-        LogUtil.e("animationBigToSmallLoop --->   startTime: $startTime endTime: $endTime")
-
-        val circleLoop = getCircle(2, 1)
-
-        val animator = ValueAnimator.ofFloat(startTime, endTime)
-        val duration = (BREATH_OUT_LOOP_RATIO * BREATH_OUT_ALL_DURATION).toLong()
-        LogUtil.e("--->>>animationBigToSmallLoop ---> BREATH_OUT_ALL_DURATION: $duration")
-        animator.duration = duration
-        animator.interpolator = DecelerateInterpolator()
-        animator.addUpdateListener {
-            val fraction = it.animatedFraction
-
-            // alpha 0 ---> 50%
-            if (fraction <= BREATH_OUT_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO) {
-                val startAlpha = GradientUtil.getDistance(fraction, 0F, BREATH_OUT_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO, 0F, BREATH_COMMON_ALPHA_LOOP_VALUE, false)
-                LogUtil.e("animationBigToSmallLoop ---> startAlpha  ratioCount$ratioCount   fraction:$fraction   distanceAlpha: $startAlpha")
-                circleLoop.paint.alpha = startAlpha.toInt()
-            }
-
-            // alpha 50% ---> 0
-            if (fraction > BREATH_OUT_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO) {
-                val endAlpha = GradientUtil.getDistance(fraction, BREATH_OUT_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO, 1F, BREATH_COMMON_ALPHA_LOOP_VALUE, 0F, false)
-                LogUtil.e("animationBigToSmallLoop ---> endAlpha  ratioCount$ratioCount  fraction:$fraction  distanceAlpha: $endAlpha")
-                circleLoop.paint.alpha = endAlpha.toInt()
-            }
-
-            // stroke width
-            val distanceStrokeWidth = GradientUtil.getDistance(fraction, 0F, 1F, BREATH_COMMON_STROKE_WIDTH, 0F, false)
-            circleLoop.paint.strokeWidth = distanceStrokeWidth
-            LogUtil.e("animationBigToSmallLoop ---> distanceStrokeWidth  ratioCount$ratioCount fraction:$fraction  distanceStrokeWidth: $distanceStrokeWidth")
-
-            // radius
-            val distanceRadius = GradientUtil.getDistance(fraction, 0F, 1F, mMaxRadius, 0F, false)
-            circleLoop.radius = distanceRadius
-            LogUtil.e("animationBigToSmallLoop ---> distanceRadius ratioCount  $ratioCount  fraction:$fraction  distanceRadius: $distanceRadius")
-        }
-        animator.start()
-
-        mListAnimation.add(animator)
-        removeList()
-    }
-
-    /**
      * loop animation wait
      * if finish wait time > 0 , execute wait animation
      */
@@ -599,6 +473,150 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         })
         animator.start()
         mListAnimation.add(animator)
+    }
+
+    /**
+     * big to small
+     */
+    private fun animationBigToSmall() {
+        LogUtil.e("整个大到小的持续时间:$BREATH_OUT_ALL_DURATION")
+        LogUtil.e("单个 loop 间隔持续时间的比例:$BREATH_OUT_LOOP_INTERVAL_DURATION_RATIO")
+        LogUtil.e("单个 loop 间隔持续时间 :$BREATH_OUT_LOOP_INTERVAL_DURATION")
+        LogUtil.e("实心 持续时间 占据 总时间的百分比:$BREATH_OUT_SOLD_DURATION_RATIO")
+        LogUtil.e("单个loop占据总时间的百分比:$BREATH_OUT_LOOP_DURATION_RATIO")
+
+        val duration = BREATH_OUT_ALL_DURATION.toLong()
+        var temp = 0f
+        var count = 0
+        var isStartSold = false
+        val animator = ValueAnimator.ofFloat(0F, 1F)
+        LogUtil.e("--->>>animationBigToSmallSolid ---> breath_out_sold_ratio: $BREATH_OUT_SOLD_DURATION_RATIO breath_out_loop_interval_duration_ratio:$BREATH_OUT_LOOP_INTERVAL_DURATION_RATIO")
+
+        // middle duration ratio =  all duration ratio - first - single duration
+        val intervalDuration = 1F - BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO - BREATH_OUT_LOOP_DURATION_RATIO
+        val loopInterval = intervalDuration / (BREATH_OUT_ALL_COUNT - 1)
+
+        animator.duration = duration
+        animator.addUpdateListener {
+            val fraction = it.animatedFraction
+            if (temp != fraction) {
+                // sold
+                if (!isStartSold) {
+                    animationBigToSmallSold()
+                    isStartSold = true
+                }
+
+                if (fraction >= BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO && fraction <= (1F - BREATH_OUT_LOOP_DURATION_RATIO)) {
+                    // first
+                    if (fraction >= BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO && count == 0) {
+                        count = 1
+                        val startTime = getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO)
+                        val endTime = getFloatValue(startTime + BREATH_OUT_LOOP_DURATION_RATIO)
+                        animationBigToSmallLoop(count, startTime, endTime)
+                        LogUtil.e("first: tempCount ccc: $count startTime: $startTime endTime: $endTime")
+                        LogUtil.e("first: tempCount dddd : $count startTime: ${startTime * BREATH_OUT_ALL_DURATION} endTime: ${endTime * BREATH_OUT_ALL_DURATION}")
+                    } else {
+                        // loop
+                        if (fraction > (loopInterval * count)) {
+                            val startTime = BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO + (loopInterval * count)
+                            count++
+                            val endTime = startTime + BREATH_OUT_LOOP_DURATION_RATIO
+                            animationBigToSmallLoop(count, startTime, endTime)
+                            LogUtil.e("_________>>>>>>>>>> count： :$count startTime:  $startTime  endTime： $endTime  ")
+                        }
+                    }
+                }
+            }
+            temp = fraction
+            invalidate()
+        }
+        animator.addListener(onEnd = {
+            // wait time
+            if (BREATH_COMMON_FINISH_LOOP_INTERVAL > 0) {
+                animationFinishLoopWait()
+            } else {
+                animationSmallToBig()
+            }
+        })
+        animator.start()
+
+        mListAnimation.add(animator)
+    }
+
+    /**
+     * big to small sold
+     */
+    private fun animationBigToSmallSold() {
+        val animator = ValueAnimator.ofFloat(0F, 1F)
+        var temp = 0f
+        val circleSolid = getCircle(2, 2)
+
+        animator.duration = (BREATH_OUT_ALL_DURATION).toLong()
+        animator.interpolator = DecelerateInterpolator()
+        animator.addUpdateListener {
+            val fraction = it.animatedFraction
+            if (temp != fraction) {
+                // radius
+                val distanceRadio = GradientUtil.getDistance(fraction, 0F, 1F, mMaxRadius, 0F, false)
+                LogUtil.e("animationBigToSmallSolid ---> mMaxRadius: $mMaxRadius  distanceRadio: $distanceRadio")
+                circleSolid.radius = distanceRadio
+
+                // alpha
+                val alphaEndTime = 0.75F
+                if (fraction > alphaEndTime) {
+                    val distanceAlpha = GradientUtil.getDistance(fraction, alphaEndTime, 1F, BREATH_COMMON_ALPHA_SOLID_VALUE, 0F, false)
+                    LogUtil.e("animationBigToSmallSolid ---> distanceAlpha: $distanceAlpha ")
+                    circleSolid.paint.alpha = distanceAlpha.roundToInt()
+                }
+            }
+            temp = fraction
+        }
+        animator.start()
+        mListAnimation.add(animator)
+        removeList()
+    }
+
+    /**
+     * big to small loop
+     */
+    private fun animationBigToSmallLoop(count: Int, startTimeFrom: Float, endTimeFrom: Float) {
+        val animator = ValueAnimator.ofFloat(startTimeFrom, endTimeFrom)
+        animator.duration = BREATH_OUT_LOOP_DURATION
+        val alphaStartTime = 0.48f
+
+        val circleLoop = getCircle(2, 1)
+        animator.interpolator = DecelerateInterpolator()
+        animator.addUpdateListener {
+            val fraction = it.animatedFraction
+            LogUtil.e("!!!!!fraction:  $fraction")
+
+            // alpha 0 ---> 50%
+            if (fraction <= alphaStartTime) {
+                val startAlpha = GradientUtil.getDistance(fraction, 0F, alphaStartTime, 0F, BREATH_COMMON_ALPHA_LOOP_VALUE, false)
+                LogUtil.e("animationBigToSmallLoop ---> startAlpha  ratioCount$count   fraction:$fraction   distanceAlpha: $startAlpha")
+                circleLoop.paint.alpha = startAlpha.toInt()
+            }
+
+            // alpha 50% ---> 0
+            if (fraction > alphaStartTime) {
+                val endAlpha = GradientUtil.getDistance(fraction, alphaStartTime, 1F, BREATH_COMMON_ALPHA_LOOP_VALUE, 0F, false)
+                LogUtil.e("animationBigToSmallLoop ---> endAlpha  ratioCount$count  fraction:$fraction  distanceAlpha: $endAlpha")
+                circleLoop.paint.alpha = endAlpha.toInt()
+            }
+
+            // stroke width
+            val distanceStrokeWidth = GradientUtil.getDistance(fraction, 0F, 1F, BREATH_COMMON_STROKE_WIDTH, 0F, false)
+            circleLoop.paint.strokeWidth = distanceStrokeWidth
+            LogUtil.e("animationBigToSmallLoop ---> distanceStrokeWidth  ratioCount$count fraction:$fraction  distanceStrokeWidth: $distanceStrokeWidth")
+
+            // radius
+            val distanceRadius = GradientUtil.getDistance(fraction, 0F, 1F, mMaxRadius, 0F, false)
+            circleLoop.radius = distanceRadius
+            LogUtil.e("animationBigToSmallLoop ---> distanceRadius ratioCount  $count  fraction:$fraction  distanceRadius: $distanceRadius")
+        }
+        animator.start()
+        mListAnimation.add(animator)
+        removeList()
     }
 
     fun pause() {
