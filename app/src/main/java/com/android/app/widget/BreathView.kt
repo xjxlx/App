@@ -730,10 +730,6 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
         }
     }
 
-    fun setRatio(ratio: Float) {
-        RATIO = ratio
-    }
-
     fun setCallBackListener(callBackListener: CallBackListener) {
         this.mCallBackListener = callBackListener
     }
