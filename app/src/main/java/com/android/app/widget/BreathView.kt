@@ -35,6 +35,13 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
     companion object {
         //<editor-fold desc="1：Breath  common ">
         var RATIO: Float = 1F
+            get() {
+                return if (field > 0) {
+                    field
+                } else {
+                    1F
+                }
+            }
 
         /**
          *  paint common  stroke width
@@ -55,15 +62,26 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
          * breath finish loop interval duration
          */
         var BREATH_FINISH_LOOP_INTERVAL = 0L
+            get() {
+                return if (field > 0) {
+                    field
+                } else {
+                    0L
+                }
+            }
 
         //</editor-fold>
 
         //<editor-fold desc="2：Breath  in ">
         /***************************** breath in start *************************************/
 
-        val BREATH_IN_ALL_DURATION: Long
+        var BREATH_IN_ALL_DURATION: Long = 0
             get() {
-                return (6000L * RATIO).toLong()
+                return if (field > 0) {
+                    (field * RATIO).toLong()
+                } else {
+                    (6000L * RATIO).toLong()
+                }
             }
 
         /**
@@ -131,17 +149,25 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
         /**
          *【 breath hold 】 small to big duration
          */
-        val BREATH_HOLD_ALL_DURATION: Long
+        var BREATH_HOLD_ALL_DURATION: Long = 0
             get() {
-                return (2000L * RATIO).toLong()
+                return if (field > 0) {
+                    (field * RATIO).toLong()
+                } else {
+                    (2000L * RATIO).toLong()
+                }
             }
 
         /**
          *【 breath hold 】breath hold wait duration
          */
-        val BREATH_HOLD_WAIT_DURATION: Long
+        var BREATH_HOLD_WAIT_DURATION: Long = 0
             get() {
-                return (2000L * RATIO).toLong()
+                return if (field > 0) {
+                    (field * RATIO).toLong()
+                } else {
+                    (2000L * RATIO).toLong()
+                }
             }
 
         /***************************** breath hold end *************************************/
@@ -150,9 +176,13 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
         //<editor-fold desc="4：Breath  out ">
         /***************************** breath out start *************************************/
 
-        val BREATH_OUT_ALL_DURATION: Long
+        var BREATH_OUT_ALL_DURATION: Long = 0
             get() {
-                return (4600L * RATIO).toLong()
+                return if (field > 0) {
+                    (field * RATIO).toLong()
+                } else {
+                    (4600L * RATIO).toLong()
+                }
             }
 
         /**

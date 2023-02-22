@@ -23,7 +23,6 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
     override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(mBinding.btnStart, mBinding.btnPause, mBinding.btnResume, mBinding.btnClear)
 
-        // mBinding.bvView.setBreathFinishWaitDuration(2000L)
         mBinding.bvView.setCallBackListener(object : BreathView.CallBackListener {
             override fun onStart() {
                 LogUtil.e(" -----> start 开始 -----> ")
