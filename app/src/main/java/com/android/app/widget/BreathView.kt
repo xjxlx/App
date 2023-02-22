@@ -46,7 +46,7 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
         /**
          *  paint common  stroke width
          */
-        private val BREATH_COMMON_STROKE_WIDTH = ConvertUtil.toPx(20F)
+        private val BREATH_COMMON_STROKE_WIDTH = ConvertUtil.toPx(8F)
 
         /**
          * circle loop --- alpha max value
