@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
+import com.android.app.widget.BreathView
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.LogUtil
 
@@ -19,9 +20,33 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
         return ActivityCustomBreathingViewBinding.inflate(inflater, container, true)
     }
 
-    private var count = 0
     override fun initData(savedInstanceState: Bundle?) {
         setonClickListener(mBinding.btnStart, mBinding.btnPause, mBinding.btnResume, mBinding.btnClear)
+
+        // mBinding.bvView.setBreathFinishWaitDuration(2000L)
+        mBinding.bvView.setCallBackListener(object : BreathView.CallBackListener {
+            override fun onStart() {
+                LogUtil.e(" -----> start 开始 -----> ")
+                mBinding.tvStatus.text = "<--- 开始 --->"
+            }
+
+            override fun statusChange(status: Int) {
+                when (status) {
+                    1 -> {
+                        mBinding.tvStatus.text = "<--- 吸气 --->"
+                    }
+                    2 -> {
+                        mBinding.tvStatus.text = "<--- 屏气 --->"
+                    }
+                    3 -> {
+                        mBinding.tvStatus.text = "<--- 呼气 --->"
+                    }
+                    4 -> {
+                        mBinding.tvStatus.text = "<--- finish --->"
+                    }
+                }
+            }
+        })
     }
 
     override fun onClick(v: View?) {

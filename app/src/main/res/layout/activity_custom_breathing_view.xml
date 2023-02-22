@@ -54,7 +54,7 @@
                 android:text="清空" />
         </LinearLayout>
 
-        <com.android.app.widget.BreathView5
+        <com.android.app.widget.BreathView
             android:id="@+id/bv_view"
             android:layout_width="@dimen/dp_300"
             android:layout_height="@dimen/dp_300"
@@ -67,22 +67,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bv_view"
+            android:layout_marginTop="@dimen/dp_10"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white_1"
-                android:textSize="@dimen/sp_16" />
-
-            <TextView
                 android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/sp_10"
+                android:gravity="center"
                 android:textColor="@color/white_1"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_16"
+                tools:text="------->" />
 
         </LinearLayout>
 

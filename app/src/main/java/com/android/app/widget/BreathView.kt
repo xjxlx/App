@@ -21,7 +21,7 @@ import kotlin.math.roundToInt
  * @CreateDate: 2023/2/9-15:06
  * @Description:
  */
-class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attributeSet, defStyleAttr) {
+class BreathView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attributeSet, defStyleAttr) {
 
     private var mCx: Float = 0F
     private var mCY: Float = 0F
@@ -34,11 +34,12 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
 
     companion object {
         //<editor-fold desc="1：Breath  common ">
+        var RATIO: Float = 1F
 
         /**
          *  paint common  stroke width
          */
-        private val BREATH_COMMON_STROKE_WIDTH = ConvertUtil.toPx(20f)
+        private val BREATH_COMMON_STROKE_WIDTH = ConvertUtil.toPx(20F)
 
         /**
          * circle loop --- alpha max value
@@ -53,17 +54,26 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          * breath finish loop interval duration
          */
-        private var BREATH_COMMON_FINISH_LOOP_INTERVAL = 0L
+        var BREATH_FINISH_LOOP_INTERVAL = 0L
 
         //</editor-fold>
 
         //<editor-fold desc="2：Breath  in ">
         /***************************** breath in start *************************************/
 
+        val BREATH_IN_ALL_DURATION: Long
+            get() {
+                return (6000L * RATIO).toLong()
+            }
+
         /**
          *【 breath in 】single  circle duration
          */
-        private const val BREATH_IN_SINGLE_DURATION = 2000L
+        // private const val BREATH_IN_SINGLE_DURATION = 2000L
+        private val BREATH_IN_SINGLE_DURATION: Long
+            get() {
+                return (0.3333F * BREATH_IN_ALL_DURATION).toLong()
+            }
 
         /**
          *【 breath in 】 all  count
@@ -73,22 +83,31 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath in 】single circle interval duration = single duration * 0.66F
          */
-        private val BREATH_IN_SINGLE_INTERVAL_DURATION = getFloatValue(BREATH_IN_SINGLE_DURATION * 0.25F)
+        private val BREATH_IN_SINGLE_INTERVAL_DURATION: Long
+            get() {
+                return (BREATH_IN_SINGLE_DURATION.toFloat() * 0.25F).toLong()
+            }
 
         /**
          *【 breath in 】  all duration = single duration ratio * ( count - 1 ) + single duration
          */
-        var BREATH_IN_ALL_DURATION = ((BREATH_IN_SINGLE_INTERVAL_DURATION * (BREATH_IN_COUNT - 1)) + BREATH_IN_SINGLE_DURATION).toLong()
+        // var BREATH_IN_ALL_DURATION = ((BREATH_IN_SINGLE_INTERVAL_DURATION * (BREATH_IN_COUNT - 1)) + BREATH_IN_SINGLE_DURATION).toLong()
 
         /**
          *【 breath in 】 single circle duration ratio  = single duration / all duration
          */
-        private val BREATH_IN_SINGLE_DURATION_RATIO = getFloatValue(BREATH_IN_SINGLE_DURATION.toFloat() / BREATH_IN_ALL_DURATION)
+        private val BREATH_IN_SINGLE_DURATION_RATIO: Float
+            get() {
+                return getFloatValue(BREATH_IN_SINGLE_DURATION.toFloat() / BREATH_IN_ALL_DURATION)
+            }
 
         /**
          *【 breath in 】 single circle interval duration occupy all duration ratio = single duration / all duration
          */
-        private val BREATH_IN_SINGLE_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_IN_SINGLE_INTERVAL_DURATION / BREATH_IN_ALL_DURATION)
+        private val BREATH_IN_SINGLE_INTERVAL_DURATION_RATIO: Float
+            get() {
+                return getFloatValue(BREATH_IN_SINGLE_INTERVAL_DURATION.toFloat() / BREATH_IN_ALL_DURATION)
+            }
 
         /**
          *【 breath in 】 single circle  alpha  transparent to opaque occupy all duration ratio = 880F / 2000
@@ -112,18 +131,29 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath hold 】 small to big duration
          */
-        private var BREATH_HOLD_ALL_DURATION = 2000L
+        val BREATH_HOLD_ALL_DURATION: Long
+            get() {
+                return (2000L * RATIO).toLong()
+            }
 
         /**
          *【 breath hold 】breath hold wait duration
          */
-        private const val BREATH_HOLD_WAIT_DURATION = 2000L
+        val BREATH_HOLD_WAIT_DURATION: Long
+            get() {
+                return (2000L * RATIO).toLong()
+            }
 
         /***************************** breath hold end *************************************/
         //</editor-fold>
 
         //<editor-fold desc="4：Breath  out ">
         /***************************** breath out start *************************************/
+
+        val BREATH_OUT_ALL_DURATION: Long
+            get() {
+                return (4600L * RATIO).toLong()
+            }
 
         /**
          *【 breath out 】breath out count
@@ -133,32 +163,44 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath out 】single loop duration
          */
-        private const val BREATH_OUT_LOOP_DURATION: Long = 1000L
+        private val BREATH_OUT_LOOP_DURATION: Long
+            get() {
+                return (0.2174F * BREATH_OUT_ALL_DURATION).toLong()
+            }
 
         /**
          *【 breath out 】single loop interval duration  = single loop interval * all duration ratio
          */
-        private const val BREATH_OUT_LOOP_INTERVAL_DURATION: Long = (BREATH_OUT_LOOP_DURATION * 0.5F).toLong()
+        private val BREATH_OUT_LOOP_INTERVAL_DURATION: Long = (BREATH_OUT_LOOP_DURATION * 0.5F).toLong()
 
         /**
-         * 【 breath out 】sold interval loop duration
+         * 【 breath out 】sold interval loop duration 600L
          */
-        private const val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION: Long = 600L
+        private val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION: Long
+            get() {
+                return (0.13043F * BREATH_OUT_ALL_DURATION).toLong()
+            }
 
         /**
          *【 breath out 】animation all duration  =  single duration +  loop interval duration * ( count -1 ) + sold interval loop duration
          */
-        private var BREATH_OUT_ALL_DURATION: Long = BREATH_OUT_LOOP_DURATION + (BREATH_OUT_LOOP_INTERVAL_DURATION * (BREATH_OUT_ALL_COUNT - 1)) + BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION
+        // private var BREATH_OUT_ALL_DURATION: Long = BREATH_OUT_LOOP_DURATION + (BREATH_OUT_LOOP_INTERVAL_DURATION * (BREATH_OUT_ALL_COUNT - 1)) + BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION
 
         /**
          * 【 breath out 】sold interval loop duration ratio
          */
-        private val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
+        private val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO: Float
+            get() {
+                return getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
+            }
 
         /**
          *【 breath out 】 single loop duration ratio =  interval duration / all duration
          */
-        private val BREATH_OUT_LOOP_DURATION_RATIO = getFloatValue(BREATH_OUT_LOOP_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
+        private val BREATH_OUT_LOOP_DURATION_RATIO: Float
+            get() {
+                return getFloatValue(BREATH_OUT_LOOP_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
+            }
 
         /***************************** breath out end *************************************/
         //</editor-fold>
@@ -312,10 +354,10 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         // single interval ratio
         val intervalRatio = getFloatValue(intervalAllRatio / (BREATH_IN_COUNT - 1))
 
-        val soldInterval = BREATH_IN_SINGLE_DURATION_RATIO * BREATH_IN_ALL_DURATION * BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO / BREATH_IN_ALL_DURATION * 0.5f
-        LogUtil.e("soldInterval: $soldInterval")
+        // val soldInterval = BREATH_IN_SINGLE_DURATION_RATIO * BREATH_IN_ALL_DURATION * BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO / BREATH_IN_ALL_DURATION * 0.5f
+        // LogUtil.e("soldInterval: $soldInterval")
 
-        val soldStartTime = (intervalRatio * BREATH_IN_COUNT) + soldInterval
+        val soldStartTime = (intervalRatio * BREATH_IN_COUNT)
 
         LogUtil.e("intervalAllRatio: $intervalAllRatio single duration ratio: $BREATH_IN_SINGLE_DURATION_RATIO:  inter rato: $intervalRatio")
 
@@ -335,7 +377,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
 
             // sold
             if (fraction >= soldStartTime && startSolid) {
-                LogUtil.e("animationSmallToBig --->  interval ---->>:" + "------->>>>L> tempCount:" + tempCount)
+                LogUtil.e("animationSmallToBig --->  interval ---->>:------->>>>L> tempCount:$tempCount")
                 startSolid = false
                 animationSmallToBigSolid(tempCount)
             }
@@ -462,9 +504,9 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
      * if finish wait time > 0 , execute wait animation
      */
     private fun animationFinishLoopWait() {
-        LogUtil.e("animationFinishLoopWait --->   duration:  $BREATH_COMMON_FINISH_LOOP_INTERVAL")
+        LogUtil.e("animationFinishLoopWait --->   duration:  $BREATH_FINISH_LOOP_INTERVAL")
         val animator = ValueAnimator.ofFloat(0F, 1F)
-        val duration = BREATH_COMMON_FINISH_LOOP_INTERVAL
+        val duration = BREATH_FINISH_LOOP_INTERVAL
         animator.duration = duration
         animator.addListener(onEnd = {
             // breath out start
@@ -484,7 +526,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
      * big to small
      */
     private fun animationBigToSmall() {
-        val duration = BREATH_OUT_ALL_DURATION.toLong()
+        val duration = BREATH_OUT_ALL_DURATION
         LogUtil.e("animationBigToSmall all duration: $duration")
         var count = 0
         var isStartSold = false
@@ -528,7 +570,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         }
         animator.addListener(onEnd = {
             // wait time
-            if (BREATH_COMMON_FINISH_LOOP_INTERVAL > 0) {
+            if (BREATH_FINISH_LOOP_INTERVAL > 0) {
                 animationFinishLoopWait()
             } else {
                 animationSmallToBig()
@@ -658,32 +700,8 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         }
     }
 
-    /**
-     * set the breath in all duration
-     */
-    fun setBreathInDuration(duration: Long) {
-        BREATH_IN_ALL_DURATION = duration
-    }
-
-    /**
-     * set the breath hold all duration
-     */
-    fun setBreathHoldDuration(duration: Long) {
-        BREATH_HOLD_ALL_DURATION = duration
-    }
-
-    /**
-     * set the breath out all duration
-     */
-    fun setBreathOutDuration(duration: Long) {
-        BREATH_OUT_ALL_DURATION = duration
-    }
-
-    /**
-     * set the breath finish wait  all duration
-     */
-    fun setBreathFinishWaitDuration(duration: Long) {
-        BREATH_COMMON_FINISH_LOOP_INTERVAL = duration
+    fun setRatio(ratio: Float) {
+        RATIO = ratio
     }
 
     fun setCallBackListener(callBackListener: CallBackListener) {
