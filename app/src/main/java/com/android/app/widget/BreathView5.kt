@@ -333,7 +333,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
                 }
             }
 
-            // sold TODO
+            // sold
             if (fraction >= soldStartTime && startSolid) {
                 LogUtil.e("animationSmallToBig --->  interval ---->>:" + "------->>>>L> tempCount:" + tempCount)
                 startSolid = false
