@@ -136,12 +136,12 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath out 】single loop interval duration  = single loop interval * all duration ratio
          */
-        private const val BREATH_OUT_LOOP_INTERVAL_DURATION = BREATH_OUT_LOOP_DURATION * 0.66F
+        private const val BREATH_OUT_LOOP_INTERVAL_DURATION = BREATH_OUT_LOOP_DURATION * 0.5F
 
         /**
          * 【 breath out 】sold interval loop duration
          */
-        private const val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION = 400L
+        private const val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION = 600L
 
         /**
          *【 breath out 】animation all duration  =  single duration +  loop interval duration * ( count -1 ) + sold interval loop duration
@@ -338,7 +338,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
             }
 
             // sold
-            if (fraction >= allIntervalRatio && tempCount == BREATH_IN_COUNT && startSolid) {
+            if (fraction >= allIntervalRatio && startSolid) {
                 LogUtil.e("animationSmallToBig --->  interval ---->>:" + "------->>>>L>")
                 startSolid = false
                 animationSmallToBigSolid(tempCount)
@@ -471,14 +471,8 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
      * big to small
      */
     private fun animationBigToSmall() {
-        LogUtil.e("整个大到小的持续时间:$BREATH_OUT_ALL_DURATION")
-        LogUtil.e("单个 loop 间隔持续时间的比例:$BREATH_OUT_LOOP_INTERVAL_DURATION_RATIO")
-        LogUtil.e("单个 loop 间隔持续时间 :$BREATH_OUT_LOOP_INTERVAL_DURATION")
-        LogUtil.e("实心 持续时间 占据 总时间的百分比:$BREATH_OUT_SOLD_DURATION_RATIO")
-        LogUtil.e("单个loop占据总时间的百分比:$BREATH_OUT_LOOP_DURATION_RATIO")
-
         val duration = BREATH_OUT_ALL_DURATION.toLong()
-        var temp = 0f
+        LogUtil.e("animationBigToSmall all duration: $duration")
         var count = 0
         var isStartSold = false
         val animator = ValueAnimator.ofFloat(0F, 1F)
@@ -489,37 +483,35 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         val loopInterval = intervalDuration / (BREATH_OUT_ALL_COUNT - 1)
 
         animator.duration = duration
+        animator.interpolator = LinearInterpolator()
         animator.addUpdateListener {
             val fraction = it.animatedFraction
-            if (temp != fraction) {
-                // sold
-                if (!isStartSold) {
-                    animationBigToSmallSold()
-                    isStartSold = true
-                }
+            // sold
+            if (!isStartSold) {
+                animationBigToSmallSold()
+                isStartSold = true
+            }
 
-                if (fraction >= BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO && fraction <= (1F - BREATH_OUT_LOOP_DURATION_RATIO)) {
-                    // first
-                    if (fraction >= BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO && count == 0) {
-                        count = 1
-                        val startTime = getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO)
-                        val endTime = getFloatValue(startTime + BREATH_OUT_LOOP_DURATION_RATIO)
+            if (fraction >= BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO && fraction <= (1F - BREATH_OUT_LOOP_DURATION_RATIO)) {
+                // first
+                if (fraction >= BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO && count == 0) {
+                    count = 1
+                    val startTime = getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO)
+                    val endTime = getFloatValue(startTime + BREATH_OUT_LOOP_DURATION_RATIO)
+                    animationBigToSmallLoop(count, startTime, endTime)
+                    LogUtil.e("first: tempCount ccc: $count startTime: $startTime endTime: $endTime")
+                    LogUtil.e("first: tempCount dddd : $count startTime: ${startTime * BREATH_OUT_ALL_DURATION} endTime: ${endTime * BREATH_OUT_ALL_DURATION}")
+                } else {
+                    // loop
+                    if (fraction > (loopInterval * count)) {
+                        val startTime = BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO + (loopInterval * count)
+                        count++
+                        val endTime = startTime + BREATH_OUT_LOOP_DURATION_RATIO
                         animationBigToSmallLoop(count, startTime, endTime)
-                        LogUtil.e("first: tempCount ccc: $count startTime: $startTime endTime: $endTime")
-                        LogUtil.e("first: tempCount dddd : $count startTime: ${startTime * BREATH_OUT_ALL_DURATION} endTime: ${endTime * BREATH_OUT_ALL_DURATION}")
-                    } else {
-                        // loop
-                        if (fraction > (loopInterval * count)) {
-                            val startTime = BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO + (loopInterval * count)
-                            count++
-                            val endTime = startTime + BREATH_OUT_LOOP_DURATION_RATIO
-                            animationBigToSmallLoop(count, startTime, endTime)
-                            LogUtil.e("_________>>>>>>>>>> count： :$count startTime:  $startTime  endTime： $endTime  ")
-                        }
+                        LogUtil.e("_________>>>>>>>>>> count： :$count startTime:  $startTime  endTime： $endTime  ")
                     }
                 }
             }
-            temp = fraction
             invalidate()
         }
         animator.addListener(onEnd = {
