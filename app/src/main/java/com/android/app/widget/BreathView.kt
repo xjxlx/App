@@ -659,7 +659,7 @@ class BreathView @JvmOverloads constructor(context: Context, attributeSet: Attri
         val alphaStartTime = 0.48f
 
         val circleLoop = getCircle(2, 1)
-        animator.interpolator = DecelerateInterpolator()
+        animator.interpolator = DecelerateInterpolator(0.6F)
         animator.addUpdateListener {
             val fraction = it.animatedFraction
             LogUtil.e("!!!!!fraction:  $fraction")
