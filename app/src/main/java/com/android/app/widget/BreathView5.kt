@@ -29,6 +29,8 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
     private val mListCircle = mutableListOf<Circle>()
     private val mListAnimation = mutableListOf<ValueAnimator>()
     private var startTimeInterval = 0L
+    private var mCurrentStatus = 0
+    private var mCallBackListener: CallBackListener? = null
 
     companion object {
         //<editor-fold desc="1：Breath  common ">
@@ -51,7 +53,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          * breath finish loop interval duration
          */
-        private val BREATH_COMMON_FINISH_LOOP_INTERVAL = 0L
+        private var BREATH_COMMON_FINISH_LOOP_INTERVAL = 0L
 
         //</editor-fold>
 
@@ -110,12 +112,12 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath hold 】 small to big duration
          */
-        private const val BREATH_HOLD_DURATION = 2000L
+        private var BREATH_HOLD_ALL_DURATION = 2000L
 
         /**
          *【 breath hold 】breath hold wait duration
          */
-        private const val BREATH_HOLD_WAIT_DURATION = 1000L
+        private const val BREATH_HOLD_WAIT_DURATION = 2000L
 
         /***************************** breath hold end *************************************/
         //</editor-fold>
@@ -126,27 +128,27 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         /**
          *【 breath out 】breath out count
          */
-        private const val BREATH_OUT_ALL_COUNT = 7
+        private const val BREATH_OUT_ALL_COUNT: Int = 7
 
         /**
          *【 breath out 】single loop duration
          */
-        private const val BREATH_OUT_LOOP_DURATION = 1000L
+        private const val BREATH_OUT_LOOP_DURATION: Long = 1000L
 
         /**
          *【 breath out 】single loop interval duration  = single loop interval * all duration ratio
          */
-        private const val BREATH_OUT_LOOP_INTERVAL_DURATION = BREATH_OUT_LOOP_DURATION * 0.5F
+        private const val BREATH_OUT_LOOP_INTERVAL_DURATION: Long = (BREATH_OUT_LOOP_DURATION * 0.5F).toLong()
 
         /**
          * 【 breath out 】sold interval loop duration
          */
-        private const val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION = 600L
+        private const val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION: Long = 600L
 
         /**
          *【 breath out 】animation all duration  =  single duration +  loop interval duration * ( count -1 ) + sold interval loop duration
          */
-        private const val BREATH_OUT_ALL_DURATION = BREATH_OUT_LOOP_DURATION + (BREATH_OUT_LOOP_INTERVAL_DURATION * (BREATH_OUT_ALL_COUNT - 1)) + BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION
+        private var BREATH_OUT_ALL_DURATION: Long = BREATH_OUT_LOOP_DURATION + (BREATH_OUT_LOOP_INTERVAL_DURATION * (BREATH_OUT_ALL_COUNT - 1)) + BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION
 
         /**
          * 【 breath out 】sold interval loop duration ratio
@@ -154,19 +156,9 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         private val BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
 
         /**
-         *【 breath out 】 sold duration ratio
-         */
-        private const val BREATH_OUT_SOLD_DURATION_RATIO = 0.98F
-
-        /**
-         *【 breath out 】 loop interval duration ratio = all duration - single duration - sold to loop duration / count -1
-         */
-        private val BREATH_OUT_LOOP_INTERVAL_DURATION_RATIO = getFloatValue(BREATH_OUT_LOOP_INTERVAL_DURATION / BREATH_OUT_ALL_DURATION)
-
-        /**
          *【 breath out 】 single loop duration ratio =  interval duration / all duration
          */
-        private val BREATH_OUT_LOOP_DURATION_RATIO = getFloatValue(BREATH_OUT_LOOP_DURATION / BREATH_OUT_ALL_DURATION)
+        private val BREATH_OUT_LOOP_DURATION_RATIO = getFloatValue(BREATH_OUT_LOOP_DURATION.toFloat() / BREATH_OUT_ALL_DURATION)
 
         /***************************** breath out end *************************************/
         //</editor-fold>
@@ -298,6 +290,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         val size = mListAnimation.size
         if (size <= 0) {
             LogUtil.e("startAnimation ---> start")
+            mCallBackListener?.onStart()
             animationSmallToBig()
         } else {
             LogUtil.e("startAnimation ---> running ....")
@@ -318,8 +311,11 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         val intervalAllRatio = 1F - BREATH_IN_SINGLE_DURATION_RATIO
         // single interval ratio
         val intervalRatio = getFloatValue(intervalAllRatio / (BREATH_IN_COUNT - 1))
-        // all duration ratio
-        val allIntervalRatio = intervalRatio * (BREATH_IN_COUNT - 1)
+
+        val soldInterval = BREATH_IN_SINGLE_DURATION_RATIO * BREATH_IN_ALL_DURATION * BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO / BREATH_IN_ALL_DURATION * 0.5f
+        LogUtil.e("soldInterval: $soldInterval")
+
+        val soldStartTime = (intervalRatio * BREATH_IN_COUNT) + soldInterval
 
         LogUtil.e("intervalAllRatio: $intervalAllRatio single duration ratio: $BREATH_IN_SINGLE_DURATION_RATIO:  inter rato: $intervalRatio")
 
@@ -337,15 +333,21 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
                 }
             }
 
-            // sold
-            if (fraction >= allIntervalRatio && startSolid) {
-                LogUtil.e("animationSmallToBig --->  interval ---->>:" + "------->>>>L>")
+            // sold TODO
+            if (fraction >= soldStartTime && startSolid) {
+                LogUtil.e("animationSmallToBig --->  interval ---->>:" + "------->>>>L> tempCount:" + tempCount)
                 startSolid = false
                 animationSmallToBigSolid(tempCount)
             }
 
             invalidate()
         }
+        animator.addListener(onStart = {
+            if (mCurrentStatus != 1) {
+                mCallBackListener?.statusChange(1)
+                mCurrentStatus = 1
+            }
+        })
         animator.start()
         mListAnimation.add(animator)
         removeList()
@@ -364,7 +366,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         LogUtil.e("---=====----> fraction:  animationSmallToBigLoop!!! duration: $duration")
         LogUtil.e("--->>>animationSmallToBigLoop ---> BREATH_OUT_ALL_DURATION: $duration")
         animator.duration = duration
-        animator.interpolator = DecelerateInterpolator(0.6f)
+        animator.interpolator = DecelerateInterpolator(0.5f)
         animator.addUpdateListener {
             val fraction = it.animatedFraction
 
@@ -412,7 +414,7 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         val circleSolid = getCircle(1, 2)
 
         val animator = ValueAnimator.ofFloat(0F, 1F)
-        val duration = BREATH_HOLD_DURATION
+        val duration = BREATH_HOLD_ALL_DURATION
         LogUtil.e("--->>>animationSmallToBigSolid ---> BREATH_OUT_ALL_DURATION: $duration")
         animator.duration = duration
         animator.interpolator = DecelerateInterpolator()
@@ -421,9 +423,16 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
             val distanceRadio = GradientUtil.getDistance(it.animatedFraction, 0F, 1F, 0F, mMaxRadius, false)
             LogUtil.e("animationSmallToBigSolid ---> mMaxRadius: $mMaxRadius  distanceRadio: $distanceRadio")
             circleSolid.radius = distanceRadio
+
+            invalidate()
         }
 
-        animator.addListener(onEnd = {
+        animator.addListener(onStart = {
+            if (mCurrentStatus != 2) {
+                mCallBackListener?.statusChange(2)
+                mCurrentStatus = 2
+            }
+        }, onEnd = {
             LogUtil.e("animationSmallToBig -----> solid: end:" + (System.currentTimeMillis() - startTimeInterval))
             // breath hold wait
             animationHoldBreathWait()
@@ -440,7 +449,6 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         val animator = ValueAnimator.ofFloat(0F, 1F)
         val duration = BREATH_HOLD_WAIT_DURATION
         animator.duration = duration
-        animator.interpolator = DecelerateInterpolator()
         animator.addListener(onEnd = {
             // breath out start
             animationBigToSmall()
@@ -458,10 +466,15 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         val animator = ValueAnimator.ofFloat(0F, 1F)
         val duration = BREATH_COMMON_FINISH_LOOP_INTERVAL
         animator.duration = duration
-        animator.interpolator = DecelerateInterpolator()
         animator.addListener(onEnd = {
             // breath out start
             animationSmallToBig()
+        })
+        animator.addListener(onStart = {
+            if (mCurrentStatus != 4) {
+                mCallBackListener?.statusChange(4)
+                mCurrentStatus = 4
+            }
         })
         animator.start()
         mListAnimation.add(animator)
@@ -476,7 +489,6 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         var count = 0
         var isStartSold = false
         val animator = ValueAnimator.ofFloat(0F, 1F)
-        LogUtil.e("--->>>animationBigToSmallSolid ---> breath_out_sold_ratio: $BREATH_OUT_SOLD_DURATION_RATIO breath_out_loop_interval_duration_ratio:$BREATH_OUT_LOOP_INTERVAL_DURATION_RATIO")
 
         // middle duration ratio =  all duration ratio - first - single duration
         val intervalDuration = 1F - BREATH_OUT_SOLD_LOOP_INTERVAL_DURATION_RATIO - BREATH_OUT_LOOP_DURATION_RATIO
@@ -535,8 +547,8 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         var temp = 0f
         val circleSolid = getCircle(2, 2)
 
-        animator.duration = (BREATH_OUT_ALL_DURATION).toLong()
-        animator.interpolator = DecelerateInterpolator()
+        animator.duration = (BREATH_OUT_ALL_DURATION)
+        animator.interpolator = DecelerateInterpolator(1.2F)
         animator.addUpdateListener {
             val fraction = it.animatedFraction
             if (temp != fraction) {
@@ -548,13 +560,19 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
                 // alpha
                 val alphaEndTime = 0.75F
                 if (fraction > alphaEndTime) {
-                    val distanceAlpha = GradientUtil.getDistance(fraction, alphaEndTime, 1F, BREATH_COMMON_ALPHA_SOLID_VALUE, 0F, false)
+                    val distanceAlpha = GradientUtil.getDistance(fraction, alphaEndTime, 1F, BREATH_COMMON_ALPHA_SOLID_VALUE, BREATH_COMMON_ALPHA_SOLID_VALUE / 3, false)
                     LogUtil.e("animationBigToSmallSolid ---> distanceAlpha: $distanceAlpha ")
                     circleSolid.paint.alpha = distanceAlpha.roundToInt()
                 }
             }
             temp = fraction
         }
+        animator.addListener(onStart = {
+            if (mCurrentStatus != 3) {
+                mCallBackListener?.statusChange(3)
+                mCurrentStatus = 3
+            }
+        })
         animator.start()
         mListAnimation.add(animator)
         removeList()
@@ -630,12 +648,6 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         mListCircle.clear()
     }
 
-    fun clear() {
-        mListCircle.clear()
-        mListAnimation.clear()
-        invalidate()
-    }
-
     class Circle {
         var paint: Paint = Paint()
         var radius: Float = 0f
@@ -644,6 +656,54 @@ class BreathView5 @JvmOverloads constructor(context: Context, attributeSet: Attr
         override fun toString(): String {
             return "Circle(paint=$paint, radius=$radius, type=$type)"
         }
-
     }
+
+    /**
+     * set the breath in all duration
+     */
+    fun setBreathInDuration(duration: Long) {
+        BREATH_IN_ALL_DURATION = duration
+    }
+
+    /**
+     * set the breath hold all duration
+     */
+    fun setBreathHoldDuration(duration: Long) {
+        BREATH_HOLD_ALL_DURATION = duration
+    }
+
+    /**
+     * set the breath out all duration
+     */
+    fun setBreathOutDuration(duration: Long) {
+        BREATH_OUT_ALL_DURATION = duration
+    }
+
+    /**
+     * set the breath finish wait  all duration
+     */
+    fun setBreathFinishWaitDuration(duration: Long) {
+        BREATH_COMMON_FINISH_LOOP_INTERVAL = duration
+    }
+
+    fun setCallBackListener(callBackListener: CallBackListener) {
+        this.mCallBackListener = callBackListener
+    }
+
+    interface CallBackListener {
+        /**
+         * animation - status
+         */
+        fun onStart()
+
+        /**
+         * status  - change
+         * 1: small to big loop
+         * 2: small to big sold
+         * 3: big to small loop
+         * 4: finish wait start
+         */
+        fun statusChange(status: Int)
+    }
+
 }
