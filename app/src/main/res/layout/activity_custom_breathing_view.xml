@@ -54,6 +54,7 @@
                 android:text="清空" />
         </LinearLayout>
 
+
         <com.android.app.widget.BreathView
             android:id="@+id/bv_view"
             android:layout_width="@dimen/dp_300"
@@ -89,6 +90,23 @@
             android:layout_below="@+id/ll_content"
             android:src="@mipmap/a1" />
 
+        <com.android.app.widget.CircleShadowView
+            android:id="@+id/csv_1"
+            android:layout_width="@dimen/dp_300"
+            android:layout_height="@dimen/dp_300"
+            android:layout_below="@+id/iv_animation"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@color/black" />
+
+        <Button
+            android:id="@+id/btn_start_animation_csv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/csv_1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="开始" />
     </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

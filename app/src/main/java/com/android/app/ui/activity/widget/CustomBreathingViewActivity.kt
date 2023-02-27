@@ -21,7 +21,7 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        setonClickListener(mBinding.btnStart, mBinding.btnPause, mBinding.btnResume, mBinding.btnClear)
+        setonClickListener(mBinding.btnStart, mBinding.btnPause, mBinding.btnResume, mBinding.btnClear, mBinding.btnStartAnimationCsv)
 
         mBinding.bvView.setCallBackListener(object : BreathView.CallBackListener {
             override fun onStart() {
@@ -67,6 +67,10 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
 
             R.id.btn_clear -> {
                 mBinding.bvView.stop()
+            }
+
+            R.id.btn_start_animation_csv -> {
+                mBinding.csv1.startAnimation()
             }
         }
     }
