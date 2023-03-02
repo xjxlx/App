@@ -25,8 +25,8 @@ class CircleShadowView @JvmOverloads constructor(context: Context, attributeSet:
 
     private val mPaint = Paint().apply {
         color = Color.WHITE
-        maskFilter = BlurMaskFilter(200f, BlurMaskFilter.Blur.SOLID)
         strokeWidth = ConvertUtil.toPx(10F)
+        maskFilter = BlurMaskFilter(50f, BlurMaskFilter.Blur.SOLID)
         style = Paint.Style.STROKE
     }
 
