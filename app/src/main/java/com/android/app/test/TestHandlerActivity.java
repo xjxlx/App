@@ -84,7 +84,7 @@ public class TestHandlerActivity extends AppBaseActivity implements ProxyInterfa
                 case 123:
                     mList.add("123");
 
-                    LogUtil.writeDe("蓝牙数据", "我是测试数据：" + (++position));
+                    LogUtil.write("蓝牙数据", "我是测试数据：" + (++position));
 
                     Message message = mHandler.obtainMessage();
                     message.what = 123;

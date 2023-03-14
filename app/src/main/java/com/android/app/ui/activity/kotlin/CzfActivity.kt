@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import com.android.app.databinding.ActivityCzfBinding
 import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.helper.common.CommonConstants
 import com.android.helper.utils.LogUtil
 import com.android.helper.widget.ChargingProgressView
 import com.android.helper.widget.ElectricityView
@@ -43,15 +44,13 @@ class CzfActivity() : AppBaseBindingTitleActivity<ActivityCzfBinding>() {
              * @param progress 手指抬起时候，当前的百分比
              */
             override fun onTouchUp(progress: String) {
-                LogUtil.writeChargingCenter("--------> 充电中心--->充电SOC指令已发送  soc:" + progress.toInt())
-
+                LogUtil.writeAll(CommonConstants.FILE_CHARGING_CENTER_NAME, "充电中心：", "--------> 充电中心--->充电SOC指令已发送  soc:" + progress.toInt())
             }
 
             override fun onMove(progress: String) {
-                LogUtil.writeChargingCenter("--------> onMove 充电中心--->充电SOC指令已发送  soc:" + progress.toInt())
+                LogUtil.writeAll(CommonConstants.FILE_CHARGING_CENTER_NAME, "充电中心：", "--------> onMove 充电中心--->充电SOC指令已发送  soc:" + progress.toInt())
             }
         })
-
 
         mBinding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

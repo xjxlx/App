@@ -1,5 +1,33 @@
 package com.android.app.app.Keepalive;
 
+import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+
+import com.android.app.R;
+import com.android.app.app.App;
+import com.android.app.databinding.ActivityAppLifecycleBinding;
+import com.android.helper.base.BaseBindingActivity;
+import com.android.helper.common.CommonConstants;
+import com.android.helper.common.EventMessage;
+import com.android.helper.utils.LogUtil;
+import com.android.helper.utils.LogWriteUtil;
+import com.android.helper.utils.RecycleUtil;
+import com.android.helper.utils.ServiceUtil;
+import com.android.helper.utils.SystemUtil;
+import com.android.helper.utils.ToastUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -10,33 +38,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.android.app.R;
-import com.android.app.app.App;
-import com.android.app.databinding.ActivityAppLifecycleBinding;
-import com.android.helper.base.BaseBindingActivity;
-import com.android.helper.common.EventMessage;
-import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.LogWriteUtil;
-import com.android.helper.utils.RecycleUtil;
-import com.android.helper.utils.ServiceUtil;
-import com.android.helper.utils.SystemUtil;
-import com.android.helper.utils.ToastUtil;
-import com.android.helper.utils.permission.RxPermissionsUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 
 /**
  * App保活
@@ -83,9 +84,7 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
         mLifecycleManager.startLifecycle(getApplication(), name, jobName);
 
         mAppLifecycleAdapter = new AppLifecycleAdapter(mActivity);
-        RecycleUtil.getInstance(mActivity, mBinding.rvLogList)
-                .setVertical()
-                .setAdapter(mAppLifecycleAdapter);
+        RecycleUtil.getInstance(mActivity, mBinding.rvLogList).setVertical().setAdapter(mAppLifecycleAdapter);
 
         mWriteUtil = new LogWriteUtil();
         List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
@@ -95,10 +94,7 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
         }
 
         mDeviceAdapter = new DeviceAdapter(mActivity);
-        RecycleUtil
-                .getInstance(mActivity, mBinding.rvBluetoothList)
-                .setVertical()
-                .setAdapter(mDeviceAdapter);
+        RecycleUtil.getInstance(mActivity, mBinding.rvBluetoothList).setVertical().setAdapter(mDeviceAdapter);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -108,7 +104,8 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
         switch (v.getId()) {
             case R.id.bt_open_dc:
                 // 充电权限
-                boolean batteryOptimizations = SystemUtil.getInstance(App.getInstance()).isIgnoringBatteryOptimizations();
+                boolean batteryOptimizations =
+                    SystemUtil.getInstance(App.getInstance()).isIgnoringBatteryOptimizations();
                 if (!batteryOptimizations) {
                     // 3: 打开充电的权限
                     mLifecycleManager.checkBatteryPermissions(mActivity);
@@ -147,39 +144,26 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
     private void checkPermission() {
         String[] list = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            list = new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                    Manifest.permission.GET_ACCOUNTS,
-                    "android.permission.AUTHENTICATE_ACCOUNTS"
-            };
+            list = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.GET_ACCOUNTS,
+                "android.permission.AUTHENTICATE_ACCOUNTS"};
         } else {
-            list = new String[]{
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.BLUETOOTH,
-                    Manifest.permission.BLUETOOTH_ADMIN,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-            };
+            list = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN,
+                Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
         }
 
-        new RxPermissionsUtil.Builder(mActivity, list)
-                .setSinglePerMissionListener((status, permission) -> {
-                    if (status == 1) {
-                        LogUtil.e("异常的权限：" + permission);
-                    } else if (status == 2) {
-                        LogUtil.e("异常的权限：" + permission);
-                    } else if (status == 3) {
-                        LogUtil.e("拒绝的权限：" + permission);
-                    }
-                }).build()
-                .startRequestPermission();
+        new RxPermissionsUtil.Builder(mActivity, list).setSinglePerMissionListener((status, permission) -> {
+            if (status == 1) {
+                LogUtil.e("异常的权限：" + permission);
+            } else if (status == 2) {
+                LogUtil.e("异常的权限：" + permission);
+            } else if (status == 3) {
+                LogUtil.e("拒绝的权限：" + permission);
+            }
+        }).build().startRequestPermission();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -194,7 +178,8 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
                     String name = bundle.getString("name");
                     String address = bundle.getString("address");
 
-                    LogUtil.writeLifeCycle("-->蓝牙扫描回调---成功：" + name + "  描到的蓝牙地址为：" + address);
+                    LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME,
+                        "-->蓝牙扫描回调---成功：" + name + "  描到的蓝牙地址为：" + address);
 
                     map.put(address, name);
 
@@ -215,13 +200,14 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
             EventBus.getDefault().unregister(this);
         }
 
-//        if (mLifecycleManager != null) {
-//            mLifecycleManager.stopLifecycle(mContext);
-//        }
+        // if (mLifecycleManager != null) {
+        // mLifecycleManager.stopLifecycle(mContext);
+        // }
     }
 
     @Override
-    public ActivityAppLifecycleBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public ActivityAppLifecycleBinding getBinding(@NonNull @NotNull LayoutInflater inflater,
+        @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return ActivityAppLifecycleBinding.inflate(inflater, container, false);
     }
 }

@@ -34,8 +34,7 @@ public class AppJobService extends JobService {
     private static JobScheduler mJobScheduler;
     private static String mServiceName;
 
-    public AppJobService() {
-    }
+    public AppJobService() {}
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
@@ -49,7 +48,8 @@ public class AppJobService extends JobService {
         if (!TextUtils.isEmpty(mServiceName)) {
             boolean serviceRunning = ServiceUtil.isServiceRunning(getApplicationContext(), mServiceName);
             LogUtil.e("☆☆☆☆☆---我是JobService服务，当前后台服务的状态为:" + serviceRunning);
-            LogUtil.writeLifeCycle("☆☆☆☆☆---我是JobService服务，当前后台服务的状态为:" + serviceRunning);
+            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME,
+                "☆☆☆☆☆---我是JobService服务，当前后台服务的状态为:" + serviceRunning);
 
             if (!serviceRunning) {
                 /*启动应用*/
@@ -70,9 +70,12 @@ public class AppJobService extends JobService {
     }
 
     /**
-     * @param context     上下文
-     * @param serviceName 希望拉起的后台服务
-     * @param appEnum     启动的数据类型
+     * @param context
+     *            上下文
+     * @param serviceName
+     *            希望拉起的后台服务
+     * @param appEnum
+     *            启动的数据类型
      */
     public static void startJob(Context context, String serviceName, LifecycleAppEnum appEnum) {
         mServiceName = serviceName;
@@ -80,7 +83,7 @@ public class AppJobService extends JobService {
         sendNotification(context, appEnum);
 
         if (mJobScheduler == null) {
-            mJobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            mJobScheduler = (JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         }
 
         // 创建JobService的类对象
@@ -88,7 +91,7 @@ public class AppJobService extends JobService {
         // 2：设置JobInfo 的参数信息
         JobInfo.Builder builder = new JobInfo.Builder(AppJobService.APP_JOB_ID, appJobComponentName);
 
-        builder.setPersisted(true);  // 设置设备重启时，执行该任务
+        builder.setPersisted(true); // 设置设备重启时，执行该任务
 
         // 7.0 之前没有任何的限制
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -113,18 +116,19 @@ public class AppJobService extends JobService {
     private static void sendNotification(Context context, LifecycleAppEnum appEnum) {
 
         NotificationUtil.Builder builder = new NotificationUtil.Builder(context)
-                .setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME)
-                .setSmallIcon(R.mipmap.ic_launcher);
+            .setChannelName(CommonConstants.KEY_LIFECYCLE_NOTIFICATION_CHANNEL_NAME).setSmallIcon(R.mipmap.ic_launcher);
 
         if (appEnum == LifecycleAppEnum.From_Intent) {
             builder.setContentText("我是JobService，我是被直接启动的");
-            LogUtil.writeLifeCycle("我是JobService，我是被直接启动的");
+            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME, "我是JobService，我是被直接启动的");
+
         } else if (appEnum == LifecycleAppEnum.FROM_ACCOUNT) {
             builder.setContentText("我是JobService，我是被账号拉活的");
-            LogUtil.writeLifeCycle("我是JobService，我是被账号拉活的");
+            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME, "我是JobService，我是被账号拉活的");
+
         } else if (appEnum == LifecycleAppEnum.FROM_SERVICE) {
             builder.setContentText("我是JobService，我是后台服务拉活的");
-            LogUtil.writeLifeCycle("我是JobService，我是后台服务拉活的");
+            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME, "我是JobService，我是后台服务拉活的");
         }
 
         if (appEnum == LifecycleAppEnum.FROM_JOB) {
@@ -140,7 +144,7 @@ public class AppJobService extends JobService {
             // 后台服务
             boolean serviceRunning = ServiceUtil.isServiceRunning(context, serviceName);
             LogUtil.e("☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
-            LogUtil.writeLifeCycle("☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
+            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME, "☆☆☆☆☆---我是广播通知，当前后台服务的状态为：" + serviceRunning);
 
             if (!serviceRunning) {
                 Intent intentService = new Intent();
