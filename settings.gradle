@@ -2,3 +2,4 @@
 rootProject.name = "App"
 include ':app'
 include ':apphelper'
+include ':java'
