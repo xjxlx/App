@@ -15,11 +15,11 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.android.app.databinding.ActivityLocationBinding;
+import com.android.app.utils.location.LocationUtil;
+import com.android.app.utils.location.ReGeocodeResultListener;
 import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
-import com.android.helper.utils.location.LocationUtil;
-import com.android.helper.utils.location.ReGeocodeResultListener;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -1,14 +1,14 @@
-package com.android.app.ui.activity.jetpack.room.room2;
+package com.android.app.utils.room;
 
-import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.migration.Migration;
 
+
 import com.android.app.BuildConfig;
 import com.android.app.app.App;
-import com.android.helper.utils.room.BaseRoomManager;
+import com.android.app.ui.activity.jetpack.room.room2.DaoTable1;
+import com.android.app.ui.activity.jetpack.room.room2.DaoTable2;
 
-@Database(version = BuildConfig.ROOM_VERSION, entities = {RoomTable1.class, RoomTable2.class}, exportSchema = false)
 public abstract class RoomManager extends BaseRoomManager {
 
     public static int VERSION = BuildConfig.ROOM_VERSION;
@@ -37,10 +37,10 @@ public abstract class RoomManager extends BaseRoomManager {
             synchronized (RoomManager.class) {
                 if (INSTANCE2 == null) {
                     INSTANCE2 = Room.databaseBuilder(
-                            App.getInstance().getApplicationContext(),
-                            RoomManager.class,
-                            "room_table_2.db"
-                    )
+                                    App.getInstance().getApplicationContext(),
+                                    RoomManager.class,
+                                    "room_table_2.db"
+                            )
                             .addMigrations(migration)
                             .build();
                 }
@@ -49,8 +49,7 @@ public abstract class RoomManager extends BaseRoomManager {
         return INSTANCE2;
     }
 
-    abstract DaoTable1 getDao1();
+    public abstract DaoTable1 getDao1();
 
-    abstract DaoTable2 getDao2();
-
+    public abstract DaoTable2 getDao2();
 }

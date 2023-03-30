@@ -1,11 +1,12 @@
 package com.android.app.ui.activity.jetpack.room.room2
 
 import android.os.Bundle
-import com.android.app.R
-import com.android.app.ui.activity.jetpack.room.room2.RoomManager.VERSION
 import android.view.View
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.android.app.R
+import com.android.app.utils.room.RoomManager
+import com.android.app.utils.room.RoomManager.VERSION
 import com.android.helper.base.AppBaseActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomExecuteListener
@@ -64,6 +65,7 @@ class Room2Activity : AppBaseActivity() {
                     }
                 })
             }
+
             R.id.btn_table_1_delete -> {
                 val room1 = RoomTable1()
                 room1.id = 1624516322548
@@ -80,6 +82,7 @@ class Room2Activity : AppBaseActivity() {
                     }
                 })
             }
+
             R.id.btn_table_1_update -> {
                 val room1 = RoomTable1()
                 room1.id = 1624519895314
@@ -98,6 +101,7 @@ class Room2Activity : AppBaseActivity() {
                     }
                 })
             }
+
             R.id.btn_table_1_query -> {
                 RoomUtil.getInstance().execute(object : RoomExecuteListener<RoomTable1> {
                     override fun execute(): RoomTable1 {
@@ -109,6 +113,7 @@ class Room2Activity : AppBaseActivity() {
                     }
                 })
             }
+
             R.id.btn_table_2_create -> {
                 RoomUtil.getInstance().execute(object : RoomExecuteListener<Long> {
                     override fun execute(): Long {
@@ -138,8 +143,10 @@ class Room2Activity : AppBaseActivity() {
                     }
                 })
             }
+
             R.id.btn_table_2_add -> {
             }
+
             R.id.btn_table_2_insert -> {
                 RoomUtil.getInstance().execute(object : RoomExecuteListener<Long> {
                     override fun execute(): Long {
@@ -167,11 +174,11 @@ class Room2Activity : AppBaseActivity() {
             }
         }
     }
-    
+
     /**
      * Activity初始化view
      */
     override fun initView() {
-    
+
     }
 }
