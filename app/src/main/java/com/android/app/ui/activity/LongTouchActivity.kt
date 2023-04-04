@@ -10,6 +10,7 @@ import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.DownCountTime
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ToastUtil
+import kotlin.random.Random
 
 class LongTouchActivity : AppBaseBindingTitleActivity<ActivityLongTouchBinding>() {
 
@@ -32,8 +33,14 @@ class LongTouchActivity : AppBaseBindingTitleActivity<ActivityLongTouchBinding>(
                 countTime?.setCountdown(11, 1000L, object : DownCountTime.CallBack {
                     override fun onTick(current: Long, countdown: Long) {
                         LogUtil.e("xxxx", "current: $current countdown: $countdown")
-                        if (current == 9L) {
+                        if (current == 5L) {
                             ToastUtil.show("可以展示了！")
+
+                            for (item in 0..100) {
+                                // val nextInt = Random.nextInt(50, 90)
+                                val nextInt = Random.nextInt(3)
+                                LogUtil.e("nextInt: $nextInt")
+                            }
                         }
                     }
 
