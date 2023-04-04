@@ -10,6 +10,7 @@ import java.net.ServerSocket
 import java.net.Socket
 
 class MainActivity : AppCompatActivity() {
+
     private val TAG = "Android端"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private inner class ServerThread : Thread() {
+
         override fun run() {
             var serverSocket: ServerSocket? = null
             try {

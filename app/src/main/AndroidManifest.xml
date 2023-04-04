@@ -96,12 +96,7 @@
 
         <activity
             android:name=".test.adb.MainActivity"
-            android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
+            android:exported="true" />
 
         <activity
             android:name=".test.TestScrollTopActivity"
@@ -121,13 +116,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-
         </activity>
         <activity
             android:name=".ui.activity.widget.CustomYhActivity"
@@ -141,13 +129,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.activity.widget.CustomBreathingViewActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
 
         <service
             android:name=".ui.services.KeepService"
@@ -169,13 +151,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.widget.CustomNumberScrollActivity"
-            android:screenOrientation="landscape">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:screenOrientation="landscape" />
         <activity android:name=".ui.activity.kotlin.CzfActivity" />
         <activity android:name=".ui.activity.kotlin.LambdaActivity" />
         <activity android:name=".ui.activity.kotlin.KotListActivity" />
@@ -321,27 +297,21 @@
             <!-- 处理文字的Intent 我们需要定义action,  category, 和文字对应的MIME -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/*" />
             </intent-filter>
 
             <!-- 处理单张图片的Intent -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="image/*" />
             </intent-filter>
 
             <!-- 处理多张图片的Intent -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -422,7 +392,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -437,6 +406,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider> <!-- 音乐播放器的服务 -->
+
         <service
             android:name="com.android.helper.utils.media.audio.AudioService"
             android:enabled="true"
