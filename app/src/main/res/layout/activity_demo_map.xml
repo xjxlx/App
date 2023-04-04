@@ -13,62 +13,80 @@
         <TextView
             android:id="@+id/tv_back"
             style="@style/style_todo_item"
-            android:text="返回" />
+            android:text="返回"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_open_qywx"
             style="@style/style_todo_item"
-            android:text="打开企业维系" />
+            android:text="打开企业维系"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_receive_map_result"
             style="@style/style_todo_item"
-            android:text="接受地图发送过来的消息" />
+            android:text="接受地图发送过来的消息"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_xml_write_data"
             style="@style/style_todo_item"
-            android:text="Xml数据写入" />
+            android:text="Xml数据写入"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_rxjava2"
             style="@style/style_todo_item"
-            android:text="RxJava2测试" />
+            android:text="RxJava2测试"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_download"
             style="@style/style_todo_item"
-            android:text="带进度条的下载文件" />
+            android:text="带进度条的下载文件"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_uploading"
             style="@style/style_todo_item"
-            android:text="带进度条的上传文件" />
+            android:text="带进度条的上传文件"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_selector_image"
             style="@style/style_todo_item"
-            android:text="图片选择器" />
+            android:text="图片选择器"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_send_sms"
             style="@style/style_todo_item"
-            android:text="发送短信" />
+            android:text="发送短信"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_audio_player"
             style="@style/style_todo_item"
-            android:text="音乐播放器" />
+            android:text="音乐播放器"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_app_lifecycle"
             style="@style/style_todo_item"
-            android:text="App保活" />
+            android:text="App保活"
+            android:textColor="#F5F5F5" />
 
         <TextView
             android:id="@+id/tv_location"
             style="@style/style_todo_item"
-            android:text="地图" />
+            android:text="地图"
+            android:textColor="#F5F5F5" />
+
+        <TextView
+            android:id="@+id/tv_long_click"
+            style="@style/style_todo_item"
+            android:text="长按测试"
+            android:textColor="#F5F5F5" />
 
     </LinearLayout>
 
