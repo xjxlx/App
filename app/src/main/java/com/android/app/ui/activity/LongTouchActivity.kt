@@ -37,8 +37,8 @@ class LongTouchActivity : AppBaseBindingTitleActivity<ActivityLongTouchBinding>(
                             ToastUtil.show("可以展示了！")
 
                             for (item in 0..100) {
-                                // val nextInt = Random.nextInt(50, 90)
-                                val nextInt = Random.nextInt(3)
+                                 val nextInt = Random.nextInt(3, 6)
+//                                val nextInt = Random.nextInt(3)
                                 LogUtil.e("nextInt: $nextInt")
                             }
                         }
