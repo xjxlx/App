@@ -23,6 +23,8 @@
         <item name="android:activityCloseEnterAnimation">@anim/navigation_pop_enter_animation</item>
         <item name="android:activityCloseExitAnimation">@anim/navigation_pop_exit_animation</item>
 
+        <!--Android 11: 标志，允许您禁用窗口的启动画面。默认值为false;如果设置为true，系统在实际实例显示给用户之前永远不能使用窗口的主题来显示启动画面。-->
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
 </resources>
