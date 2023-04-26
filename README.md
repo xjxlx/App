@@ -10,16 +10,6 @@
             }       
       }
 
-2.    dependencies {        
-	        implementation 'com.gitee.xjxlx:apphelper:1.0.1.0.0'
-           implementation 'com.github.xjxlx:App:2.3.2'
-      }
-
-3.    api('com.gitee.xjxlx:apphelper:1.0.1.0.0') {     
-            exclude group: 'com.github.bumptech.glide'      
-            exclude group: 'com.scwang.smart:refresh-layout-kernel'     
-      }
-
 使用步骤：
 
 1：如果使用音乐播放器的时候，必须要加入服务的配置，否则不会播放
@@ -67,9 +57,7 @@
 1.  github 的地址为：{ 'https://github.com/xjxlx/appHelper' }   
 2.  码云的地址为： { 'https://gitee.com/xjxlx/apphelper' } 
 
-
-
-
+ 
 # appphlper 使用步骤
 
 # 第一步：把项目代码更新到最新，这一步不是必须，具体要看现有的代码中有没有apphelper这个库的对象，如果没有就需要拉一下最新的代码，获取apphelper的对象。
@@ -86,9 +74,4 @@
 
 # PullListRvUtil 和 RvUtil 的工具类替换为 RefreshUtil  +  RecycleViewFrameWork 联合使用，具体的使用方式，请查看工具类说明
 ## PullListRvUtil 和 RvUtil 的占位图 替换 为 EmptyPlaceholder 使用，具体的使用方式，请查看工具类说明
-
-# 同时推送到 github 和 阿里云
-# 1: 先从github 或者 阿里云 clone 地址去下载代码
-# 2：如果是从github 上面下载下来的，就去设置对应的 阿里云的 运程地址
-# 3：方法：git remote set-url --add origin https://codeup.aliyun.com/6123a7e01bd96aa110f27e23/App.git
-# 4：或者 去设置阿里云的地址：git remote set-url --add origin https://github.com/xjxlx/App.git
+ 
