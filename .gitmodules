@@ -1,8 +1,6 @@
 [submodule "apphelper"]
 	path = apphelper
-
-;   gitee 平时用这个
- 	url = https://github.com/xjxlx/apphelper.git
+ 	url = git@github.com:xjxlx/apphelper.git
 
 
 
