@@ -191,7 +191,8 @@ dependencies {
 
 //    implementation 'com.github.xjxlx:App:2.3.2'
     implementation project(path: ':apphelper')
-    implementation 'com.github.xjxlx:dimens:1.0.0.0.1'
+    implementation project(path: ':apphelper2')
+    implementation 'com.github.xjxlx:dimens:1.3.0'
 
     implementation configDependencies["room-runtime"]
     implementation configDependencies["room-ktx"]
