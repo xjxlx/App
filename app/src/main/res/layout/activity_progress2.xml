@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
             app:outer_layer_color="@color/white"
-            app:stroke_Width="3"
+            app:progress_stroke_width="3"
             app:time="90" />
 
         <Button

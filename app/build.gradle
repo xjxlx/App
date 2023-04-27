@@ -175,6 +175,9 @@ android {
             }
         }
     }
+
+    // ndk version
+    ndkVersion ="21.4.7075529"
 }
 
 // 显示的时间格式，形如20171110
@@ -193,6 +196,7 @@ dependencies {
     implementation project(path: ':apphelper')
     implementation project(path: ':apphelper2')
     implementation 'com.github.xjxlx:dimens:1.3.0'
+    implementation 'com.github.xjxlx:photo:1.3.0'
 
     implementation configDependencies["room-runtime"]
     implementation configDependencies["room-ktx"]
