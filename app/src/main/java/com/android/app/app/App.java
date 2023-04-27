@@ -31,7 +31,7 @@ public class App extends Application {
         super.onCreate();
         mApp = this;
 
-        AppHelperManager.init(this);
+        AppHelperManager.init(this,true);
 
         BaseApplication
                 .getInstance()

@@ -1,5 +1,6 @@
 package com.android.app.ui.fragment
 
+import android.Manifest
 import android.os.Bundle
 import android.os.Environment
 import android.text.TextUtils
@@ -8,19 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.FragmentHomeBinding
+import com.android.apphelper2.utils.permission.PermissionMultipleCallBackListener
 import com.android.apphelper2.utils.permission.PermissionUtil
 import com.android.helper.base.BaseBindingFragment
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.dialog.DialogUtil
 import java.io.File
-import java.security.Permission
 
 /**
  * 首页
  */
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
-
     private val permissionUtil = PermissionUtil.PermissionFragment(this)
 
     val mBuilder_w = StringBuilder()
@@ -119,9 +119,33 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
         }
         val commonPath = mFileUtil.commonPath
         val commonTagPath = mFileUtil.commonTagPath
-
         LogUtil.e("commonPath:$commonPath")
         LogUtil.e("commonTagPath:$commonTagPath")
+
+        mBinding.btnTestPermission.setOnClickListener {
+
+//            permissionUtil.shouldShow(Manifest.permission.WRITE_EXTERNAL_STORAGE, object : PermissionRationaleCallBackListener {
+//                override fun onCallBack(permission: String, rationale: Boolean) {
+//                    com.android.apphelper2.utils.LogUtil.e("------permission------>   rationale: $rationale")
+//
+//                    permissionUtil.setCallBackListener(object : PermissionCallBackListener {
+//                        override fun onCallBack(permission: String, isGranted: Boolean) {
+//                            com.android.apphelper2.utils.LogUtil.e("------permission------> call     isGranted: $isGranted")
+//                        }
+//                    })
+//                        .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                }
+//            })
+
+            permissionUtil.requestArray(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
+                    object : PermissionMultipleCallBackListener {
+                        override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
+                            map.map {
+                                LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
+                            }
+                        }
+                    })
+        }
     }
 
     private fun createFile(path: String, tag: String) {

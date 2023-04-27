@@ -1,6 +1,5 @@
 package com.android.app;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.android.helper.base.BaseFragmentPagerAdapter;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.dialog.DialogUtil;
-import com.android.helper.utils.permission.RxPermissionsUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,16 +45,6 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
     @SuppressLint("NonConstantResourceId")
     @Override
     public void initData(Bundle savedInstanceState) {
-        String[] strings = {
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-        };
-
-        new RxPermissionsUtil.Builder(this, strings)
-                .setSinglePerMissionListener((permissionStatus, permission) -> LogUtil.e("permission:" + permissionStatus))
-                .build()
-                .startRequestPermission();
-
         mListFragments.add(new HomeFragment());
         mListFragments.add(new TodoFragment());
         mListFragments.add(new PersonalFragment());
@@ -65,7 +53,8 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         mListTitle.add("待办");
         mListTitle.add("个人中心");
 
-        BaseFragmentPagerAdapter pagerAdapter = new BaseFragmentPagerAdapter(getSupportFragmentManager(), mListFragments, mListTitle);
+        BaseFragmentPagerAdapter pagerAdapter = new BaseFragmentPagerAdapter(getSupportFragmentManager(),
+                mListFragments, mListTitle);
 
         mBinding.vpContent.setAdapter(pagerAdapter);
         // 避免重复创建加载数据
@@ -79,7 +68,9 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
             @Override
             public void onPageSelected(int position) {
                 //设置默认选中item
-                mBinding.navigation.getMenu().getItem(position).setChecked(true);
+                mBinding.navigation.getMenu()
+                        .getItem(position)
+                        .setChecked(true);
                 switch (position) {
                     case 0:
                         setTitleContent("首页");
@@ -120,14 +111,18 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         });
 
         // 设置默认数据
-        mBinding.navigation.getMenu().getItem(1).setChecked(true);
+        mBinding.navigation.getMenu()
+                .getItem(1)
+                .setChecked(true);
         mBinding.vpContent.setCurrentItem(1);
         setTitleContent("代办");
 
-        String sdTypePublicPath = FileUtil.getInstance().getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
+        String sdTypePublicPath = FileUtil.getInstance()
+                .getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
         LogUtil.e("SD ---> 公共资源目录:  --- " + sdTypePublicPath);
 
-        boolean permission = FileUtil.getInstance().checkAllFilesPermission(mActivity);
+        boolean permission = FileUtil.getInstance()
+                .checkAllFilesPermission(mActivity);
         LogUtil.e("permission: " + permission);
     }
 
@@ -139,5 +134,4 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
     public ActivityMainBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return ActivityMainBinding.inflate(inflater, container, false);
     }
-
 }
