@@ -13,7 +13,7 @@ import com.android.helper.utils.LogUtil
 class Fragment2 : BaseBindingFragment<Fragment2Binding>() {
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): Fragment2Binding {
-        return Fragment2Binding.inflate(layoutInflater,container,false)
+        return Fragment2Binding.inflate(layoutInflater, container, false)
     }
 
     @SuppressLint("SetTextI18n")
@@ -21,9 +21,8 @@ class Fragment2 : BaseBindingFragment<Fragment2Binding>() {
         LogUtil.e("当前是Fragment ---> 2,当前的地址是：${this.hashCode()}")
 
         arguments?.let {
-            // todo
-//            val bundle = Fragment1Args.fromBundle(it)
-//            tv_content2.text = "获取到的名字是：${bundle.name} 获取到的年龄为：${bundle.age}"
+            val bundle = Fragment1Args.fromBundle(it)
+            mBinding.tvContent2.text = "获取到的名字是：${bundle.name} 获取到的年龄为：${bundle.age}"
         }
 
         mBinding.btn23.setOnClickListener {
