@@ -1,26 +1,16 @@
 package com.android.app.ui.activity.widget
 
 import android.os.Bundle
-import com.android.app.R
-import com.android.helper.base.AppBaseActivity
-import kotlinx.android.synthetic.main.activity_multiple_list_view.*
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.android.app.databinding.ActivityMultipleListViewBinding
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 
 /**
  * 多列表的listView
  */
-class MultipleListViewActivity : AppBaseActivity() {
+class MultipleListViewActivity : AppBaseBindingTitleActivity<ActivityMultipleListViewBinding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.activity_multiple_list_view
-    }
-    
-    /**
-     * Activity初始化view
-     */
-    override fun initView() {
-    
-    }
-    
     override fun initData(savedInstanceState: Bundle?) {
         val arrayListOf = arrayListOf<String>()
 //        arrayListOf.add("house")
@@ -39,6 +29,14 @@ class MultipleListViewActivity : AppBaseActivity() {
         arrayListOf.add("upon")
         arrayListOf.add("sit")
 
-        mlv_list.setList(arrayListOf)
+        mBinding.mlvList.setList(arrayListOf)
+    }
+
+    override fun setTitleContent(): String {
+        return "测试事件分发"
+    }
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityMultipleListViewBinding {
+        return ActivityMultipleListViewBinding.inflate(layoutInflater, container, true)
     }
 }

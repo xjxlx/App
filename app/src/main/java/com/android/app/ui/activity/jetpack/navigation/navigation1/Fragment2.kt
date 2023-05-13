@@ -1,34 +1,32 @@
 package com.android.app.ui.activity.jetpack.navigation.navigation1
 
 import android.annotation.SuppressLint
-import com.android.app.R
 import android.os.Bundle
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.AppBaseFragment
+import com.android.app.R
+import com.android.app.databinding.Fragment2Binding
+import com.android.helper.base.BaseBindingFragment
 import com.android.helper.utils.LogUtil
-import kotlinx.android.synthetic.main.fragment_2.*
 
-class Fragment2 : AppBaseFragment() {
+class Fragment2 : BaseBindingFragment<Fragment2Binding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_2
-    }
-
-    override fun initView(view: View?) {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): Fragment2Binding {
+        return Fragment2Binding.inflate(layoutInflater,container,false)
     }
 
     @SuppressLint("SetTextI18n")
-     override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         LogUtil.e("当前是Fragment ---> 2,当前的地址是：${this.hashCode()}")
 
         arguments?.let {
-            val bundle = Fragment1Args.fromBundle(it)
-
-            tv_content2.text = "获取到的名字是：${bundle.name} 获取到的年龄为：${bundle.age}"
+            // todo
+//            val bundle = Fragment1Args.fromBundle(it)
+//            tv_content2.text = "获取到的名字是：${bundle.name} 获取到的年龄为：${bundle.age}"
         }
 
-        btn_2_3.setOnClickListener {
+        mBinding.btn23.setOnClickListener {
             findNavController().navigate(R.id.action_fragment2_to_fragment3)
         }
     }

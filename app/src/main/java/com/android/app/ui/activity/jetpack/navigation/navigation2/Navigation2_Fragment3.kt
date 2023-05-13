@@ -1,35 +1,39 @@
 package com.android.app.ui.activity.jetpack.navigation.navigation2
 
 import android.os.Bundle
-import com.android.app.R
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.AppBaseFragment
-import kotlinx.android.synthetic.main.fragment_navigation2_3.*
+import com.android.app.R
+import com.android.app.databinding.FragmentNavigation23Binding
+import com.android.helper.base.BaseBindingFragment
 
-class Navigation2_Fragment3 : AppBaseFragment() {
+class Navigation2_Fragment3 : BaseBindingFragment<FragmentNavigation23Binding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_navigation2_3
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentNavigation23Binding {
+        return FragmentNavigation23Binding.inflate(layoutInflater,container,false)
     }
 
     override fun initView(view: View?) {
     }
 
-     override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         arguments?.let {
             val bundle = Navigation2_Fragment2Args.fromBundle(it)
-            tv_navigation2_args_3.text = "获取到的Fragment3的参数为：$bundle"
+            mBinding.tvNavigation2Args3.text = "获取到的Fragment3的参数为：$bundle"
         }
 
-        btn_navigation2_jump3.setOnClickListener {
-            val bundle = Navigation2_Fragment3Args
-                    .Builder()
-                    .setAge3(34)
-                    .setName3("王五")
-                    .build()
-                    .toBundle()
+        mBinding.btnNavigation2Jump3.setOnClickListener {
 
+//            val bundle= Bundle()
+//              Navigation2_Fragment3Args.fromBundle(bundle)
+//                .setAge3(34)
+//                .setName3("王五")
+//                .build()
+//                .toBundle()
+
+            val bundle = Navigation2_Fragment3Args("王五", 34).toBundle()
             findNavController().navigate(R.id.action_Fragment3_to_Fragment1, bundle)
         }
     }

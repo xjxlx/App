@@ -1,31 +1,26 @@
 package com.android.app.ui.activity.jetpack.model
 
 import android.os.Bundle
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.android.app.R
-import com.android.helper.base.AppBaseFragment
-import kotlinx.android.synthetic.main.fragment_model2.*
+import com.android.app.databinding.FragmentModel2Binding
+import com.android.helper.base.BaseBindingFragment
 
-class Model2Fragment : AppBaseFragment() {
+class Model2Fragment : BaseBindingFragment<FragmentModel2Binding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_model2
-    }
-
-    override fun initView(view: View?) {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentModel2Binding {
+        return FragmentModel2Binding.inflate(layoutInflater,container,false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
-        btn_f2_change.setOnClickListener {
+        mBinding.btnF2Change.setOnClickListener {
             val get = ViewModelProvider(this).get(TestViewModel::class.java)
-            tv_content_fr_2.text = get.name
+            mBinding.tvContentFr2.text = get.name
         }
     }
 
     companion object {
-
         private val fragment by lazy {
             return@lazy Model2Fragment()
         }
@@ -34,5 +29,4 @@ class Model2Fragment : AppBaseFragment() {
             return fragment;
         }
     }
-
 }

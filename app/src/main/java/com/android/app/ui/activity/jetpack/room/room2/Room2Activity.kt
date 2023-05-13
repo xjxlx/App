@@ -1,13 +1,16 @@
 package com.android.app.ui.activity.jetpack.room.room2
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.android.app.R
+import com.android.app.databinding.ActivityRoom2Binding
 import com.android.app.utils.room.RoomManager
 import com.android.app.utils.room.RoomManager.VERSION
-import com.android.helper.base.AppBaseActivity
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomExecuteListener
 import com.android.helper.interfaces.room.RoomInsertListener
@@ -15,29 +18,24 @@ import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ToastUtil
 import com.android.helper.utils.room.RoomUtil
 import com.android.helper.utils.room.SQLEntity
-import kotlinx.android.synthetic.main.activity_room2.*
 
-class Room2Activity : AppBaseActivity() {
+class Room2Activity : AppBaseBindingTitleActivity<ActivityRoom2Binding>() {
 
     private val roomManager by lazy {
         return@lazy RoomManager.getInstance()
-    }
-
-    override fun getBaseLayout(): Int {
-        return R.layout.activity_room2
     }
 
     override fun initListener() {
         super.initListener()
 
         setonClickListener(
-            btn_table_1_insert,
-            btn_table_1_delete,
-            btn_table_1_update,
-            btn_table_1_query,
-            btn_table_2_create,
-            btn_table_2_add,
-            btn_table_2_insert
+            mBinding.btnTable1Insert,
+            mBinding.btnTable1Delete,
+            mBinding.btnTable1Update,
+            mBinding.btnTable1Query,
+            mBinding.btnTable2Create,
+            mBinding.btnTable2Add,
+            mBinding.btnTable2Insert
         )
     }
 
@@ -123,8 +121,9 @@ class Room2Activity : AppBaseActivity() {
                                 map["id"] = SQLEntity(RoomUtil.UNIT.INTEGER)
                                 map["name"] = SQLEntity(RoomUtil.UNIT.TEXT)
                                 map["isMaser"] = SQLEntity(RoomUtil.UNIT.INTEGER)
-                                val createTable = RoomUtil.getInstance()
-                                    .createTable("room_table_22", "id", RoomUtil.UNIT.INTEGER, false, map)
+                                val createTable = RoomUtil.getInstance().createTable(
+                                    "room_table_22", "id", RoomUtil.UNIT.INTEGER, false, map
+                                )
 
                                 LogUtil.e("当前的版本是：" + database.version)
                                 database.execSQL(createTable)
@@ -175,10 +174,14 @@ class Room2Activity : AppBaseActivity() {
         }
     }
 
-    /**
-     * Activity初始化view
-     */
-    override fun initView() {
-
+    override fun setTitleContent(): String {
+        return "测试事件分发"
     }
+
+    override fun getBinding(
+        inflater: LayoutInflater, container: ViewGroup?
+    ): ActivityRoom2Binding {
+        return ActivityRoom2Binding.inflate(layoutInflater, container, true)
+    }
+
 }

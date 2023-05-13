@@ -1,32 +1,22 @@
 package com.android.app.ui.activity.widget
 
 import android.os.Bundle
-import com.android.app.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.TextView
-import com.android.helper.base.AppBaseActivity
+import com.android.app.R
+import com.android.app.databinding.ActivityRandomBinding
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.TextViewUtil
 import com.android.helper.utils.ToastUtil
-import kotlinx.android.synthetic.main.activity_random.*
 
 /**
  * 随机布局的activity
  */
-class RandomActivity : AppBaseActivity() {
+class RandomActivity : AppBaseBindingTitleActivity<ActivityRandomBinding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.activity_random
-    }
-    
-    /**
-     * Activity初始化view
-     */
-    override fun initView() {
-    
-    }
-    
     override fun initData(savedInstanceState: Bundle?) {
         val listData = arrayListOf<String>()
-
         listData.add("this")
         listData.add("in")
         listData.add("water")
@@ -37,16 +27,21 @@ class RandomActivity : AppBaseActivity() {
         val randomContent = inflate.findViewById<TextView>(R.id.tv_random_content)
         TextViewUtil.setTextFont(mActivity, randomContent, "DINCondensedBold.ttf")
 
-        rl_layout.textView = randomContent
-        rl_layout.setRandomRotatingView(true)
-
-
-        rl_layout.setRandomClickListener { _, position: Int, t ->
+        mBinding.rlLayout.textView = randomContent
+        mBinding.rlLayout.setRandomRotatingView(true)
+        mBinding.rlLayout.setRandomClickListener { _, position: Int, t ->
             ToastUtil.show("position:$position   value:$t")
         }
-
-        btn_start.setOnClickListener {
-            rl_layout.setDataList(listData)
+        mBinding.btnStart.setOnClickListener {
+            mBinding.rlLayout.setDataList(listData)
         }
+    }
+
+    override fun setTitleContent(): String {
+        return "测试事件分发"
+    }
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityRandomBinding {
+        return ActivityRandomBinding.inflate(layoutInflater, container, true)
     }
 }
