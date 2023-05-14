@@ -50,7 +50,8 @@ public class TestMapActivity extends AppBaseActivity {
                 R.id.tv_test_client_socket,
                 R.id.tv_test_service_socket,
                 R.id.tv_test_sf,
-                R.id.tv_scroll_top
+                R.id.tv_scroll_top,
+                R.id.tv_android_socket
         );
     }
 
@@ -127,6 +128,9 @@ public class TestMapActivity extends AppBaseActivity {
                 break;
             case R.id.tv_scroll_top:
                 startActivity(TestScrollTopActivity.class);
+                break;
+            case R.id.tv_android_socket:
+                startActivity(Socket_Android_Activity.class);
                 break;
         }
     }

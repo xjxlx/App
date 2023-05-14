@@ -94,6 +94,9 @@
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
         <activity
+            android:name=".Socket_Android_Activity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.LongTouchActivity"
             android:exported="true">
             <meta-data
@@ -302,21 +305,27 @@
             <!-- 处理文字的Intent 我们需要定义action,  category, 和文字对应的MIME -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/*" />
             </intent-filter>
 
             <!-- 处理单张图片的Intent -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
 
             <!-- 处理多张图片的Intent -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -348,14 +357,17 @@
         <activity android:name=".ui.activity.H5StartNativeTitleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="launch"
                     android:scheme="xjx.app.helper" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -394,6 +406,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
