@@ -2,32 +2,28 @@ package com.android.app.ui.activity.jetpack.navigation.navigation2
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import com.android.app.R
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.AppBaseFragment
-import kotlinx.android.synthetic.main.fragment_navigation2_1.*
+import com.android.app.R
+import com.android.app.databinding.FragmentNavigation21Binding
+import com.android.helper.base.BaseBindingFragment
 
-class Navigation2_Fragment1 : AppBaseFragment() {
+class Navigation2_Fragment1 : BaseBindingFragment<FragmentNavigation21Binding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_navigation2_1
-    }
-
-    override fun initView(view: View?) {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentNavigation21Binding {
+        return FragmentNavigation21Binding.inflate(layoutInflater, container, false)
     }
 
     @SuppressLint("SetTextI18n")
-     override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         arguments?.let {
             val bundle = Navigation2_Fragment3Args.fromBundle(it)
-            tv_navigation2_args_1.text = "获取到的Fragment3的参数为：$bundle"
+            mBinding.tvNavigation2Args1.text = "获取到的Fragment3的参数为：$bundle"
         }
 
-
-        btn_navigation2_jump1.setOnClickListener {
-            val bundle = Navigation2_Fragment1Args.Builder().setAge(12).setName("张三").build().toBundle()
-
+        mBinding.btnNavigation2Jump1.setOnClickListener {
+            val bundle = Navigation2_Fragment1Args("张三", 12).toBundle()
             findNavController().navigate(R.id.action_Fragment1_to_Fragment2, bundle)
         }
     }

@@ -1,55 +1,26 @@
-apply from: "config.gradle"
-
 buildscript {
-
     ext {
         kotlin_version = '1.5.10'
-        navigation = "2.2.2"
+        navigation = "2.2.0"
     }
-
-    repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url 'https://jitpack.io' }
-
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-
     dependencies {
-        //noinspection GradleDependency
-        classpath 'com.android.tools.build:gradle:4.0.2'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
-
+        // navigation 中 safe-agrs 必须放在第一位，否则会出错，真尼玛坑爹
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navigation")
         // 发布JitPack的依赖版本，【3.0+以上用1.5】，【4.1+以上用2.0】，【4.6+以上用2.1】
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // Add this line
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-
-        // navigation 中 safe-agrs
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
         // bugly
         classpath 'com.tencent.bugly:symtabfileuploader:2.2.1'
     }
 }
 
-allprojects {
-    repositories {
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://maven.aliyun.com/repository/central' }
-        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url 'https://jitpack.io' }
-
-        maven { url "https://plugins.gradle.org/m2/" }
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
+plugins {
+    id 'com.android.application' version '7.3.1' apply false
+    id 'com.android.library' version '7.3.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+apply from: "config.gradle"

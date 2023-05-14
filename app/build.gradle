@@ -2,8 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
-    id "androidx.navigation.safeargs"
+    id "androidx.navigation.safeargs.kotlin"
     id 'bugly'
 }
 
@@ -177,7 +176,7 @@ android {
     }
 
     // ndk version
-    ndkVersion ="21.4.7075529"
+    ndkVersion = "21.4.7075529"
 }
 
 // 显示的时间格式，形如20171110
@@ -204,11 +203,13 @@ dependencies {
 
     // 如果使用kotlin："kapt"  如果不使用kotlin:"annotationProcessor"
     kapt configDependencies["room-compiler"]
-    implementation configDependencies["constraintlayout"]
 
     // navigation
-    implementation configDependencies["navigation_fragment"]
-    implementation configDependencies["navigation_ui"]
+    def nav_version = "2.2.0"
+    //noinspection GradleDependency
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    //noinspection GradleDependency
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -1,32 +1,24 @@
 package com.android.app.ui.activity.jetpack.navigation.navigation1
 
-import com.android.app.R
 import android.os.Bundle
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.AppBaseFragment
+import com.android.app.R
+import com.android.app.databinding.Fragment1Binding
+import com.android.helper.base.BaseBindingFragment
 import com.android.helper.utils.LogUtil
-import kotlinx.android.synthetic.main.fragment_1.*
 
-class Fragment1 : AppBaseFragment() {
+class Fragment1 : BaseBindingFragment<Fragment1Binding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_1
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): Fragment1Binding {
+        return Fragment1Binding.inflate(layoutInflater, container, false)
     }
 
-    override fun initView(view: View?) {
-    }
-
-     override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         LogUtil.e("当前是Fragment ---> 1,当前的地址是：${this.hashCode()}")
-        btn_1_2.setOnClickListener {
-
-            val bundle = Fragment1Args.Builder()
-                    .setName("张三")
-                    .setAge(11)
-                    .build()
-                    .toBundle()
-
+        mBinding.btn12.setOnClickListener {
+            val bundle = Fragment1Args("张三", 11).toBundle()
             findNavController().navigate(R.id.action_fragment1_to_fragment2, bundle)
         }
     }

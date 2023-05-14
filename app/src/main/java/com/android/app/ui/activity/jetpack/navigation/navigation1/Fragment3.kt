@@ -1,43 +1,40 @@
 package com.android.app.ui.activity.jetpack.navigation.navigation1
 
-import com.android.app.R
 import android.os.Bundle
-import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.android.helper.base.AppBaseFragment
+import com.android.app.R
+import com.android.app.databinding.Fragment3Binding
+import com.android.helper.base.BaseBindingFragment
 import com.android.helper.utils.LogUtil
-import kotlinx.android.synthetic.main.fragment_3.*
 
-class Fragment3 : AppBaseFragment() {
+class Fragment3 : BaseBindingFragment<Fragment3Binding>() {
 
-    override fun getBaseLayout(): Int {
-        return R.layout.fragment_3
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): Fragment3Binding {
+        return Fragment3Binding.inflate(layoutInflater, container, false)
     }
 
-    override fun initView(view: View?) {
-    }
-
-     override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {
         LogUtil.e("当前是Fragment ---> 3,当前的地址是：${this.hashCode()}")
 
-        btn_3_1.setOnClickListener {
+        mBinding.btn31.setOnClickListener {
             findNavController().navigate(R.id.action_fragment3_to_fragment1)
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LogUtil.e("oncreate ----> ${this.toString()}" )
+        LogUtil.e("oncreate ----> ${this.toString()}")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        LogUtil.e("onDestroyView ----> ${this.toString()}" )
-
+        LogUtil.e("onDestroyView ----> ${this.toString()}")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtil.e("onDestroy ----> ${this.toString()}" )
-
+        LogUtil.e("onDestroy ----> ${this.toString()}")
     }
 }

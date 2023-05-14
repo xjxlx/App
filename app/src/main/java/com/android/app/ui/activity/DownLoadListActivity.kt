@@ -2,21 +2,23 @@ package com.android.app.ui.activity
 
 import android.Manifest
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
-import com.android.helper.base.AppBaseActivity
+import com.android.app.databinding.ActivityDownLoadListBinding
 import com.android.helper.base.recycleview.PlaceholderResource
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.LogUtil
 import com.android.helper.utils.download.Download
 import com.android.helper.utils.permission.RxPermissionsUtil
-import kotlinx.android.synthetic.main.activity_down_load_list.*
 import java.io.File
-import java.util.*
+import java.util.Arrays
 
-class DownLoadListActivity : AppBaseActivity() {
+class DownLoadListActivity : AppBaseBindingTitleActivity<ActivityDownLoadListBinding>() {
 
     private val mList = arrayListOf<Download>()
     private lateinit var file: File
@@ -24,13 +26,19 @@ class DownLoadListActivity : AppBaseActivity() {
         return@lazy FileUtil.getInstance()
     }
 
-    override fun getBaseLayout(): Int {
-        return R.layout.activity_down_load_list
+    override fun setTitleContent(): String {
+        return "带进度条的下载文件"
+    }
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityDownLoadListBinding {
+        return ActivityDownLoadListBinding.inflate(layoutInflater, container, true)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
     }
 
     override fun initView() {
-        RxPermissionsUtil
-            .Builder(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        RxPermissionsUtil.Builder(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
             .setAllPerMissionListener {
                 if (it) {
                     val rootFileForSd = fileUtil.commonTagPath + "/apk"
@@ -47,8 +55,8 @@ class DownLoadListActivity : AppBaseActivity() {
                         mList.add(downLoadBean)
                     }
                     val adapter = DownloadAdapter(mActivity, mList)
-                    rv_download_list.adapter = adapter
-                    rv_download_list.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
+                    mBinding.rvDownloadList.adapter = adapter
+                    mBinding.rvDownloadList.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
                     LogUtil.e(Arrays.toString(mList.toArray()))
                     val placeholder = PlaceholderResource.Builder()
                         .setListEmptyContent("我是测试哈哈哈")
@@ -60,8 +68,5 @@ class DownLoadListActivity : AppBaseActivity() {
             }
             .build()
             .startRequestPermission()
-    }
-
-    override fun initData(savedInstanceState: Bundle?) {
     }
 }

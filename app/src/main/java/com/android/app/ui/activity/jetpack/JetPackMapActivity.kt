@@ -1,7 +1,11 @@
 package com.android.app.ui.activity.jetpack
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.android.app.R
+import com.android.app.databinding.ActivityJetPackMapBinding
 import com.android.app.ui.activity.jetpack.lifecycle.LifecycleActivity
 import com.android.app.ui.activity.jetpack.livedata.LiveDataActivity
 import com.android.app.ui.activity.jetpack.model.ViewModelActivity
@@ -10,33 +14,18 @@ import com.android.app.ui.activity.jetpack.navigation.navigation2.Navigation2Act
 import com.android.app.ui.activity.jetpack.paging.PagingActivity
 import com.android.app.ui.activity.jetpack.room.room1.RoomActivity
 import com.android.app.ui.activity.jetpack.room.room2.Room2Activity
-import android.view.View
-import com.android.helper.base.AppBaseActivity
-import kotlinx.android.synthetic.main.activity_jet_pack_map.*
+import com.android.helper.base.title.AppBaseBindingTitleActivity
 
 /**
  * JetPack的集合
  */
-class JetPackMapActivity : AppBaseActivity() {
-
-    override fun getBaseLayout(): Int {
-        return R.layout.activity_jet_pack_map
-    }
+class JetPackMapActivity : AppBaseBindingTitleActivity<ActivityJetPackMapBinding>() {
 
     override fun initListener() {
         super.initListener()
 
-        setonClickListener(
-            tv_back,
-            tv_lifecycle,
-            tv_view_model,
-            tv_live_date,
-            tv_room,
-            tv_room2,
-            tv_navigation,
-            tv_navigation2,
-            tv_paging
-        )
+        setonClickListener(mBinding.tvBack, mBinding.tvLifecycle, mBinding.tvViewModel, mBinding.tvLiveDate, mBinding.tvRoom,
+            mBinding.tvRoom2, mBinding.tvNavigation, mBinding.tvNavigation2, mBinding.tvPaging)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -84,10 +73,11 @@ class JetPackMapActivity : AppBaseActivity() {
         }
     }
 
-    /**
-     * Activity初始化view
-     */
-    override fun initView() {
+    override fun setTitleContent(): String {
+        return "测试事件分发"
+    }
 
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityJetPackMapBinding {
+        return ActivityJetPackMapBinding.inflate(layoutInflater, container, true)
     }
 }
