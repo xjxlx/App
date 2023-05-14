@@ -93,8 +93,9 @@
         android:testOnly="false"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
+
         <activity
-            android:name=".Socket_Android_Activity"
+            android:name=".test.Socket_Android_Activity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.LongTouchActivity"
