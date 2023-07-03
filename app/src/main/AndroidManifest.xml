@@ -93,17 +93,18 @@
         android:testOnly="false"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
-
         <activity
-            android:name=".ui.activity.widget.CanvasSaveRestoreActivity"
-            android:exported="true"
-            android:label="SaveRestore">
+            android:name=".ui.activity.widget.PostChartActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".ui.activity.widget.CanvasSaveRestoreActivity"
+            android:exported="true"
+            android:label="SaveRestore" />
         <activity
             android:name=".test.Socket_Android_Activity"
             android:exported="false" />
@@ -417,6 +418,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

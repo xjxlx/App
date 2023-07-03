@@ -30,7 +30,7 @@ class ViewMapTitleActivity : AppBaseBindingTitleActivity<ActivityViewMapBinding>
             R.id.tv_custom_input_password, R.id.tv_scroll_view, R.id.tv_page_view, R.id.tv_test_hm, R.id.tv_custom_menu,
             R.id.tv_custom_name_list, R.id.tv_custom_viewpager, R.id.tv_custom_round_2, R.id.tv_custom_page_list, R.id.tv_custom_charging,
             R.id.tv_custom_number_scroll, R.id.tv_custom_breathing, R.id.tv_custom_viewpager2, R.id.tv_custom_yh, R.id.tv_custom_menu2,
-            R.id.tv_custom_canvas_savere_storeview)
+            R.id.tv_custom_canvas_save_restoreview, R.id.tv_custom_post_chart)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -64,7 +64,8 @@ class ViewMapTitleActivity : AppBaseBindingTitleActivity<ActivityViewMapBinding>
             R.id.tv_custom_breathing -> startActivity(CustomBreathingViewActivity::class.java)
             R.id.tv_custom_viewpager2 -> startActivity(ViewPager2Activity::class.java)
             R.id.tv_custom_yh -> startActivity(CustomYhActivity::class.java)
-            R.id.tv_custom_canvas_savere_storeview -> startActivity(CanvasSaveRestoreActivity::class.java)
+            R.id.tv_custom_canvas_save_restoreview -> startActivity(CanvasSaveRestoreActivity::class.java)
+            R.id.tv_custom_post_chart -> startActivity(PostChartActivity::class.java)
         }
     }
 }
