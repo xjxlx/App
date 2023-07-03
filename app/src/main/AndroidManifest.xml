@@ -95,6 +95,10 @@
         tools:targetApi="n">
 
         <activity
+            android:name=".ui.activity.widget.CanvasSaveRestoreActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".test.Socket_Android_Activity"
             android:exported="false" />
         <activity
