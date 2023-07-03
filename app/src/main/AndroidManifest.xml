@@ -96,7 +96,13 @@
 
         <activity
             android:name=".ui.activity.widget.CanvasSaveRestoreActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:label="SaveRestore">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".test.Socket_Android_Activity"
@@ -411,7 +417,6 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
