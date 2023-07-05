@@ -25,7 +25,7 @@ public class ZmqUtil {
         initServiceSocket();
 
         final String tcp = TCP.getTcp();
-        if (tcp.length() <= 0) {
+        if (tcp.length() == 0) {
             System.out.println("tcp is empty！");
         }
         System.out.println("tcp is : " + tcp);
