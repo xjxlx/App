@@ -41,7 +41,7 @@ public class ServiceSocketActivity extends AppBaseBindingTitleActivity<ActivityS
     private Socket mSocket;
     private BufferedReader mBufferedReader;
     private PrintStream mPrintStream;
-    private final int port = 9999;// 端口号
+    private final int port = 19716;// 端口号
     private final String encoding = "UTF-8";
     private boolean flag = true;
     private final StringBuffer mStringBuffer = new StringBuffer();

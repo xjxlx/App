@@ -26,7 +26,7 @@ import java.net.Socket;
 
 public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySocketClientBinding> {
 
-    private final int port = 9999;// 端口号
+    private final int port = 19716;// 端口号
     private final String encoding = "UTF-8";
     private final StringBuffer mStringBuffer = new StringBuffer();
     private BufferedReader mClientBufferedReader; // 客户端的读取数据流
