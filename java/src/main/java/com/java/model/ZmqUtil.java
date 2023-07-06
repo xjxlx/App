@@ -11,10 +11,13 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.zeromq.ZContext;
+
 public class ZmqUtil {
 
     private static final String encoding = "UTF-8";
-    private static ZMQ.Context mContext = null;
+    //    private static ZMQ.Context mContext = null;
+    private static ZContext mContext = null;
     private static ZMQ.Socket mZmqSocket = null;
     private static ServerSocket mServerSocket = null;
     private static PrintStream mPrintStream;
@@ -32,7 +35,7 @@ public class ZmqUtil {
 
         if (tcp.length() > 0) {
             try {
-                mContext = ZMQ.context(1);
+                mContext = new ZContext(1);
                 System.out.println("zmq --- context create success ! ");
             } catch (Exception e) {
                 System.out.println("zmq --- context create error: " + e.getMessage());
@@ -40,7 +43,8 @@ public class ZmqUtil {
 
             try {
                 if (mContext != null) {
-                    mZmqSocket = mContext.socket(SocketType.PAIR);
+                    mContext.createSocket(SocketType.PAIR);
+//                    mZmqSocket = mContext.socket(SocketType.PAIR);
                     System.out.println("zmq --- socket create success ! ");
                 }
             } catch (Exception e) {
@@ -57,15 +61,12 @@ public class ZmqUtil {
 
                             if (mContext != null) {
                                 System.out.println("start receiver data ...");
-                                while (!mContext.isTerminated()) {
+                                while (!Thread.currentThread().isInterrupted()) {
                                     byte[] recv = mZmqSocket.recv(0);
                                     if (recv != null) {
-                                        try {
-                                            String content = new String(recv, "UTF-8");
-                                            sendSocket(content);
-                                        } catch (UnsupportedEncodingException e) {
-                                            System.out.println("convert error : " + e.getMessage());
-                                        }
+                                        String content = new String(recv, ZMQ.CHARSET);
+                                        System.out.println("content : " + content);
+                                        sendSocket(content);
                                     }
                                 }
                             }
@@ -83,7 +84,7 @@ public class ZmqUtil {
             @Override
             public void run() {
                 try {
-                    mServerSocket = new ServerSocket(9998);
+                    mServerSocket = new ServerSocket(6666);
                     while (true) {
                         // 等待客户端连接，阻塞线程
                         System.out.println("开始阻塞线程，等待客户端链接 ~~~~~~~！");
