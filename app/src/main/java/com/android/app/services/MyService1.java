@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.ServiceUtil;
 
 public class MyService1 extends Service {

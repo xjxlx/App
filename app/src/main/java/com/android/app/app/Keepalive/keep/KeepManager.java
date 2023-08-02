@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 
 import java.lang.ref.WeakReference;
 

@@ -1,15 +1,15 @@
 package com.android.app.adapters;
 
 import android.app.Activity;
-import com.android.app.R;
-import com.android.app.bean.ExpandableBean;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.app.R;
+import com.android.app.bean.ExpandableBean;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseExpandableAdapter;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.TextViewUtil;
 
 import java.util.List;

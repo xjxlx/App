@@ -2,7 +2,8 @@ package com.android.app.ui.activity.jetpack.model;
 
 import androidx.lifecycle.ViewModel;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
+
 
 public class TestViewModel extends ViewModel {
 

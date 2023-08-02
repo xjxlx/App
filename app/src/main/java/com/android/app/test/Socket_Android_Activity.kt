@@ -3,7 +3,8 @@ package com.android.app.test
 import android.os.Bundle
 import android.util.Log
 import com.android.app.R
-import com.android.apphelper2.utils.LogUtil
+import com.android.common.utils.LogUtil
+
 import com.android.helper.base.AppBaseActivity
 import java.io.DataInputStream
 import java.io.DataOutputStream

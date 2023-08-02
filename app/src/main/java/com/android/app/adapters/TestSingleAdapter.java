@@ -8,9 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.databinding.ItemTestAdapterBinding;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseBindingVH;
 import com.android.helper.base.recycleview.BaseBindingRecycleAdapter;
-import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
 

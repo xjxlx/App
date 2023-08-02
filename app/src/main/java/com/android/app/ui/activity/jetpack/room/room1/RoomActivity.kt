@@ -10,26 +10,25 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.android.app.R
 import com.android.app.databinding.ActivityRoomBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.interfaces.room.RoomDeleteListener
 import com.android.helper.interfaces.room.RoomInsertListener
 import com.android.helper.interfaces.room.RoomQueryListener
 import com.android.helper.interfaces.room.RoomUpdateListener
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ToastUtil
 import com.android.helper.utils.room.RoomUtil
 import com.android.helper.utils.room.SQLEntity
 
 /**
- * room数据库的使用
- * 使用逻辑：
+ * room数据库的使用 使用逻辑：
+ * ```
  *      一：Entity注解类： entity： [ˈentəti] 嗯特忒
  *         1：创建一个文件，使用entity去注解，标记为一个数据库为实体类,所有的字段都在表中存储着
  *
  *      二：创建数据库的操作方法，使用@Dao去注解
- *
+ * ```
  * 使用的好处：
- *
  */
 class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
 
@@ -48,8 +47,7 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
             mBinding.btnDatabaseUpdate, mBinding.btnDatabaseUpdateInsert, mBinding.btnDatabaseUpdate, mBinding.btnDatabaseUpdateDataInsert)
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-    }
+    override fun initData(savedInstanceState: Bundle?) {}
 
     override fun onClick(v: View?) {
         super.onClick(v)
@@ -69,7 +67,6 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                     }
                 })
             }
-
             R.id.btn_add_list -> {
                 val room = RoomEntityTest()
                 room.uid = System.currentTimeMillis()
@@ -79,7 +76,6 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                 val insert = roomManager.daoTest.insert(room)
                 LogUtil.e("insert:" + insert)
             }
-
             R.id.btn_delete_single -> {
                 val room = RoomEntity1()
                 room.id = 1624340340101
@@ -93,14 +89,12 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                     }
                 })
             }
-
             R.id.btn_delete_list -> {
                 val room = RoomEntityTest()
                 room.uid = "1624350446562"
                 val delete = roomManager.daoTest.delete(room)
                 LogUtil.e("delete:" + delete)
             }
-
             R.id.btn_update_id -> {
                 val room = RoomEntity1()
                 room.id = 1624340347931
@@ -116,10 +110,7 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                     }
                 })
             }
-
-            R.id.btn_update_entity -> {
-            }
-
+            R.id.btn_update_entity -> {}
             R.id.btn_query_single -> {
                 mRoomUtil.query(object : RoomQueryListener<RoomEntity1> {
                     override fun query(): RoomEntity1 {
@@ -131,12 +122,11 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                     }
                 })
             }
-
             R.id.btn_query_all -> {
                 val list = roomManager.dao1.roomQuery()
                 ToastUtil.show("查询列表成功：$list")
             }
-            /****************************** LiveData ***************************/
+            /** **************************** LiveData */
             // 增加
             R.id.btn_live_data_install -> {
                 val room = RoomEntityLiveData()
@@ -157,7 +147,6 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                 val roomDelete = roomManager.liveData.roomDelete(list)
                 LogUtil.e("delete:$roomDelete")
 
-
                 ToastUtil.show("删除成功：$$roomDelete")
             }
             // 更新
@@ -177,7 +166,6 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                 val roomQuery = roomManager.liveData.roomQuery(1624199401956)
                 ToastUtil.show("查询成功：${roomQuery}")
             }
-
             R.id.btn_rxjava -> {
                 // rxjava 的查询
                 mRoomUtil.insert(object : RoomInsertListener {
@@ -194,44 +182,44 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                     }
                 })
             }
-
             R.id.btn_database_update -> {
                 LogUtil.e("重新构建了对象!")
-//                val migration = object : Migration(3, 4) {
-//                    override fun migrate(database: SupportSQLiteDatabase) {
-//
-//                        val version = database.version
-//
-//                        LogUtil.e("version:$version")
-//
-//                        val sql = mRoomUtil.addColumn("room_test", "time", RoomUtil.UNIT.TEXT)
-//
-//                        database.execSQL(sql)
-//
-//                    }
-//                }
+                //                val migration = object : Migration(3, 4) {
+                //                    override fun migrate(database: SupportSQLiteDatabase) {
+                //
+                //                        val version = database.version
+                //
+                //                        LogUtil.e("version:$version")
+                //
+                //                        val sql = mRoomUtil.addColumn("room_test", "time",
+                // RoomUtil.UNIT.TEXT)
+                //
+                //                        database.execSQL(sql)
+                //
+                //                    }
+                //                }
                 // 数据库更新
-//                versionRoom = Room
-//                        .databaseBuilder(mContext, RoomDataBaseHelper::class.java, RoomDataBaseHelper.ROOM_DB_NAME)
-////                        .addMigrations(migration)
-//                        .build()
+                //                versionRoom = Room
+                //                        .databaseBuilder(mContext, RoomDataBaseHelper::class.java,
+                // RoomDataBaseHelper.ROOM_DB_NAME)
+                ////                        .addMigrations(migration)
+                //                        .build()
             }
-
             R.id.btn_database_update_insert -> {
-//                val room = RoomEntityTest()
-//                room.uid = System.currentTimeMillis().toString()
-//                room.name = "哈哈"
-//
-//                mRoomUtil.insert(object : RoomInsertListener {
-//                    override fun insert(): Long {
-//                        return versionRoom?.daoTest!!.insert(room)
-//                    }
-//
-//                    override fun onResult(success: Boolean, id: Long, errorMsg: String?) {
-//
-//                        ToastUtil.show("插入成功：$success  插入的对象：$id  错误的原因：$errorMsg")
-//                    }
-//                })
+                //                val room = RoomEntityTest()
+                //                room.uid = System.currentTimeMillis().toString()
+                //                room.name = "哈哈"
+                //
+                //                mRoomUtil.insert(object : RoomInsertListener {
+                //                    override fun insert(): Long {
+                //                        return versionRoom?.daoTest!!.insert(room)
+                //                    }
+                //
+                //                    override fun onResult(success: Boolean, id: Long, errorMsg: String?) {
+                //
+                //                        ToastUtil.show("插入成功：$success  插入的对象：$id  错误的原因：$errorMsg")
+                //                    }
+                //                })
             }
             // 增加数据库表格
             R.id.btn_database_update_data -> {
@@ -245,9 +233,10 @@ class RoomActivity : AppBaseBindingTitleActivity<ActivityRoomBinding>() {
                     override fun migrate(database: SupportSQLiteDatabase) {
                         val version = database.version
                         LogUtil.e("version ----->:$version  ")
-//                        database.execSQL(createTable)
+                        //                        database.execSQL(createTable)
                         //  添加新的表
-//                        database.execSQL("CREATE TABLE IF NOT EXISTS Book (bookName TEXT, studentId TEXT, bookId PRIMARY KEY )");
+                        //                        database.execSQL("CREATE TABLE IF NOT EXISTS Book
+                        // (bookName TEXT, studentId TEXT, bookId PRIMARY KEY )");
                         database.execSQL(
                             "CREATE TABLE IF NOT EXISTS 'room_3'('id' INTEGER,'name' TEXT NOT NULL DEFAULT '','age'INTEGER  ) ")
                     }

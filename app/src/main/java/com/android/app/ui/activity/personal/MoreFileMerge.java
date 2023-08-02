@@ -2,9 +2,9 @@ package com.android.app.ui.activity.personal;
 
 import android.annotation.SuppressLint;
 
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.ConvertUtil;
 import com.android.helper.utils.FileUtil;
-import com.android.helper.utils.LogUtil;
 
 import java.io.File;
 import java.io.FileReader;
@@ -26,6 +26,7 @@ public class MoreFileMerge {
 
     private final File rootFileForSd = FileUtil.getInstance().getRootFileForSd();
     private final List<String> mListPath = new ArrayList<>();
+    private FileWriter mOut;
 
     @SuppressLint("CheckResult")
     public void main() {
@@ -92,8 +93,6 @@ public class MoreFileMerge {
         }
     }
 
-    private FileWriter mOut;
-
     private void write(File file) {
         if ((file != null)) {
             FileReader mFileReader = null;
@@ -108,7 +107,7 @@ public class MoreFileMerge {
                 mOut.write("\r\n");
                 mOut.write("\r\n");
 
-                //刷新IO内存流
+                // 刷新IO内存流
                 mOut.flush();
 
                 LogUtil.e("当前写入的文件是：" + file.getName());
@@ -118,7 +117,7 @@ public class MoreFileMerge {
                 LogUtil.e("数据写入异常：" + e.getMessage());
             } finally {
                 try {
-                    //关闭
+                    // 关闭
                     if (mFileReader != null) {
                         mFileReader.close();
                     }

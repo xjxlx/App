@@ -3,7 +3,6 @@ package com.android.app.widget.hm;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,9 +10,10 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.customview.widget.ViewDragHelper;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseViewGroup;
 import com.android.helper.utils.ColorUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 public class ScrollHelperLayout extends BaseViewGroup {
@@ -21,15 +21,13 @@ public class ScrollHelperLayout extends BaseViewGroup {
     private View readView;
     private View blueView;
     private ViewDragHelper mViewDragHelper;
-    private int mChildCount;
-
     private final ViewDragHelper.Callback mCallback = new ViewDragHelper.Callback() {
         // 哪一个view可以被移动
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
-            //不返回true就不会被移动
-            //如果这里有多个View的话，返回值改变成 return child == mDragView1;
-            //那么只有MDragView1可以被拖拽，其他View不能
+            // 不返回true就不会被移动
+            // 如果这里有多个View的话，返回值改变成 return child == mDragView1;
+            // 那么只有MDragView1可以被拖拽，其他View不能
             return true;
         }
 
@@ -96,9 +94,11 @@ public class ScrollHelperLayout extends BaseViewGroup {
 
             // 让两个view保持同步移动
             if (changedView == blueView) {
-                readView.layout(readView.getLeft() + dx, readView.getTop() + dy, readView.getRight() + dx, readView.getBottom() + dy);
+                readView.layout(readView.getLeft() + dx, readView.getTop() + dy, readView.getRight() + dx,
+                        readView.getBottom() + dy);
             } else if (changedView == readView) {
-                blueView.layout(blueView.getLeft() + dx, blueView.getTop() + dy, blueView.getRight() + dx, blueView.getBottom() + dy);
+                blueView.layout(blueView.getLeft() + dx, blueView.getTop() + dy, blueView.getRight() + dx,
+                        blueView.getBottom() + dy);
             }
 
             // 计算比例
@@ -151,11 +151,7 @@ public class ScrollHelperLayout extends BaseViewGroup {
             return super.onEdgeLock(edgeFlags);
         }
     };
-
-    private void startAnimation(float percent) {
-        // ViewHelper.setRotationY(readView, percent * 360);
-        readView.setBackgroundColor(ColorUtil.evaluateColor(percent, Color.RED, Color.BLUE));
-    }
+    private int mChildCount;
 
     public ScrollHelperLayout(Context context) {
         super(context);
@@ -163,6 +159,11 @@ public class ScrollHelperLayout extends BaseViewGroup {
 
     public ScrollHelperLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    private void startAnimation(float percent) {
+        // ViewHelper.setRotationY(readView, percent * 360);
+        readView.setBackgroundColor(ColorUtil.evaluateColor(percent, Color.RED, Color.BLUE));
     }
 
     @Override
@@ -212,7 +213,8 @@ public class ScrollHelperLayout extends BaseViewGroup {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // 2.2 把viewDragHelper 交给touchEvent去使用，让viewDragHelper去实际的处理事件，但是这里必须返回为true，不然不会去执行
+        // 2.2 把viewDragHelper
+        // 交给touchEvent去使用，让viewDragHelper去实际的处理事件，但是这里必须返回为true，不然不会去执行
         mViewDragHelper.processTouchEvent(event);
         return true;
     }

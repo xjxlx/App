@@ -3,8 +3,6 @@ package com.android.app.ui.activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import com.android.app.R;
-import com.android.app.databinding.ActivityFaceVideoPlayerBinding;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -13,8 +11,10 @@ import android.view.View;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.android.app.R;
+import com.android.app.databinding.ActivityFaceVideoPlayerBinding;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 /**

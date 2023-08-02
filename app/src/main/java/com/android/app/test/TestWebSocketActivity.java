@@ -12,8 +12,8 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

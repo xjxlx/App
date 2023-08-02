@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.Proxy.ProxyInterface;
 import com.android.helper.utils.Proxy.ProxyUtil;
 
@@ -84,7 +84,7 @@ public class TestHandlerActivity extends AppBaseActivity implements ProxyInterfa
                 case 123:
                     mList.add("123");
 
-                    LogUtil.write("蓝牙数据", "我是测试数据：" + (++position));
+                    LogUtil.write("我是测试数据：" + (++position));
 
                     Message message = mHandler.obtainMessage();
                     message.what = 123;

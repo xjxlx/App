@@ -16,9 +16,9 @@ import androidx.core.app.NotificationCompat;
 
 import com.android.app.R;
 import com.android.app.ui.activity.java.JavaMapActivity;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.AssetsUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.media.audio.AudioConstant;
@@ -101,7 +101,8 @@ public class AudioPlayerActivity extends AppBaseActivity {
             playerUtil.setStartButton(mIvStart);
             playerUtil.setNotificationSmallIcon(R.mipmap.ic_launcher);
             playerUtil.setPendingIntentActivity(JavaMapActivity.class);
-            playerUtil.setNotificationIcon(R.drawable.icon_music_start, R.drawable.icon_music_pause, R.drawable.icon_music_left, R.drawable.icon_music_right);
+            playerUtil.setNotificationIcon(R.drawable.icon_music_start, R.drawable.icon_music_pause,
+                    R.drawable.icon_music_left, R.drawable.icon_music_right);
             playerUtil.setNotificationList(list);
             playerUtil.setAudioCallBackListener(audioPlayerCallBackListener);
         });
@@ -177,22 +178,22 @@ public class AudioPlayerActivity extends AppBaseActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mActivity, id);
         builder.setSmallIcon(R.mipmap.ic_launcher);// 设置小图标
         builder.setContentTitle("这是一个测试类！");// 设置测试类
-        builder.setContentText("Hello World！");   //  设置内容
-        builder.setChannelId(id);                  //  设置渠道
+        builder.setContentText("Hello World！"); // 设置内容
+        builder.setChannelId(id); // 设置渠道
 
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);// 7.0新特性-设置优先级
 
         // 声音
         // 默认的声音
-//        builder.setDefaults(Notification.DEFAULT_SOUND);
+        // builder.setDefaults(Notification.DEFAULT_SOUND);
 
-        //设置声音循环播放
-//        builder.setDefaults(Notification.FLAG_INSISTENT);
+        // 设置声音循环播放
+        // builder.setDefaults(Notification.FLAG_INSISTENT);
         builder.setLights(Color.GREEN, 1000, 1000);
         // 设置是否可以触摸取消
         builder.setAutoCancel(true);
         // 全部默认
-//        builder.setDefaults(Notification.DEFAULT_ALL);
+        // builder.setDefaults(Notification.DEFAULT_ALL);
 
         Notification notification = builder.build();
         // 发送通知

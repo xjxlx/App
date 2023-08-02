@@ -2,32 +2,6 @@ package com.android.app.app.Keepalive;
 
 import static com.android.helper.common.CommonConstants.FILE_LIFECYCLE_NAME;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.jetbrains.annotations.NotNull;
-
-import com.android.app.R;
-import com.android.app.app.App;
-import com.android.app.databinding.ActivityAppLifecycleBinding;
-import com.android.helper.base.BaseBindingActivity;
-import com.android.helper.common.CommonConstants;
-import com.android.helper.common.EventMessage;
-import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.LogWriteUtil;
-import com.android.helper.utils.RecycleUtil;
-import com.android.helper.utils.ServiceUtil;
-import com.android.helper.utils.SystemUtil;
-import com.android.helper.utils.ToastUtil;
-import com.android.helper.utils.permission.RxPermissionsUtil;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -38,6 +12,30 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.android.app.R;
+import com.android.app.app.App;
+import com.android.app.databinding.ActivityAppLifecycleBinding;
+import com.android.common.utils.LogUtil;
+import com.android.common.utils.LogWriteUtil;
+import com.android.helper.base.BaseBindingActivity;
+import com.android.helper.common.CommonConstants;
+import com.android.helper.common.EventMessage;
+import com.android.helper.utils.RecycleUtil;
+import com.android.helper.utils.ServiceUtil;
+import com.android.helper.utils.SystemUtil;
+import com.android.helper.utils.ToastUtil;
+import com.android.helper.utils.permission.RxPermissionsUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * App保活
@@ -86,12 +84,12 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
         mAppLifecycleAdapter = new AppLifecycleAdapter(mActivity);
         RecycleUtil.getInstance(mActivity, mBinding.rvLogList).setVertical().setAdapter(mAppLifecycleAdapter);
 
-        mWriteUtil = new LogWriteUtil();
-        List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
-        if (read != null && read.size() > 0) {
-            Collections.reverse(read);
-            mAppLifecycleAdapter.setList(read);
-        }
+        mWriteUtil = new LogWriteUtil(FILE_LIFECYCLE_NAME);
+//        List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
+//        if (read != null && read.size() > 0) {
+//            Collections.reverse(read);
+//            mAppLifecycleAdapter.setList(read);
+//        }
 
         mDeviceAdapter = new DeviceAdapter(mActivity);
         RecycleUtil.getInstance(mActivity, mBinding.rvBluetoothList).setVertical().setAdapter(mDeviceAdapter);
@@ -123,11 +121,11 @@ public class AppLifecycleActivity extends BaseBindingActivity<ActivityAppLifecyc
                 boolean serviceRunning = ServiceUtil.isServiceRunning(mActivity, AppLifecycleService.class);
                 ToastUtil.show("刷新数据 ：" + serviceRunning);
 
-                List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
-                if (read != null && read.size() > 0) {
-                    Collections.reverse(read);
-                    mAppLifecycleAdapter.setList(read);
-                }
+//                List<String> read = mWriteUtil.read(FILE_LIFECYCLE_NAME);
+//                if (read != null && read.size() > 0) {
+//                    Collections.reverse(read);
+//                    mAppLifecycleAdapter.setList(read);
+//                }
                 break;
 
             case R.id.bt_show_bluetooth:

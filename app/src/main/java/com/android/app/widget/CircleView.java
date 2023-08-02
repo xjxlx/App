@@ -10,19 +10,18 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 
 /**
  * 绘制一个运动的圆圈
  */
 public class CircleView extends View {
 
-    private float mStrokeWidth = 0;
-
     private final float mStartAngle = 270f; // 开始的角度
-    private float mChangeAngle = 0f; // 动态改变的角度
     private final RectF mRectF;
     private final Paint mPaint;
+    private float mStrokeWidth = 0;
+    private float mChangeAngle = 0f; // 动态改变的角度
     private StatusChangeListener mStatusChangeListener;
     private int mMeasuredWidth;
     private int mMeasuredHeight;

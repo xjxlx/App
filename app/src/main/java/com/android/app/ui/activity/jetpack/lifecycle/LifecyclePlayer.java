@@ -3,10 +3,10 @@ package com.android.app.ui.activity.jetpack.lifecycle;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
+import com.android.common.utils.LogUtil;
 import com.android.helper.interfaces.TagListener;
-import com.android.helper.utils.ClassUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.interfaces.lifecycle.BaseLifecycleObserver;
+import com.android.helper.utils.ClassUtil;
 
 import java.io.IOException;
 

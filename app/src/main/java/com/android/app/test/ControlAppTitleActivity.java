@@ -22,8 +22,8 @@ import com.android.app.adapters.AppInfoAdapter;
 import com.android.app.bean.AppInfoBean;
 import com.android.app.databinding.ActivityControlAppBinding;
 import com.android.app.services.LookDogService;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.permission.RxPermissionsUtil;
 
 import java.util.ArrayList;

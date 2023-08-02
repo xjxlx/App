@@ -6,13 +6,13 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
 import com.android.app.BuildConfig;
 import com.android.app.R;
-import com.android.apphelper2.app.AppHelperManager;
+import com.android.apphelper2.app.AppHelper2;
+import com.android.common.utils.LogUtil;
 import com.android.helper.app.ApplicationInterface;
 import com.android.helper.app.BaseApplication;
 import com.android.helper.base.title.PageLayoutBuilder;
 import com.android.helper.base.title.PageLayoutManager;
 import com.android.helper.httpclient.AutoInterceptor;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ScreenUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -31,7 +31,7 @@ public class App extends Application {
         super.onCreate();
         mApp = this;
 
-        AppHelperManager.init(this,true);
+        AppHelper2.init(this, new AppHelper2.Builder());
 
         BaseApplication
                 .getInstance()

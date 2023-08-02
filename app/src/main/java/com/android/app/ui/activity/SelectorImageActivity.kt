@@ -4,8 +4,8 @@ import android.Manifest
 import android.os.Bundle
 import android.view.View
 import com.android.app.R
+import com.android.common.utils.LogUtil
 import com.android.helper.base.AppBaseActivity
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.permission.RxPermissionsUtil
 import com.android.helper.utils.photo.GlideUtil
 import com.android.selector.interfaces.PhotoCallBackListener

@@ -14,13 +14,15 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 
 /**
  * 自定义放射动画
  */
 public class RadialGradientView extends View {
 
+    // 环形渐变渲染
+    Shader mRadialGradient = null;
     private int COLOR_GREEN = 0xff153925;
     private int COLOR_BLUER = 0xFF35D2FF;
     private Paint mPaint = new Paint();
@@ -33,9 +35,6 @@ public class RadialGradientView extends View {
     private int mBottomMultiple;
     private int[] mIntArray; // 边距的数组
     private float mLeft, mRight, mTop, mBottom;
-
-    // 环形渐变渲染
-    Shader mRadialGradient = null;
 
     public RadialGradientView(Context context) {
         super(context);
@@ -61,7 +60,7 @@ public class RadialGradientView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         // 自动根据模式去测量需要的值
-        // resolveSize： 根据传入的size  和 测量模式，去精准的测量view的宽高
+        // resolveSize： 根据传入的size 和 测量模式，去精准的测量view的宽高
         // resolveSize(int size, int measureSpec)
         // size:一般用MeasureSpec.getSize() 去获取默认的size
 
@@ -83,7 +82,7 @@ public class RadialGradientView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        canvas.save();
+        // canvas.save();
 
         // 设置默认的边距，这个地方是为了适配车辆不一样党课大小所特意设置的
         mLeftMultiple = 10;
@@ -104,7 +103,7 @@ public class RadialGradientView extends View {
         RectF rect = new RectF(mLeft, mTop, mRight, mBottom);
         canvas.drawOval(rect, mPaint);
 
-//        canvas.restore();
+        // canvas.restore();
     }
 
     public float getProgress() {

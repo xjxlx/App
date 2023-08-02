@@ -6,10 +6,10 @@ import android.view.View;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityWriteXmlBinding;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.DateUtil;
 import com.android.helper.utils.FileUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.XmlUtil;
 import com.android.helper.utils.permission.RxPermissionsUtil;
 

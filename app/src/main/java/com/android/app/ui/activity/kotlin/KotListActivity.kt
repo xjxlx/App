@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.collection.arrayMapOf
 import androidx.collection.arraySetOf
 import com.android.app.databinding.ActivityKotListBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 import kotlin.String as String1
 
 class KotListActivity : AppBaseBindingTitleActivity<ActivityKotListBinding>() {
@@ -71,48 +71,36 @@ class KotListActivity : AppBaseBindingTitleActivity<ActivityKotListBinding>() {
             LogUtil.e("item:$item")
         }
 
-        of.forEach { it ->
-            LogUtil.e("item forEach:$it")
-        }
+        of.forEach { it -> LogUtil.e("item forEach:$it") }
 
-        of.forEachIndexed { index, item ->
-            LogUtil.e("item forEachIndexed: index:$index  item： $item")
-        }
+        of.forEachIndexed { index, item -> LogUtil.e("item forEachIndexed: index:$index  item： $item") }
 
         val arrayListOf1 = arrayListOf<kotlin.String>()
-//        arrayListOf1.add("1")
-//        arrayListOf1.add("2")
-//        arrayListOf1.add("3")
-//        arrayListOf1.add("4")
-//        arrayListOf1.add("5")
+        //        arrayListOf1.add("1")
+        //        arrayListOf1.add("2")
+        //        arrayListOf1.add("3")
+        //        arrayListOf1.add("4")
+        //        arrayListOf1.add("5")
 
         arrayListOf1.add("赵")
         arrayListOf1.add("钱")
         arrayListOf1.add("孙")
         arrayListOf1.add("李")
 
-        arrayListOf1.forEach {
-            LogUtil.e("forEach ---> 普通:$it")
-        }
+        arrayListOf1.forEach { LogUtil.e("forEach ---> 普通:$it") }
 
         // 反转
-        arrayListOf1.reverse();
+        arrayListOf1.reverse()
 
-        arrayListOf1.forEach {
-            LogUtil.e("forEach ---> reverse:$it")
-        }
+        arrayListOf1.forEach { LogUtil.e("forEach ---> reverse:$it") }
 
         // 随机排序
         arrayListOf1.shuffle()
-        arrayListOf1.forEach {
-            LogUtil.e("forEach ---> shuffle:$it")
-        }
+        arrayListOf1.forEach { LogUtil.e("forEach ---> shuffle:$it") }
 
         // 从小到大
         arrayListOf1.sort()
-        arrayListOf1.forEach {
-            LogUtil.e("forEach ---> sort:$it")
-        }
+        arrayListOf1.forEach { LogUtil.e("forEach ---> sort:$it") }
 
         Person().test1(1)
 
@@ -139,9 +127,7 @@ class KotListActivity : AppBaseBindingTitleActivity<ActivityKotListBinding>() {
         foo1(1, 2, str2 = 3)
     }
 
-    public fun test3(a: Int = 3) {
-
-    }
+    public fun test3(a: Int = 3) {}
 
     class Person {
 
@@ -149,9 +135,7 @@ class KotListActivity : AppBaseBindingTitleActivity<ActivityKotListBinding>() {
             return "abc"
         }
 
-        public fun test1(a: Int) {
-
-        }
+        public fun test1(a: Int) {}
 
         companion object {
 
@@ -171,8 +155,5 @@ class KotListActivity : AppBaseBindingTitleActivity<ActivityKotListBinding>() {
     //    具名参数
     private fun foo(bar: Int = 0, baz: Int = 1, qux: () -> String1) {}
 
-    private fun foo1(vararg str: Int, str2: Int) {
-
-    }
-
+    private fun foo1(vararg str: Int, str2: Int) {}
 }

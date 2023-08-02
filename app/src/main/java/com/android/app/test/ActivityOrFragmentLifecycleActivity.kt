@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityOrFragmentLifecycleBinding
 import com.android.app.test.fragment.ActivityOrFragmentFragment
+import com.android.common.utils.LogUtil
 import com.android.helper.base.BaseBindingActivity
 import com.android.helper.utils.FragmentUtil
-import com.android.helper.utils.LogUtil
 
 /**
  * activity 和 fragment 生命周期的监听

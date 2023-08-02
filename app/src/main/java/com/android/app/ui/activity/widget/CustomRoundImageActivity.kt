@@ -8,8 +8,8 @@ import androidx.annotation.RequiresApi
 import com.android.app.R
 import com.android.app.app.App
 import com.android.app.databinding.ActivityCustomRoundImageBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.SystemUtil
 import com.android.helper.utils.photo.GlideUtil
 
@@ -31,10 +31,10 @@ class CustomRoundImageActivity : AppBaseBindingTitleActivity<ActivityCustomRound
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initData(savedInstanceState: Bundle?) {
-        val url1 = "http://file.jollyeng.com/picture_book/201805/When I grow up.png";
-        val url = "http://file.jollyeng.com/picture_book/201809/1537253778.png";
-        val url3 = "http://file.jollyeng.com/picture_book/201809/1537253778.png";
-        val url4 = "http://file.jollyeng.com/wan/baby_pic/20200903/1599115743677-2020-09-03ios_file";
+        val url1 = "http://file.jollyeng.com/picture_book/201805/When I grow up.png"
+        val url = "http://file.jollyeng.com/picture_book/201809/1537253778.png"
+        val url3 = "http://file.jollyeng.com/picture_book/201809/1537253778.png"
+        val url4 = "http://file.jollyeng.com/wan/baby_pic/20200903/1599115743677-2020-09-03ios_file"
 
         mBinding.btnStart.setOnClickListener { view ->
             glideUtil.loadUrl(mBinding.rvImage, url4)

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.android.app.R
 import com.android.app.databinding.Fragment3Binding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.BaseBindingFragment
-import com.android.helper.utils.LogUtil
 
 class Fragment3 : BaseBindingFragment<Fragment3Binding>() {
 

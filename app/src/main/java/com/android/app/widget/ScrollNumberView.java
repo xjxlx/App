@@ -17,44 +17,39 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.ConvertUtil;
-import com.android.helper.utils.LogUtil;
 
 import java.util.HashMap;
 
 public class ScrollNumberView extends View {
 
-    private String TAG = "NumberTouch";
     private final String[] mNumbers = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20"};
-
     private final RectF mCenterRect = new RectF();
-    private float mMaxWidth;
-    private float mMaxHeight;
     private final float mRoundRectWidth = ConvertUtil.toPx(135);
     private final float mRoundRectHeight = ConvertUtil.toPx(135);
     private final float minuteInterval = ConvertUtil.toPx(35);
     private final float mNumberInterval = ConvertUtil.toPx(50);
     private final Paint mPaintCenterRect = new Paint();
     private final Paint mPaintCenterRectLine = new Paint();
-
     private final Paint mPaintNumber = new Paint();
     private final float mNumberMinSize = 40;
     private final float mNumberMaxSize = 100;
     private final float mSizeRate = 0.23f;
+    private final String minute = "分钟";
+    private final int[] mColors = new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT,
+            Color.TRANSPARENT};
+    private final HashMap<String, Point> mMapPoint = new HashMap<>();
+    private String TAG = "NumberTouch";
+    private float mMaxWidth;
+    private float mMaxHeight;
     private int mSelectorIndex = 6;
     private float mCurrentDx;
-    private final String minute = "分钟";
-    private final int[] mColors = new int[]{Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT};
     private float[] positions = new float[]{0.1f, 0.1f, 0.5f, 0.8f, 1f};
     private Paint mPaintMinute;
-
-    private final HashMap<String, Point> mMapPoint = new HashMap<>();
     private SelectorListener mSelectorListener;
     private float mMaxWidthNumber = 0f;
     private float mScreenX = 0f;
-    private float mNumberCenterX = 0f;
-    private boolean isUp = false;
-
     private final GestureDetector mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -88,6 +83,8 @@ public class ScrollNumberView extends View {
             return true;
         }
     });
+    private float mNumberCenterX = 0f;
+    private boolean isUp = false;
 
     public ScrollNumberView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -138,10 +135,12 @@ public class ScrollNumberView extends View {
 
         canvas.drawRoundRect(mCenterRect, 20, 20, mPaintCenterRect);
 
-//        int lineWidth = mRoundRectWidth / 2;
-//        int lineHeight = mRoundRectHeight / 2;
-//        canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top, mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
-//        canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight, mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
+        // int lineWidth = mRoundRectWidth / 2;
+        // int lineHeight = mRoundRectHeight / 2;
+        // canvas.drawLine(mCenterRect.left + lineWidth, mCenterRect.top,
+        // mCenterRect.left + lineWidth, mCenterRect.bottom, mPaintCenterRectLine);
+        // canvas.drawLine(mCenterRect.left, mCenterRect.top + lineHeight,
+        // mCenterRect.right, mCenterRect.top + lineHeight, mPaintCenterRectLine);
 
         float minuteX = mCenterRect.left + (mRoundRectWidth / 2);
         float baseLine = getBaseLine(mPaintMinute, minute);
@@ -166,15 +165,17 @@ public class ScrollNumberView extends View {
             String number = mNumbers[index];
             // centerX value
             if (index < mSelectorIndex) {
-                mNumberCenterX = mScreenX - (mSelectorIndex - index) * mMaxWidthNumber - (mSelectorIndex - index) * mNumberInterval;
+                mNumberCenterX = mScreenX - (mSelectorIndex - index) * mMaxWidthNumber
+                        - (mSelectorIndex - index) * mNumberInterval;
             } else if (index > mSelectorIndex) {
-                mNumberCenterX = mScreenX + (index - mSelectorIndex) * mMaxWidthNumber + (index - mSelectorIndex) * mNumberInterval;
+                mNumberCenterX = mScreenX + (index - mSelectorIndex) * mMaxWidthNumber
+                        + (index - mSelectorIndex) * mNumberInterval;
             } else {
                 mNumberCenterX = mScreenX;
             }
             LogUtil.e("numberCenterX  :" + mNumberCenterX + "  number: " + number + "   mSelectorIndex: " + mSelectorIndex);
 
-            // up or  init  offset position
+            // up or init offset position
             Point point = getPoint(mNumbers[index]);
             if (point.numberCenterX == 0 || isUp) {
                 if (index == mSelectorIndex) {
@@ -188,7 +189,7 @@ public class ScrollNumberView extends View {
                 point.numberCenterX -= mCurrentDx;
             }
 
-            //根据滑动的距离与中间点的位置计算文字大小
+            // 根据滑动的距离与中间点的位置计算文字大小
             point.textSize = getDrawTextSize(number, point.numberCenterX, index, mMaxWidthNumber, mNumberCenterX);
 
             setPoint(number, point);
@@ -217,10 +218,11 @@ public class ScrollNumberView extends View {
         return alpha;
     }
 
-    private float getDrawTextSize(String number, float storageCenterX, int index, float middleWidthNew, float currentCenterX) {
+    private float getDrawTextSize(String number, float storageCenterX, int index, float middleWidthNew,
+                                  float currentCenterX) {
         float size;
         int distance = Math.abs(mSelectorIndex - index);
-        // default value  =  maxSize - ( maxSize * distance)
+        // default value = maxSize - ( maxSize * distance)
         size = mNumberMaxSize - ((mNumberMaxSize) * distance * mSizeRate);
         LogUtil.e("size  size：" + size + "  number :" + number);
 
@@ -312,32 +314,6 @@ public class ScrollNumberView extends View {
         mSelectorIndex = minIndex;
     }
 
-    public static class Point {
-        private float numberCenterX;
-        private float textSize;
-
-        public float getTextSize() {
-            return textSize;
-        }
-
-        public void setTextSize(int textSize) {
-            this.textSize = textSize;
-        }
-
-        public float getNumberCenterX() {
-            return numberCenterX;
-        }
-
-        public void setNumberCenterX(float numberCenterX) {
-            this.numberCenterX = numberCenterX;
-        }
-
-        @Override
-        public String toString() {
-            return "Point{ startX = " + numberCenterX + ", textSize = " + textSize + '}';
-        }
-    }
-
     /**
      * @param paint   画笔
      * @param content 内容
@@ -396,6 +372,32 @@ public class ScrollNumberView extends View {
 
     public interface SelectorListener {
         void onSelector(int selector);
+    }
+
+    public static class Point {
+        private float numberCenterX;
+        private float textSize;
+
+        public float getTextSize() {
+            return textSize;
+        }
+
+        public void setTextSize(int textSize) {
+            this.textSize = textSize;
+        }
+
+        public float getNumberCenterX() {
+            return numberCenterX;
+        }
+
+        public void setNumberCenterX(float numberCenterX) {
+            this.numberCenterX = numberCenterX;
+        }
+
+        @Override
+        public String toString() {
+            return "Point{ startX = " + numberCenterX + ", textSize = " + textSize + '}';
+        }
     }
 
 }

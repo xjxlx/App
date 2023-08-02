@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
 import com.android.app.databinding.ActivityDownLoadListBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.recycleview.PlaceholderResource
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.download.Download
 import com.android.helper.utils.permission.RxPermissionsUtil
 import java.io.File
-import java.util.Arrays
+import java.util.*
 
 class DownLoadListActivity : AppBaseBindingTitleActivity<ActivityDownLoadListBinding>() {
 

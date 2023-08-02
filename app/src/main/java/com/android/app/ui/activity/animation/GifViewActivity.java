@@ -3,16 +3,14 @@ package com.android.app.ui.activity.animation;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-
-import com.android.app.R;
-
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ScreenUtil;
 import com.android.helper.utils.ToastUtil;
 

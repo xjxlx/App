@@ -1,17 +1,15 @@
 package com.android.app.ui.activity;
 
 import android.annotation.SuppressLint;
-
-import com.android.app.R;
-
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.httpclient.RxUtil;
 import com.android.helper.httpclient.TestApi;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 import org.reactivestreams.Subscriber;

@@ -12,8 +12,8 @@ import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
 
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseView;
-import com.android.helper.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +100,13 @@ public class WareView extends BaseView {
         mListData.add(point);
     }
 
+    static class Point {
+        public float x;
+        public float y;
+        public float radius;
+        public Paint paint;
+    }
+
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
@@ -119,7 +126,7 @@ public class WareView extends BaseView {
                 if (alpha <= 0) {
                     alpha = 0;// 避免透明度为负数
                     // 移除不用的view
-                    //  mListData.remove(point); 便利集合的时候，不能去操作集合，不然会触发并发的异常
+                    // mListData.remove(point); 便利集合的时候，不能去操作集合，不然会触发并发的异常
                     removeList.add(point);
                 }
 
@@ -137,10 +144,5 @@ public class WareView extends BaseView {
         }
     };
 
-    static class Point {
-        public float x;
-        public float y;
-        public float radius;
-        public Paint paint;
-    }
+
 }

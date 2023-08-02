@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 
 import java.util.Objects;
 

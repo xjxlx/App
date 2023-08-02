@@ -4,15 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.BitmapUtil;
-import com.android.helper.utils.LogUtil;
 
 public class SwitchView extends View {
 
@@ -24,6 +24,9 @@ public class SwitchView extends View {
     private float mTop;
     private boolean isOpen;// 默认是关闭的状态
     private SwitchChangeListener mListener;
+    private float mStartX;
+    private boolean isMove;
+    private float mOffsetX;
 
     public SwitchView(Context context) {
         super(context);
@@ -83,10 +86,6 @@ public class SwitchView extends View {
         LogUtil.e("onDraw:--->left:" + mLeft);
         canvas.drawBitmap(mBitmapSelector, mLeft, mTop, null);
     }
-
-    private float mStartX;
-    private boolean isMove;
-    private float mOffsetX;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -163,11 +162,11 @@ public class SwitchView extends View {
         return true;
     }
 
-    public interface SwitchChangeListener {
-        void onChange(boolean isOpen);
-    }
-
     public void setSwitchChangeListener(SwitchChangeListener listener) {
         mListener = listener;
+    }
+
+    public interface SwitchChangeListener {
+        void onChange(boolean isOpen);
     }
 }

@@ -11,15 +11,13 @@ import com.android.app.R
 import com.android.app.databinding.FragmentHomeBinding
 import com.android.apphelper2.utils.permission.PermissionMultipleCallBackListener
 import com.android.apphelper2.utils.permission.PermissionUtil
+import com.android.common.utils.LogUtil
 import com.android.helper.base.BaseBindingFragment
 import com.android.helper.utils.FileUtil
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.dialog.DialogUtil
 import java.io.File
 
-/**
- * 首页
- */
+/** 首页 */
 class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
     private val permissionUtil = PermissionUtil.PermissionFragment(this)
 
@@ -28,8 +26,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
     val mFileUtil = FileUtil.getInstance()
     val tag_w = "外部空间"
     val tag_n = "内部空间"
-    override fun initView(view: View?) {
-    }
+    override fun initView(view: View?) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +74,6 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
             mBinding.tvContentW.text = mBuilder_w.toString()
         }
 
-
-
         mBinding.button5.setOnClickListener {
             write(tag_n, "内部空间的地址为：$pathN")
             mBinding.tvContentN.text = mBuilder_n.toString()
@@ -115,7 +110,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
                 .Build()
                 .setOnClickListener(R.id.tv_qd) { _, _ -> mFileUtil.jumpAllFiles() }
                 .setText(R.id.tv_msg, "是否进行文件权限授权？")
-                .show();
+                .show()
         }
         val commonPath = mFileUtil.commonPath
         val commonTagPath = mFileUtil.commonTagPath
@@ -124,27 +119,30 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
 
         mBinding.btnTestPermission.setOnClickListener {
 
-//            permissionUtil.shouldShow(Manifest.permission.WRITE_EXTERNAL_STORAGE, object : PermissionRationaleCallBackListener {
-//                override fun onCallBack(permission: String, rationale: Boolean) {
-//                    com.android.apphelper2.utils.LogUtil.e("------permission------>   rationale: $rationale")
-//
-//                    permissionUtil.setCallBackListener(object : PermissionCallBackListener {
-//                        override fun onCallBack(permission: String, isGranted: Boolean) {
-//                            com.android.apphelper2.utils.LogUtil.e("------permission------> call     isGranted: $isGranted")
-//                        }
-//                    })
-//                        .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                }
-//            })
+            //            permissionUtil.shouldShow(Manifest.permission.WRITE_EXTERNAL_STORAGE, object :
+            // PermissionRationaleCallBackListener {
+            //                override fun onCallBack(permission: String, rationale: Boolean) {
+            //                    com.android.apphelper2.utils.LogUtil.e("------permission------>
+            // rationale: $rationale")
+            //
+            //                    permissionUtil.setCallBackListener(object : PermissionCallBackListener {
+            //                        override fun onCallBack(permission: String, isGranted: Boolean) {
+            //                            com.android.apphelper2.utils.LogUtil.e("------permission------>
+            // call     isGranted: $isGranted")
+            //                        }
+            //                    })
+            //                        .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            //                }
+            //            })
 
             permissionUtil.requestArray(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
-                    object : PermissionMultipleCallBackListener {
-                        override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
-                            map.map {
-                                LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
-                            }
+                object : PermissionMultipleCallBackListener {
+                    override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
+                        map.map {
+                            LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
                         }
-                    })
+                    }
+                })
         }
     }
 

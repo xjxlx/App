@@ -17,10 +17,10 @@ import com.android.app.databinding.ActivityMainBinding;
 import com.android.app.ui.fragment.HomeFragment;
 import com.android.app.ui.fragment.PersonalFragment;
 import com.android.app.ui.fragment.TodoFragment;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.base.BaseFragmentPagerAdapter;
 import com.android.helper.utils.FileUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.dialog.DialogUtil;
 
 import org.jetbrains.annotations.NotNull;

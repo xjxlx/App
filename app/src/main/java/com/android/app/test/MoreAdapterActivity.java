@@ -1,16 +1,14 @@
 package com.android.app.test;
 
 import android.graphics.Bitmap;
-
-import com.android.app.R;
-
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.interfaces.listener.CallBackListener;
 import com.android.helper.utils.BitmapUtil;
-import com.android.helper.utils.LogUtil;
 
 public class MoreAdapterActivity extends AppBaseActivity {
 

@@ -8,8 +8,8 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.android.app.R
 import com.android.app.databinding.ActivityFlexBoxLayoutBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 import com.google.android.flexbox.FlexboxLayout
 
 /**

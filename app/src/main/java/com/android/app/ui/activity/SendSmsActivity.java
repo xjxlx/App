@@ -1,10 +1,6 @@
 package com.android.app.ui.activity;
 
 import android.annotation.SuppressLint;
-
-import com.android.app.R;
-import com.android.app.adapters.SmsAdapter;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,9 +12,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.app.R;
+import com.android.app.adapters.SmsAdapter;
+import com.android.common.utils.SpUtil;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
-import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.ToastUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -74,15 +72,15 @@ public class SendSmsActivity extends AppBaseActivity {
         });
 
         btn_clear_addrss.setOnClickListener(v -> {
-//            boolean b = SpUtil.clearMap(KEY_SAVE);
-//            if (b) {
-//                ToastUtil.show("清空成功！");
-//                // 刷新adapter
-//                mListAddress.clear();
-//                smsAdapter1.setList(mListAddress);
-//            } else {
-//                ToastUtil.show("清空失败！");
-//            }
+            // boolean b = SpUtil.clearMap(KEY_SAVE);
+            // if (b) {
+            // ToastUtil.show("清空成功！");
+            // // 刷新adapter
+            // mListAddress.clear();
+            // smsAdapter1.setList(mListAddress);
+            // } else {
+            // ToastUtil.show("清空失败！");
+            // }
         });
 
         // 清空输入数据
@@ -102,8 +100,7 @@ public class SendSmsActivity extends AppBaseActivity {
                 }
 
                 mListAddress.add(address);
-                SpUtil.putMap(KEY_SAVE, address, address);
-
+                SpUtil.INSTANCE.putMap(KEY_SAVE, address, address);
                 // 刷新adapter
                 smsAdapter1.setList(mListAddress);
                 break;
@@ -115,7 +112,7 @@ public class SendSmsActivity extends AppBaseActivity {
 
         smsAdapter1 = new SmsAdapter(mActivity, 1);
 
-        HashMap<String, String> map = SpUtil.getMap(KEY_SAVE);
+        HashMap<String, String> map = SpUtil.INSTANCE.getMap(KEY_SAVE);
 
         if (map != null && map.size() > 0) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -139,9 +136,7 @@ public class SendSmsActivity extends AppBaseActivity {
     public void sendSms(String url) {
         try {
             OkHttpClient timeOutClient = RetrofitHelper.getTimeOutClient();
-            Request.Builder builder = new Request
-                    .Builder()
-                    .url(url);
+            Request.Builder builder = new Request.Builder().url(url);
             Call call = timeOutClient.newCall(builder.build());
             call.enqueue(new Callback() {
                 @Override

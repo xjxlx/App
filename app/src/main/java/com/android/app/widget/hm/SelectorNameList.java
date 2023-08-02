@@ -7,23 +7,23 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseView;
 import com.android.helper.utils.BitmapUtil;
 import com.android.helper.utils.ConvertUtil;
 import com.android.helper.utils.CustomViewUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ResourceUtil;
 
 /**
  * 检索通讯录名字的列表数据
  * 目标：
- * 写一个列表 从 A  - z ,最上方在设置一个红心
+ * 写一个列表 从 A - z ,最上方在设置一个红心
  * <p>
  * 实现逻辑：
  * 1：获取红心的bitmap,并绘制
@@ -42,11 +42,10 @@ public class SelectorNameList extends BaseView {
     private final float mPaddingLeft = 20;
     private final float mPaddingRight = 20;
     private final float mInterval = 20;
-
+    private final float mBitmapTargetWidth = ConvertUtil.toDp(20);// bitmap的目标宽度
     private Paint mPaint;
     private float mTotalHeight;
     private float mTotalWidth;
-    private final float mBitmapTargetWidth = ConvertUtil.toDp(20);// bitmap的目标宽度
     private Bitmap mBitmap;
     private int mMeasuredWidth;
     private int mMeasuredHeight;
@@ -79,7 +78,7 @@ public class SelectorNameList extends BaseView {
 
         // 计算出bitmap的高度
         int bitmapHeight = mBitmap.getHeight();
-        // 获取所有的高度  = bitmap的高度 + 顶部间距的高度 + （ 固定rect的高度 + 间距） * 集合的长度 + 底部的间距
+        // 获取所有的高度 = bitmap的高度 + 顶部间距的高度 + （ 固定rect的高度 + 间距） * 集合的长度 + 底部的间距
         mTotalHeight += (mInterval + bitmapHeight + ((mTextTotalHeight + mInterval) * mIndexArr.length));
 
         float tempWidth = 0;

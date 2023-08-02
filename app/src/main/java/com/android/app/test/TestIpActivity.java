@@ -14,8 +14,8 @@ import androidx.annotation.Nullable;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityTestIpBinding;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.title.AppBaseBindingTitleActivity;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NetworkUtil;
 import com.android.helper.utils.ToastUtil;
 

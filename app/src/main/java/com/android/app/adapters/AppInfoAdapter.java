@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.bean.AppInfoBean;
+import com.android.common.utils.LogUtil;
+import com.android.common.utils.SpUtil;
 import com.android.helper.base.BaseVH;
-import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.SpUtil;
 
 import java.util.List;
 
@@ -51,7 +51,8 @@ public class AppInfoAdapter extends RecyclerView.Adapter<BaseVH> {
             return 3;
         } else if (position > mListSystem.size() + 1) {
             return 4;
-        } else return 0;
+        } else
+            return 0;
     }
 
     @NonNull
@@ -82,14 +83,14 @@ public class AppInfoAdapter extends RecyclerView.Adapter<BaseVH> {
                 AppInfoBean bean = mListSystem.get(position - 1);
                 holder1.iv_app_info.setImageDrawable(bean.getAppIcon());
                 holder1.tv_app_name.setText(bean.getAppName());
-                boolean aBoolean = SpUtil.getBoolean(bean.getPackageName());
+                boolean aBoolean = SpUtil.INSTANCE.getBoolean(bean.getPackageName());
                 holder1.s_switch.setChecked(aBoolean);
 
                 holder1.s_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         LogUtil.e("当前操作的应用是：" + bean.getAppName() + "  选中的状态为：" + isChecked);
-                        SpUtil.putBoolean(bean.getPackageName(), isChecked);
+                        SpUtil.INSTANCE.putBoolean(bean.getPackageName(), isChecked);
                     }
                 });
             }
@@ -105,14 +106,14 @@ public class AppInfoAdapter extends RecyclerView.Adapter<BaseVH> {
                 holder1.iv_app_info.setImageDrawable(bean.getAppIcon());
                 holder1.tv_app_name.setText(bean.getAppName());
 
-                boolean aBoolean = SpUtil.getBoolean(bean.getPackageName());
+                boolean aBoolean = SpUtil.INSTANCE.getBoolean(bean.getPackageName());
                 holder1.s_switch.setChecked(aBoolean);
 
                 holder1.s_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         LogUtil.e("当前操作的应用是：" + bean.getAppName() + "  选中的状态为：" + isChecked);
-                        SpUtil.putBoolean(bean.getPackageName(), isChecked);
+                        SpUtil.INSTANCE.putBoolean(bean.getPackageName(), isChecked);
                     }
                 });
             }

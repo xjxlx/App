@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityLongTouchBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.DownCountTime
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ToastUtil
 import kotlin.random.Random
 

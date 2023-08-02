@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.IBinder
 import com.android.app.KeepAidlInterface
 import com.android.app.OnChangeListenerAidlInterface
-import com.android.helper.utils.LogUtil
+import com.android.common.utils.LogUtil
 
 class KeepService : Service() {
 
@@ -45,5 +45,4 @@ class KeepService : Service() {
             mListener?.onChange(3)
         }
     }
-
 }

@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,9 +18,10 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.ConvertUtil;
 import com.android.helper.utils.CustomViewUtil;
-import com.android.helper.utils.LogUtil;
 
 public class CircleLineView extends View {
 
@@ -88,7 +88,8 @@ public class CircleLineView extends View {
         // 绘制背景
         canvas.drawRoundRect(0, 0, measuredWidth, measuredHeight, radius, radius, mPaintRect);
 
-        LinearGradient gradient = new LinearGradient(0, measuredHeight, mAnimationEndX, measuredHeight, mColors, mPosition, Shader.TileMode.CLAMP);
+        LinearGradient gradient = new LinearGradient(0, measuredHeight, mAnimationEndX, measuredHeight, mColors, mPosition,
+                Shader.TileMode.CLAMP);
         mPaintAnimation.setShader(gradient);
 
         RectF rect = new RectF(0, 0, mAnimationEndX, measuredHeight);
@@ -99,8 +100,10 @@ public class CircleLineView extends View {
 
         // 绘制渐变动画
 
-//        canvas.drawRoundRect(dp_16, 0, mAnimationEndX + dp_16, measuredHeight, radius, radius, mPaintAnimation);
-//        canvas.drawRect(radius,0,mAnimationEndX + radius, measuredHeight,mPaintAnimation);
+        // canvas.drawRoundRect(dp_16, 0, mAnimationEndX + dp_16, measuredHeight,
+        // radius, radius, mPaintAnimation);
+        // canvas.drawRect(radius,0,mAnimationEndX + radius,
+        // measuredHeight,mPaintAnimation);
 
         if (mTextY <= 0) {
             if (baseLine <= 0) {
@@ -187,7 +190,8 @@ public class CircleLineView extends View {
                 // 每一份值占总体宽度的多少
                 if (animatedValue > 0) {
                     mAnimationEndX = measuredWidth * animatedValue;
-                    LogUtil.e("animatedValue : " + animatedValue + "  measuredWidth:" + measuredWidth + "   mAnimationEndX:" + mAnimationEndX);
+                    LogUtil.e("animatedValue : " + animatedValue + "  measuredWidth:" + measuredWidth + "   mAnimationEndX:"
+                            + mAnimationEndX);
                     invalidate();
                 }
             }

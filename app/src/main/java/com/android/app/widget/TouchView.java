@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import com.android.app.R;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -18,9 +17,10 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.BitmapUtil;
 import com.android.helper.utils.ConvertUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -32,33 +32,26 @@ import java.util.List;
 public class TouchView extends View {
     private final long waitTime = 500; // 长按的等待时间
     private final int waitCode = 199716; // 长按的code
-
+    private final Paint mPaint = new Paint();
+    private final List<Float> mRadiusList = new ArrayList();
+    private final List<Integer> mAlphaList = new ArrayList();
     private String TAG = "Touch";
     private Bitmap mBitmap;
     private int mBitmapWidth;
     private int mBitmapHeight;
-
     private float mTopValue; // 距离顶部的距离
     private float mBottomValue; // 距离底部的距离
     private int mRadiusPadding; // 左右边距的值
-
     private int mLeft;
     private int mRight;
     private int mTop;
     private int mBottom;
-
-    private int mCenterX;       // view的X轴中心
-    private int mCenterY;       // view的Y轴中心
-    private int mBitmapRadius;  // 圆形的半径
+    private int mCenterX; // view的X轴中心
+    private int mCenterY; // view的Y轴中心
+    private int mBitmapRadius; // 圆形的半径
     private int mMaxRadius = 0; // 最大的半径值
-
     private Rect mRectSrc, mRectDes;
-    private final Paint mPaint = new Paint();
-
     private boolean isStartAnim = false; // 控制是否循环
-
-    private final List<Float> mRadiusList = new ArrayList();
-    private final List<Integer> mAlphaList = new ArrayList();
     private int intervalWidth; // 每隔view间隔的宽度
     private float mSpeed;// 扩散的速度
     private float mAlphasZoom; // 透明度的比例
@@ -137,7 +130,7 @@ public class TouchView extends View {
         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.gray_23));
 
         // 求出每一份view占据的透明度
-        mAlphasZoom = 255f / (mMaxRadius - mBitmapRadius); //注意这里 如果为int类型就会为0,除数中f一定要加,默认int ;
+        mAlphasZoom = 255f / (mMaxRadius - mBitmapRadius); // 注意这里 如果为int类型就会为0,除数中f一定要加,默认int ;
     }
 
     @Override
@@ -225,15 +218,6 @@ public class TouchView extends View {
         return super.dispatchTouchEvent(event);
     }
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            startView();
-        }
-    };
-
     private void startView() {
         ToastUtil.show("开始执行动画...");
         this.isStartAnim = true;
@@ -246,6 +230,15 @@ public class TouchView extends View {
         invalidate();
     }
 
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            startView();
+        }
+    };
+
     public void endView() {
         mHandler.removeMessages(waitCode);
         mHandler.removeCallbacksAndMessages(null);
@@ -255,13 +248,15 @@ public class TouchView extends View {
         invalidate();
     }
 
+    public void setOnTouchListener(TouchListener listener) {
+        this.mListener = listener;
+    }
+
     public interface TouchListener {
         void onDownTouch();
 
         void onUpTouch();
     }
 
-    public void setOnTouchListener(TouchListener listener) {
-        this.mListener = listener;
-    }
+
 }

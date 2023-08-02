@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 
 public class ViewTouch extends View {
 

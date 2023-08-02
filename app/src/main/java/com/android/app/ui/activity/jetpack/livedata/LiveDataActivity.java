@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.FragmentUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ToastUtil;
 
 /**

@@ -1,15 +1,13 @@
 package com.android.app.ui.activity;
 
 import android.content.Intent;
-
-import com.android.app.R;
-import com.android.app.databinding.ActivityUnLockBinding;
-
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.app.R;
+import com.android.app.databinding.ActivityUnLockBinding;
+import com.android.common.utils.SpUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.SpUtil;
 
 public class UnLockTitleActivity extends AppBaseActivity {
 
@@ -17,7 +15,7 @@ public class UnLockTitleActivity extends AppBaseActivity {
 
     @Override
     public void initView() {
-         binding = ActivityUnLockBinding.inflate(getLayoutInflater());
+        binding = ActivityUnLockBinding.inflate(getLayoutInflater());
     }
 
     @Override
@@ -28,7 +26,7 @@ public class UnLockTitleActivity extends AppBaseActivity {
         binding.btnUnlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SpUtil.putBoolean(packageName, false);
+                SpUtil.INSTANCE.putBoolean(packageName, false);
                 finish();
             }
         });
@@ -37,7 +35,7 @@ public class UnLockTitleActivity extends AppBaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        SpUtil.putBoolean("show", false);
+        SpUtil.INSTANCE.putBoolean("show", false);
     }
 
     @Override

@@ -1,12 +1,11 @@
 package com.android.app.test;
 
-import com.android.app.R;
-
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 
 /**
  * 测试滑动工具的帮助类

@@ -24,9 +24,13 @@ import com.android.app.R
 import com.android.app.app.Keepalive.LifecycleManager
 import com.android.app.databinding.ActivityRouseDingDingBinding
 import com.android.app.utils.location.LocationUtil
+import com.android.common.utils.LogUtil
+import com.android.common.utils.SpUtil
 import com.android.helper.app.BaseApplication
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.*
+import com.android.helper.utils.ResourceUtil
+import com.android.helper.utils.ServiceUtil
+import com.android.helper.utils.ToastUtil
 
 /**
  * 唤醒钉钉的页面

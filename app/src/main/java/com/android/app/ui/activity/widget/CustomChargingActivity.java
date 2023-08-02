@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.ActivityCustomChargingBinding;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.title.AppBaseBindingTitleActivity;
-import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +22,8 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
     }
 
     @Override
-    public ActivityCustomChargingBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public ActivityCustomChargingBinding getBinding(@NonNull @NotNull LayoutInflater inflater,
+                                                    @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
         return ActivityCustomChargingBinding.inflate(inflater, container, true);
     }
 
@@ -32,7 +33,8 @@ public class CustomChargingActivity extends AppBaseBindingTitleActivity<Activity
         mBinding.cpv.setInterval(0.6f, 1f);
         mBinding.cpv.setOptimumValue(0.8f);
         mBinding.cpv.setRemainingChargeTime("5小时20分");
-        // mBinding.cpv.setProgressListener(progress -> LogUtil.e("ProgressListener ---> onTouchUp:" + progress));
+        // mBinding.cpv.setProgressListener(progress -> LogUtil.e("ProgressListener --->
+        // onTouchUp:" + progress));
 
         mBinding.pb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -7,8 +7,9 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.android.app.R
-import com.android.apphelper2.utils.LogUtil
+
 import com.android.apphelper2.utils.ResourcesUtil
+import com.android.common.utils.LogUtil
 import com.android.helper.utils.CustomViewUtil
 
 class ElevateChartView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {

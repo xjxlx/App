@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
 import com.android.app.widget.BreathView
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 
 class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
 
@@ -56,23 +56,18 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
                 LogUtil.e("translationX: $translationX")
                 mBinding.bvView.startAnimation()
             }
-
             R.id.btn_resume -> {
                 mBinding.bvView.resume()
             }
-
             R.id.btn_pause -> {
                 mBinding.bvView.pause()
             }
-
             R.id.btn_clear -> {
                 mBinding.bvView.stop()
             }
-
             R.id.btn_start_animation_csv -> {
                 mBinding.csv1.startAnimation()
             }
         }
     }
-
 }

@@ -5,3 +5,12 @@
 [submodule "apphelper2"]
 	path = apphelper2
 	url = git@github.com:xjxlx/apphelper2.git
+[submodule "common"]
+	path = common
+	url = git@github.com:xjxlx/common.git
+[submodule "refresh"]
+	path = refresh
+	url = git@github.com:xjxlx/refresh.git
+[submodule "http"]
+	path = http
+	url = git@github.com:xjxlx/http.git

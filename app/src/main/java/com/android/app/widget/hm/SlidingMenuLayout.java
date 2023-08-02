@@ -4,7 +4,6 @@ import android.animation.FloatEvaluator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.customview.widget.ViewDragHelper;
 
-import com.android.helper.utils.LogUtil;
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -51,8 +51,8 @@ public class SlidingMenuLayout extends FrameLayout {
     private float mCanScrOllHalfPosition;
     private float mStartX;
     private float mDX;
-    private FloatEvaluator mEvaluator; //差值器
-
+    private FloatEvaluator mEvaluator; // 差值器
+    private View mHead;
     private final ViewDragHelper.Callback mCallback = new ViewDragHelper.Callback() {
         /*
          * 这是一个抽象类，必须去实现，也只有在这个方法返回true的时候下面的方法才会生效
@@ -102,11 +102,11 @@ public class SlidingMenuLayout extends FrameLayout {
         }
 
         /*
-         *只要view返回的数据大于0，就会滑动
+         * 只要view返回的数据大于0，就会滑动
          */
         @Override
         public int getViewHorizontalDragRange(@NonNull View child) {
-            return child.getMeasuredWidth();//只要返回大于0的值就行
+            return child.getMeasuredWidth();// 只要返回大于0的值就行
         }
 
         /**
@@ -119,7 +119,7 @@ public class SlidingMenuLayout extends FrameLayout {
 
             LogUtil.e("onViewReleased --->");
 
-            if (releasedChild == mContentLayout) {  // 内容view的滑动
+            if (releasedChild == mContentLayout) { // 内容view的滑动
                 // 获取内容布局的左侧间距
                 int left = mContentLayout.getLeft();
                 LogUtil.e("left:" + left + "  mCanScrOllHalfPosition:" + mCanScrOllHalfPosition);
@@ -171,7 +171,6 @@ public class SlidingMenuLayout extends FrameLayout {
 
         }
     };
-    private View mHead;
 
     public SlidingMenuLayout(@NonNull Context context) {
         super(context);

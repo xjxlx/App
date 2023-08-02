@@ -11,9 +11,9 @@ import androidx.annotation.RequiresApi
 import com.android.app.R
 import com.android.app.adapters.TestSingleAdapter
 import com.android.app.databinding.ActivityAdapterBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.BaseBindingActivity
 import com.android.helper.base.recycleview.PlaceholderResource
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.RecycleUtil
 
 class AdapterActivity : BaseBindingActivity<ActivityAdapterBinding>() {

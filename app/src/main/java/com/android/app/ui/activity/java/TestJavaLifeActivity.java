@@ -1,12 +1,11 @@
 package com.android.app.ui.activity.java;
 
-import com.android.app.R;
-
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;

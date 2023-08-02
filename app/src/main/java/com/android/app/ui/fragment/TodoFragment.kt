@@ -13,12 +13,10 @@ import com.android.app.ui.activity.kotlin.KotlinMap
 import com.android.app.ui.activity.widget.ViewMapTitleActivity
 import com.android.apphelper2.utils.permission.PermissionMultipleCallBackListener
 import com.android.apphelper2.utils.permission.PermissionUtil
+import com.android.common.utils.LogUtil
 import com.android.helper.base.AppBaseFragment
-import com.android.helper.utils.LogUtil
 
-/**
- * 待办的fragment
- */
+/** 待办的fragment */
 class TodoFragment : AppBaseFragment() {
     private val permissionUtil = PermissionUtil.PermissionFragment(this)
 
@@ -30,18 +28,18 @@ class TodoFragment : AppBaseFragment() {
         super.initListener()
 
         setViewClickListener(R.id.tv_custom_widget, R.id.tv_animation_map, R.id.tv_java_map, R.id.tv_test_map, R.id.tv_other,
-                R.id.tv_jetpack, R.id.tv_kotlin)
+            R.id.tv_jetpack, R.id.tv_kotlin)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
         permissionUtil.requestArray(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
-                object : PermissionMultipleCallBackListener {
-                    override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
-                        map.map {
-                            LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
-                        }
+            object : PermissionMultipleCallBackListener {
+                override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
+                    map.map {
+                        LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
                     }
-                })
+                }
+            })
     }
 
     override fun onClick(v: View?) {
@@ -76,7 +74,5 @@ class TodoFragment : AppBaseFragment() {
      *
      * @param rootView fragment的根布局
      */
-    override fun initView(rootView: View?) {
-
-    }
+    override fun initView(rootView: View?) {}
 }

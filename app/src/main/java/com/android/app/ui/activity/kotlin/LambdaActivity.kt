@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityLambdaBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 
 class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
 
@@ -19,17 +19,17 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         val tz = TZ()
-//
-//        val add = tz.add(1, 2)
-//        LogUtil.e("add --->  $add")
-//
-//        val add2 = tz.add2("oo", "xx")
-//        LogUtil.e("add2  :  $add2")
-//
-//        val arrayListOf = arrayListOf<String>()
-//        for (item in 0..5) {
-//            arrayListOf.add("hello word ---> index:$item")
-//        }
+        //
+        //        val add = tz.add(1, 2)
+        //        LogUtil.e("add --->  $add")
+        //
+        //        val add2 = tz.add2("oo", "xx")
+        //        LogUtil.e("add2  :  $add2")
+        //
+        //        val arrayListOf = arrayListOf<String>()
+        //        for (item in 0..5) {
+        //            arrayListOf.add("hello word ---> index:$item")
+        //        }
 
         val ktTz = KtTz()
         val abc2 = ktTz.abc2
@@ -54,17 +54,17 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
         return this
     }
 
-    //添加一个对象到集合中，并且返回这个集合
+    // 添加一个对象到集合中，并且返回这个集合
     fun <T> MutableList<T>.addBy(t: T): MutableList<T> {
         this.add(t)
-        return this //返回集合本身
+        return this // 返回集合本身
     }
 
-    //自定义扩展属性，
+    // 自定义扩展属性，
     var <T> ArrayList<T>.lastData: T
-        //获取集合中最后一个对象
+        // 获取集合中最后一个对象
         get() = this[this.size - 1]
-        //设置集合中最后一个对象的值
+        // 设置集合中最后一个对象的值
         set(value) {
             this[this.size - 1] = value
         }
@@ -76,7 +76,6 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
         set(value) {
             ts = value
         }
-
 }
 // 拓展函数
 
@@ -85,9 +84,8 @@ class LambdaActivity : AppBaseBindingTitleActivity<ActivityLambdaBinding>() {
 // 伴生类拓展
 
 class TZ {
-    val abc = "abc";
+    val abc = "abc"
     fun test1() {
         LogUtil.e("logu----> test ---> 1")
     }
 }
-

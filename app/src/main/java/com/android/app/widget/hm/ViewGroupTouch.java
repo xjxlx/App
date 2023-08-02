@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.helper.utils.LogUtil;
+import com.android.common.utils.LogUtil;
 
 public class ViewGroupTouch extends RelativeLayout {
     public final String Tag = "ViewGroup";
@@ -80,55 +80,57 @@ public class ViewGroupTouch extends RelativeLayout {
         return super.dispatchTouchEvent(event);
     }
 
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                LogUtil.e(Tag, "onInterceptTouchEvent--->down");
-//
-//                mStartX = event.getX();
-//                mStartY = event.getY();
-//
-//                break;
-//
-//            case MotionEvent.ACTION_MOVE:
-//                LogUtil.e(Tag, "onInterceptTouchEvent--->move");
-//
-//                float eventX = event.getX();
-//                float eventY = event.getY();
-//                mDx = eventX - mStartX;
-//                mDy = eventY - mStartY;
-//
-//                left = mChildView.getLeft();
-//                top = mChildView.getTop();
-//                right = mChildView.getRight();
-//                bottom = mChildView.getBottom();
-//
-//                LogUtil.e("I-left:" + left + " I-top:" + top + " I-right:" + right + " I-bottom:" + bottom + " I-dx:" + mDx + "  I-dy:" + mDy);
-//
-//                mStartX = eventX;
-//                mStartY = eventY;
-//
-//                LogUtil.e("left:" + this.left + "  dx:" + mDx + "   ==" + (this.left + mDx) + "  rect:" + mRect.left + "   result:" + ((this.left + mDx) < mRect.left));
-//                if ((this.left + mDx) < mRect.left) {
-//                    LogUtil.e("超出了左侧的边界，禁止先下传递！");
-//                    // 禁止向下传递
-//                    return true;
-//                } else {
-//                    LogUtil.e("没有超出左侧的边界，继续向下传递！");
-//                    // 继续向下传递
-//                    return false;
-//                }
-//
-////                break;
-//
-//            case MotionEvent.ACTION_UP:
-//                LogUtil.e(Tag, "onInterceptTouchEvent--->up");
-//                break;
-//        }
-//
-//        return true;
-//    }
+    // @Override
+    // public boolean onInterceptTouchEvent(MotionEvent event) {
+    // switch (event.getAction()) {
+    // case MotionEvent.ACTION_DOWN:
+    // LogUtil.e(Tag, "onInterceptTouchEvent--->down");
+    //
+    // mStartX = event.getX();
+    // mStartY = event.getY();
+    //
+    // break;
+    //
+    // case MotionEvent.ACTION_MOVE:
+    // LogUtil.e(Tag, "onInterceptTouchEvent--->move");
+    //
+    // float eventX = event.getX();
+    // float eventY = event.getY();
+    // mDx = eventX - mStartX;
+    // mDy = eventY - mStartY;
+    //
+    // left = mChildView.getLeft();
+    // top = mChildView.getTop();
+    // right = mChildView.getRight();
+    // bottom = mChildView.getBottom();
+    //
+    // LogUtil.e("I-left:" + left + " I-top:" + top + " I-right:" + right + "
+    // I-bottom:" + bottom + " I-dx:" + mDx + " I-dy:" + mDy);
+    //
+    // mStartX = eventX;
+    // mStartY = eventY;
+    //
+    // LogUtil.e("left:" + this.left + " dx:" + mDx + " ==" + (this.left + mDx) + "
+    // rect:" + mRect.left + " result:" + ((this.left + mDx) < mRect.left));
+    // if ((this.left + mDx) < mRect.left) {
+    // LogUtil.e("超出了左侧的边界，禁止先下传递！");
+    // // 禁止向下传递
+    // return true;
+    // } else {
+    // LogUtil.e("没有超出左侧的边界，继续向下传递！");
+    // // 继续向下传递
+    // return false;
+    // }
+    //
+    //// break;
+    //
+    // case MotionEvent.ACTION_UP:
+    // LogUtil.e(Tag, "onInterceptTouchEvent--->up");
+    // break;
+    // }
+    //
+    // return true;
+    // }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
@@ -140,7 +142,8 @@ public class ViewGroupTouch extends RelativeLayout {
             case MotionEvent.ACTION_MOVE:
                 LogUtil.e(Tag, "onInterceptTouchEvent--->move");
 
-                LogUtil.e("I-left:" + left + " top:" + top + " right:" + right + " bottom:" + bottom + " dx:" + mDx + "  dy:" + mDy);
+                LogUtil.e(
+                        "I-left:" + left + " top:" + top + " right:" + right + " bottom:" + bottom + " dx:" + mDx + "  dy:" + mDy);
 
                 break;
 
@@ -163,11 +166,13 @@ public class ViewGroupTouch extends RelativeLayout {
             case MotionEvent.ACTION_MOVE:
                 LogUtil.e(Tag, "onTouchEvent--->move");
 
-                LogUtil.e("left:" + left + " top:" + top + " right:" + right + " bottom:" + bottom + " dx:" + mDx + "  dy:" + mDy);
+                LogUtil
+                        .e("left:" + left + " top:" + top + " right:" + right + " bottom:" + bottom + " dx:" + mDx + "  dy:" + mDy);
 
-//                if (mChildView != null) {
-//                    mChildView.layout((int) (left + mDx), (int) (top + mDy), (int) (right + mDx), (int) (bottom + mDy));
-//                }
+                // if (mChildView != null) {
+                // mChildView.layout((int) (left + mDx), (int) (top + mDy), (int) (right + mDx),
+                // (int) (bottom + mDy));
+                // }
 
                 break;
 

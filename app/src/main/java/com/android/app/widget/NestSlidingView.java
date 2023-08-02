@@ -3,7 +3,6 @@ package com.android.app.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -14,7 +13,8 @@ import android.widget.Scroller;
 
 import androidx.annotation.StringDef;
 
-import com.android.helper.utils.LogUtil;
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,15 +30,6 @@ public class NestSlidingView extends ViewGroup {
     private VelocityTracker velocityTracker;
     private Scroller mScroller;
     private View mButton;
-
-    @Retention(RetentionPolicy.SOURCE)
-    @StringDef({ViewTag.Top, ViewTag.Middle, ViewTag.Bottom})
-    public @interface ViewTag {
-        String Top = "top_view";
-        String Middle = "middle_view";
-        String Bottom = "bottom_view";
-    }
-
     private View mTopView;
     private View mMiddleView;
     private View mBottomView;
@@ -131,7 +122,7 @@ public class NestSlidingView extends ViewGroup {
         mHeight += mMiddleHeight;
         mMiddleView.layout(i, mTopHeight, (measuredWidth + i), mHeight);
 
-        //  底部view的区域
+        // 底部view的区域
         int mBottomHeight = mBottomView.getMeasuredHeight();
         mBottomView.layout(l, mHeight, r, (mHeight + mBottomHeight));
     }
@@ -191,7 +182,7 @@ public class NestSlidingView extends ViewGroup {
     private int getViewHeight(View view, int parentWidthMeasureSpec, int parentHeightMeasureSpec) {
         int height = 0;
         if (view != null) {
-            //  测量子view的宽高
+            // 测量子view的宽高
             measureChild(view, parentWidthMeasureSpec, parentHeightMeasureSpec);
             // 获取顶部view的高度
             height = view.getMeasuredHeight();
@@ -199,10 +190,10 @@ public class NestSlidingView extends ViewGroup {
         return height;
     }
 
-    //调用这个方法进行滚动，这里我们只滚动竖直方向
+    // 调用这个方法进行滚动，这里我们只滚动竖直方向
     public void scrollTo2(int y) {
-        //参数1和参数2分别为滚动的起始点在水平、竖直方向的滚动偏移量
-        //参数3和参数4为在水平和竖直方向上滚动的距离
+        // 参数1和参数2分别为滚动的起始点在水平、竖直方向的滚动偏移量
+        // 参数3和参数4为在水平和竖直方向上滚动的距离
         float x = getX();
         float y1 = getY();
         mScroller.startScroll((int) x, (int) y1, 0, y, 3000);
@@ -216,7 +207,7 @@ public class NestSlidingView extends ViewGroup {
         if (mScroller.computeScrollOffset()) {
             // 滑动固定的view
 
-            //  scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            // scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 
             // 滑动固定的view
             ViewParent parent = mButton.getParent();
@@ -226,8 +217,8 @@ public class NestSlidingView extends ViewGroup {
             invalidate();
         }
 
-//        postInvalidate(); //允许在非主线程中出发重绘，它的出现就是简化我们在非UI线程更新view的步骤
-//        invalidate();
+        // postInvalidate(); //允许在非主线程中出发重绘，它的出现就是简化我们在非UI线程更新view的步骤
+        // invalidate();
     }
 
     @Override
@@ -237,5 +228,13 @@ public class NestSlidingView extends ViewGroup {
 
     public void testRefesh() {
         invalidate();
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef({ViewTag.Top, ViewTag.Middle, ViewTag.Bottom})
+    public @interface ViewTag {
+        String Top = "top_view";
+        String Middle = "middle_view";
+        String Bottom = "bottom_view";
     }
 }

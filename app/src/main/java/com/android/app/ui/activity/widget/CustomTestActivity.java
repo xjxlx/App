@@ -3,9 +3,8 @@ package com.android.app.ui.activity.widget;
 import android.os.Bundle;
 
 import com.android.app.R;
-
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.AppBaseActivity;
-import com.android.helper.utils.LogUtil;
 
 public class CustomTestActivity extends AppBaseActivity {
 

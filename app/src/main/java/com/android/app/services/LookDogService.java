@@ -15,8 +15,8 @@ import android.os.Message;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.android.helper.utils.LogUtil;
-import com.android.helper.utils.SpUtil;
+import com.android.common.utils.LogUtil;
+import com.android.common.utils.SpUtil;
 
 import java.util.Calendar;
 import java.util.List;
@@ -30,7 +30,8 @@ public class LookDogService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        usageStatsManager = (UsageStatsManager) getBaseContext().getApplicationContext().getSystemService(Context.USAGE_STATS_SERVICE);
+        usageStatsManager = (UsageStatsManager) getBaseContext().getApplicationContext()
+                .getSystemService(Context.USAGE_STATS_SERVICE);
         Calendar calendar = Calendar.getInstance();
         endTime = calendar.getTimeInMillis();
         calendar.add(Calendar.DAY_OF_WEEK, -2);
@@ -49,10 +50,10 @@ public class LookDogService extends Service {
         return null;
     }
 
-//    @Override
-//    public IBinder onBind(Intent intent) {
-//
-//    }
+    // @Override
+    // public IBinder onBind(Intent intent) {
+    //
+    // }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -65,7 +66,8 @@ public class LookDogService extends Service {
             }
             mHandler.removeCallbacksAndMessages(null);
 
-            List<UsageStats> usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, startTime, endTime);
+            List<UsageStats> usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, startTime,
+                    endTime);
             if (usageStatses != null && usageStatses.size() > 0) {
                 for (UsageStats usageStats : usageStatses) {
                     if (usageStatsResult == null || usageStatsResult.getLastTimeUsed() < usageStats.getLastTimeUsed()) {
@@ -75,7 +77,7 @@ public class LookDogService extends Service {
             }
             if (usageStatsResult != null) {
                 String packageName = usageStatsResult.getPackageName();
-                aBoolean = SpUtil.getBoolean(packageName);
+                aBoolean = SpUtil.INSTANCE.getBoolean(packageName);
                 LogUtil.e("当前操作的应用是   当前的栈顶应用为：" + "----" + "------------" + packageName + "  选中的状态为：" + aBoolean);
                 if (aBoolean) {
                     Intent intent = new Intent();

@@ -10,8 +10,8 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityTestTouchBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.ResourceUtil
 
 class TestTouchActivity : AppBaseBindingTitleActivity<ActivityTestTouchBinding>() {

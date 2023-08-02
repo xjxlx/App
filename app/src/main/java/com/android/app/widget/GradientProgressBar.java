@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import com.android.app.R;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
@@ -15,9 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.utils.ConvertUtil;
 import com.android.helper.utils.CustomViewUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.ValueAnimationUtil;
 
 public class GradientProgressBar extends ProgressBar {
@@ -36,7 +36,7 @@ public class GradientProgressBar extends ProgressBar {
     private boolean isTool;// 是否开始计算进度的开关
     private ProgressTouchListener mListener;
     private ValueAnimationUtil utils;
-    private boolean isCanTouch = true;//是否可以按下
+    private boolean isCanTouch = true;// 是否可以按下
 
     public GradientProgressBar(@NonNull Context context) {
         super(context);
@@ -195,7 +195,8 @@ public class GradientProgressBar extends ProgressBar {
             // 每一份值占总体宽度的多少
             if (animatedValue > 0) {
                 mAnimationEndX = measuredWidth * animatedValue;
-                //   LogUtil.e("animatedValue : " + animatedValue + "  measuredWidth:" + measuredWidth + "   mAnimationEndX:" + mAnimationEndX);
+                // LogUtil.e("animatedValue : " + animatedValue + " measuredWidth:" +
+                // measuredWidth + " mAnimationEndX:" + mAnimationEndX);
                 invalidate();
             }
         });

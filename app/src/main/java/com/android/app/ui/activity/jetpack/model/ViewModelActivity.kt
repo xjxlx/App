@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.android.app.R
 import com.android.app.databinding.ActivityViewModelBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.FragmentUtil
-import com.android.helper.utils.LogUtil
 import com.android.helper.utils.jetpack.AndroidLifecycle
 
 /**

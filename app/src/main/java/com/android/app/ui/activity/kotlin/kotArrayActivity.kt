@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityArrayBinding
+import com.android.common.utils.LogUtil
 import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.LogUtil
 
 class kotArrayActivity : AppBaseBindingTitleActivity<ActivityArrayBinding>() {
 
@@ -55,18 +55,13 @@ class kotArrayActivity : AppBaseBindingTitleActivity<ActivityArrayBinding>() {
         }
 
         // forEach 循环,it代表数据的元素
-        intArray.forEach {
-            LogUtil.e("forEach:$it")
-        }
+        intArray.forEach { LogUtil.e("forEach:$it") }
 
         // 增强版的forEach
-        intArray.forEachIndexed { index, item ->
-            LogUtil.e("增强forEach:  index：$index   item:$item")
-        }
+        intArray.forEachIndexed { index, item -> LogUtil.e("增强forEach:  index：$index   item:$item") }
 
         // -----------------------------------
 
-//        val arrayListOf = arrayListOf<String>()
-
+        //        val arrayListOf = arrayListOf<String>()
     }
 }

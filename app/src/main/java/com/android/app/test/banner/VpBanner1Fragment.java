@@ -10,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBannerBinding;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.BaseBindingFragment;
-import com.android.helper.utils.LogUtil;
 
 import org.jetbrains.annotations.NotNull;
 

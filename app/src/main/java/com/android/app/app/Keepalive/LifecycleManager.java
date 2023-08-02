@@ -10,12 +10,12 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
 import com.android.app.app.Keepalive.keep.KeepManager;
+import com.android.common.utils.LogUtil;
+import com.android.common.utils.SpUtil;
 import com.android.helper.common.CommonConstants;
 import com.android.helper.utils.ActivityUtil;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.ServiceUtil;
-import com.android.helper.utils.SpUtil;
 import com.android.helper.utils.SystemUtil;
 import com.android.helper.utils.account.AccountHelper;
 import com.android.helper.utils.account.LifecycleAppEnum;
@@ -44,26 +44,20 @@ public class LifecycleManager {
     /**
      * 开启保活的方案，这个方法建议在activity的onCreate方法中卡其
      *
-     * @param application
-     *            系统级的Context对象
-     * @param serviceName
-     *            需要启动服务类的名字
+     * @param application 系统级的Context对象
+     * @param serviceName 需要启动服务类的名字
      */
     public void startLifecycle(Context application, String serviceName, String jobName) {
         if ((application != null) && (!TextUtils.isEmpty(serviceName)) && (!TextUtils.isEmpty(jobName))) {
             mServiceName = serviceName;
             mJobServiceName = jobName;
             // 保存名字
-            SpUtil.putString(CommonConstants.FILE_LIFECYCLE_SERVICE_NAME, serviceName);
-            SpUtil.putString(CommonConstants.FILE_LIFECYCLE_JOB_SERVICE_NAME, jobName);
+            SpUtil.INSTANCE.putString(CommonConstants.FILE_LIFECYCLE_SERVICE_NAME, serviceName);
+            SpUtil.INSTANCE.putString(CommonConstants.FILE_LIFECYCLE_JOB_SERVICE_NAME, jobName);
 
             // 1:账号保活
             AccountHelper accountHelper = AccountHelper.getInstance();
-            accountHelper.addAccountType(application.getResources().getString(R.string.account_type))
-                .addAccountAuthority(application.getResources().getString(R.string.account_authority))
-                .addAccountName(application.getResources().getString(R.string.account_name))
-                .addAccountPassword(application.getResources().getString(R.string.account_password))
-                .addAccount(application);// 添加账户
+            accountHelper.addAccountType(application.getResources().getString(R.string.account_type)).addAccountAuthority(application.getResources().getString(R.string.account_authority)).addAccountName(application.getResources().getString(R.string.account_name)).addAccountPassword(application.getResources().getString(R.string.account_password)).addAccount(application);// 添加账户
             accountHelper.autoSync();
 
             // 2:后台服务写日志
@@ -81,8 +75,7 @@ public class LifecycleManager {
             // 3:启动jobService
             boolean jobServiceRunning = ServiceUtil.isJobServiceRunning(application, jobName);
             LogUtil.e("☆☆☆☆☆---我是Manager，当前JobService的状态为：" + jobServiceRunning);
-            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME,
-                "☆☆☆☆☆---我是Manager，当前JobService的状态为：" + jobServiceRunning);
+            LogUtil.writeAll(CommonConstants.FILE_LIFECYCLE_NAME, "☆☆☆☆☆---我是Manager，当前JobService的状态为：" + jobServiceRunning);
 
             if (!jobServiceRunning) {
                 AppJobService.startJob(application, serviceName, LifecycleAppEnum.From_Intent);
@@ -96,8 +89,7 @@ public class LifecycleManager {
     /**
      * 停止保活的程序，关闭此方法建议慎用，最好是在onDestroy中去调用，页面正常结束了，说明已经不在需要保活了，可以主动去关闭保活程序
      *
-     * @param context
-     *            上下文对象
+     * @param context 上下文对象
      */
     public void stopLifecycle(Context context) {
         // 1：解除一个像素activity的注册
@@ -123,7 +115,8 @@ public class LifecycleManager {
     }
 
     /**
-     * 检测notification的权限， startActivityForResult的请求码为{NotificationUtil.CODE_REQUEST_ACTIVITY_NOTIFICATION}
+     * 检测notification的权限，
+     * startActivityForResult的请求码为{NotificationUtil.CODE_REQUEST_ACTIVITY_NOTIFICATION}
      */
     public void checkNotificationPermissions(FragmentActivity activity) {
         if (activity != null) {
@@ -133,9 +126,7 @@ public class LifecycleManager {
             // 检测是否已经打开了notification
             boolean openNotify = mNotificationUtil.checkOpenNotify(activity);
             if (!openNotify) {
-                mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx)
-                    .Build().setText(R.id.tv_msg, "如果不打开通知的权限，则无法正常使用通知，是否跳转页面手动打开？")
-                    .setOnClickListener(R.id.tv_qx, (v, builder) -> mNotificationUtil.goToSetNotify(activity));
+                mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build().setText(R.id.tv_msg, "如果不打开通知的权限，则无法正常使用通知，是否跳转页面手动打开？").setOnClickListener(R.id.tv_qx, (v, builder) -> mNotificationUtil.goToSetNotify(activity));
                 mDialogUtil.show();
             }
         }
@@ -147,10 +138,8 @@ public class LifecycleManager {
     public void checkSdPermissions(FragmentActivity activity) {
         if (activity != null) {
             // 请求app的读写权限
-            new RxPermissionsUtil.Builder(activity, Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .setSinglePerMissionListener(
-                        (status, permission) -> LogUtil.e("权限：" + permission + " 状态：" + status))
+            new RxPermissionsUtil.Builder(activity, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .setSinglePerMissionListener((status, permission) -> LogUtil.e("权限：" + permission + " 状态：" + status))
                     .build().startRequestPermission();
 
         }
@@ -168,12 +157,10 @@ public class LifecycleManager {
                 }
                 boolean ignoringBatteryOptimizations = mSystemUtil.isIgnoringBatteryOptimizations();
                 if (!ignoringBatteryOptimizations) {
-                    mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx)
-                        .Build().setText(R.id.tv_msg, "请禁止电池优化功能，否则为了保持电量的消耗，会主动杀死App,无法进行系统的保活，是否禁止电池的优化？")
-                        .setOnClickListener(R.id.tv_qd, (v, builder) -> {
-                            // 申请打开电池优化
-                            mSystemUtil.requestIgnoreBatteryOptimizations(activity);
-                        });
+                    mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build().setText(R.id.tv_msg, "请禁止电池优化功能，否则为了保持电量的消耗，会主动杀死App,无法进行系统的保活，是否禁止电池的优化？").setOnClickListener(R.id.tv_qd, (v, builder) -> {
+                        // 申请打开电池优化
+                        mSystemUtil.requestIgnoreBatteryOptimizations(activity);
+                    });
                     mDialogUtil.show();
                 }
             } else {
@@ -187,12 +174,10 @@ public class LifecycleManager {
      */
     public void checkAutoStartupPermissions(FragmentActivity activity) {
         if (activity != null) {
-            mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build()
-                .setText(R.id.tv_msg, "为了减少后台运行的时候，系统主动杀死App，请手动打开自动启动的权限，是否打开自动启动的权限？")
-                .setOnClickListener(R.id.tv_qd, (v, builder) -> {
-                    // 申请打开电池优化
-                    ActivityUtil.toSecureManager(activity);
-                });
+            mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build().setText(R.id.tv_msg, "为了减少后台运行的时候，系统主动杀死App，请手动打开自动启动的权限，是否打开自动启动的权限？").setOnClickListener(R.id.tv_qd, (v, builder) -> {
+                // 申请打开电池优化
+                ActivityUtil.toSecureManager(activity);
+            });
             mDialogUtil.show();
         }
     }
@@ -203,7 +188,7 @@ public class LifecycleManager {
         }
 
         if (TextUtils.isEmpty(mServiceName)) {
-            mServiceName = SpUtil.getString(CommonConstants.FILE_LIFECYCLE_SERVICE_NAME);
+            mServiceName = SpUtil.INSTANCE.getString(CommonConstants.FILE_LIFECYCLE_SERVICE_NAME);
         }
 
         return mServiceName;
@@ -215,7 +200,7 @@ public class LifecycleManager {
         }
 
         if (TextUtils.isEmpty(mJobServiceName)) {
-            mJobServiceName = SpUtil.getString(CommonConstants.FILE_LIFECYCLE_JOB_SERVICE_NAME);
+            mJobServiceName = SpUtil.INSTANCE.getString(CommonConstants.FILE_LIFECYCLE_JOB_SERVICE_NAME);
         }
         return mJobServiceName;
     }

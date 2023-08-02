@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.base.title.AppBaseTitleActivity;
-import com.android.helper.utils.LogUtil;
 
 import java.security.MessageDigest;
 import java.util.Stack;

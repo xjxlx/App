@@ -11,8 +11,8 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.android.app.R;
+import com.android.common.utils.LogUtil;
 import com.android.helper.common.CommonConstants;
-import com.android.helper.utils.LogUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.ServiceUtil;
 import com.android.helper.utils.account.LifecycleAppEnum;
