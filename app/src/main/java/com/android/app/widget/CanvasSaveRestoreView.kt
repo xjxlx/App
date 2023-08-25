@@ -5,8 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.android.app.R
-import com.android.apphelper2.utils.BitmapUtil
-import com.android.apphelper2.utils.ResourcesUtil
+import com.android.common.utils.ResourcesUtil
 
 class CanvasSaveRestoreView(private val context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -20,7 +19,7 @@ class CanvasSaveRestoreView(private val context: Context, attributeSet: Attribut
         }
     }
     private val mBitmap: Bitmap? by lazy {
-        return@lazy BitmapUtil.getBitmap(context, R.drawable.icon_head)
+        return@lazy ResourcesUtil.getBitmap(context, R.drawable.icon_head)
     }
 
     override fun onDraw(canvas: Canvas?) {
