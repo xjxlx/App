@@ -14,8 +14,8 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '7.3.1' apply false
-    id 'com.android.library' version '7.3.1' apply false
+    id 'com.android.application' version '7.4.1' apply false
+    id 'com.android.library' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
 
@@ -52,7 +52,7 @@ apply from: "config.gradle"
 //        // 发布JitPack的依赖版本，【3.0+以上用1.5】，【4.1+以上用2.0】，【4.6+以上用2.1】
 //        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // Add this line
 //        // NOTE: Do not place your application dependencies here; they belong
-//        // in the individual module build.gradle files
+//        // in the individual module 1build.gradle files
 //
 //        // navigation 中 safe-agrs
 //        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"

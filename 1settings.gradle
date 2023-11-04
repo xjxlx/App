@@ -28,7 +28,6 @@ dependencyResolutionManagement {
     }
 }
 
-
 rootProject.name = "App"
 include ':app'
 include ':apphelper'
