@@ -91,6 +91,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     //程序在编译的时候会检查lint，有任何错误提示会停止build，我们可以关闭这个开关
