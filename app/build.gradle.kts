@@ -7,6 +7,7 @@
 }
 
 android {
+    namespace = "com.android.app"
     compileSdk = libs.versions.compileSdks.get()
         .toInt()
 
@@ -134,7 +135,7 @@ android {
             this.outputs.all {
                 // 判断是否是输出 apk 类型
                 if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
-                    this.outputFileName = "AppHelper-${buildType}-${versionName}-${utils.DateUtil.getCurrentTime()}.apk"
+//                    this.outputFileName = "AppHelper-${buildType}-${versionName}-${utils.DateUtil.getCurrentTime()}.apk"
                 }
             }
 
