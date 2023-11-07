@@ -3,7 +3,6 @@
     alias(libs.plugins.org.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
-    id("bugly")
 }
 
 android {
@@ -195,7 +194,7 @@ dependencies {
     implementation("com.google.android:flexbox:1.1.1") // 流式布局)
     implementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
     // bugly
-    implementation("com.tencent.bugly:crashreport:4.1.9.2")
+    implementation("com.tencent.bugly:crashreport:latest.release")
 
     // 高德
     implementation("com.amap.api:location:5.6.1") // 定位
