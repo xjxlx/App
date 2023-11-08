@@ -105,11 +105,11 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
         }
 
         mBinding.btnOpenAllFile.setOnClickListener {
-            DialogUtil.Builder(this, R.layout.base_default_dialog)
-                .setClose(R.id.tv_qx)
+             DialogUtil.Builder(this, com.android.helper.R.layout.base_default_dialog)
+                .setClose(com.android.helper.R.id.tv_qx)
                 .Build()
-                .setOnClickListener(R.id.tv_qd) { _, _ -> mFileUtil.jumpAllFiles() }
-                .setText(R.id.tv_msg, "是否进行文件权限授权？")
+                .setOnClickListener(com.android.helper.R.id.tv_qd) { _, _ -> mFileUtil.jumpAllFiles() }
+                .setText(com.android.helper.R.id.tv_msg, "是否进行文件权限授权？")
                 .show()
         }
         val commonPath = mFileUtil.commonPath

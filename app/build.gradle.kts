@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -162,24 +162,36 @@ android {
 
     // ndk version
     ndkVersion = "21.4.7075529"
+
+    // ndk-build模式
+    externalNativeBuild {
+        ndkBuild {
+            // Provides a relative path to your ndkBuild script.
+//            path = file("build/intermediates/ndk/debug/Android.mk")
+        }
+    }
+
 }
 
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.dimens)
+    implementation(libs.photo)
+    implementation(libs.constraintlayout)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+
     implementation(files("libs/nineoldandroids-2.4.0.jar"))
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation(libs.dimens)
-    implementation("com.github.xjxlx:photo:1.3.0")
 
-    val room_version = "2.6.0"
+    val room_version = "2.3.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-rxjava2:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-
-    implementation(libs.constraintlayout)
+    // kapt("androidx.room:room-compiler:$room_version")
 
     // navigation
     val nav_version = "2.3.5"
@@ -187,10 +199,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     //noinspection GradleDependency
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     implementation("com.google.android:flexbox:1.1.1") // 流式布局)
     implementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
     // bugly
@@ -201,7 +209,6 @@ dependencies {
     implementation("com.amap.api:search:8.1.0") // 搜索
     implementation("com.amap.api:3dmap:8.1.0") // 地图
     implementation("org.greenrobot:eventbus:3.2.0")
-    implementation("androidx.room:room-runtime:2.5.1")
 
     // 高德
     implementation("com.amap.api:location:5.6.1") // 定位
