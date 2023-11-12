@@ -1,21 +1,18 @@
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-//    id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
+    // id("kotlin-kapt")
+    id("androidx.navigation.safeargs")
 }
 
 android {
     namespace = "com.android.app"
-    compileSdk = libs.versions.compileSdks.get()
-        .toInt()
+    compileSdk = libs.versions.compileSdks.get().toInt()
 
     defaultConfig {
         applicationId = "com.android.app"
-        minSdk = libs.versions.minSdk.get()
-            .toInt()
-        targetSdk = libs.versions.targetSdk.get()
-            .toInt()
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -32,7 +29,7 @@ android {
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters += listOf("arm64-v8a", "x86_64", "armeabi")
+            abiFilters += listOf("arm64-v8a", "x86_64", "armeabi", "x86")
         }
     }
 
@@ -91,6 +88,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        aidl = true
     }
 
     //程序在编译的时候会检查lint，有任何错误提示会停止build，我们可以关闭这个开关
@@ -162,26 +160,27 @@ android {
 
     // ndk version
     ndkVersion = "21.4.7075529"
+}
 
-    // ndk-build模式
-    externalNativeBuild {
-        ndkBuild {
-            // Provides a relative path to your ndkBuild script.
-//            path = file("build/intermediates/ndk/debug/Android.mk")
-        }
+// 强制使用版本
+configurations.all {
+    resolutionStrategy {
+        force("androidx.activity:activity:1.2.4")
+        force("androidx.fragment:fragment:1.2.4")
     }
-
 }
 
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.dimens)
     implementation(libs.photo)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.rxandroid2)
+    implementation("androidx.activity:activity:1.2.4")
+    implementation("androidx.fragment:fragment:1.2.4")
 
     implementation(files("libs/nineoldandroids-2.4.0.jar"))
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -195,10 +194,11 @@ dependencies {
 
     // navigation
     val nav_version = "2.3.5"
-    //noinspection GradleDependency
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    //noinspection GradleDependency
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+
     implementation("com.google.android:flexbox:1.1.1") // 流式布局)
     implementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
     // bugly
@@ -217,6 +217,4 @@ dependencies {
 
     implementation(project(":apphelper"))
     implementation(project(":apphelper2"))
-    implementation(project(":common"))
-    implementation(project(":http"))
 }

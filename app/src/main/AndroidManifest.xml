@@ -81,6 +81,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
+
     <application
         android:name=".app.App"
         android:allowBackup="false"
@@ -93,13 +94,18 @@
         android:testOnly="false"
         android:theme="@style/Theme.AppThem"
         tools:targetApi="n">
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="true" />
+
         <activity
             android:name=".ui.activity.widget.PostChartActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".ui.activity.widget.CanvasSaveRestoreActivity"
@@ -312,7 +318,9 @@
         <activity android:name=".ui.activity.java.TestJavaLifeActivity" />
         <activity android:name=".ui.activity.RxJava2Activity" />
         <activity android:name=".ui.activity.WriteXmlTitleActivity" />
-        <activity android:name=".ui.activity.ReceiveMapResultTitleActivity">
+        <activity
+            android:name=".ui.activity.ReceiveMapResultTitleActivity"
+            android:exported="true">
 
             <!-- 处理文字的Intent 我们需要定义action,  category, 和文字对应的MIME -->
             <intent-filter>
@@ -366,7 +374,9 @@
 
         <activity android:name=".ui.activity.DemoMapTitleActivity" />
         <activity android:name=".ui.activity.jetpack.livedata.LiveDataActivity" />
-        <activity android:name=".ui.activity.H5StartNativeTitleActivity">
+        <activity
+            android:name=".ui.activity.H5StartNativeTitleActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -415,7 +425,9 @@
         <activity android:name=".ui.activity.FaceAuthenticationTitleActivity" />
         <activity android:name=".ui.activity.widget.ViewMapTitleActivity" />
         <activity android:name=".ui.activity.widget.ProgressTitleActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -47,28 +47,29 @@ class RouseDingDingActivity : AppBaseBindingTitleActivity<ActivityRouseDingDingB
     private lateinit var mAMap: AMap
     private var mCityCode = "" // 城市编码
     private var mMoved: Boolean = false // 是否移动过
-    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result != null && result.data != null) {
-            if (result.resultCode == 123) {
-                if (result.data != null) {
-                    val data = result.data
-                    val title = data?.getStringExtra("title")
-                    val latLonPoint = data?.getParcelableExtra<LatLonPoint>("result")
-                    if (latLonPoint != null) {
-                        val latLng = LatLng(latLonPoint.latitude, latLonPoint.longitude)
-                        SpUtil.putString("latitude", latLonPoint.latitude.toString())
-                        SpUtil.putString("longitude", latLonPoint.longitude.toString())
-
-                        addMarker(latLng, title!!, "")
-                        moveMap(latLng)
-                    }
-                    LogUtil.e("result:   $result")
-                }
-            } else if (result.resultCode == Activity.RESULT_OK) {
-                LogUtil.e("其他的跳转！")
-            }
-        }
-    }
+    // todO 暂停使用，因为版本的问题，启动跳转出现了点问题，暂时用不上，就不处理了
+//    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//        if (result != null && result.data != null) {
+//            if (result.resultCode == 123) {
+//                if (result.data != null) {
+//                    val data = result.data
+//                    val title = data?.getStringExtra("title")
+//                    val latLonPoint = data?.getParcelableExtra<LatLonPoint>("result")
+//                    if (latLonPoint != null) {
+//                        val latLng = LatLng(latLonPoint.latitude, latLonPoint.longitude)
+//                        SpUtil.putString("latitude", latLonPoint.latitude.toString())
+//                        SpUtil.putString("longitude", latLonPoint.longitude.toString())
+//
+//                        addMarker(latLng, title!!, "")
+//                        moveMap(latLng)
+//                    }
+//                    LogUtil.e("result:   $result")
+//                }
+//            } else if (result.resultCode == Activity.RESULT_OK) {
+//                LogUtil.e("其他的跳转！")
+//            }
+//        }
+//    }
 
     override fun setTitleContent(): String {
         return "唤醒钉钉"
@@ -154,7 +155,8 @@ class RouseDingDingActivity : AppBaseBindingTitleActivity<ActivityRouseDingDingB
             intent.putExtra("cityCode", mCityCode)
         } // 点击跳转
         mBinding.btnSearch.setOnClickListener {
-            register.launch(intent)
+            // todo 暂时封闭
+            // register.launch(intent)
         } // 长安点击获取屏幕位置
         mAMap.setOnMapLongClickListener { latLng ->
             if (latLng != null) {
@@ -173,7 +175,8 @@ class RouseDingDingActivity : AppBaseBindingTitleActivity<ActivityRouseDingDingB
                 val notificationEnabled = ServiceUtil.notificationEnabled()
                 if (!notificationEnabled) {
                     val intents = Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
-                    register.launch(intents)
+                    // todo 暂时封闭
+                    // register.launch(intents)
                 } else {
                     val intent = Intent(this, NotificationService::class.java)
                     intent.putExtra("packageName", "com.alibaba.android.rimet")
