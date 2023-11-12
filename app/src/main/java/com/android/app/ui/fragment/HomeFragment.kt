@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.app.R
 import com.android.app.databinding.FragmentHomeBinding
 import com.android.apphelper2.utils.permission.PermissionMultipleCallBackListener
 import com.android.apphelper2.utils.permission.PermissionUtil
@@ -137,7 +136,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
 
             permissionUtil.requestArray(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
                 object : PermissionMultipleCallBackListener {
-                    override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
+                    override fun onCallBack(allGranted: Boolean, map: Map<String, Boolean>) {
                         map.map {
                             LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
                         }

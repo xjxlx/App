@@ -34,7 +34,7 @@ class TodoFragment : AppBaseFragment() {
     override fun initData(savedInstanceState: Bundle?) {
         permissionUtil.requestArray(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
             object : PermissionMultipleCallBackListener {
-                override fun onCallBack(allGranted: Boolean, map: MutableMap<String, Boolean>) {
+                override fun onCallBack(allGranted: Boolean, map: Map<String, Boolean>) {
                     map.map {
                         LogUtil.e("permission --->: key: ${it.key}  value: ${it.value}  allGranted: $allGranted")
                     }

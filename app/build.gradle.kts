@@ -1,3 +1,5 @@
+import java.util.Calendar
+
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -133,28 +135,27 @@ android {
             this.outputs.all {
                 // 判断是否是输出 apk 类型
                 if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
-//                    this.outputFileName = "AppHelper-${buildType}-${versionName}-${utils.DateUtil.getCurrentTime()}.apk"
+                    this.outputFileName = "AppHelper-${buildType}-${versionName}-${getCurrentTime()}.apk"
                 }
             }
 
             // 复制apk到指定的位置
             val apkOutPutPath = this.packageApplicationProvider.get().outputDirectory.get().asFile.absolutePath
-            this.assembleProvider.get()
-                .doLast {
-                    // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
-                    val outputs = File(rootProject.rootDir, "${File.separator}outputs${File.separator}${buildType}")
-                    // 1：先删除
-                    delete {
-                        System.out.println("删除outPuts!")
-                        delete(File(outputs.absolutePath))
-                    }
-                    // 2:再拷贝
-                    copy {
-                        System.out.println("拷贝outPuts!")
-                        from(apkOutPutPath)
-                        into(outputs)
-                    }
+            this.assembleProvider.get().doLast {
+                // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
+                val outputs = File(rootProject.rootDir, "${File.separator}outputs${File.separator}${buildType}")
+                // 1：先删除
+                delete {
+                    System.out.println("删除outPuts!")
+                    delete(File(outputs.absolutePath))
                 }
+                // 2:再拷贝
+                copy {
+                    System.out.println("拷贝outPuts!")
+                    from(apkOutPutPath)
+                    into(outputs)
+                }
+            }
         }
     }
 
@@ -162,12 +163,18 @@ android {
     ndkVersion = "21.4.7075529"
 }
 
-// 强制使用版本
-configurations.all {
-    resolutionStrategy {
-        force("androidx.activity:activity:1.2.4")
-        force("androidx.fragment:fragment:1.2.4")
-    }
+/**
+ * 获取当前的时间
+ * @return YYYY-MM-DD-dd-hh-mm
+ */
+fun getCurrentTime(): String {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+    return "$year-${month + 1}-$day-$hour-$minute"
 }
 
 dependencies {
@@ -179,11 +186,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.rxandroid2)
-    implementation("androidx.activity:activity:1.2.4")
-    implementation("androidx.fragment:fragment:1.2.4")
-
+    implementation(libs.crashreport)
+    implementation(libs.legacy.support.v4)
     compileOnly(files("libs/nineoldandroids-2.4.0.jar"))
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
     val room_version = "2.4.0"
     implementation("androidx.room:room-runtime:$room_version")
@@ -198,11 +203,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:$nav_version")
     // Feature module Support
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
-
     implementation("com.google.android:flexbox:1.1.1") // 流式布局)
     implementation("com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2")
-    // bugly
-    implementation("com.tencent.bugly:crashreport:latest.release")
 
     // 高德
     implementation("com.amap.api:location:5.6.1") // 定位
