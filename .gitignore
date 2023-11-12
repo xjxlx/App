@@ -22,6 +22,8 @@ local.properties
 /outputs/
 /app/.idea/
 /java/bin/main/com/java/model/
-/app/free/
 /gradle/29/
 /gradle/31/
+/app/free/
+/app/pro/
+/app/education/

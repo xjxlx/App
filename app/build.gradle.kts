@@ -135,7 +135,7 @@ android {
             this.outputs.all {
                 // 判断是否是输出 apk 类型
                 if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
-                    this.outputFileName = "AppHelper-${buildType}-${versionName}-${getCurrentTime()}.apk"
+                    this.outputFileName = "AppHelper-${buildType}-${versionName}-product-${productFlavors[0].name}-${getCurrentTime()}.apk"
                 }
             }
 
