@@ -22,7 +22,7 @@ class ViewPager2 : ViewGroup {
 
     // 手势识别器
     private var mGestureDetector: GestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-        override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             LogUtil.e("onScroll!")
             // e1:起点;e2:终点;distanceX: 水平滑动距离; distanceY:竖直距离
             dxxx = distanceX.toInt()
@@ -99,7 +99,9 @@ class ViewPager2 : ViewGroup {
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         // 把手势识别器交给touch去控制
-        mGestureDetector.onTouchEvent(event)
+        event?.let {
+            mGestureDetector.onTouchEvent(event)
+        }
         //        return super.onTouchEvent(event)
 
         when (event?.action) {
