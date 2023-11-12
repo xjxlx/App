@@ -22,11 +22,7 @@ class CustomRoundImageActivity : AppBaseBindingTitleActivity<ActivityCustomRound
     }
 
     val system: SystemUtil by lazy {
-        return@lazy if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            SystemUtil.getInstance(App.getInstance())
-        } else {
-            TODO("VERSION.SDK_INT < M")
-        }
+        return@lazy SystemUtil.getInstance(App.getInstance())
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

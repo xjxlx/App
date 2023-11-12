@@ -4,7 +4,6 @@
     <!--    <string name="app_name">App小助手</string>-->
 
     <string name="custom_round">自定义圆角图形</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="account_authority">com.android.app.account.authority</string>
