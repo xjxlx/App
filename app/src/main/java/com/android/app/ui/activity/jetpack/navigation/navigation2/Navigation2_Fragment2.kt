@@ -25,7 +25,11 @@ class Navigation2_Fragment2 : BaseBindingFragment<FragmentNavigation22Binding>()
         }
 
         mBinding.btnNavigation2Jump2.setOnClickListener {
-            val bundle = Navigation2_Fragment2Args("李四", 23).toBundle()
+            val builder = Navigation2_Fragment2Args.Builder()
+            builder.name2 = "李四"
+            builder.age2 = 23
+
+            val bundle = builder.build().toBundle()
             findNavController().navigate(R.id.action_Fragment2_to_Fragment3, bundle)
         }
     }

@@ -18,7 +18,10 @@ class Fragment1 : BaseBindingFragment<Fragment1Binding>() {
     override fun initData(savedInstanceState: Bundle?) {
         LogUtil.e("当前是Fragment ---> 1,当前的地址是：${this.hashCode()}")
         mBinding.btn12.setOnClickListener {
-            val bundle = Fragment1Args("张三", 11).toBundle()
+            val builder = Fragment1Args.Builder()
+            builder.age = 11
+            builder.name = "张三"
+            val bundle = builder.build().toBundle()
             findNavController().navigate(R.id.action_fragment1_to_fragment2, bundle)
         }
     }

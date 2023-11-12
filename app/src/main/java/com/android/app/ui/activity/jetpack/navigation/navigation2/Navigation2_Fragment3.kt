@@ -33,7 +33,10 @@ class Navigation2_Fragment3 : BaseBindingFragment<FragmentNavigation23Binding>()
 //                .build()
 //                .toBundle()
 
-            val bundle = Navigation2_Fragment3Args("王五", 34).toBundle()
+            val builder = Navigation2_Fragment3Args.Builder()
+            builder.age3 = 34
+            builder.name3 = "王五"
+            val bundle = builder.build().toBundle()
             findNavController().navigate(R.id.action_Fragment3_to_Fragment1, bundle)
         }
     }
