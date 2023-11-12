@@ -18,14 +18,14 @@ class ElevateChartView(context: Context, attributeSet: AttributeSet) : View(cont
     private var mHeight: Int = 0
     private val mPaintContent: Paint by lazy {
         return@lazy Paint().apply {
-            textSize = ResourcesUtil.getDimension(context, R.dimen.sp_16)
+            textSize = ResourcesUtil.getDimension(context,com.android.helper.R.dimen.sp_16)
             style = Paint.Style.FILL
             color = Color.WHITE
         }
     }
-    private val mPaddingTop: Float = ResourcesUtil.getDimension(context, R.dimen.dp_10)
-    private val mPaddingBottom: Float = ResourcesUtil.getDimension(context, R.dimen.dp_10)
-    private val mRectangleWidth: Float = ResourcesUtil.getDimension(context, R.dimen.dp_10)
+    private val mPaddingTop: Float = ResourcesUtil.getDimension(context,com.android.helper.R.dimen.dp_10)
+    private val mPaddingBottom: Float = ResourcesUtil.getDimension(context,com.android.helper.R.dimen.dp_10)
+    private val mRectangleWidth: Float = ResourcesUtil.getDimension(context,com.android.helper.R.dimen.dp_10)
     private val mContentArray by lazy {
         return@lazy arrayOf("情绪", "气息", "呼吸", "调息", "心肺")
     }

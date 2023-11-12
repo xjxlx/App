@@ -5,13 +5,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
-import com.android.app.R
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.LinearInterpolator
 import androidx.annotation.IntRange
 import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
+import com.android.app.R
 import com.android.helper.utils.ConvertUtil
 
 /**
@@ -34,8 +34,8 @@ class ProgressView2(context: Context, attrs: AttributeSet) : View(context, attrs
     // 背景的边距
     private val mPaintBackgroundPadding = ConvertUtil.toDp(44f)
     private var mTextContext: String = "20" // 文字的内容
-    private val mBitmapWidth = resources.getDimension(R.dimen.dp_17)
-    private val mBitmapHeight = resources.getDimension(R.dimen.dp_22)
+    private val mBitmapWidth = resources.getDimension(com.android.helper.R.dimen.dp_17)
+    private val mBitmapHeight = resources.getDimension(com.android.helper.R.dimen.dp_22)
     private var progress: Int = 20  // 当前的进度
     private var mEndX: Float = 0f   // 当前进度条的值
     private var oldProgress: Int = 0 // 老的进度条的值
@@ -56,7 +56,7 @@ class ProgressView2(context: Context, attrs: AttributeSet) : View(context, attrs
 
         // 设置文字
         mPaintText.color = ContextCompat.getColor(getContext(), R.color.white)
-        mPaintText.textSize = resources.getDimension(R.dimen.sp_20)
+        mPaintText.textSize = resources.getDimension(com.android.helper.R.dimen.sp_20)
         mPaintText.isAntiAlias = true
 
         if (!isInEditMode) {
@@ -124,15 +124,9 @@ class ProgressView2(context: Context, attrs: AttributeSet) : View(context, attrs
             // 设置渐变
             val shaderStartX: Float = 0f + mPaintBackgroundPadding
             val shaderEndX: Float = measuredWidth - mPaintBackgroundPadding
-            val shader = LinearGradient(
-                    shaderStartX,
-                    mTextHeight.toFloat(),
-                    shaderEndX,
-                    mTextHeight.toFloat(),
-                    intArrayOf(ContextCompat.getColor(context, R.color.blue_3), ContextCompat.getColor(context, R.color.blue_4)),
-                    floatArrayOf(0f, 1f),
-                    Shader.TileMode.CLAMP
-            )
+            val shader = LinearGradient(shaderStartX, mTextHeight.toFloat(), shaderEndX, mTextHeight.toFloat(),
+                intArrayOf(ContextCompat.getColor(context, R.color.blue_3), ContextCompat.getColor(context, R.color.blue_4)),
+                floatArrayOf(0f, 1f), Shader.TileMode.CLAMP)
             mPaintProgress.shader = shader
 
             if (isCharging()) {
@@ -206,5 +200,4 @@ class ProgressView2(context: Context, attrs: AttributeSet) : View(context, attrs
         isCharging = charging
         invalidate()
     }
-
 }

@@ -1,7 +1,11 @@
 package com.android.app.widget
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.android.app.R
@@ -15,7 +19,7 @@ class CanvasSaveRestoreView(private val context: Context, attributeSet: Attribut
     private val mPaint: Paint by lazy {
         return@lazy Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.RED
-            strokeWidth = ResourcesUtil.getDimension(context, R.dimen.dp_2)
+            strokeWidth = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_2)
         }
     }
     private val mBitmap: Bitmap? by lazy {

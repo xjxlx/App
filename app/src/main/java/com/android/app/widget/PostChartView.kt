@@ -8,7 +8,6 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
-import com.android.app.R
 import com.android.common.utils.ResourcesUtil
 import com.android.helper.utils.CustomViewUtil
 import kotlin.random.Random
@@ -21,14 +20,14 @@ class PostChartView(context: Context, attributeSet: AttributeSet) : View(context
     private val mPaintPercentage: Paint by lazy {
         return@lazy Paint().apply {
             color = Color.parseColor("#60ffffff")
-            strokeWidth = ResourcesUtil.getDimension(context, R.dimen.dp_1_5)
-            textSize = ResourcesUtil.getDimension(context, R.dimen.sp_16)
+            strokeWidth = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_1_5)
+            textSize = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.sp_16)
         }
     }
-    private val mPercentageEveryInterval = ResourcesUtil.getDimension(context, R.dimen.dp_15)
-    private val mPercentageLeftInterval = ResourcesUtil.getDimension(context, R.dimen.dp_10)
-    private val mPercentageTopInterval = ResourcesUtil.getDimension(context, R.dimen.dp_10)
-    private val mLineVerticalLeftInterval = ResourcesUtil.getDimension(context, R.dimen.dp_10)
+    private val mPercentageEveryInterval = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_15)
+    private val mPercentageLeftInterval = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_10)
+    private val mPercentageTopInterval = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_10)
+    private val mLineVerticalLeftInterval = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_10)
     private val mLineLandscapeMaxWidth by lazy {
         return@lazy width.toFloat()
     }
@@ -40,11 +39,11 @@ class PostChartView(context: Context, attributeSet: AttributeSet) : View(context
         return@lazy Paint().apply {
             style = Paint.Style.FILL
             color = Color.parseColor("#ffffff")
-            strokeWidth = ResourcesUtil.getDimension(context, R.dimen.dp_1_5)
-            textSize = ResourcesUtil.getDimension(context, R.dimen.sp_16)
+            strokeWidth = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_1_5)
+            textSize = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.sp_16)
         }
     }
-    private val mRectangleEveryInterval: Float = ResourcesUtil.getDimension(context, R.dimen.dp_25)
+    private val mRectangleEveryInterval: Float = ResourcesUtil.getDimension(context, com.android.helper.R.dimen.dp_25)
     private var mMeasureHeight: Int = 500
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
