@@ -40,15 +40,14 @@ public class App extends Application {
                     public void initApp() {
 
                         // 设置title的资源信息
-                        PageLayoutBuilder builder = new PageLayoutBuilder()
-                                .setTitleLayoutId(R.layout.base_title_activity)
-                                .setTitleBarLayoutId(R.id.base_title)
-                                .setLeftBackLayoutId(R.id.ll_base_title_back)
-                                .setTitleId(R.id.tv_base_title)
-                                .setRightLayoutId(R.id.fl_base_title_right_parent)
-                                .setRightTextId(R.id.tv_base_title_right_title)
-                                .setContentLayoutId(R.id.fl_activity_content)
-                                .setPlaceHolderLayoutId(R.id.fl_placeholder);
+                        PageLayoutBuilder builder = new PageLayoutBuilder().setTitleLayoutId(com.android.helper.R.layout.base_title_activity)
+                                .setTitleBarLayoutId(com.android.helper.R.id.base_title)
+                                .setLeftBackLayoutId(com.android.helper.R.id.ll_base_title_back)
+                                .setTitleId(com.android.helper.R.id.tv_base_title)
+                                .setRightLayoutId(com.android.helper.R.id.fl_base_title_right_parent)
+                                .setRightTextId(com.android.helper.R.id.tv_base_title_right_title)
+                                .setContentLayoutId(com.android.helper.R.id.fl_activity_content)
+                                .setPlaceHolderLayoutId(com.android.helper.R.id.fl_placeholder);
 
                         PageLayoutManager.setGlobalTitleBar(builder);
                     }

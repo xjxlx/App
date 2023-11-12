@@ -70,18 +70,17 @@ public class TouchView extends View {
 
     private void initView(Context context, AttributeSet attrs) {
         // 获取属性
-        @SuppressLint("CustomViewStyleable")
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TouchView);
+        @SuppressLint("CustomViewStyleable") TypedArray array = context.obtainStyledAttributes(attrs, com.android.helper.R.styleable.TouchView);
 
         float dp = ConvertUtil.toDp(100f);
 
         // drawable
-        Drawable drawable = array.getDrawable(R.styleable.TouchView_tv_drawable);
-        mTopValue = array.getDimension(R.styleable.TouchView_tv_padding_Top, dp);
-        mBottomValue = array.getDimension(R.styleable.TouchView_tv_padding_Bottom, dp);
-        mRadiusPadding = (int) array.getDimension(R.styleable.TouchView_tv_padding_Radius, dp);
-        intervalWidth = (int) array.getDimension(R.styleable.TouchView_tv_interval_Width, dp);
-        mSpeed = array.getFloat(R.styleable.TouchView_tv_speed, 1);
+        Drawable drawable = array.getDrawable(com.android.helper.R.styleable.TouchView_tv_drawable);
+        mTopValue = array.getDimension(com.android.helper.R.styleable.TouchView_tv_padding_Top, dp);
+        mBottomValue = array.getDimension(com.android.helper.R.styleable.TouchView_tv_padding_Bottom, dp);
+        mRadiusPadding = (int) array.getDimension(com.android.helper.R.styleable.TouchView_tv_padding_Radius, dp);
+        intervalWidth = (int) array.getDimension(com.android.helper.R.styleable.TouchView_tv_interval_Width, dp);
+        mSpeed = array.getFloat(com.android.helper.R.styleable.TouchView_tv_speed, 1);
 
         mBitmap = BitmapUtil.getBitmapForDrawable(drawable);
         // 设置bitmap的数据

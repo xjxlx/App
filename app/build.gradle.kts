@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    // id("kotlin-kapt")
+    id("kotlin-kapt")
     id("androidx.navigation.safeargs")
 }
 
@@ -182,15 +182,15 @@ dependencies {
     implementation("androidx.activity:activity:1.2.4")
     implementation("androidx.fragment:fragment:1.2.4")
 
-    implementation(files("libs/nineoldandroids-2.4.0.jar"))
+    compileOnly(files("libs/nineoldandroids-2.4.0.jar"))
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
 
-    val room_version = "2.3.0"
+    val room_version = "2.4.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-rxjava2:$room_version")
-    // kapt("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 
     // navigation
     val nav_version = "2.3.5"

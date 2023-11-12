@@ -101,8 +101,7 @@ public class AudioPlayerActivity extends AppBaseActivity {
             playerUtil.setStartButton(mIvStart);
             playerUtil.setNotificationSmallIcon(R.mipmap.ic_launcher);
             playerUtil.setPendingIntentActivity(JavaMapActivity.class);
-            playerUtil.setNotificationIcon(R.drawable.icon_music_start, R.drawable.icon_music_pause,
-                    R.drawable.icon_music_left, R.drawable.icon_music_right);
+            playerUtil.setNotificationIcon(com.android.helper.R.drawable.icon_music_start, com.android.helper.R.drawable.icon_music_pause, com.android.helper.R.drawable.icon_music_left, com.android.helper.R.drawable.icon_music_right);
             playerUtil.setNotificationList(list);
             playerUtil.setAudioCallBackListener(audioPlayerCallBackListener);
         });

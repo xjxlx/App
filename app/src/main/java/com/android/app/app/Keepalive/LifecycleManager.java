@@ -126,7 +126,10 @@ public class LifecycleManager {
             // 检测是否已经打开了notification
             boolean openNotify = mNotificationUtil.checkOpenNotify(activity);
             if (!openNotify) {
-                mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build().setText(R.id.tv_msg, "如果不打开通知的权限，则无法正常使用通知，是否跳转页面手动打开？").setOnClickListener(R.id.tv_qx, (v, builder) -> mNotificationUtil.goToSetNotify(activity));
+                mDialogUtil = new DialogUtil.Builder(activity, com.android.helper.R.layout.base_default_dialog).setClose(com.android.helper.R.id.tv_qx)
+                        .Build()
+                        .setText(com.android.helper.R.id.tv_msg, "如果不打开通知的权限，则无法正常使用通知，是否跳转页面手动打开？")
+                        .setOnClickListener(com.android.helper.R.id.tv_qx, (v, builder) -> mNotificationUtil.goToSetNotify(activity));
                 mDialogUtil.show();
             }
         }
@@ -157,10 +160,13 @@ public class LifecycleManager {
                 }
                 boolean ignoringBatteryOptimizations = mSystemUtil.isIgnoringBatteryOptimizations();
                 if (!ignoringBatteryOptimizations) {
-                    mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build().setText(R.id.tv_msg, "请禁止电池优化功能，否则为了保持电量的消耗，会主动杀死App,无法进行系统的保活，是否禁止电池的优化？").setOnClickListener(R.id.tv_qd, (v, builder) -> {
-                        // 申请打开电池优化
-                        mSystemUtil.requestIgnoreBatteryOptimizations(activity);
-                    });
+                    mDialogUtil = new DialogUtil.Builder(activity, com.android.helper.R.layout.base_default_dialog).setClose(com.android.helper.R.id.tv_qx)
+                            .Build()
+                            .setText(com.android.helper.R.id.tv_msg, "请禁止电池优化功能，否则为了保持电量的消耗，会主动杀死App,无法进行系统的保活，是否禁止电池的优化？")
+                            .setOnClickListener(com.android.helper.R.id.tv_qd, (v, builder) -> {
+                                // 申请打开电池优化
+                                mSystemUtil.requestIgnoreBatteryOptimizations(activity);
+                            });
                     mDialogUtil.show();
                 }
             } else {
@@ -174,10 +180,13 @@ public class LifecycleManager {
      */
     public void checkAutoStartupPermissions(FragmentActivity activity) {
         if (activity != null) {
-            mDialogUtil = new DialogUtil.Builder(activity, R.layout.base_default_dialog).setClose(R.id.tv_qx).Build().setText(R.id.tv_msg, "为了减少后台运行的时候，系统主动杀死App，请手动打开自动启动的权限，是否打开自动启动的权限？").setOnClickListener(R.id.tv_qd, (v, builder) -> {
-                // 申请打开电池优化
-                ActivityUtil.toSecureManager(activity);
-            });
+            mDialogUtil = new DialogUtil.Builder(activity, com.android.helper.R.layout.base_default_dialog).setClose(com.android.helper.R.id.tv_qx)
+                    .Build()
+                    .setText(com.android.helper.R.id.tv_msg, "为了减少后台运行的时候，系统主动杀死App，请手动打开自动启动的权限，是否打开自动启动的权限？")
+                    .setOnClickListener(com.android.helper.R.id.tv_qd, (v, builder) -> {
+                        // 申请打开电池优化
+                        ActivityUtil.toSecureManager(activity);
+                    });
             mDialogUtil.show();
         }
     }
