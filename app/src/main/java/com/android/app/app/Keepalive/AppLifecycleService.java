@@ -144,7 +144,7 @@ public class AppLifecycleService extends Service {
      * 回调保活的信息
      */
     private void onLifecycle() {
-        BluetoothUtil bluetoothUtil = BluetoothUtil.getInstance(getApplication());
-        bluetoothUtil.startScan();
+        // BluetoothUtil bluetoothUtil = BluetoothUtil.getInstance(getApplication());
+        // bluetoothUtil.startScan();
     }
 }

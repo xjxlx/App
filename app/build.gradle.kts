@@ -2,7 +2,7 @@
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.io.github.xjxlx.common)
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
     id("androidx.navigation.safeargs")
 }
 
@@ -162,6 +162,14 @@ android {
 
     // ndk version
     ndkVersion = "21.4.7075529"
+
+//    allprojects {
+//        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+//            kotlinOptions {
+//                jvmTarget = "1.8"
+//            }
+//        }
+//    }
 }
 
 dependencies {
@@ -182,7 +190,7 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-rxjava2:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    // kapt("androidx.room:room-compiler:$room_version")
 
     // navigation
     val nav_version = "2.4.0"
