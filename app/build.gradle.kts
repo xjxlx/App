@@ -1,8 +1,7 @@
-import java.util.Calendar
-
 @Suppress("DSL_SCOPE_VIOLATION") plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.io.github.xjxlx.common)
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
 }
@@ -128,53 +127,41 @@ android {
     }
 
     //这里修改apk文件名
-    android.applicationVariants.all {
-        val buildType = this.buildType.name
-        if (buildType == "release") {
-            // 修改apk名字
-            this.outputs.all {
-                // 判断是否是输出 apk 类型
-                if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
-                    this.outputFileName = "AppHelper-${buildType}-${versionName}-product-${productFlavors[0].name}-${getCurrentTime()}.apk"
-                }
-            }
+    android.applicationVariants.all(object : Action<com.android.build.gradle.api.ApplicationVariant> {
+        override fun execute(variant: com.android.build.gradle.api.ApplicationVariant) {
+            if (variant.buildType.name == "release") {
+                variant.outputs.all {
+                    // 判断是否是输出 apk 类型
+                    if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
+                        //这里修改apk文件名
+                        this.outputFileName =
+                            "AppHelper-${variant.buildType}-${variant.versionName}-product-${variant.productFlavors[0].name}-${utils.DateUtil.getCurrentTime()}.apk"
 
-            // 复制apk到指定的位置
-            val apkOutPutPath = this.packageApplicationProvider.get().outputDirectory.get().asFile.absolutePath
-            this.assembleProvider.get().doLast {
-                // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
-                val outputs = File(rootProject.rootDir, "${File.separator}outputs${File.separator}${buildType}")
-                // 1：先删除
-                delete {
-                    System.out.println("删除outPuts!")
-                    delete(File(outputs.absolutePath))
-                }
-                // 2:再拷贝
-                copy {
-                    System.out.println("拷贝outPuts!")
-                    from(apkOutPutPath)
-                    into(outputs)
+                        // 复制apk到指定的位置
+                        val apkOutPutPath = variant.packageApplicationProvider.get().outputDirectory.get().asFile.absolutePath
+                        variant.assembleProvider.get().doLast {
+                            // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
+                            val outputs = File(rootProject.rootDir, "${File.separator}outputs${File.separator}${variant.buildType}")
+                            // 1：先删除
+                            delete {
+                                System.out.println("删除outPuts!")
+                                delete(File(outputs.absolutePath))
+                            }
+                            // 2:再拷贝
+                            copy {
+                                System.out.println("拷贝outPuts!")
+                                from(apkOutPutPath)
+                                into(outputs)
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
+    })
 
     // ndk version
     ndkVersion = "21.4.7075529"
-}
-
-/**
- * 获取当前的时间
- * @return YYYY-MM-DD-dd-hh-mm
- */
-fun getCurrentTime(): String {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-    val minute = calendar.get(Calendar.MINUTE)
-    return "$year-${month + 1}-$day-$hour-$minute"
 }
 
 dependencies {
