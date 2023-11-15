@@ -190,7 +190,6 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-rxjava2:$room_version")
-    // kapt("androidx.room:room-compiler:$room_version")
 
     // navigation
     val nav_version = "2.4.0"
