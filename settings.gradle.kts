@@ -48,7 +48,6 @@ rootProject.name = "App"
 
 include(":app")
 include(":apphelper")
-include(":apphelper2")
 include(":java")
 
 include(":refresh")

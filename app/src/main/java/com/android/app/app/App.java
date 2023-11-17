@@ -6,7 +6,6 @@ import com.amap.api.maps.MapsInitializer;
 import com.amap.api.services.core.ServiceSettings;
 import com.android.app.BuildConfig;
 import com.android.app.R;
-import com.android.apphelper2.app.AppHelper2;
 import com.android.common.utils.LogUtil;
 import com.android.helper.app.ApplicationInterface;
 import com.android.helper.app.BaseApplication;
@@ -30,8 +29,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mApp = this;
-
-        AppHelper2.init(this, new AppHelper2.Builder());
 
         BaseApplication
                 .getInstance()

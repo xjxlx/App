@@ -212,5 +212,4 @@ dependencies {
     implementation("com.amap.api:3dmap:8.1.0") // 地图
 
     implementation(project(":apphelper"))
-    implementation(project(":apphelper2"))
 }
