@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityCustomBreathingViewBinding
 import com.android.app.widget.BreathView
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.title.AppBaseBindingTitleActivity
 
-class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
+class CustomBreathingViewActivity : BaseBindingTitleActivity<ActivityCustomBreathingViewBinding>() {
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "呼吸效果"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityCustomBreathingViewBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityCustomBreathingViewBinding {
         return ActivityCustomBreathingViewBinding.inflate(inflater, container, true)
     }
 
@@ -34,12 +34,15 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
                     1 -> {
                         mBinding.tvStatus.text = "<--- 吸气 --->"
                     }
+
                     2 -> {
                         mBinding.tvStatus.text = "<--- 屏气 --->"
                     }
+
                     3 -> {
                         mBinding.tvStatus.text = "<--- 呼气 --->"
                     }
+
                     4 -> {
                         mBinding.tvStatus.text = "<--- finish --->"
                     }
@@ -56,15 +59,19 @@ class CustomBreathingViewActivity : AppBaseBindingTitleActivity<ActivityCustomBr
                 LogUtil.e("translationX: $translationX")
                 mBinding.bvView.startAnimation()
             }
+
             R.id.btn_resume -> {
                 mBinding.bvView.resume()
             }
+
             R.id.btn_pause -> {
                 mBinding.bvView.pause()
             }
+
             R.id.btn_clear -> {
                 mBinding.bvView.stop()
             }
+
             R.id.btn_start_animation_csv -> {
                 mBinding.csv1.startAnimation()
             }

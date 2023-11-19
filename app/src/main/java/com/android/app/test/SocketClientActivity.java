@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import com.android.app.R;
 import com.android.app.databinding.ActivitySocketClientBinding;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.title.AppBaseBindingTitleActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 import com.android.helper.utils.NetworkUtil;
 
 import java.io.BufferedReader;
@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySocketClientBinding> {
+public class SocketClientActivity extends BaseBindingTitleActivity<ActivitySocketClientBinding> {
 
     private final int port = 9999;// 端口号
     private final String encoding = "UTF-8";
@@ -34,19 +34,14 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
     private Socket mClientSocket = null; // 客户端端口
     private PrintStream mClientPrintStream; // 客户端的写数据流
 
+    @NonNull
     @Override
-    protected String setTitleContent() {
+    public String getTitleContent() {
         return "客户端Socket";
     }
 
     @Override
-    public ActivitySocketClientBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-        return ActivitySocketClientBinding.inflate(inflater, container, true);
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -59,22 +54,18 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
     @Override
     public void onClick(View v) {
         super.onClick(v);
-
         switch (v.getId()) {
             case R.id.btn_get_ip:
                 String ipAddress = NetworkUtil.getIPAddress(this);
                 LogUtil.e("------>" + ipAddress);
-
                 Message message = mHandler.obtainMessage();
                 message.what = 999;
                 message.obj = ipAddress;
                 mHandler.sendMessage(message);
                 break;
-
             case R.id.btn_init_data:
                 initSocket();
                 break;
-
             case R.id.btn_send_data:
                 Runnable runnable = new Runnable() {
                     @Override
@@ -96,7 +87,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                 try {
                     mClientSocket = new Socket(mBinding.etInput.getText().toString(), port);
                     sendMessage("初始化客户端Socket成功");
-
                     // 循环读取数据
                     new Thread(() -> {
                         sendMessage("开始读取服务端数据！");
@@ -104,10 +94,9 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                             // 取得输入流读取客户端传送的数据,要接收中文只需将编码设置为"UTF-8"
                             boolean connected = mClientSocket.isConnected();
                             if (connected) {
-                                mClientBufferedReader = new BufferedReader(new InputStreamReader(mClientSocket.getInputStream(), encoding));
-
+                                mClientBufferedReader = new BufferedReader(
+                                        new InputStreamReader(mClientSocket.getInputStream(), encoding));
                                 sendMessage("开始循环获取数据！");
-
                                 String info = null;
                                 while ((info = mClientBufferedReader.readLine()) != null) {
                                     sendMessage("服务端消息：" + info);
@@ -117,7 +106,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                             }
                         } catch (Exception e) {
                             sendMessage("读取服务器数据异常：" + e.getMessage());
-
                             if (mClientBufferedReader != null) {
                                 try {
                                     mClientBufferedReader.close();
@@ -131,7 +119,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
 
                 } catch (IOException e) {
                     e.printStackTrace();
-
                     sendMessage("初始化客户端Socket失败：" + e.getMessage());
                     try {
                         if (mClientSocket != null) {
@@ -150,7 +137,7 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
         String content = mBinding.etInputContent.getText().toString();
         if (!TextUtils.isEmpty(content)) {
             // 启动的时候，需要把socket设置为异步线程
-            //准备向服务器端发送信息的socket
+            // 准备向服务器端发送信息的socket
             try {
                 if (mClientSocket != null) {
                     boolean connected = mClientSocket.isConnected();
@@ -168,7 +155,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
             } catch (IOException e) {
                 e.printStackTrace();
                 sendMessage("客户端数据发送失败：" + e.getMessage());
-
                 if (mClientPrintStream != null) {
                     mClientPrintStream.close();
                     mClientPrintStream = null;
@@ -182,13 +168,11 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-
             switch (msg.what) {
                 case 999:
                     String address = (String) msg.obj;
                     mBinding.tvAddress.setText("Address:" + address);
                     break;
-
                 case 66:
                     String content = (String) msg.obj;
                     mBinding.tvContent.setText(content);
@@ -204,9 +188,7 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
             mStringBuffer.append(content);
             mStringBuffer.append("\r\n");
             message.obj = mStringBuffer.toString();
-
             mHandler.sendMessage(message);
-
             LogUtil.e(content);
         }
     }
@@ -214,7 +196,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         try {
             if (mClientSocket != null) {
                 mClientSocket.close();
@@ -223,7 +204,6 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
         if (mClientBufferedReader != null) {
             try {
                 mClientBufferedReader.close();
@@ -232,5 +212,11 @@ public class SocketClientActivity extends AppBaseBindingTitleActivity<ActivitySo
                 ex.printStackTrace();
             }
         }
+    }
+
+    @NonNull
+    @Override
+    public ActivitySocketClientBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivitySocketClientBinding.inflate(inflater, container, true);
     }
 }

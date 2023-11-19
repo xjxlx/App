@@ -3,17 +3,14 @@ package com.android.app.test.banner;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBannerBinding;
+import com.android.common.base.BaseBindingFragment;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseBindingFragment;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * banner的Fragment
@@ -33,13 +30,7 @@ public class VpBanner1Fragment extends BaseBindingFragment<FragmentVpBannerBindi
     }
 
     @Override
-    public void initView(View view) {
-        Bundle arguments = getArguments();
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -65,9 +56,9 @@ public class VpBanner1Fragment extends BaseBindingFragment<FragmentVpBannerBindi
         LogUtil.e("onHiddenChanged");
     }
 
+    @NonNull
     @Override
-    public FragmentVpBannerBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public FragmentVpBannerBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
         return FragmentVpBannerBinding.inflate(inflater, container, false);
     }
-
 }

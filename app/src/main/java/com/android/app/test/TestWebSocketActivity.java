@@ -12,8 +12,9 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.android.app.R;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -31,7 +32,7 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.ByteString;
 
-public class TestWebSocketActivity extends AppBaseActivity {
+public class TestWebSocketActivity extends BaseActivity {
 
     private final String TAG_SERVICE = "服务端：";
     private final String TAG_APP = "移动端：";
@@ -39,7 +40,7 @@ public class TestWebSocketActivity extends AppBaseActivity {
     private static WebSocket mWebSocketApp;
     private static WebSocket mWebSocketService;
     private MockWebServer mMockWebServer;
-    private ExecutorService writeExecutor = Executors.newSingleThreadExecutor();  // 线程池
+    private ExecutorService writeExecutor = Executors.newSingleThreadExecutor(); // 线程池
     private SocketHandler mSocketHandler = new SocketHandler();
     private MockResponse response;
     private android.widget.EditText mEtInputApp;
@@ -53,7 +54,7 @@ public class TestWebSocketActivity extends AppBaseActivity {
     private android.widget.Button mBtnCloseService;
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_test_web_socket;
     }
 
@@ -61,39 +62,32 @@ public class TestWebSocketActivity extends AppBaseActivity {
     public void initView() {
         mBtnStartApp = findViewById(R.id.btn_start_app);
         mBtnStartService = findViewById(R.id.btn_start_service);
-
         mEtInputApp = findViewById(R.id.et_input_app);
         mEtInputService = findViewById(R.id.et_input_service);
-
         mBtnCancelApp = findViewById(R.id.btn_cancel_app);
         mBtnCancelService = findViewById(R.id.btn_cancel_service);
-
         mBtnCloseApp = findViewById(R.id.btn_close_app);
         mBtnCloseService = findViewById(R.id.btn_close_service);
         mRvContent = findViewById(R.id.rv_content);
-
         // 客户端发送小洗
         mBtnStartApp.setOnClickListener(v -> sendApp(mEtInputApp.getText().toString()));
-
         // 服务端发送小洗
         mBtnStartService.setOnClickListener(v -> sendService(mEtInputService.getText().toString()));
-
         // 取消连接
         mBtnCancelApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cancelApp();
-//                cancelService();
+                // cancelService();
             }
         });
         mBtnCancelService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                cancelApp();
+                // cancelApp();
                 cancelService();
             }
         });
-
         // 关闭连接
         mBtnCloseApp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +96,6 @@ public class TestWebSocketActivity extends AppBaseActivity {
                 disconnectService();
             }
         });
-
         mBtnCloseService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,10 +107,8 @@ public class TestWebSocketActivity extends AppBaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         // 初始化测试服务器
         initWebSocketService();
-
         // 异步获取服务器地址
         writeExecutor.execute(() -> {
             // 获取socket的地址
@@ -133,7 +124,6 @@ public class TestWebSocketActivity extends AppBaseActivity {
         @Override
         public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             super.onClosed(webSocket, code, reason);
-
             send2(TAG_APP, "onClosed---> App关闭了连接！---> code:" + code + "  reason:" + response);
         }
 
@@ -152,7 +142,6 @@ public class TestWebSocketActivity extends AppBaseActivity {
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
             super.onMessage(webSocket, text);
-
             send2(TAG_APP, "App接收到了消息：" + text);
         }
 
@@ -176,7 +165,7 @@ public class TestWebSocketActivity extends AppBaseActivity {
                     @Override
                     public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
                         super.onOpen(webSocket, response);
-                        //有客户端连接时回调
+                        // 有客户端连接时回调
                         mWebSocketService = webSocket;
                         send2(TAG_SERVICE, "服务器收到客户端连接成功回调");
                         send2(TAG_SERVICE, "我是服务器，你好呀");
@@ -185,7 +174,6 @@ public class TestWebSocketActivity extends AppBaseActivity {
                     @Override
                     public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
                         super.onMessage(webSocket, text);
-
                         send2(TAG_SERVICE, "服务器收到消息:" + text);
                     }
 
@@ -195,25 +183,24 @@ public class TestWebSocketActivity extends AppBaseActivity {
                         send2(TAG_SERVICE, "onClosed ---> 服务器断开了连接！");
                     }
                 });
-
         mMockWebServer.enqueue(response);
     }
 
-    //发送String消息
+    // 发送String消息
     public void sendApp(final String message) {
         if (mWebSocketApp != null) {
             mWebSocketApp.send(message);
         }
     }
 
-    //发送String消息
+    // 发送String消息
     public void sendService(final String message) {
         if (mWebSocketService != null) {
             mWebSocketService.send(message);
         }
     }
 
-    //发送String消息
+    // 发送String消息
     public void send2(String tag, final String message) {
         if (mSocketHandler != null) {
             Message message1 = mSocketHandler.obtainMessage();
@@ -222,66 +209,61 @@ public class TestWebSocketActivity extends AppBaseActivity {
             bundle.putString("tag", tag);
             bundle.putString("msg", message);
             message1.setData(bundle);
-
             mSocketHandler.sendMessage(message1);
         }
     }
 
-    //发送byte消息
+    // 发送byte消息
     public void send(final ByteString message) {
         if (mWebSocketApp != null) {
             mWebSocketApp.send(message);
         }
     }
 
-    //主动断开连接
+    // 主动断开连接
     public void disconnectApp() {
         if (mWebSocketApp != null) {
             mWebSocketApp.close(1000, "我自己想关闭的");
         }
     }
 
-    //主动断开连接
+    // 主动断开连接
     public void disconnectService() {
         if (mWebSocketService != null) {
             mWebSocketService.close(1000, "我自己想关闭的");
         }
     }
 
-    //主动断开连接
+    // 主动断开连接
     public void cancelApp() {
         if (mWebSocketApp != null) {
             mWebSocketApp.cancel();
         }
     }
 
-    //主动断开连接
+    // 主动断开连接
     public void cancelService() {
-//        if (mWebSocketService != null) {
-//            mWebSocketService.cancel();
-//        }
+        // if (mWebSocketService != null) {
+        // mWebSocketService.cancel();
+        // }
     }
 
     class SocketHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             switch (msg.what) {
-                case 1:  // 获取服务器地址
+                case 1: // 获取服务器地址
                     // 获取url
                     String url = (String) msg.obj;
-
                     OkHttpClient mClient = new OkHttpClient.Builder()
                             .retryOnConnectionFailure(true) // 失败了自动重连
                             .pingInterval(10, TimeUnit.SECONDS)
                             .build();
-
                     Request request = new Request.Builder()
                             .url(url)
                             .build();
                     mWebSocketApp = mClient.newWebSocket(request, new WsListener());
-
                     break;
                 case 2:
                     Bundle data = msg.getData();
@@ -289,16 +271,15 @@ public class TestWebSocketActivity extends AppBaseActivity {
                     String message = data.getString("msg");
                     LogUtil.e(tag, message);
                     addView(tag, message);
-
                     break;
             }
         }
     }
 
     private void addView(String tag, String content) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         TextView textView = new TextView(mActivity);
-
         if (TextUtils.equals(tag, TAG_APP)) {
             params.gravity = Gravity.LEFT;
             textView.setTextColor(ContextCompat.getColor(mActivity, R.color.blue_1));
@@ -313,13 +294,10 @@ public class TestWebSocketActivity extends AppBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mSocketHandler.removeCallbacksAndMessages(null);
         mSocketHandler = null;
-
         cancelApp();
         cancelService();
-
         disconnectApp();
         disconnectService();
     }

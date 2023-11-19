@@ -8,21 +8,21 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.app.R;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.Proxy.ProxyInterface;
 import com.android.helper.utils.Proxy.ProxyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestHandlerActivity extends AppBaseActivity implements ProxyInterface {
+public class TestHandlerActivity extends BaseActivity implements ProxyInterface {
 
     private TextView textView;
     private final List<String> mList = new ArrayList<String>();
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_test_handler;
     }
 
@@ -31,15 +31,12 @@ public class TestHandlerActivity extends AppBaseActivity implements ProxyInterfa
      */
     @Override
     public void initView() {
-
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         setonClickListener(R.id.button, R.id.button2, R.id.button3, R.id.button4);
         textView = findViewById(R.id.textView);
-
         ProxyUtil proxyUtil = new ProxyUtil();
         ProxyUtil.setObject(this);
         ProxyInterface instance = proxyUtil.getInstance();
@@ -56,13 +53,11 @@ public class TestHandlerActivity extends AppBaseActivity implements ProxyInterfa
                 message2.what = 456;
                 mHandler.sendMessage(message2);
                 break;
-
             case R.id.button2:
                 Message message = mHandler.obtainMessage();
                 message.what = 123;
                 mHandler.sendMessageDelayed(message, 1000);
                 break;
-
             case R.id.button3:
                 mHandler.removeMessages(456);
                 break;
@@ -83,24 +78,18 @@ public class TestHandlerActivity extends AppBaseActivity implements ProxyInterfa
             switch (what) {
                 case 123:
                     mList.add("123");
-
                     LogUtil.write("我是测试数据：" + (++position));
-
                     Message message = mHandler.obtainMessage();
                     message.what = 123;
                     mHandler.sendMessageDelayed(message, 1000);
-
                     break;
                 case 456:
                     mList.add("456");
-
                     Message message2 = mHandler.obtainMessage();
                     message2.what = 456;
                     mHandler.sendMessageDelayed(message2, 1000);
-
                     break;
             }
-
             textView.setText(mList.toString());
         }
     };

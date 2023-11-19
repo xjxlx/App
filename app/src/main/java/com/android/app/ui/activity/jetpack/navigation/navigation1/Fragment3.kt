@@ -6,35 +6,39 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.android.app.R
 import com.android.app.databinding.Fragment3Binding
+import com.android.common.base.BaseBindingFragment
 import com.android.common.utils.LogUtil
-import com.android.helper.base.BaseBindingFragment
 
 class Fragment3 : BaseBindingFragment<Fragment3Binding>() {
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): Fragment3Binding {
-        return Fragment3Binding.inflate(layoutInflater, container, false)
-    }
+  override fun getBinding(
+      inflater: LayoutInflater,
+      container: ViewGroup?,
+      attachToRoot: Boolean
+  ): Fragment3Binding {
+    return Fragment3Binding.inflate(layoutInflater, container, false)
+  }
 
-    override fun initData(savedInstanceState: Bundle?) {
-        LogUtil.e("当前是Fragment ---> 3,当前的地址是：${this.hashCode()}")
+  override fun initData(savedInstanceState: Bundle?) {
+    LogUtil.e("当前是Fragment ---> 3,当前的地址是：${this.hashCode()}")
 
-        mBinding.btn31.setOnClickListener {
-            findNavController().navigate(R.id.action_fragment3_to_fragment1)
-        }
+    mBinding.btn31.setOnClickListener {
+      findNavController().navigate(R.id.action_fragment3_to_fragment1)
     }
+  }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LogUtil.e("oncreate ----> ${this.toString()}")
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    LogUtil.e("oncreate ----> ${this.toString()}")
+  }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        LogUtil.e("onDestroyView ----> ${this.toString()}")
-    }
+  override fun onDestroyView() {
+    super.onDestroyView()
+    LogUtil.e("onDestroyView ----> ${this.toString()}")
+  }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        LogUtil.e("onDestroy ----> ${this.toString()}")
-    }
+  override fun onDestroy() {
+    super.onDestroy()
+    LogUtil.e("onDestroy ----> ${this.toString()}")
+  }
 }

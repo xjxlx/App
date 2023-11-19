@@ -4,25 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.android.app.databinding.ActivitySearchMapBinding
+import com.android.common.base.BaseBindingTitleActivity
+import com.android.common.interfaces.OnItemClickListener
 import com.android.common.utils.LogUtil
-import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.RecycleUtil
+import com.android.common.utils.RecycleUtil
 
-class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>() {
+class SearchMapActivity : BaseBindingTitleActivity<ActivitySearchMapBinding>() {
 
     private var mCityCode: String? = ""
     private lateinit var adapter: MapAddressAdapter
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivitySearchMapBinding {
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivitySearchMapBinding {
         return ActivitySearchMapBinding.inflate(inflater, container, true)
     }
 
     /** @return 设置标题内容 */
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "搜素选点"
     }
 
@@ -32,26 +35,24 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
     override fun initData(savedInstanceState: Bundle?) {
         mCityCode = intent.getStringExtra("cityCode")
 
-        adapter = MapAddressAdapter(mActivity)
-        RecycleUtil.getInstance(mActivity, mBinding.rvAddressList)
-            .setVertical()
-            .setAdapter(adapter)
+        adapter = MapAddressAdapter()
+        RecycleUtil.getInstance(mActivity, mBinding.rvAddressList).setVertical().setAdapter(adapter)
 
-        adapter.setItemClickListener { view, binding, position, t ->
-            val intent = Intent()
-            intent.putExtra("result", t.latLonPoint)
-            intent.putExtra("title", t.title)
-            setResult(123, intent)
-            finish()
-        }
+        adapter.setOnItemClickListener(object : OnItemClickListener<PoiItem> {
+            override fun onItemClick(view: View?, position: Int, t: PoiItem?) {
+                val intent = Intent()
+                intent.putExtra("result", t?.latLonPoint)
+                intent.putExtra("title", t?.title)
+                setResult(123, intent)
+                finish()
+            }
+        })
 
         mBinding.btnSearch.setOnClickListener {
-            val trim = mBinding.etInputSearch.text.toString()
-                .trim()
+            val trim = mBinding.etInputSearch.text.toString().trim()
             if (!TextUtils.isEmpty(trim)) {
                 // 开始搜索数据
-                search(mBinding.etInputSearch.text.toString()
-                    .trim())
+                search(mBinding.etInputSearch.text.toString().trim())
             }
         }
     }
@@ -76,7 +77,7 @@ class SearchMapActivity : AppBaseBindingTitleActivity<ActivitySearchMapBinding>(
                 if (errorCode == 1000) {
                     val listResult = pageResult?.pois
                     if (listResult != null && listResult.size > 0) {
-                        adapter.list = listResult
+                        adapter.setList(listResult)
                     }
                 }
             }

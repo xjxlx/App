@@ -9,68 +9,50 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
 import com.android.app.bean.HomeBean;
-import com.android.helper.base.BaseVH;
-import com.android.helper.base.recycleview.BaseRecycleAdapter;
+import com.android.common.base.recycleview.BaseRecycleViewAdapter;
+import com.android.common.base.recycleview.BaseVH;
 import com.android.helper.utils.TextViewUtil;
 import com.android.helper.utils.ToastUtil;
 import com.android.helper.utils.photo.GlideUtil;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data, TestAdapter.VHHome> {
+public class TestAdapter extends BaseRecycleViewAdapter<HomeBean.ReturnDataList.Data, TestAdapter.VHHome> {
 
     private GlideUtil mGlideUtil;
+    private FragmentActivity mFragmentActivity;
 
     public TestAdapter(FragmentActivity activity) {
-        super(activity);
+        this.mFragmentActivity = activity;
     }
 
     public TestAdapter(FragmentActivity activity, List<HomeBean.ReturnDataList.Data> list) {
-        super(activity, list);
-    }
-
-    /**
-     * @param viewType
-     * @return 返回一个RecycleView的布局
-     */
-    @Override
-    protected int getLayout(int viewType) {
-        return R.layout.item_test;
+        this.mFragmentActivity = activity;
+        setList(list);
     }
 
     @Override
-    protected VHHome createViewHolder(View inflate, int viewType) {
-        return new VHHome(inflate);
-    }
-
-    @Override
-    public void onBindHolder(@NonNull @NotNull VHHome holder, int position) {
+    public void bindViewHolder(@NonNull VHHome holder, int position) {
         HomeBean.ReturnDataList.Data data = mList.get(position);
         if (data == null) {
             return;
         }
-
         if (mGlideUtil == null) {
-            mGlideUtil = new GlideUtil.Builder(mActivity).build();
+            mGlideUtil = new GlideUtil.Builder(mFragmentActivity).build();
         }
         // 封面
         mGlideUtil.loadUrl(holder.iv_activity, data.getImg());
-
         //  显示状态：-1不现实0已结束1进行中
         int showStatus = data.getShowStatus();
         switch (showStatus) {
             case -1:
                 holder.tv_status.setVisibility(View.GONE);
                 break;
-
             case 0:
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("已结束");
                 holder.tv_status.setBackgroundResource(R.drawable.bg_radius_left_50dp_gray);
                 break;
-
             case 1:
                 holder.tv_status.setVisibility(View.VISIBLE);
                 holder.tv_status.setText("进行中");
@@ -79,10 +61,14 @@ public class TestAdapter extends BaseRecycleAdapter<HomeBean.ReturnDataList.Data
         }
         // 活动的名字
         TextViewUtil.setText(holder.tv_activity_title, data.getName());
-
         holder.iv_share.setOnClickListener(view -> {
             ToastUtil.show("分享");
         });
+    }
+
+    @Override
+    public int createVH(int viewType) {
+        return R.layout.item_test;
     }
 
     static class VHHome extends BaseVH {

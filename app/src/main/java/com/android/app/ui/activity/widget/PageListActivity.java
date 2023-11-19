@@ -13,11 +13,9 @@ import androidx.annotation.Nullable;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityPageListBinding;
-import com.android.helper.base.title.AppBaseBindingTitleActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 import com.android.helper.utils.ConvertUtil;
 import com.android.helper.widget.pagelistview.PageListAdapter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +23,7 @@ import java.util.List;
 /**
  * 自定义横向的滑动列表
  */
-public class PageListActivity extends AppBaseBindingTitleActivity<ActivityPageListBinding> {
-
-    @Override
-    protected String setTitleContent() {
-        return "自定义分页列表";
-    }
-
-    @Override
-    public ActivityPageListBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
-        return ActivityPageListBinding.inflate(inflater, container, true);
-    }
+public class PageListActivity extends BaseBindingTitleActivity<ActivityPageListBinding> {
 
     /**
      * 初始化数据
@@ -44,7 +32,6 @@ public class PageListActivity extends AppBaseBindingTitleActivity<ActivityPageLi
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < 18; i++) {
             list.add("position:" + i);
@@ -54,6 +41,18 @@ public class PageListActivity extends AppBaseBindingTitleActivity<ActivityPageLi
         mBinding.plvList.setRwo(3);
         mBinding.plvList.setRowInterval((int) ConvertUtil.toDp(5));
         mBinding.plvList.setAdapter(adapterPage);
+    }
+
+    @NonNull
+    @Override
+    public ActivityPageListBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityPageListBinding.inflate(inflater, container, true);
+    }
+
+    @NonNull
+    @Override
+    public String getTitleContent() {
+        return "自定义分页列表";
     }
 
     class AdapterPage extends PageListAdapter<String> {

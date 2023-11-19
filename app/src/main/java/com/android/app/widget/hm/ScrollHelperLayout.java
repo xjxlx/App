@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.customview.widget.ViewDragHelper;
 
 import com.android.app.R;
+import com.android.common.base.BaseViewGroup;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseViewGroup;
 import com.android.helper.utils.ColorUtil;
 import com.android.helper.utils.ToastUtil;
 
@@ -48,7 +48,6 @@ public class ScrollHelperLayout extends BaseViewGroup {
             }
             // 限制右侧的边距
             int measuredWidth = ScrollHelperLayout.this.getMeasuredWidth();
-
             if (child != null) {
                 int childMeasuredWidth = child.getMeasuredWidth();
                 if (left >= (measuredWidth - childMeasuredWidth)) {
@@ -68,22 +67,18 @@ public class ScrollHelperLayout extends BaseViewGroup {
         @Override
         public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
-
             // 布局的宽度
             int layoutMeasuredWidth = ScrollHelperLayout.this.getMeasuredWidth();
             // view的宽度
             int childMeasuredWidth = releasedChild.getMeasuredWidth();
-
             int left = releasedChild.getLeft();
             int value = layoutMeasuredWidth - childMeasuredWidth;
-
             // 移动绿色的view
             if (left <= (value / 2)) {
                 mViewDragHelper.settleCapturedViewAt(0, releasedChild.getTop());
             } else {
                 mViewDragHelper.settleCapturedViewAt(value, releasedChild.getTop());
             }
-
             postInvalidate();
         }
 
@@ -91,7 +86,6 @@ public class ScrollHelperLayout extends BaseViewGroup {
         @Override
         public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-
             // 让两个view保持同步移动
             if (changedView == blueView) {
                 readView.layout(readView.getLeft() + dx, readView.getTop() + dy, readView.getRight() + dx,
@@ -100,16 +94,13 @@ public class ScrollHelperLayout extends BaseViewGroup {
                 blueView.layout(blueView.getLeft() + dx, blueView.getTop() + dy, blueView.getRight() + dx,
                         blueView.getBottom() + dy);
             }
-
             // 计算比例
             int layoutMeasuredWidth = ScrollHelperLayout.this.getMeasuredWidth();
             int redMeasuredWidth = readView.getMeasuredWidth();
             // 求出运动的总长度
             int value = layoutMeasuredWidth - redMeasuredWidth;
-
             // 求出当前left和运动总长度的比值
             float percent = blueView.getLeft() * 1.0f / value;
-
             // 动画类的扩展
             startAnimation(percent);
         }
@@ -123,17 +114,13 @@ public class ScrollHelperLayout extends BaseViewGroup {
                 case ViewDragHelper.EDGE_LEFT:
                     ToastUtil.show("滑动到左侧");
                     mViewDragHelper.captureChildView(getChildAt(1), pointerId);
-
                     break;
-
                 case ViewDragHelper.EDGE_TOP:
                     ToastUtil.show("滑动到上方了");
                     break;
-
                 case ViewDragHelper.EDGE_RIGHT:
                     ToastUtil.show("滑动到右侧");
                     break;
-
                 case ViewDragHelper.EDGE_BOTTOM:
                     ToastUtil.show("滑动到下侧");
                     break;
@@ -171,12 +158,10 @@ public class ScrollHelperLayout extends BaseViewGroup {
         super.onFinishInflate();
         readView = findViewById(R.id.v_read_view);
         blueView = findViewById(R.id.v_blue_view);
-
         // view的个数
         mChildCount = getChildCount();
         // 1：创建ViewDragHelper的对象
         mViewDragHelper = ViewDragHelper.create(ScrollHelperLayout.this, mCallback);
-
         // 设置view滑动到边缘时候的回调
         mViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_ALL);
     }
@@ -184,13 +169,10 @@ public class ScrollHelperLayout extends BaseViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         int redMeasureSpecWidth = MeasureSpec.makeMeasureSpec(readView.getLayoutParams().width, MeasureSpec.EXACTLY);
         int redMeasureSpecHeight = MeasureSpec.makeMeasureSpec(readView.getLayoutParams().height, MeasureSpec.EXACTLY);
-
         int blueViewMeasureSpecWidth = MeasureSpec.makeMeasureSpec(blueView.getLayoutParams().width, MeasureSpec.EXACTLY);
         int blueViewMeasureSpecHeight = MeasureSpec.makeMeasureSpec(blueView.getLayoutParams().height, MeasureSpec.EXACTLY);
-
         // 重新测量view的宽高
         readView.measure(redMeasureSpecWidth, redMeasureSpecHeight);
         blueView.measure(blueViewMeasureSpecWidth, blueViewMeasureSpecHeight);

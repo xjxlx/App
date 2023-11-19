@@ -14,12 +14,10 @@ import com.android.app.ui.activity.jetpack.navigation.navigation2.Navigation2Act
 import com.android.app.ui.activity.jetpack.paging.PagingActivity
 import com.android.app.ui.activity.jetpack.room.room1.RoomActivity
 import com.android.app.ui.activity.jetpack.room.room2.Room2Activity
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.common.base.BaseBindingTitleActivity
 
-/**
- * JetPack的集合
- */
-class JetPackMapActivity : AppBaseBindingTitleActivity<ActivityJetPackMapBinding>() {
+/** JetPack的集合 */
+class JetPackMapActivity : BaseBindingTitleActivity<ActivityJetPackMapBinding>() {
 
     override fun initListener() {
         super.initListener()
@@ -28,8 +26,7 @@ class JetPackMapActivity : AppBaseBindingTitleActivity<ActivityJetPackMapBinding
             mBinding.tvRoom2, mBinding.tvNavigation, mBinding.tvNavigation2, mBinding.tvPaging)
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-    }
+    override fun initData(savedInstanceState: Bundle?) {}
 
     override fun onClick(v: View?) {
         super.onClick(v)
@@ -73,11 +70,11 @@ class JetPackMapActivity : AppBaseBindingTitleActivity<ActivityJetPackMapBinding
         }
     }
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "测试事件分发"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityJetPackMapBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityJetPackMapBinding {
         return ActivityJetPackMapBinding.inflate(layoutInflater, container, true)
     }
 }

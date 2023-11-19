@@ -11,15 +11,15 @@ import com.android.app.test.CustomSlingScrollMainActivity
 import com.android.app.test.SlidingMenuActivity
 import com.android.app.ui.activity.animation.ViewPagerActivity
 import com.android.app.ui.activity.hmview.HmCustomViewActivity
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.common.base.BaseBindingTitleActivity
 
-class ViewMapTitleActivity : AppBaseBindingTitleActivity<ActivityViewMapBinding>() {
+class ViewMapTitleActivity : BaseBindingTitleActivity<ActivityViewMapBinding>() {
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "自定义View集合"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityViewMapBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityViewMapBinding {
         return ActivityViewMapBinding.inflate(inflater, container, true)
     }
 
@@ -33,13 +33,12 @@ class ViewMapTitleActivity : AppBaseBindingTitleActivity<ActivityViewMapBinding>
             R.id.tv_custom_canvas_save_restoreview, R.id.tv_custom_post_chart)
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-    }
+    override fun initData(savedInstanceState: Bundle?) {}
 
     @SuppressLint("NonConstantResourceId")
-    override fun onClick(v: View) {
+    override fun onClick(v: View?) {
         super.onClick(v)
-        when (v.id) {
+        when (v?.id) {
             R.id.tv_back -> finish()
             R.id.tv_progress -> startActivity(ProgressTitleActivity::class.java)
             R.id.tv_multiple_list_view -> startActivity(MultipleListViewActivity::class.java)

@@ -1,55 +1,31 @@
-package com.android.app.app.Keepalive;
+package com.android.app.app.Keepalive
 
-import android.view.View;
-import android.widget.TextView;
+import android.view.View
+import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import com.android.app.R
+import com.android.common.base.recycleview.BaseRecycleViewAdapter
+import com.android.common.base.recycleview.BaseVH
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+class DeviceAdapter(activity: FragmentActivity) : BaseRecycleViewAdapter<Map.Entry<String, String>, DeviceAdapter.VH>() {
 
-import com.android.app.R;
-import com.android.helper.base.BaseVH;
-import com.android.helper.base.recycleview.BaseRecycleAdapter;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Map;
-
-public class DeviceAdapter extends BaseRecycleAdapter<Map.Entry<String, String>, DeviceAdapter.VH> {
-
-    public DeviceAdapter(FragmentActivity activity) {
-        super(activity);
+    override fun bindViewHolder(holder: VH, position: Int) {
+        val (key, value) = mList[position]
+        holder.mTvDeviceName.text = value
+        holder.mTvDeviceAddress.text = key
     }
 
-    /**
-     * @param viewType
-     * @return 返回一个RecycleView的布局
-     */
-    @Override
-    protected int getLayout(int viewType) {
-        return R.layout.item_device_list;
+    override fun createVH(viewType: Int): Int {
+        return R.layout.item_device_list
     }
 
-    @Override
-    protected VH createViewHolder(View inflate, int viewType) {
-        return new VH(inflate);
-    }
- 
-    @Override
-    public void onBindHolder(@NonNull @NotNull VH holder, int position) {
-        Map.Entry<String, String> entry = mList.get(position);
-        holder.mTvDeviceName.setText(entry.getValue());
-        holder.mTvDeviceAddress.setText(entry.getKey());
-    }
+    class VH(itemView: View) : BaseVH(itemView) {
+        val mTvDeviceName: TextView
+        val mTvDeviceAddress: TextView
 
-    static class VH extends BaseVH {
-        private final TextView mTvDeviceName;
-        private final TextView mTvDeviceAddress;
-
-        public VH(@NonNull View itemView) {
-            super(itemView);
-            mTvDeviceName = itemView.findViewById(R.id.tv_device_name);
-            mTvDeviceAddress = itemView.findViewById(R.id.tv_device_address);
+        init {
+            mTvDeviceName = itemView.findViewById(R.id.tv_device_name)
+            mTvDeviceAddress = itemView.findViewById(R.id.tv_device_address)
         }
-
     }
 }

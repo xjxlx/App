@@ -1,31 +1,22 @@
 package com.android.app.ui.activity;
 
 import android.content.Intent;
-import com.android.app.R;
-import com.android.app.databinding.ActivityH5StartNativeBinding;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
-import com.android.helper.base.AppBaseActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.android.app.databinding.ActivityH5StartNativeBinding;
+import com.android.common.base.BaseBindingTitleActivity;
 import com.android.helper.utils.ToastUtil;
 
-public class H5StartNativeTitleActivity extends AppBaseActivity {
-
-    private ActivityH5StartNativeBinding binding;
+public class H5StartNativeTitleActivity extends BaseBindingTitleActivity<ActivityH5StartNativeBinding> {
 
     @Override
-    protected int getBaseLayout() {
-        return R.layout.activity_h5_start_native;
-    }
-
-    @Override
-    public void initView() {
-        binding = ActivityH5StartNativeBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public void initData(Bundle savedInstanceState)  {
-
+    public void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             Uri data = intent.getData();
@@ -37,4 +28,15 @@ public class H5StartNativeTitleActivity extends AppBaseActivity {
         }
     }
 
+    @NonNull
+    @Override
+    public ActivityH5StartNativeBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityH5StartNativeBinding.inflate(inflater, container, true);
+    }
+
+    @NonNull
+    @Override
+    public String getTitleContent() {
+        return "H5 - 调用";
+    }
 }

@@ -5,19 +5,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
 import com.android.app.databinding.ActivityPostChartBinding
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.common.base.BaseBindingTitleActivity
 
-class PostChartActivity : AppBaseBindingTitleActivity<ActivityPostChartBinding>() {
+class PostChartActivity : BaseBindingTitleActivity<ActivityPostChartBinding>() {
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "柱状图"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityPostChartBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityPostChartBinding {
         return ActivityPostChartBinding.inflate(inflater, container, true)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }

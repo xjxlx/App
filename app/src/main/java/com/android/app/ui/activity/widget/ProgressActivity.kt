@@ -5,10 +5,10 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityProgress2Binding
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.helper.utils.ToastUtil
 
-class ProgressActivity : AppBaseBindingTitleActivity<ActivityProgress2Binding>() {
+class ProgressActivity : BaseBindingTitleActivity<ActivityProgress2Binding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         // 进度条1
@@ -26,11 +26,11 @@ class ProgressActivity : AppBaseBindingTitleActivity<ActivityProgress2Binding>()
         }
     }
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "测试事件分发"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityProgress2Binding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityProgress2Binding {
         return ActivityProgress2Binding.inflate(layoutInflater, container, true)
     }
 }

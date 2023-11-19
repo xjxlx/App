@@ -13,12 +13,13 @@ import android.view.MotionEvent;
 import androidx.annotation.Nullable;
 
 import com.android.app.R;
+import com.android.common.base.BaseView;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseView;
-import com.android.helper.utils.BitmapUtil;
+import com.android.common.utils.RecycleUtil;
+import com.android.common.utils.ResourcesUtil;
 import com.android.helper.utils.ConvertUtil;
+import com.android.helper.utils.BitmapUtil;
 import com.android.helper.utils.CustomViewUtil;
-import com.android.helper.utils.ResourceUtil;
 
 /**
  * 检索通讯录名字的列表数据
@@ -34,9 +35,7 @@ import com.android.helper.utils.ResourceUtil;
  */
 public class SelectorNameList extends BaseView {
 
-    private final String[] mIndexArr = {"A", "B", "C", "D", "E", "F", "G", "H",
-            "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U",
-            "V", "W", "X", "Y", "Z"};
+    private final String[] mIndexArr = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     private final float mTextTotalHeight = 30;// 每个字的高度
     private final float mPaddingLeft = 20;
@@ -64,35 +63,29 @@ public class SelectorNameList extends BaseView {
 
     @Override
     public void initView(Context context, AttributeSet attrs) {
-
         mPaint = new Paint();
         mPaint.setColor(Color.WHITE);
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(60);
         mPaint.setTextAlign(Paint.Align.CENTER);
-
         // 获取bitmap
-        Bitmap bitmap = ResourceUtil.getBitmap(R.mipmap.icon_rad_xin);
+        Bitmap bitmap = ResourcesUtil.getBitmap(getContext(), R.mipmap.icon_rad_xin);
         // 生成一个新的bitmap
         mBitmap = BitmapUtil.getBitmapScaleForWidth(bitmap, mBitmapTargetWidth);
-
         // 计算出bitmap的高度
         int bitmapHeight = mBitmap.getHeight();
         // 获取所有的高度 = bitmap的高度 + 顶部间距的高度 + （ 固定rect的高度 + 间距） * 集合的长度 + 底部的间距
         mTotalHeight += (mInterval + bitmapHeight + ((mTextTotalHeight + mInterval) * mIndexArr.length));
-
         float tempWidth = 0;
         // 统计出所有字的高度
         for (String value : mIndexArr) {
             // 获取字的宽高
             float width = CustomViewUtil.getTextViewWidth(mPaint, value);
-
             // 对比出最大的宽度
             mTotalWidth = Math.max(tempWidth, width);
             // 变量的赋值
             tempWidth = width;
         }
-
         // 计算所有的宽度
         mTotalWidth += (mBitmap.getWidth() + mPaddingLeft + mPaddingRight);
         LogUtil.e("view的总高度为：" + mTotalHeight + "   view的宽度：" + mTotalWidth);
@@ -101,7 +94,6 @@ public class SelectorNameList extends BaseView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         // 重新设置宽高
         setMeasuredDimension((int) mTotalWidth, (int) mTotalHeight);
     }
@@ -111,10 +103,8 @@ public class SelectorNameList extends BaseView {
         super.onSizeChanged(w, h, oldw, oldh);
         mMeasuredWidth = getMeasuredWidth();
         mMeasuredHeight = getMeasuredHeight();
-
         // 获取bitmap的left值
         mBitmapLeft = (mMeasuredWidth - mBitmap.getWidth()) / 2;
-
         // 获取文字的间距
         if (mMeasuredWidth > 0) {
             mTextCenter = mMeasuredWidth / 2;
@@ -125,26 +115,18 @@ public class SelectorNameList extends BaseView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         float height = 0;
-
         height += mInterval;
         // 绘制一个红心
         canvas.drawBitmap(mBitmap, mBitmapLeft, height, mPaint);
-
         height += mBitmap.getHeight() + mInterval;
-
         // 绘制列表
         for (int i = 0; i < mIndexArr.length; i++) {
             String value = mIndexArr[i];
-
             height += (mTextTotalHeight + mInterval) * i;
-
             RectF rect = new RectF(0, height, mMeasuredWidth, height + mTextTotalHeight);
-
             Paint.FontMetrics fm = mPaint.getFontMetrics();
             float v = rect.centerY() + (fm.descent - fm.ascent) / 2 - fm.descent;
-
             canvas.drawText(value, mTextCenter, v, mPaint);
         }
     }
@@ -154,21 +136,15 @@ public class SelectorNameList extends BaseView {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-
                 float position = event.getY();
                 if ((position >= 0) && (position <= mMeasuredHeight)) {
-
                     LogUtil.e("position:" + position);
                 }
-
                 break;
-
             case MotionEvent.ACTION_UP:
-
                 break;
 
         }
-
         return true;
     }
 }

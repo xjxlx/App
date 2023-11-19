@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.app.databinding.FragmentHomeBinding
-import com.android.apphelper2.utils.permission.PermissionMultipleCallBackListener
-import com.android.apphelper2.utils.permission.PermissionUtil
+import com.android.common.base.BaseBindingFragment
 import com.android.common.utils.LogUtil
-import com.android.helper.base.BaseBindingFragment
+import com.android.common.utils.permission.PermissionMultipleCallBackListener
+import com.android.common.utils.permission.PermissionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.dialog.DialogUtil
 import java.io.File
@@ -25,7 +25,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
     val mFileUtil = FileUtil.getInstance()
     val tag_w = "外部空间"
     val tag_n = "内部空间"
-    override fun initView(view: View?) {}
+    fun initView(view: View?) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,12 +104,9 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
         }
 
         mBinding.btnOpenAllFile.setOnClickListener {
-             DialogUtil.Builder(this, com.android.helper.R.layout.base_default_dialog)
-                .setClose(com.android.helper.R.id.tv_qx)
-                .Build()
+            DialogUtil.Builder(this, com.android.helper.R.layout.base_default_dialog).setClose(com.android.helper.R.id.tv_qx).Build()
                 .setOnClickListener(com.android.helper.R.id.tv_qd) { _, _ -> mFileUtil.jumpAllFiles() }
-                .setText(com.android.helper.R.id.tv_msg, "是否进行文件权限授权？")
-                .show()
+                .setText(com.android.helper.R.id.tv_msg, "是否进行文件权限授权？").show()
         }
         val commonPath = mFileUtil.commonPath
         val commonTagPath = mFileUtil.commonTagPath
@@ -207,7 +204,7 @@ class HomeFragment : BaseBindingFragment<FragmentHomeBinding>() {
         }
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentHomeBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentHomeBinding {
         return FragmentHomeBinding.inflate(inflater, container, false)
     }
 }

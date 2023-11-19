@@ -8,14 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
-import com.android.helper.utils.download.Download;
-import com.android.helper.base.BaseVH;
-import com.android.helper.base.recycleview.BaseRecycleAdapter;
+import com.android.common.base.recycleview.BaseRecycleViewAdapter;
+import com.android.common.base.recycleview.BaseVH;
 import com.android.helper.httpclient.CommonApi;
 import com.android.helper.interfaces.listener.UploadProgressListener;
+import com.android.helper.utils.download.Download;
 import com.android.helper.utils.download.UploadManagerRetrofit;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,64 +24,21 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class UploadAdapter extends BaseRecycleAdapter<Download, UploadAdapter.UpHV> {
+public class UploadAdapter extends BaseRecycleViewAdapter<Download, UploadAdapter.UpHV> {
 
     private final UploadManagerRetrofit manager;
     private final List<MultipartBody.Part> mListPart = new ArrayList<>();
 
     public UploadAdapter(FragmentActivity activity, List<Download> list) {
-        super(activity, list);
         manager = UploadManagerRetrofit.getInstance();
-    }
-
-    /**
-     * @param viewType
-     * @return 返回一个RecycleView的布局
-     */
-    @Override
-    protected int getLayout(int viewType) {
-        return R.layout.item_download;
-    }
-
-    @Override
-    protected UpHV createViewHolder(View inflate, int viewType) {
-        return new UpHV(inflate);
-    }
-
-    @Override
-    public void onBindHolder(@NonNull @NotNull UpHV holder, int position) {
-        Download bean = mList.get(position);
-
-        holder.tv_download.setText("上传");
-        holder.tv_download.setOnClickListener(v -> {
-            upload(holder, position);
-            if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(holder.tv_download, position, bean);
-            }
-        });
-
-        holder.tv_cancel.setOnClickListener(v -> {
-            // 取消下载
-            manager.cancel(position + "");
-            if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(holder.tv_cancel, position, bean);
-            }
-        });
     }
 
     private void upload(UpHV holder, int position) {
         String tag = String.valueOf(position);
-
-        manager
-                .addParameter("service", "App.Users.UploadFile")
-                .addParameter("unid", "o9RWl1JKjbgnEDTAAZjo1-CQFAUo")
-                .addParameter("term_suiji", "ncL1")
-                .addParameter("cont_suiji", "oL19Dc")
+        manager.addParameter("service", "App.Users.UploadFile").addParameter("unid", "o9RWl1JKjbgnEDTAAZjo1-CQFAUo")
+                .addParameter("term_suiji", "ncL1").addParameter("cont_suiji", "oL19Dc")
 //                .addFileParameter("video", new File("/storage/emulated/0/DCIM/Camera/0c0c1771f326b1171f479d48aa456483.mp4"))
-                .addFileParameter("video", new File("/storage/emulated/0/Download/video(1).MP4"))
-
-        ;
-
+                .addFileParameter("video", new File("/storage/emulated/0/Download/video(1).MP4"));
         UploadProgressListener<String> listener = new UploadProgressListener<String>() {
             @Override
             public void onStart() {
@@ -92,15 +47,12 @@ public class UploadAdapter extends BaseRecycleAdapter<Download, UploadAdapter.Up
 
             @Override
             public void onProgress(long progress, long contentLength, String percentage) {
-
                 holder.progress.setProgress((int) (Double.parseDouble(percentage)));
-
                 holder.tv_current_progress.setText(percentage + "%");
             }
 
             @Override
             public void onUploadComplete() {
-
             }
 
             @Override
@@ -113,10 +65,33 @@ public class UploadAdapter extends BaseRecycleAdapter<Download, UploadAdapter.Up
                 holder.tv_download.setText("上传失败");
             }
         };
-
         Retrofit retrofit = manager.getRetrofit(listener);
         Call<String> call1 = retrofit.create(CommonApi.class).uploadFile(manager.getParameter());
         manager.uploadFiles(tag, call1, listener);
+    }
+
+    @Override
+    public void bindViewHolder(@NonNull UpHV holder, int position) {
+        Download bean = mList.get(position);
+        holder.tv_download.setText("上传");
+        holder.tv_download.setOnClickListener(v -> {
+            upload(holder, position);
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(holder.tv_download, position, bean);
+            }
+        });
+        holder.tv_cancel.setOnClickListener(v -> {
+            // 取消下载
+            manager.cancel(position + "");
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(holder.tv_cancel, position, bean);
+            }
+        });
+    }
+
+    @Override
+    public int createVH(int viewType) {
+        return R.layout.item_download;
     }
 
     static class UpHV extends BaseVH {

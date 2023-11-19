@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 
 import androidx.annotation.Nullable;
 
+import com.android.common.base.BaseView;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseView;
 
 public class TestView extends BaseView {
 

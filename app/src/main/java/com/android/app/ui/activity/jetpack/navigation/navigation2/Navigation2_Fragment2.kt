@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.android.app.R
 import com.android.app.databinding.FragmentNavigation22Binding
-import com.android.helper.base.BaseBindingFragment
+import com.android.common.base.BaseBindingFragment
 
 class Navigation2_Fragment2 : BaseBindingFragment<FragmentNavigation22Binding>() {
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentNavigation22Binding {
-        return FragmentNavigation22Binding.inflate(layoutInflater,container,false)
-    }
-
-    override fun initView(view: View?) {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentNavigation22Binding {
+        return FragmentNavigation22Binding.inflate(layoutInflater, container, false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {

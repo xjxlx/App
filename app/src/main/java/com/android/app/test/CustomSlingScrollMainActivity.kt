@@ -4,19 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityCustomSlingScrollMainBinding
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.common.base.BaseBindingTitleActivity
 
-class CustomSlingScrollMainActivity : AppBaseBindingTitleActivity<ActivityCustomSlingScrollMainBinding>() {
+class CustomSlingScrollMainActivity : BaseBindingTitleActivity<ActivityCustomSlingScrollMainBinding>() {
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initData(savedInstanceState: Bundle?) {}
 
-    }
-
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "自定义侧滑布局2"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityCustomSlingScrollMainBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityCustomSlingScrollMainBinding {
         return ActivityCustomSlingScrollMainBinding.inflate(inflater, container, true)
     }
 }

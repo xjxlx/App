@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.android.app.R
 import com.android.app.databinding.FragmentNavigation23Binding
-import com.android.helper.base.BaseBindingFragment
+import com.android.common.base.BaseBindingFragment
 
 class Navigation2_Fragment3 : BaseBindingFragment<FragmentNavigation23Binding>() {
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentNavigation23Binding {
-        return FragmentNavigation23Binding.inflate(layoutInflater,container,false)
-    }
-
-    override fun initView(view: View?) {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): FragmentNavigation23Binding {
+        return FragmentNavigation23Binding.inflate(layoutInflater, container, false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -26,12 +23,12 @@ class Navigation2_Fragment3 : BaseBindingFragment<FragmentNavigation23Binding>()
 
         mBinding.btnNavigation2Jump3.setOnClickListener {
 
-//            val bundle= Bundle()
-//              Navigation2_Fragment3Args.fromBundle(bundle)
-//                .setAge3(34)
-//                .setName3("王五")
-//                .build()
-//                .toBundle()
+            //            val bundle= Bundle()
+            //              Navigation2_Fragment3Args.fromBundle(bundle)
+            //                .setAge3(34)
+            //                .setName3("王五")
+            //                .build()
+            //                .toBundle()
 
             val builder = Navigation2_Fragment3Args.Builder()
             builder.age3 = 34

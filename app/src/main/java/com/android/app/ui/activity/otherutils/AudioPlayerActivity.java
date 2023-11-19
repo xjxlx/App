@@ -16,8 +16,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.android.app.R;
 import com.android.app.ui.activity.java.JavaMapActivity;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.AppBaseActivity;
 import com.android.helper.utils.AssetsUtil;
 import com.android.helper.utils.NotificationUtil;
 import com.android.helper.utils.ToastUtil;
@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 音频播放工具类
  */
-public class AudioPlayerActivity extends AppBaseActivity {
+public class AudioPlayerActivity extends BaseActivity {
 
     private android.widget.Button mBtnPlayer;
     private android.widget.Button mBtnPause;
@@ -61,7 +61,7 @@ public class AudioPlayerActivity extends AppBaseActivity {
     private NotificationUtil mNotificationUtil;
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_audio_player;
     }
 
@@ -71,7 +71,6 @@ public class AudioPlayerActivity extends AppBaseActivity {
         mBtnPause = findViewById(R.id.btn_pause);
         mBtnStop = findViewById(R.id.btn_stop);
         mSeekbar = findViewById(R.id.seekbar);
-
         setonClickListener(mBtnPlayer, mBtnPause, mBtnStop);
         mTvLeft = findViewById(R.id.tv_left);
         mTvRight = findViewById(R.id.tv_right);
@@ -80,18 +79,12 @@ public class AudioPlayerActivity extends AppBaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         LogUtil.e(AudioConstant.TAG, "initData");
-
         String json = AssetsUtil.getInstance().getJsonForAssets(mActivity, "Audio.json");
-
         Gson gson = new Gson();
-
         List<AudioEntity> list = gson.fromJson(json, new TypeToken<List<AudioEntity>>() {
         }.getType());
-
         LogUtil.e("list:" + list);
-
         playerUtil = new AudioPlayerUtil(mActivity);
         playerUtil.bindService(success -> {
             playerUtil.autoPlayer(false);
@@ -101,7 +94,9 @@ public class AudioPlayerActivity extends AppBaseActivity {
             playerUtil.setStartButton(mIvStart);
             playerUtil.setNotificationSmallIcon(R.mipmap.ic_launcher);
             playerUtil.setPendingIntentActivity(JavaMapActivity.class);
-            playerUtil.setNotificationIcon(com.android.helper.R.drawable.icon_music_start, com.android.helper.R.drawable.icon_music_pause, com.android.helper.R.drawable.icon_music_left, com.android.helper.R.drawable.icon_music_right);
+            playerUtil.setNotificationIcon(com.android.helper.R.drawable.icon_music_start,
+                    com.android.helper.R.drawable.icon_music_pause, com.android.helper.R.drawable.icon_music_left,
+                    com.android.helper.R.drawable.icon_music_right);
             playerUtil.setNotificationList(list);
             playerUtil.setAudioCallBackListener(audioPlayerCallBackListener);
         });
@@ -113,21 +108,15 @@ public class AudioPlayerActivity extends AppBaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.btn_player:
-
                 playerUtil.setResource(url);
-
                 break;
-
             case R.id.btn_pause:
                 playerUtil.pause();
                 break;
-
             case R.id.btn_stop:
-
                 if (mNotificationUtil == null) {
                     mNotificationUtil = new NotificationUtil.Builder(mActivity).build();
                 }
-
                 boolean openNotify = mNotificationUtil.checkOpenNotify(mActivity);
                 LogUtil.e("是否有悬浮通知的权限：" + openNotify);
                 if (openNotify) {
@@ -141,7 +130,6 @@ public class AudioPlayerActivity extends AppBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         LogUtil.e(AudioConstant.TAG, "onDestroy");
-
         playerUtil.destroy();
     }
 
@@ -149,9 +137,7 @@ public class AudioPlayerActivity extends AppBaseActivity {
         // 创建Notification的管理类
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // 创建渠道
-
         String id = "sssss";
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // 用户可以看到的通知渠道的名字.
             CharSequence name = getString(R.string.app_name);
@@ -172,20 +158,16 @@ public class AudioPlayerActivity extends AppBaseActivity {
             // 通知NotifitacionManager去创建渠道
             manager.createNotificationChannel(mChannel);
         }
-
         // 创建Notification的兼容类
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mActivity, id);
         builder.setSmallIcon(R.mipmap.ic_launcher);// 设置小图标
         builder.setContentTitle("这是一个测试类！");// 设置测试类
         builder.setContentText("Hello World！"); // 设置内容
         builder.setChannelId(id); // 设置渠道
-
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);// 7.0新特性-设置优先级
-
         // 声音
         // 默认的声音
         // builder.setDefaults(Notification.DEFAULT_SOUND);
-
         // 设置声音循环播放
         // builder.setDefaults(Notification.FLAG_INSISTENT);
         builder.setLights(Color.GREEN, 1000, 1000);
@@ -193,7 +175,6 @@ public class AudioPlayerActivity extends AppBaseActivity {
         builder.setAutoCancel(true);
         // 全部默认
         // builder.setDefaults(Notification.DEFAULT_ALL);
-
         Notification notification = builder.build();
         // 发送通知
         manager.notify(17, notification);

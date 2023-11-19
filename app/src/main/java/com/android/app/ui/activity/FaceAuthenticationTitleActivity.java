@@ -17,8 +17,9 @@ import androidx.core.content.ContextCompat;
 import com.android.app.R;
 import com.android.app.databinding.ActivityFaceAuthenticationBinding;
 import com.android.app.widget.GradientProgressBar;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.TextViewUtil;
 import com.android.helper.utils.ToastUtil;
@@ -31,11 +32,11 @@ import java.util.List;
 /**
  * 补充信息---人脸认证的界面
  */
-public class FaceAuthenticationTitleActivity extends AppBaseActivity {
+public class FaceAuthenticationTitleActivity extends BaseActivity {
 
     private ActivityFaceAuthenticationBinding binding;
     private MediaRecorder mediaRecorder;
-    private File mOutFile;//保存mp4的路径文件
+    private File mOutFile;// 保存mp4的路径文件
     private boolean isRecording; // 是否在录制中
     private SurfaceHolder surfaceHolder;
     private Camera mCamera;
@@ -52,7 +53,7 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
     private Camera.Size sizeForVideo;
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_face_authentication;
     }
 
@@ -63,10 +64,10 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
         TextViewUtil.setTextFont(mActivity, binding.tvCode2, "DINCondensedBold.ttf");
         TextViewUtil.setTextFont(mActivity, binding.tvCode3, "DINCondensedBold.ttf");
         TextViewUtil.setTextFont(mActivity, binding.tvCode4, "DINCondensedBold.ttf");
-
         binding.tvCountNumber.setContent("3");
         binding.tvCountNumber.setFont(mActivity, "DINCondensedBold.ttf");
-        binding.tvCountNumber.setColors(new int[]{ContextCompat.getColor(mActivity, R.color.purple_3), ContextCompat.getColor(mActivity, R.color.purple_4)});
+        binding.tvCountNumber.setColors(new int[]{ContextCompat.getColor(mActivity, R.color.purple_3),
+                ContextCompat.getColor(mActivity, R.color.purple_4)});
         binding.tvCountNumber.setPositions(new float[]{0f, 1f});
         binding.tvCountNumber.setVisibility(View.GONE);
     }
@@ -74,7 +75,6 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
     @Override
     public void initListener() {
         super.initListener();
-
         // 进度条按下的监听
         binding.progress.setProgressTouchListener(new GradientProgressBar.ProgressTouchListener() {
             @Override
@@ -113,7 +113,6 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
                 stopRecorder();
             }
         });
-
         binding.btnStart.setOnClickListener(v -> startRecorder());
         binding.btnStop.setOnClickListener(v -> stopRecorder());
     }
@@ -126,9 +125,7 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
             ToastUtil.show("您的设备没有摄像头，暂时无法使用");
             return;
         }
-
         fileUtil = new FileUtil();
-
         // 检测权限
         new RxPermissionsUtil.Builder(this,
                 Manifest.permission.RECORD_AUDIO,
@@ -144,7 +141,6 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
                     }
                 }).build()
                 .startRequestPermission();
-
         // 初始化surfaceView的对象
         initSurfaceView();
     }
@@ -189,7 +185,6 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
             if (mCamera != null) { // 避免重复性的去创建摄像机，否则会崩溃
                 return;
             }
-
             try {
                 // 在surface被创建的时候去创建摄像机，避免重复性创建
                 mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
@@ -202,11 +197,9 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
                     mCamera.setDisplayOrientation(90);
                     mCamera.unlock();
                 }
-//                CamcorderProfile profile =
-
+                // CamcorderProfile profile =
                 List<Camera.Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
                 if (supportedPreviewSizes != null && supportedPreviewSizes.size() > 0) {
-
                 }
 
                 /*
@@ -221,18 +214,16 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
                     int height = sizeForVideo.height;
                     LogUtil.e("size:--->推荐尺寸的宽高为：width：" + width + "  height--->:" + height);
                     // 设置预览的尺寸
-                    //设置图片尺寸  就拿预览尺寸作为图片尺寸,其实他们基本上是一样的
+                    // 设置图片尺寸 就拿预览尺寸作为图片尺寸,其实他们基本上是一样的
                     parameters.setPreviewSize(width, height);
                     parameters.setPictureSize(width, height);
                 }
-                //  parameters.set("orientation", Camera.Parameters.SCENE_MODE_PORTRAIT );//相片方向
-                parameters.set("orientation", Camera.Parameters.SCENE_MODE_LANDSCAPE);//相片方向
-                parameters.setRotation(90);//相片镜头角度转90度（默认摄像头是横拍）
-
-                //缩短Recording启动时间
+                // parameters.set("orientation", Camera.Parameters.SCENE_MODE_PORTRAIT );//相片方向
+                parameters.set("orientation", Camera.Parameters.SCENE_MODE_LANDSCAPE);// 相片方向
+                parameters.setRotation(90);// 相片镜头角度转90度（默认摄像头是横拍）
+                // 缩短Recording启动时间
                 parameters.setRecordingHint(true);
-
-                //   是否支持影像稳定能力，支持则开启
+                // 是否支持影像稳定能力，支持则开启
                 if (parameters.isVideoStabilizationSupported()) {
                     parameters.setVideoStabilization(true);
                 }
@@ -247,8 +238,8 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
     private void startRecorder() {
         if (!isRecording) {
             try {
-                mediaRecorder.prepare();//准备
-                mediaRecorder.start();//开启
+                mediaRecorder.prepare();// 准备
+                mediaRecorder.start();// 开启
                 isRecording = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -263,26 +254,29 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
             mediaRecorder.release();
             mediaRecorder = null;
             isRecording = false;
-
             if (mCamera != null) {
                 mCamera.release();
                 mCamera = null;
             }
-
             // 跳转到另一个页面
             Intent intent = new Intent(mActivity, FaceVideoPlayerTitleActivity.class);
             intent.putExtra("videoPath", mOutFile.getAbsolutePath());
             startActivity(intent);
-
-//            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-//            retriever.setDataSource(mOutFile.getAbsolutePath());
-//            String width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH); //宽
-//            String height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT); //高
-//            String rotation = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);//视频的方向角度
-//            long duration = Long.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) * 1000;//视频的长度
-//
-//            LogUtil.e("width:" + width + "  height: " + height + "   rotation:" + rotation);
-
+            // MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+            // retriever.setDataSource(mOutFile.getAbsolutePath());
+            // String width =
+            // retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
+            // //宽
+            // String height =
+            // retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
+            // //高
+            // String rotation =
+            // retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);//视频的方向角度
+            // long duration =
+            // Long.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))
+            // * 1000;//视频的长度
+            //
+            // LogUtil.e("width:" + width + " height: " + height + " rotation:" + rotation);
         }
     }
 
@@ -319,37 +313,31 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
                 mOutFile.delete();
                 LogUtil.e("删除了之前存储的视频！");
             }
-
             // 创建录制对象
             mediaRecorder = new MediaRecorder();
             mediaRecorder.reset();
-
             if (mCamera == null) {
                 initCamera();
             }
-
             // mMediaRecorder.setCamera(camera);之前是需要将摄像头解除锁定 camera.unlock()
             mediaRecorder.setCamera(mCamera);
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);//设置音频输入源
-            mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);//设置视频输入源
-
-            //设置视频的摄像头角度 只会改变录制的视频角度
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);// 设置音频输入源
+            mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);// 设置视频输入源
+            // 设置视频的摄像头角度 只会改变录制的视频角度
             mediaRecorder.setOrientationHint(270);
-            //设置记录会话的最大持续时间（毫秒）
+            // 设置记录会话的最大持续时间（毫秒）
             mediaRecorder.setMaxDuration(5 * 1000);
             mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
-            //设置最大录制的大小2M 单位，字节
+            // 设置最大录制的大小2M 单位，字节
             mediaRecorder.setMaxFileSize(2 * 1024 * 1024);
-
             // 设置录制完成后视频的封装格式THREE_GPP为3gp.MPEG_4为mp4
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);//音频输出格式
-
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);//设置音频的编码格式
-            mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);//设置图像编码格式
-
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);// 音频输出格式
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);// 设置音频的编码格式
+            mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);// 设置图像编码格式
             // 不使用系统给定的配置
-            //  CamcorderProfile cProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
-            //  mediaRecorder.setProfile(cProfile);
+            // CamcorderProfile cProfile =
+            // CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+            // mediaRecorder.setProfile(cProfile);
 
             /*
              * 1:设置视频尺寸，通常搭配码率一起使用，可调整视频清晰度
@@ -358,13 +346,12 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
             if (sizeForVideo != null) {
                 // 设置视频的尺寸
                 mediaRecorder.setVideoSize(sizeForVideo.width, sizeForVideo.height);
-                //设置比特率,比特率是每一帧所含的字节流数量,比特率越大每帧字节越大,画面就越清晰,算法一般是 5 * 选择分辨率宽 * 选择分辨率高,一般可以调整5-10,比特率过大也会报错
-                mediaRecorder.setVideoEncodingBitRate(sizeForVideo.width * sizeForVideo.height);//设置视频的比特率
+                // 设置比特率,比特率是每一帧所含的字节流数量,比特率越大每帧字节越大,画面就越清晰,算法一般是 5 * 选择分辨率宽 *
+                // 选择分辨率高,一般可以调整5-10,比特率过大也会报错
+                mediaRecorder.setVideoEncodingBitRate(sizeForVideo.width * sizeForVideo.height);// 设置视频的比特率
             }
-
-            //  mediaRecorder.setVideoFrameRate(60);//设置视频的帧率
+            // mediaRecorder.setVideoFrameRate(60);//设置视频的帧率
             mediaRecorder.setOutputFile(mOutFile.getAbsolutePath());
-
             mediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
                 @Override
                 public void onError(MediaRecorder mr, int what, int extra) {
@@ -398,13 +385,11 @@ public class FaceAuthenticationTitleActivity extends AppBaseActivity {
                 mOutFile = new File(file, "face.mp4");
             }
         }
-
         // 如果文件对象为null,说明之前的sd卡目录创建失败了
         if (mOutFile == null) {
             String appFilePath = fileUtil.getAppFilesPath();
             mOutFile = new File(appFilePath, "face.mp4");
         }
-
         LogUtil.e("当前的路径为：" + mOutFile.getAbsolutePath());
     }
 

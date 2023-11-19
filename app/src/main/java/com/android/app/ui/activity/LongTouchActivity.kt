@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import com.android.app.databinding.ActivityLongTouchBinding
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.DownCountTime
 import com.android.helper.utils.ToastUtil
 import kotlin.random.Random
 
-class LongTouchActivity : AppBaseBindingTitleActivity<ActivityLongTouchBinding>() {
+class LongTouchActivity : BaseBindingTitleActivity<ActivityLongTouchBinding>() {
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityLongTouchBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityLongTouchBinding {
         return ActivityLongTouchBinding.inflate(inflater, container, true)
     }
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "长按功能"
     }
 
@@ -37,8 +37,8 @@ class LongTouchActivity : AppBaseBindingTitleActivity<ActivityLongTouchBinding>(
                             ToastUtil.show("可以展示了！")
 
                             for (item in 0..100) {
-                                 val nextInt = Random.nextInt(3, 6)
-//                                val nextInt = Random.nextInt(3)
+                                val nextInt = Random.nextInt(3, 6)
+                                //                                val nextInt = Random.nextInt(3)
                                 LogUtil.e("nextInt: $nextInt")
                             }
                         }
@@ -53,6 +53,7 @@ class LongTouchActivity : AppBaseBindingTitleActivity<ActivityLongTouchBinding>(
                 MotionEvent.ACTION_DOWN -> {
                     countTime?.start()
                 }
+
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     countTime?.restart()
                 }

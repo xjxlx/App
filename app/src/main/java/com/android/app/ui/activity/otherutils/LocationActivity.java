@@ -17,11 +17,9 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 import com.android.app.databinding.ActivityLocationBinding;
 import com.android.app.utils.location.LocationUtil;
 import com.android.app.utils.location.ReGeocodeResultListener;
+import com.android.common.base.BaseBindingActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.utils.ToastUtil;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -30,27 +28,18 @@ import java.util.List;
  */
 public class LocationActivity extends BaseBindingActivity<ActivityLocationBinding> {
 
-    @Override
-    public ActivityLocationBinding getBinding(@NonNull @NotNull LayoutInflater inflater,
-                                              @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
-        return ActivityLocationBinding.inflate(inflater, container, false);
-    }
-
     /**
      * Activity初始化view
      */
     @Override
     public void initView() {
-
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         mBinding.btnStartLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String address = mBinding.edInputAddress.getText().toString();
                 String city = mBinding.edInputCity.getText().toString();
                 if (TextUtils.isEmpty(address)) {
@@ -58,7 +47,6 @@ public class LocationActivity extends BaseBindingActivity<ActivityLocationBindin
                     return;
                 }
                 StringBuffer buffer = new StringBuffer();
-
                 LocationUtil.getLocationForAddress(mActivity, address, city, geocodeResult -> {
                     List<GeocodeAddress> addressList = geocodeResult.getGeocodeAddressList();
                     if (addressList != null && addressList.size() > 0) {
@@ -68,15 +56,10 @@ public class LocationActivity extends BaseBindingActivity<ActivityLocationBindin
                                 LatLonPoint latLonPoint = geocodeAddress.getLatLonPoint();
                                 String formatAddress = geocodeAddress.getFormatAddress();
                                 String city1 = geocodeAddress.getCity();
-
                                 String province = geocodeAddress.getAdcode();
-
-                                String info = "city ：" + city1 + " ---> Address:" + formatAddress + " ---> latLonPoint: "
-                                        + latLonPoint.toString() + " ---> code:" + province;
-
+                                String info = "city ：" + city1 + " ---> Address:" + formatAddress + " ---> latLonPoint: " + latLonPoint.toString() + " ---> code:" + province;
                                 buffer.append(info);
                                 buffer.append("\r\n");
-
                                 LogUtil.e("返回的数据为：" + info);
                             }
                         }
@@ -85,23 +68,27 @@ public class LocationActivity extends BaseBindingActivity<ActivityLocationBindin
                 });
             }
         });
-
         mBinding.btnStartAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String location = mBinding.edInputLocation.getText().toString();
                 // 32.828075,112.595871
-                LocationUtil.getAddressForLatitude(mActivity, 33.126469, 112.934043, GeocodeSearch.AMAP,
-                        new ReGeocodeResultListener() {
-                            @Override
-                            public void onReGeocodeSearched(RegeocodeResult regeocodeResult) {
-                                RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
-                                String formatAddress = regeocodeAddress.getFormatAddress();
-                                LogUtil.e("address:" + formatAddress);
-                                mBinding.tvAddressInfo.setText(formatAddress);
-                            }
-                        });
+                LocationUtil.getAddressForLatitude(mActivity, 33.126469, 112.934043, GeocodeSearch.AMAP, new ReGeocodeResultListener() {
+                    @Override
+                    public void onReGeocodeSearched(RegeocodeResult regeocodeResult) {
+                        RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
+                        String formatAddress = regeocodeAddress.getFormatAddress();
+                        LogUtil.e("address:" + formatAddress);
+                        mBinding.tvAddressInfo.setText(formatAddress);
+                    }
+                });
             }
         });
+    }
+
+    @NonNull
+    @Override
+    public ActivityLocationBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityLocationBinding.inflate(inflater, container, false);
     }
 }

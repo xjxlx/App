@@ -1,27 +1,30 @@
 package com.android.app.ui.activity.widget;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
-import com.android.app.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.android.app.databinding.ActivityProgressBinding;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 
-public class ProgressTitleActivity extends AppBaseActivity {
-
-    private ActivityProgressBinding binding;
-
-    @Override
-    protected int getBaseLayout() {
-        return R.layout.activity_progress;
-    }
-
-    @Override
-    public void initView() {
-        binding = ActivityProgressBinding.inflate(getLayoutInflater());
-    }
+public class ProgressTitleActivity extends BaseBindingTitleActivity<ActivityProgressBinding> {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+    }
 
+    @NonNull
+    @Override
+    public ActivityProgressBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityProgressBinding.inflate(inflater, container, true);
+    }
+
+    @NonNull
+    @Override
+    public String getTitleContent() {
+        return "";
     }
 }

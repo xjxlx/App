@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.adapters.SmsAdapter;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.SpUtil;
-import com.android.helper.base.AppBaseActivity;
 import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.utils.ToastUtil;
 
@@ -33,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SendSmsActivity extends AppBaseActivity {
+public class SendSmsActivity extends BaseActivity {
 
     private String KEY_SAVE = "phone_number_save";
     private List<String> mListAddress = new ArrayList<>();
@@ -46,31 +46,25 @@ public class SendSmsActivity extends AppBaseActivity {
     private EditText et_add_address;
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_send_sms;
     }
 
     @Override
     public void initView() {
         et_add_address = findViewById(R.id.et_add_address);
-
         rv_address_list = findViewById(R.id.rv_address_list);
         rv_result_list = findViewById(R.id.rv_result_list);
-
         TextView btn_start_send = findViewById(R.id.btn_start_send);
         TextView btn_stop_send = findViewById(R.id.btn_stop_send);
         TextView btn_add_address = findViewById(R.id.btn_add_address);
         TextView btn_clear_addrss = findViewById(R.id.btn_clear_addrss);
-
         setonClickListener(btn_add_address);
-
         btn_start_send.setOnClickListener(v -> mHandler.sendEmptyMessage(123456));
-
         btn_stop_send.setOnClickListener(v -> {
             mHandler.removeMessages(1234565);
             mHandler.removeCallbacksAndMessages(null);
         });
-
         btn_clear_addrss.setOnClickListener(v -> {
             // boolean b = SpUtil.clearMap(KEY_SAVE);
             // if (b) {
@@ -82,7 +76,6 @@ public class SendSmsActivity extends AppBaseActivity {
             // ToastUtil.show("清空失败！");
             // }
         });
-
         // 清空输入数据
         findViewById(R.id.tv_clear_input).setOnClickListener(v -> et_add_address.setText(""));
     }
@@ -98,7 +91,6 @@ public class SendSmsActivity extends AppBaseActivity {
                     ToastUtil.show("添加的发送地址为空！");
                     return;
                 }
-
                 mListAddress.add(address);
                 SpUtil.INSTANCE.putMap(KEY_SAVE, address, address);
                 // 刷新adapter
@@ -109,23 +101,18 @@ public class SendSmsActivity extends AppBaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         smsAdapter1 = new SmsAdapter(mActivity, 1);
-
         HashMap<String, String> map = SpUtil.INSTANCE.getMap(KEY_SAVE);
-
         if (map != null && map.size() > 0) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 String value = entry.getValue();
                 mListAddress.add(value);
             }
         }
-
         // 设置地址
         smsAdapter1.setList(mListAddress);
         rv_address_list.setLayoutManager(new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false));
         rv_address_list.setAdapter(smsAdapter1);
-
         // 设置结果
         smsAdapter2 = new SmsAdapter(mActivity, 2);
         smsAdapter2.setList(mListResult);
@@ -160,7 +147,6 @@ public class SendSmsActivity extends AppBaseActivity {
                             } else {
                                 mListResult.add("发送失败~");
                             }
-
                             smsAdapter2.setList(mListResult);
                         }
                     });
@@ -180,7 +166,6 @@ public class SendSmsActivity extends AppBaseActivity {
                 for (int i = 0; i < mListAddress.size(); i++) {
                     String s = mListAddress.get(i);
                     sendSms(s);
-
                     if (i == mListAddress.size() - 1) {
                         // 最后一个再次发送
                         mHandler.sendEmptyMessageDelayed(123456, interval * 1000);

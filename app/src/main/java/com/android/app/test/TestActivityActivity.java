@@ -2,32 +2,25 @@ package com.android.app.test;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
-import com.android.app.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.android.app.databinding.ActivityTestActivityBinding;
+import com.android.common.base.BaseBindingTitleActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.title.AppBaseTitleActivity;
 
 import java.security.MessageDigest;
 import java.util.Stack;
 
-public class TestActivityActivity extends AppBaseTitleActivity {
-
-    @Override
-    protected int getTitleLayout() {
-        return R.layout.activity_test_activity;
-    }
-
-    @Override
-    protected String setTitleContent() {
-        return "测试Activity";
-    }
+public class TestActivityActivity extends BaseBindingTitleActivity<ActivityTestActivityBinding> {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         String encrypt = encrypt("哈哈");
         LogUtil.e("encrypt:" + encrypt);
-
         String md5 = "8c8fa3529ee34d4e69a0baafb7069da3";
         if (TextUtils.equals(md5, encrypt)) {
             LogUtil.e("md5想通！");
@@ -65,8 +58,18 @@ public class TestActivityActivity extends AppBaseTitleActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return "";
     }
 
+    @NonNull
+    @Override
+    public ActivityTestActivityBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityTestActivityBinding.inflate(inflater, container, true);
+    }
+
+    @NonNull
+    @Override
+    public String getTitleContent() {
+        return "测试Activity";
+    }
 }

@@ -8,15 +8,16 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 
 /**
  * 测试功能的集合
  */
-public class TestMapActivity extends AppBaseActivity {
+public class TestMapActivity extends BaseActivity {
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_test_map;
     }
 
@@ -25,7 +26,6 @@ public class TestMapActivity extends AppBaseActivity {
      */
     @Override
     public void initView() {
-
     }
 
     @Override
@@ -51,13 +51,11 @@ public class TestMapActivity extends AppBaseActivity {
                 R.id.tv_test_service_socket,
                 R.id.tv_test_sf,
                 R.id.tv_scroll_top,
-                R.id.tv_android_socket
-        );
+                R.id.tv_android_socket);
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -94,8 +92,7 @@ public class TestMapActivity extends AppBaseActivity {
                 break;
             case R.id.tv_test_webview:
                 Intent intent = new Intent(mActivity, TestWebViewActivity.class);
-                String url =
-                        "http://wx.smartservice.bjev.com.cn/BAIC_C62X_OM_HTML5_demo/index.html";
+                String url = "http://wx.smartservice.bjev.com.cn/BAIC_C62X_OM_HTML5_demo/index.html";
                 intent.putExtra(KEY_BASE_WEB_VIEW_URL, url);
                 startActivity(intent);
                 break;

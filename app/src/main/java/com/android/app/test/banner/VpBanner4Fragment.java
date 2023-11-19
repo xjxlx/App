@@ -3,16 +3,13 @@ package com.android.app.test.banner;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBanner4Binding;
-import com.android.helper.base.BaseBindingFragment;
-
-import org.jetbrains.annotations.NotNull;
+import com.android.common.base.BaseBindingFragment;
 
 public class VpBanner4Fragment extends BaseBindingFragment<FragmentVpBanner4Binding> {
 
@@ -30,13 +27,7 @@ public class VpBanner4Fragment extends BaseBindingFragment<FragmentVpBanner4Bind
     }
 
     @Override
-    public void initView(View view) {
-
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -56,8 +47,9 @@ public class VpBanner4Fragment extends BaseBindingFragment<FragmentVpBanner4Bind
         }
     }
 
+    @NonNull
     @Override
-    public FragmentVpBanner4Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public FragmentVpBanner4Binding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
         return FragmentVpBanner4Binding.inflate(inflater, container, false);
     }
 }

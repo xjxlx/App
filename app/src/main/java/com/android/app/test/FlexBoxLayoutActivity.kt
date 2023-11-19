@@ -8,14 +8,12 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.android.app.R
 import com.android.app.databinding.ActivityFlexBoxLayoutBinding
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.google.android.flexbox.FlexboxLayout
 
-/**
- * 测试动态布局
- */
-class FlexBoxLayoutActivity : AppBaseBindingTitleActivity<ActivityFlexBoxLayoutBinding>() {
+/** 测试动态布局 */
+class FlexBoxLayoutActivity : BaseBindingTitleActivity<ActivityFlexBoxLayoutBinding>() {
 
     override fun initData(savedInstanceState: Bundle?) {
         mBinding.fblRoot.post {
@@ -25,7 +23,7 @@ class FlexBoxLayoutActivity : AppBaseBindingTitleActivity<ActivityFlexBoxLayoutB
 
                 val frameLayout = FrameLayout(mActivity)
                 val textView = TextView(mActivity)
-//                textView.text = "测试动态布局 --->$a"
+                //                textView.text = "测试动态布局 --->$a"
                 textView.text = "--->$a"
                 textView.gravity = Gravity.LEFT
                 textView.setBackgroundColor(resources.getColor(R.color.blue_10))
@@ -48,11 +46,11 @@ class FlexBoxLayoutActivity : AppBaseBindingTitleActivity<ActivityFlexBoxLayoutB
         }
     }
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "测试FlexboxLayout"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityFlexBoxLayoutBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityFlexBoxLayoutBinding {
         return ActivityFlexBoxLayoutBinding.inflate(layoutInflater, container, true)
     }
 }

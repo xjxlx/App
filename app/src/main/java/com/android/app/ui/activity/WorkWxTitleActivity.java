@@ -12,18 +12,18 @@ import android.util.Log;
 import com.android.app.R;
 import com.android.app.databinding.ActivityWorkWxBinding;
 import com.android.app.services.QywxService;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseActivity;
 
 /**
  * 企业微信的界面
  */
-public class WorkWxTitleActivity extends AppBaseActivity {
+public class WorkWxTitleActivity extends BaseActivity {
 
     private ActivityWorkWxBinding binding;
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_work_wx;
     }
 
@@ -33,10 +33,8 @@ public class WorkWxTitleActivity extends AppBaseActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState)  {
-
+    public void initData(Bundle savedInstanceState) {
         Intent intent = new Intent(this, QywxService.class);
-
         binding.btnStart.setOnClickListener(v -> {
             boolean enabled = isEnabled();
             if (!enabled) {
@@ -44,16 +42,13 @@ public class WorkWxTitleActivity extends AppBaseActivity {
                 startActivity(intents);
                 return;
             }
-
             startService(intent);
             Log.e(QywxService.TAG, "开启了监听！ ");
         });
-
         binding.btnStop.setOnClickListener(v -> {
             stopService(intent);
             Log.e(QywxService.TAG, "关闭了监听！ ");
         });
-
         binding.btnSwitch.setOnClickListener(v -> {
             Log.e(QywxService.TAG, "打开开关！ ");
             Intent intents = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
@@ -67,7 +62,6 @@ public class WorkWxTitleActivity extends AppBaseActivity {
         // 先关闭，在打开
         pm.setComponentEnabledSetting(new ComponentName(context, QywxService.class),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-
         pm.setComponentEnabledSetting(new ComponentName(context, QywxService.class),
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }

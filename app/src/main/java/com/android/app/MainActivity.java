@@ -17,8 +17,8 @@ import com.android.app.databinding.ActivityMainBinding;
 import com.android.app.ui.fragment.HomeFragment;
 import com.android.app.ui.fragment.PersonalFragment;
 import com.android.app.ui.fragment.TodoFragment;
+import com.android.common.base.BaseBindingActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseBindingActivity;
 import com.android.helper.base.BaseFragmentPagerAdapter;
 import com.android.helper.utils.FileUtil;
 import com.android.helper.utils.dialog.DialogUtil;
@@ -48,14 +48,10 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
         mListFragments.add(new HomeFragment());
         mListFragments.add(new TodoFragment());
         mListFragments.add(new PersonalFragment());
-
         mListTitle.add("首页");
         mListTitle.add("待办");
         mListTitle.add("个人中心");
-
-        BaseFragmentPagerAdapter pagerAdapter = new BaseFragmentPagerAdapter(getSupportFragmentManager(),
-                mListFragments, mListTitle);
-
+        BaseFragmentPagerAdapter pagerAdapter = new BaseFragmentPagerAdapter(getSupportFragmentManager(), mListFragments, mListTitle);
         mBinding.vpContent.setAdapter(pagerAdapter);
         // 避免重复创建加载数据
         mBinding.vpContent.setOffscreenPageLimit(mListFragments.size());
@@ -67,10 +63,8 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
 
             @Override
             public void onPageSelected(int position) {
-                //设置默认选中item
-                mBinding.navigation.getMenu()
-                        .getItem(position)
-                        .setChecked(true);
+                // 设置默认选中item
+                mBinding.navigation.getMenu().getItem(position).setChecked(true);
                 switch (position) {
                     case 0:
                         setTitleContent("首页");
@@ -88,7 +82,6 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
             public void onPageScrollStateChanged(int state) {
             }
         });
-
         // 底部导航器选中的监听事件
         mBinding.navigation.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
@@ -96,12 +89,10 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
                 case R.id.navigation_home:
                     mBinding.vpContent.setCurrentItem(0);
                     break;
-
                 // 待办
                 case R.id.navigation_moment:
                     mBinding.vpContent.setCurrentItem(1);
                     break;
-
                 // 个人中心
                 case R.id.navigation_personal:
                     mBinding.vpContent.setCurrentItem(2);
@@ -109,29 +100,22 @@ public class MainActivity extends BaseBindingActivity<ActivityMainBinding> {
             }
             return false;
         });
-
         // 设置默认数据
-        mBinding.navigation.getMenu()
-                .getItem(1)
-                .setChecked(true);
+        mBinding.navigation.getMenu().getItem(1).setChecked(true);
         mBinding.vpContent.setCurrentItem(1);
         setTitleContent("代办");
-
-        String sdTypePublicPath = FileUtil.getInstance()
-                .getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
+        String sdTypePublicPath = FileUtil.getInstance().getSdTypePublicPath(Environment.DIRECTORY_DOWNLOADS);
         LogUtil.e("SD ---> 公共资源目录:  --- " + sdTypePublicPath);
-
-        boolean permission = FileUtil.getInstance()
-                .checkAllFilesPermission(mActivity);
+        boolean permission = FileUtil.getInstance().checkAllFilesPermission(mActivity);
         LogUtil.e("permission: " + permission);
     }
 
     private void setTitleContent(String value) {
-
     }
 
+    @NonNull
     @Override
-    public ActivityMainBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public ActivityMainBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
         return ActivityMainBinding.inflate(inflater, container, false);
     }
 }

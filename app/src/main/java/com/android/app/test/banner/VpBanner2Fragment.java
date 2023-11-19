@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.app.databinding.FragmentVpBanner2Binding;
-import com.android.helper.base.BaseBindingFragment;
+import com.android.common.base.BaseBindingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,13 +36,7 @@ public class VpBanner2Fragment extends BaseBindingFragment<FragmentVpBanner2Bind
     }
 
     @Override
-    public void initView(View view) {
-
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -62,8 +56,9 @@ public class VpBanner2Fragment extends BaseBindingFragment<FragmentVpBanner2Bind
         }
     }
 
+    @NonNull
     @Override
-    public FragmentVpBanner2Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public FragmentVpBanner2Binding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
         return FragmentVpBanner2Binding.inflate(inflater, container, false);
     }
 }

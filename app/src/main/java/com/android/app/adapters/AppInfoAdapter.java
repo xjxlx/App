@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.app.R;
 import com.android.app.bean.AppInfoBean;
+import com.android.common.base.recycleview.BaseVH;
 import com.android.common.utils.LogUtil;
 import com.android.common.utils.SpUtil;
-import com.android.helper.base.BaseVH;
 
 import java.util.List;
 
@@ -30,7 +30,6 @@ public class AppInfoAdapter extends RecyclerView.Adapter<BaseVH> {
         mContext = context;
         this.mListSystem = mListSystem;
         this.mListUser = mListUser;
-
         LogUtil.e("appInfo:--->System:" + mListSystem.size());
         LogUtil.e("appInfo:--->User:" + mListUser.size());
         for (int i = 0; i < mListSystem.size(); i++) {
@@ -85,7 +84,6 @@ public class AppInfoAdapter extends RecyclerView.Adapter<BaseVH> {
                 holder1.tv_app_name.setText(bean.getAppName());
                 boolean aBoolean = SpUtil.INSTANCE.getBoolean(bean.getPackageName());
                 holder1.s_switch.setChecked(aBoolean);
-
                 holder1.s_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -105,10 +103,8 @@ public class AppInfoAdapter extends RecyclerView.Adapter<BaseVH> {
                 AppInfoBean bean = mListUser.get(position - (mListSystem.size() + 2));
                 holder1.iv_app_info.setImageDrawable(bean.getAppIcon());
                 holder1.tv_app_name.setText(bean.getAppName());
-
                 boolean aBoolean = SpUtil.INSTANCE.getBoolean(bean.getPackageName());
                 holder1.s_switch.setChecked(aBoolean);
-
                 holder1.s_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

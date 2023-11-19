@@ -8,17 +8,15 @@ import androidx.annotation.RequiresApi
 import com.android.app.R
 import com.android.app.app.App
 import com.android.app.databinding.ActivityCustomRoundImageBinding
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.SystemUtil
 import com.android.helper.utils.photo.GlideUtil
 
-class CustomRoundImageActivity : AppBaseBindingTitleActivity<ActivityCustomRoundImageBinding>() {
+class CustomRoundImageActivity : BaseBindingTitleActivity<ActivityCustomRoundImageBinding>() {
 
     private val glideUtil: GlideUtil by lazy {
-        return@lazy GlideUtil.Builder(mActivity)
-            .setPlaceholderResource(R.mipmap.icon_head)
-            .build()
+        return@lazy GlideUtil.Builder(mActivity).setPlaceholderResource(R.mipmap.icon_head).build()
     }
 
     val system: SystemUtil by lazy {
@@ -47,11 +45,11 @@ class CustomRoundImageActivity : AppBaseBindingTitleActivity<ActivityCustomRound
         }
     }
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "测试事件分发"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityCustomRoundImageBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityCustomRoundImageBinding {
         return ActivityCustomRoundImageBinding.inflate(layoutInflater, container, true)
     }
 }

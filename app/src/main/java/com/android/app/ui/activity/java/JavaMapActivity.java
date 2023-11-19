@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.app.R;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseActivity;
 
-public class JavaMapActivity extends AppBaseActivity {
+public class JavaMapActivity extends BaseActivity {
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_java_map;
     }
 
@@ -18,7 +18,6 @@ public class JavaMapActivity extends AppBaseActivity {
      */
     @Override
     public void initView() {
-
     }
 
     @Override
@@ -29,7 +28,6 @@ public class JavaMapActivity extends AppBaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
@@ -39,7 +37,6 @@ public class JavaMapActivity extends AppBaseActivity {
             case R.id.tv_back:
                 finish();
                 break;
-
             case R.id.tv_java_life:
                 startActivity(TestJavaLifeActivity.class);
                 break;

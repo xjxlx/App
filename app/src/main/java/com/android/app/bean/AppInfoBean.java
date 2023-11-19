@@ -2,7 +2,7 @@ package com.android.app.bean;
 
 import android.graphics.drawable.Drawable;
 
-import com.android.helper.base.BaseEntity;
+import com.android.common.base.BaseEntity;
 
 public class AppInfoBean extends BaseEntity {
 

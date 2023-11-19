@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.app.databinding.FragmentBannerQTBinding;
-import com.android.helper.base.BaseBindingFragment;
+import com.android.common.base.BaseBindingFragment;
 import com.android.helper.base.BaseFragmentPagerAdapter;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,23 +38,17 @@ public class BannerQTFragment extends BaseBindingFragment<FragmentBannerQTBindin
     }
 
     @Override
-    public void initView(View view) {
-
-    }
-
-    @Override
     public void initData(Bundle savedInstanceState) {
         QT2Fragment qt2Fragment = QT2Fragment.newInstance();
-
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(qt2Fragment);
-
         BaseFragmentPagerAdapter baseFragmentPagerAdapter = new BaseFragmentPagerAdapter(getChildFragmentManager(), fragments);
         mBinding.flContent2.setAdapter(baseFragmentPagerAdapter);
     }
 
+    @NonNull
     @Override
-    public FragmentBannerQTBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public FragmentBannerQTBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
         return FragmentBannerQTBinding.inflate(inflater, container, false);
     }
 }

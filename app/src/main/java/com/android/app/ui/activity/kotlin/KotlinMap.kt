@@ -6,25 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityKotlinMapBinding
-import com.android.helper.base.title.AppBaseBindingTitleActivity
+import com.android.common.base.BaseBindingTitleActivity
 
 /**
  * @author XJX
  * @CreateDate: 2021/9/19-16:52
  * @Description: Kotlin的项目
  */
-class KotlinMap : AppBaseBindingTitleActivity<ActivityKotlinMapBinding>() {
+class KotlinMap : BaseBindingTitleActivity<ActivityKotlinMapBinding>() {
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "kotlin集合"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityKotlinMapBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityKotlinMapBinding {
         return ActivityKotlinMapBinding.inflate(inflater, container, true)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
         setonClickListener(R.id.tv_array, R.id.tv_list, R.id.tv_lambda, R.id.tv_back, R.id.tv_czf)
     }
 

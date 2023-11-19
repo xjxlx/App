@@ -29,23 +29,20 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mApp = this;
-
         BaseApplication
                 .getInstance()
                 .setApplication(new ApplicationInterface() {
                     @Override
                     public void initApp() {
-
                         // 设置title的资源信息
                         PageLayoutBuilder builder = new PageLayoutBuilder().setTitleLayoutId(com.android.helper.R.layout.base_title_activity)
                                 .setTitleBarLayoutId(com.android.helper.R.id.base_title)
-                                .setLeftBackLayoutId(com.android.helper.R.id.ll_base_title_back)
-                                .setTitleId(com.android.helper.R.id.tv_base_title)
-                                .setRightLayoutId(com.android.helper.R.id.fl_base_title_right_parent)
-                                .setRightTextId(com.android.helper.R.id.tv_base_title_right_title)
+                                // .setLeftBackLayoutId(com.android.helper.R.id.ll_base_title_back)
+                                // .setTitleId(com.android.helper.R.id.tv_base_title)
+                                // .setRightLayoutId(com.android.helper.R.id.fl_base_title_right_parent)
+                                // .setRightTextId(com.android.helper.R.id.tv_base_title_right_title)
                                 .setContentLayoutId(com.android.helper.R.id.fl_activity_content)
                                 .setPlaceHolderLayoutId(com.android.helper.R.id.fl_placeholder);
-
                         PageLayoutManager.setGlobalTitleBar(builder);
                     }
 
@@ -79,14 +76,12 @@ public class App extends Application {
                         return new Interceptor[]{new AutoInterceptor()};
                     }
                 });
-
         initData();
     }
 
     private void initData() {
         // Bugly2.0
         CrashReport.initCrashReport(getApplicationContext(), "09c9b19788", true);
-
         // 高德地图
         // 地图 合规接口
         MapsInitializer.updatePrivacyShow(this, true, true);
@@ -94,7 +89,6 @@ public class App extends Application {
         // 搜索 合规接口
         ServiceSettings.updatePrivacyShow(this, true, true);
         ServiceSettings.updatePrivacyAgree(this, true);
-
         int screenWidth = ScreenUtil.getScreenWidth(this);
         int screenHeight = ScreenUtil.getScreenHeight(this);
         LogUtil.e("screenWidth:  " + screenWidth + "  screenHeight: " + screenHeight);

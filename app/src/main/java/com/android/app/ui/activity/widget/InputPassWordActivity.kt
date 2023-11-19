@@ -1,22 +1,21 @@
 package com.android.app.ui.activity.widget
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.android.app.R
-import com.android.helper.base.AppBaseActivity
+import com.android.app.databinding.ActivityInputPassWordBinding
+import com.android.common.base.BaseBindingTitleActivity
 
-class InputPassWordActivity : AppBaseActivity() {
-    
-    override fun getBaseLayout(): Int {
-        return R.layout.activity_input_pass_word
+class InputPassWordActivity() : BaseBindingTitleActivity<ActivityInputPassWordBinding>() {
+
+    override fun getTitleContent(): String {
+        return ""
     }
-    
-    /**
-     * Activity初始化view
-     */
-    override fun initView() {
-    
+
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityInputPassWordBinding {
+        return ActivityInputPassWordBinding.inflate(inflater, container, true)
     }
-    
-    override fun initData(savedInstanceState: Bundle?) {
-    }
+
+    override fun initData(savedInstanceState: Bundle?) {}
 }

@@ -5,41 +5,35 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
-import com.android.helper.base.AppBaseActivity;
-import com.android.helper.base.BaseVH;
-import com.android.helper.base.recycleview.BaseRecycleAdapter;
+import com.android.common.base.recycleview.BaseRecycleViewAdapter;
+import com.android.common.base.recycleview.BaseVH;
 import com.android.helper.utils.TextViewUtil;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * 车库---补充信息---验证码的adapter
  */
-public class FaceAuthenticationCodeAdapter extends BaseRecycleAdapter<String, FaceAuthenticationCodeAdapter.VH> {
+public class FaceAuthenticationCodeAdapter extends BaseRecycleViewAdapter<String, FaceAuthenticationCodeAdapter.VH> {
+    private FragmentActivity mActivity;
 
-    public FaceAuthenticationCodeAdapter(AppBaseActivity mContext) {
-        super(mContext);
+    public FaceAuthenticationCodeAdapter(FragmentActivity activity) {
+        this.mActivity = activity;
     }
 
     @Override
-    protected int getLayout(int viewType) {
-        return R.layout.item_face_authentication_code;
-    }
-
-    @Override
-    protected VH createViewHolder(View inflate, int viewType) {
-        return new VH(inflate);
-    }
-
-    @Override
-    public void onBindHolder(@NonNull @NotNull VH holder, int position) {
+    public void bindViewHolder(@NonNull VH holder, int position) {
         String s = mList.get(position);
         TextViewUtil.setTextFont(mActivity, holder.tv_code, "DINCondensedBold.ttf");
         if (!TextUtils.isEmpty(s)) {
             TextViewUtil.setText(holder.tv_code, s);
         }
+    }
+
+    @Override
+    public int createVH(int viewType) {
+        return R.layout.item_face_authentication_code;
     }
 
     static class VH extends BaseVH {

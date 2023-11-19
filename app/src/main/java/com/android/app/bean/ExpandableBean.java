@@ -1,6 +1,6 @@
 package com.android.app.bean;
 
-import com.android.helper.base.BaseEntity;
+import com.android.common.base.BaseEntity;
 
 import java.util.List;
 

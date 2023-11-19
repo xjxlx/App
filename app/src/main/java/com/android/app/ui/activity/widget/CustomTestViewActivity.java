@@ -8,24 +8,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.ActivityCustomTestBinding;
-import com.android.helper.base.title.AppBaseBindingTitleActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 
-import org.jetbrains.annotations.NotNull;
-
-public class CustomTestViewActivity extends AppBaseBindingTitleActivity<ActivityCustomTestBinding> {
-
-    @Override
-    protected String setTitleContent() {
-        return "自定义view的练习";
-    }
-
-    @Override
-    public ActivityCustomTestBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
-        return ActivityCustomTestBinding.inflate(inflater, container, true);
-    }
+public class CustomTestViewActivity extends BaseBindingTitleActivity<ActivityCustomTestBinding> {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+    }
 
+    @NonNull
+    @Override
+    public ActivityCustomTestBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityCustomTestBinding.inflate(inflater, container, true);
+    }
+
+    @NonNull
+    @Override
+    public String getTitleContent() {
+        return "自定义view的练习";
     }
 }

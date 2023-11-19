@@ -3,16 +3,13 @@ package com.android.app.test.banner;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.app.databinding.FragmentVpBanner3Binding;
-import com.android.helper.base.BaseBindingFragment;
-
-import org.jetbrains.annotations.NotNull;
+import com.android.common.base.BaseBindingFragment;
 
 public class VpBanner3Fragment extends BaseBindingFragment<FragmentVpBanner3Binding> {
 
@@ -30,14 +27,7 @@ public class VpBanner3Fragment extends BaseBindingFragment<FragmentVpBanner3Bind
     }
 
     @Override
-    public void initView(View view) {
-
-    }
-
-    @Override
-    public void initData(Bundle savedInstanceState)  {
-
-
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -46,7 +36,7 @@ public class VpBanner3Fragment extends BaseBindingFragment<FragmentVpBanner3Bind
         Bundle arguments = getArguments();
         if (arguments != null) {
             int position = arguments.getInt("position", 0);
-             setPosition(position);
+            setPosition(position);
         }
     }
 
@@ -57,8 +47,9 @@ public class VpBanner3Fragment extends BaseBindingFragment<FragmentVpBanner3Bind
         }
     }
 
+    @NonNull
     @Override
-    public FragmentVpBanner3Binding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
+    public FragmentVpBanner3Binding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
         return FragmentVpBanner3Binding.inflate(inflater, container, false);
     }
 }

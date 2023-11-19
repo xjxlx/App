@@ -5,20 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.app.R
 import com.android.app.adapters.DownloadAdapter
 import com.android.app.databinding.ActivityDownLoadListBinding
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.recycleview.PlaceholderResource
-import com.android.helper.base.title.AppBaseBindingTitleActivity
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
 import com.android.helper.utils.download.Download
 import com.android.helper.utils.permission.RxPermissionsUtil
 import java.io.File
-import java.util.*
+import java.util.Arrays
 
-class DownLoadListActivity : AppBaseBindingTitleActivity<ActivityDownLoadListBinding>() {
+class DownLoadListActivity : BaseBindingTitleActivity<ActivityDownLoadListBinding>() {
 
     private val mList = arrayListOf<Download>()
     private lateinit var file: File
@@ -26,16 +24,15 @@ class DownLoadListActivity : AppBaseBindingTitleActivity<ActivityDownLoadListBin
         return@lazy FileUtil.getInstance()
     }
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "带进度条的下载文件"
     }
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): ActivityDownLoadListBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityDownLoadListBinding {
         return ActivityDownLoadListBinding.inflate(layoutInflater, container, true)
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-    }
+    override fun initData(savedInstanceState: Bundle?) {}
 
     override fun initView() {
         RxPermissionsUtil.Builder(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -54,19 +51,12 @@ class DownLoadListActivity : AppBaseBindingTitleActivity<ActivityDownLoadListBin
                         downLoadBean.id = EncryptionUtil.enCodeBase64(downLoadBean.url + downLoadBean.outputPath + index)
                         mList.add(downLoadBean)
                     }
-                    val adapter = DownloadAdapter(mActivity, mList)
+                    val adapter = DownloadAdapter(mActivity)
+                    adapter.setList(mList)
                     mBinding.rvDownloadList.adapter = adapter
                     mBinding.rvDownloadList.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
                     LogUtil.e(Arrays.toString(mList.toArray()))
-                    val placeholder = PlaceholderResource.Builder()
-                        .setListEmptyContent("我是测试哈哈哈")
-                        .setListEmptyResource(R.mipmap.icon_face_authentication_bg)
-                        .Build()
-
-                    adapter.setPlaceholder(placeholder)
                 }
-            }
-            .build()
-            .startRequestPermission()
+            }.build().startRequestPermission()
     }
 }

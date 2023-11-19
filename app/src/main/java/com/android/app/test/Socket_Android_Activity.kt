@@ -3,15 +3,14 @@ package com.android.app.test
 import android.os.Bundle
 import android.util.Log
 import com.android.app.R
+import com.android.common.base.BaseActivity
 import com.android.common.utils.LogUtil
-
-import com.android.helper.base.AppBaseActivity
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.ServerSocket
 import java.net.Socket
 
-class Socket_Android_Activity : AppBaseActivity() {
+class Socket_Android_Activity : BaseActivity() {
 
     companion object {
         private val TAG = "Android端"
@@ -21,7 +20,7 @@ class Socket_Android_Activity : AppBaseActivity() {
         ServerThread().start()
     }
 
-    override fun getBaseLayout(): Int {
+    override fun getLayout(): Int {
         return R.layout.activity_socket_android
     }
 
@@ -63,10 +62,10 @@ class Socket_Android_Activity : AppBaseActivity() {
                 val dis = DataInputStream(socket.getInputStream())
                 val dos = DataOutputStream(socket.getOutputStream())
                 while (true) {
-                    val data = dis.readUTF();
-                    Log.d(TAG, "收到数据:$data");
+                    val data = dis.readUTF()
+                    Log.d(TAG, "收到数据:$data")
 
-                    //回写给客户端。
+                    // 回写给客户端。
                     val s = "手机时间:" + System.currentTimeMillis()
                     dos.writeUTF(s)
                     dos.flush()

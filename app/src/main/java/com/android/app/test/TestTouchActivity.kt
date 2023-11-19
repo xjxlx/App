@@ -10,19 +10,17 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import com.android.app.R
 import com.android.app.databinding.ActivityTestTouchBinding
+import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.title.AppBaseBindingTitleActivity
-import com.android.helper.utils.ResourceUtil
+import com.android.common.utils.ResourcesUtil
 
-class TestTouchActivity : AppBaseBindingTitleActivity<ActivityTestTouchBinding>() {
+class TestTouchActivity : BaseBindingTitleActivity<ActivityTestTouchBinding>() {
 
-    override fun setTitleContent(): String {
+    override fun getTitleContent(): String {
         return "测试事件分发"
     }
 
-    override fun getBinding(
-        inflater: LayoutInflater, container: ViewGroup?
-    ): ActivityTestTouchBinding {
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?, attachToRoot: Boolean): ActivityTestTouchBinding {
         return ActivityTestTouchBinding.inflate(layoutInflater, container, true)
     }
 
@@ -36,9 +34,9 @@ class TestTouchActivity : AppBaseBindingTitleActivity<ActivityTestTouchBinding>(
                 val mHandler = @SuppressLint("HandlerLeak") object : Handler() {
                     override fun handleMessage(msg: Message) {
                         super.handleMessage(msg)
-                        mBinding.tvTest.setBackgroundColor(ResourceUtil.getColor(R.color.blue_1))
+                        mBinding.tvTest.setBackgroundColor(ResourcesUtil.getColor(mActivity, R.color.blue_1))
                     }
-                };
+                }
 
                 mHandler.sendEmptyMessage(111)
             }
@@ -46,23 +44,21 @@ class TestTouchActivity : AppBaseBindingTitleActivity<ActivityTestTouchBinding>(
         thread.start()
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
-
-    }
+    override fun initData(savedInstanceState: Bundle?) {}
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
-                LogUtil.e(tag, "dispatchTouchEvent--->down")
+                LogUtil.e("dispatchTouchEvent--->down")
             }
 
             MotionEvent.ACTION_MOVE -> {
-                LogUtil.e(tag, "dispatchTouchEvent--->move")
+                LogUtil.e("dispatchTouchEvent--->move")
             }
 
             MotionEvent.ACTION_UP -> {
 
-                LogUtil.e(tag, "dispatchTouchEvent--->up")
+                LogUtil.e("dispatchTouchEvent--->up")
             }
         }
         return super.dispatchTouchEvent(ev)
@@ -71,15 +67,15 @@ class TestTouchActivity : AppBaseBindingTitleActivity<ActivityTestTouchBinding>(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                LogUtil.e(tag, "onTouchEvent--->down")
+                LogUtil.e("onTouchEvent--->down")
             }
 
             MotionEvent.ACTION_MOVE -> {
-                LogUtil.e(tag, "onTouchEvent--->move")
+                LogUtil.e("onTouchEvent--->move")
             }
 
             MotionEvent.ACTION_UP -> {
-                LogUtil.e(tag, "onTouchEvent--->up")
+                LogUtil.e("onTouchEvent--->up")
             }
         }
         return super.onTouchEvent(event)

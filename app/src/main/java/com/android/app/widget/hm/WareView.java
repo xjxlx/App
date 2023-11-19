@@ -12,8 +12,8 @@ import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
 
+import com.android.common.base.BaseView;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.BaseView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +39,12 @@ public class WareView extends BaseView {
 
     @Override
     public void initView(Context context, AttributeSet attrs) {
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         for (Point point : mListData) {
-
             canvas.drawCircle(point.x, point.y, point.radius, point.paint);
         }
 
@@ -60,24 +57,19 @@ public class WareView extends BaseView {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
                 // 1:在按下或者移动的时候，去添加一个点到集合中去
-
                 if (mListData.isEmpty()) {
                     addPoint(event.getX(), event.getY());
-
                     mHandler.sendEmptyMessage(1);
                 } else {
                     // 上一个view
                     Point point = mListData.get(mListData.size() - 1);
-
                     // 避免间距过大
                     if (((Math.abs(point.x - (event.getX())) > 10)) || ((Math.abs(point.y - (event.getY())) > 10))) {
                         addPoint(event.getX(), event.getY());
                     }
                 }
-
                 break;
         }
-
         return true;
     }
 
@@ -86,7 +78,6 @@ public class WareView extends BaseView {
         point.x = x;
         point.y = y;
         point.radius = 2;
-
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
@@ -94,9 +85,7 @@ public class WareView extends BaseView {
         int index = (int) (Math.random() * mColors.length);
         paint.setColor(mColors[index]);
         paint.setAntiAlias(true);
-
         point.paint = paint;
-
         mListData.add(point);
     }
 
@@ -112,13 +101,10 @@ public class WareView extends BaseView {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             ArrayList<Point> removeList = new ArrayList<>();
-
             LogUtil.e("handler在轮询");
             // 让圆圈动起来
             for (Point point : mListData) {
-
                 point.radius += 5; // 半径增加
                 point.paint.setStrokeWidth(point.radius / 3); // view的宽度随着扩散而变大
                 int alpha = point.paint.getAlpha();
@@ -129,13 +115,10 @@ public class WareView extends BaseView {
                     // mListData.remove(point); 便利集合的时候，不能去操作集合，不然会触发并发的异常
                     removeList.add(point);
                 }
-
                 point.paint.setAlpha(alpha);// 透明度递减
             }
-
             // 移除不用的集合view
             mListData.removeAll(removeList);
-
             if (!mListData.isEmpty()) {
                 // 循环便利
                 mHandler.sendEmptyMessageDelayed(1, 50);
@@ -143,6 +126,5 @@ public class WareView extends BaseView {
             }
         }
     };
-
 
 }

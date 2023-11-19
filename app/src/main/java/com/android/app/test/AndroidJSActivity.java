@@ -16,14 +16,15 @@ import android.webkit.WebViewClient;
 import androidx.annotation.Nullable;
 
 import com.android.app.R;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 import com.android.helper.utils.ToastUtil;
 
 /**
  * JS和前端的交互
  */
-public class AndroidJSActivity extends AppBaseActivity {
+public class AndroidJSActivity extends BaseActivity {
 
     private android.widget.TextView tvAndroidcalljs;
     private android.widget.TextView tvAndroidcalljsargs;
@@ -32,7 +33,7 @@ public class AndroidJSActivity extends AppBaseActivity {
     private View tv_androidgetjsarg;
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_android_j_s;
     }
 
@@ -42,10 +43,8 @@ public class AndroidJSActivity extends AppBaseActivity {
         tvAndroidcalljs = findViewById(R.id.tv_androidcalljs);
         tvAndroidcalljsargs = findViewById(R.id.tv_androidcalljsargs);
         tv_androidgetjsarg = findViewById(R.id.tv_androidgetjsarg);
-
         tvShowmsg = findViewById(R.id.tv_showmsg);
         webview = findViewById(R.id.webview);
-
         WebSettings settings = webview.getSettings();
         /**
          * 前端调用移动端时候，必须的设置
@@ -54,7 +53,6 @@ public class AndroidJSActivity extends AppBaseActivity {
         webview.loadUrl("file:///android_asset/测试.html");
         // webview.loadUrl("https://www.vipandroid.cn/apk/index.html");
         webview.addJavascriptInterface(AndroidJs.getInstance(), AndroidJs.getJsInterfaceName());
-
         // android 调用JS 无参数方法,不带返回值
         tvAndroidcalljs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +60,6 @@ public class AndroidJSActivity extends AppBaseActivity {
                 webview.evaluateJavascript("javascript:javacalljs()", null);
             }
         });
-
         // android 调用JS的时候， 传递参数给JS
         tvAndroidcalljsargs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +67,6 @@ public class AndroidJSActivity extends AppBaseActivity {
                 webview.evaluateJavascript("javascript:javacalljswith('Android主动传递参数给JS')", null);
             }
         });
-
         // android 调用JS,并获取js传递过来的参数
         tv_androidgetjsarg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,14 +79,12 @@ public class AndroidJSActivity extends AppBaseActivity {
                 });
             }
         });
-
         webview.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
                 return super.onJsAlert(view, url, message, result);
             }
         });
-
         // 拦截URL的路径
         webview.setWebViewClient(new WebViewClient() {
             @Nullable
@@ -100,9 +94,7 @@ public class AndroidJSActivity extends AppBaseActivity {
                 String host = url.getHost();
                 String path = url.getPath();
                 String scheme = url.getScheme();
-
                 LogUtil.e("scheme:" + scheme + "  host = " + host + "  path:" + path);
-
                 return super.shouldInterceptRequest(view, request);
             }
         });
@@ -110,7 +102,6 @@ public class AndroidJSActivity extends AppBaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
     }
 
     private int mCount;

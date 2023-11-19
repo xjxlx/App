@@ -4,42 +4,26 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 
 import com.android.app.R;
-import com.android.helper.base.BaseVH;
-import com.android.helper.base.recycleview.BaseRecycleAdapter;
+import com.android.common.base.recycleview.BaseRecycleViewAdapter;
+import com.android.common.base.recycleview.BaseVH;
 
-import org.jetbrains.annotations.NotNull;
-
-public class AppLifecycleAdapter extends BaseRecycleAdapter<String, AppLifecycleAdapter.VH> {
-
-    public AppLifecycleAdapter(FragmentActivity activity) {
-        super(activity);
-    }
-
-    /**
-     * @param viewType
-     * @return 返回一个RecycleView的布局
-     */
-    @Override
-    protected int getLayout(int viewType) {
-        return R.layout.item_app_licycle;
-    }
+public class AppLifecycleAdapter extends BaseRecycleViewAdapter<String, AppLifecycleAdapter.VH> {
 
     @Override
-    protected VH createViewHolder(View inflate, int viewType) {
-        return new VH(inflate);
-    }
-
-    @Override
-    public void onBindHolder(@NonNull @NotNull VH holder, int position) {
+    public void bindViewHolder(@NonNull VH holder, int position) {
         String s = mList.get(position);
         holder.mTvTest.setText(s);
     }
 
+    @Override
+    public int createVH(int viewType) {
+        return R.layout.item_app_licycle;
+    }
+
     static class VH extends BaseVH {
-        private TextView mTvTest;
+        TextView mTvTest;
 
         public VH(@NonNull View itemView) {
             super(itemView);

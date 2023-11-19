@@ -7,41 +7,45 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.android.app.R
 import com.android.app.databinding.Fragment2Binding
+import com.android.common.base.BaseBindingFragment
 import com.android.common.utils.LogUtil
-import com.android.helper.base.BaseBindingFragment
 
 class Fragment2 : BaseBindingFragment<Fragment2Binding>() {
 
-    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): Fragment2Binding {
-        return Fragment2Binding.inflate(layoutInflater, container, false)
+  override fun getBinding(
+      inflater: LayoutInflater,
+      container: ViewGroup?,
+      attachToRoot: Boolean
+  ): Fragment2Binding {
+    return Fragment2Binding.inflate(layoutInflater, container, false)
+  }
+
+  @SuppressLint("SetTextI18n")
+  override fun initData(savedInstanceState: Bundle?) {
+    LogUtil.e("当前是Fragment ---> 2,当前的地址是：${this.hashCode()}")
+
+    arguments?.let {
+      val bundle = Fragment1Args.fromBundle(it)
+      mBinding.tvContent2.text = "获取到的名字是：${bundle.name} 获取到的年龄为：${bundle.age}"
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun initData(savedInstanceState: Bundle?) {
-        LogUtil.e("当前是Fragment ---> 2,当前的地址是：${this.hashCode()}")
-
-        arguments?.let {
-            val bundle = Fragment1Args.fromBundle(it)
-            mBinding.tvContent2.text = "获取到的名字是：${bundle.name} 获取到的年龄为：${bundle.age}"
-        }
-
-        mBinding.btn23.setOnClickListener {
-            findNavController().navigate(R.id.action_fragment2_to_fragment3)
-        }
+    mBinding.btn23.setOnClickListener {
+      findNavController().navigate(R.id.action_fragment2_to_fragment3)
     }
+  }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        LogUtil.e("oncreate ----> ${this.toString()}")
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    LogUtil.e("oncreate ----> ${this.toString()}")
+  }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        LogUtil.e("onDestroyView ----> ${this.toString()}")
-    }
+  override fun onDestroyView() {
+    super.onDestroyView()
+    LogUtil.e("onDestroyView ----> ${this.toString()}")
+  }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        LogUtil.e("onDestroy ----> ${this.toString()}")
-    }
+  override fun onDestroy() {
+    super.onDestroy()
+    LogUtil.e("onDestroy ----> ${this.toString()}")
+  }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,51 +13,41 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.android.app.R;
 import com.android.app.databinding.ActivityReceiveMapResultBinding;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class ReceiveMapResultTitleActivity extends AppBaseActivity {
-
-    private ActivityReceiveMapResultBinding binding;
+public class ReceiveMapResultTitleActivity extends BaseBindingTitleActivity<ActivityReceiveMapResultBinding> {
 
     @Override
-    protected int getBaseLayout() {
-        return R.layout.activity_receive_map_result;
-    }
-
-    @Override
-    public void initView() {
-        binding = ActivityReceiveMapResultBinding.inflate(getLayoutInflater());
-    }
-
-    @Override
-    public void initData(Bundle savedInstanceState)  {
-
+    public void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             String action = intent.getAction();
-            //获得Intent的MIME type
+            // 获得Intent的MIME type
             String type = intent.getType();
             if (Intent.ACTION_SEND.equals(action) && type != null) {
-                //我们这里处理所有的文本类型
+                // 我们这里处理所有的文本类型
                 if (type.startsWith("text/")) {
-                    //处理获取到的文本，这里我们用TextView显示
+                    // 处理获取到的文本，这里我们用TextView显示
                     handleSendText(intent);
                 }
-                //图片的MIME type有 image/png , image/jepg, image/gif 等，
+                // 图片的MIME type有 image/png , image/jepg, image/gif 等，
                 else if (type.startsWith("image/")) {
-                    //处理获取到图片，我们用ImageView显示
+                    // 处理获取到图片，我们用ImageView显示
                     handleSendImage(intent);
                 }
             } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
                 if (type.startsWith("image/")) {
-                    //处理多张图片，我们用一个GridView来显示
+                    // 处理多张图片，我们用一个GridView来显示
                     handleSendMultipleImages(intent);
                 }
             }
@@ -71,14 +62,12 @@ public class ReceiveMapResultTitleActivity extends AppBaseActivity {
      */
     private void handleSendText(Intent intent) {
         TextView textView = new TextView(this);
-
-        //一般的文本处理，我们直接显示字符串
+        // 一般的文本处理，我们直接显示字符串
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             textView.setText(sharedText);
         }
-
-        //文本文件处理，从Uri中获取输入流，然后将输入流转换成字符串
+        // 文本文件处理，从Uri中获取输入流，然后将输入流转换成字符串
         Uri textUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (textUri != null) {
             try {
@@ -88,8 +77,7 @@ public class ReceiveMapResultTitleActivity extends AppBaseActivity {
                 e.printStackTrace();
             }
         }
-
-        //设置给Activity
+        // 设置给Activity
         setContentView(textView);
     }
 
@@ -102,17 +90,13 @@ public class ReceiveMapResultTitleActivity extends AppBaseActivity {
      */
     private String inputStream2Byte(InputStream inputStream) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
         byte[] buffer = new byte[1024];
         int len = -1;
-
         while ((len = inputStream.read(buffer)) != -1) {
             bos.write(buffer, 0, len);
         }
-
         bos.close();
-
-        //指定编码格式为UIT-8
+        // 指定编码格式为UIT-8
         return new String(bos.toByteArray(), "UTF-8");
     }
 
@@ -139,21 +123,18 @@ public class ReceiveMapResultTitleActivity extends AppBaseActivity {
         final ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
         if (imageUris != null) {
             GridView gridView = new GridView(this);
-            //设置item的宽度
+            // 设置item的宽度
             gridView.setColumnWidth(130);
-            //设置列为自动适应
+            // 设置列为自动适应
             gridView.setNumColumns(GridView.AUTO_FIT);
             gridView.setAdapter(new GridAdapter(this, imageUris));
             setContentView(gridView);
-
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        final int position, long id) {
-
-                    //点击GridView的item 可以分享图片给其他应用
-                    //这里可以参考http://blog.csdn.net/xiaanming/article/details/9395991
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    // 点击GridView的item 可以分享图片给其他应用
+                    // 这里可以参考http://blog.csdn.net/xiaanming/article/details/9395991
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
                     intent.putExtra(Intent.EXTRA_STREAM, imageUris.get(position));
@@ -163,6 +144,18 @@ public class ReceiveMapResultTitleActivity extends AppBaseActivity {
             });
 
         }
+    }
+
+    @NonNull
+    @Override
+    public ActivityReceiveMapResultBinding getBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, boolean attachToRoot) {
+        return ActivityReceiveMapResultBinding.inflate(inflater, container, true);
+    }
+
+    @NonNull
+    @Override
+    public String getTitleContent() {
+        return "";
     }
 
     /**

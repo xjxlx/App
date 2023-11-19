@@ -6,10 +6,11 @@ import android.view.View;
 
 import com.android.app.R;
 import com.android.app.databinding.ActivityUnLockBinding;
+import com.android.common.base.BaseActivity;
 import com.android.common.utils.SpUtil;
-import com.android.helper.base.AppBaseActivity;
+import com.android.common.base.BaseBindingTitleActivity;
 
-public class UnLockTitleActivity extends AppBaseActivity {
+public class UnLockTitleActivity extends BaseActivity {
 
     private ActivityUnLockBinding binding;
 
@@ -20,7 +21,6 @@ public class UnLockTitleActivity extends AppBaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         Intent intent = getIntent();
         String packageName = intent.getStringExtra("packageName");
         binding.btnUnlock.setOnClickListener(new View.OnClickListener() {
@@ -39,8 +39,7 @@ public class UnLockTitleActivity extends AppBaseActivity {
     }
 
     @Override
-    protected int getBaseLayout() {
+    public int getLayout() {
         return R.layout.activity_un_lock;
     }
-
 }

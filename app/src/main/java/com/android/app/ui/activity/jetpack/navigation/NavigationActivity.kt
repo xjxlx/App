@@ -5,13 +5,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import com.android.app.R
+import com.android.common.base.BaseActivity
 import com.android.common.utils.LogUtil
-import com.android.helper.base.AppBaseActivity
 
 /** Navigation导航的页面 */
-class NavigationActivity : AppBaseActivity() {
+class NavigationActivity : BaseActivity() {
 
-    override fun getBaseLayout(): Int {
+    override fun getLayout(): Int {
         return R.layout.activity_navigation
     }
 

@@ -1,49 +1,31 @@
-package com.android.app.ui.activity.personal;
+package com.android.app.ui.activity.personal
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-
-import com.amap.api.services.core.PoiItem;
-import com.android.app.databinding.ItemMapAddressBinding;
-import com.android.helper.base.BaseBindingVH;
-import com.android.helper.base.recycleview.BaseBindingRecycleAdapter;
-import com.android.helper.utils.TextViewUtil;
-
-import org.jetbrains.annotations.NotNull;
+import android.view.View
+import android.widget.TextView
+import com.amap.api.services.core.PoiItem
+import com.android.app.R
+import com.android.common.base.recycleview.BaseRecycleViewAdapter
+import com.android.common.base.recycleview.BaseVH
 
 /**
  * @author : 流星
  * @CreateDate: 2021/12/4-16:34
  * @Description:
  */
-public class MapAddressAdapter extends BaseBindingRecycleAdapter<PoiItem, ItemMapAddressBinding> {
+class MapAddressAdapter() : BaseRecycleViewAdapter<PoiItem, MapAddressAdapter.VH>() {
 
-    public MapAddressAdapter(FragmentActivity activity) {
-        super(activity);
+    override fun bindViewHolder(holder: VH, position: Int) {
+        val poiItem = mList[position]
+        val title = poiItem.title
+        holder.address.text = title
+        mItemClickListener?.onItemClick(holder.address, position, poiItem)
     }
 
-    @Override
-    public void onBindHolder(@NonNull @NotNull BaseBindingVH<ItemMapAddressBinding> holder, ItemMapAddressBinding mBinding, int position) {
-        PoiItem poiItem = mList.get(position);
-        if (poiItem != null) {
-            String title = poiItem.getTitle();
-            TextViewUtil.setText(mBinding.tvAddress, title);
-
-            mBinding.getRoot().setOnClickListener(v -> {
-                if (mItemBindingClickListener != null) {
-                    mItemBindingClickListener.onItemClick(mBinding.getRoot(), mBinding, position, poiItem);
-                }
-            });
-        }
+    class VH(root: View) : BaseVH(root) {
+        val address = root.findViewById<TextView>(R.id.tv_address)
     }
 
-    @Override
-    public ItemMapAddressBinding getBinding(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container) {
-        return ItemMapAddressBinding.inflate(inflater, container, false);
+    override fun createVH(viewType: Int): Int {
+        return R.layout.item_map_address
     }
-
 }
