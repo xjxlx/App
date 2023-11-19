@@ -163,13 +163,17 @@ android {
     // ndk version
     ndkVersion = "21.4.7075529"
 
-//    allprojects {
-//        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-//            kotlinOptions {
-//                jvmTarget = "1.8"
-//            }
-//        }
-//    }
+    configurations.all {
+        resolutionStrategy {
+            force(libs.recyclerview)
+            force(libs.okhttp3)
+            force(libs.rxjava2)
+            force(libs.activity)
+            force(libs.constraintlayout)
+            force(libs.core.ktx)
+            force(libs.junit)
+        }
+    }
 }
 
 dependencies {
@@ -184,6 +188,7 @@ dependencies {
     implementation(libs.crashreport)
     implementation(libs.legacy.support.v4)
     compileOnly(files("libs/nineoldandroids-2.4.0.jar"))
+    implementation(libs.lifecycle.viewmodel.ktx)
 
     val room_version = "2.4.0"
     implementation("androidx.room:room-runtime:$room_version")
