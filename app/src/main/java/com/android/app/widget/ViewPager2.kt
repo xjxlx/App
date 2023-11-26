@@ -22,7 +22,7 @@ class ViewPager2 : ViewGroup {
 
     // 手势识别器
     private var mGestureDetector: GestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-        override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
             LogUtil.e("onScroll!")
             // e1:起点;e2:终点;distanceX: 水平滑动距离; distanceY:竖直距离
             dxxx = distanceX.toInt()
@@ -78,6 +78,7 @@ class ViewPager2 : ViewGroup {
                 // 这里设置给手势识别器去处理，让手势识别器去处理到底是上下还是左右滑动
                 mGestureDetector.onTouchEvent(ev)
             }
+
             MotionEvent.ACTION_MOVE -> {
                 val endX = ev.x.toInt()
                 val endY = ev.y.toInt()

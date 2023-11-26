@@ -53,7 +53,7 @@ class PostChartView(context: Context, attributeSet: AttributeSet) : View(context
     }
 
     @SuppressLint("DrawAllocation")
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // 百分比文字的累计高度
         var percentageTotalHeight = 0F
@@ -72,20 +72,20 @@ class PostChartView(context: Context, attributeSet: AttributeSet) : View(context
                 percentageTotalHeight += mPercentageEveryInterval
             }
             percentageTotalHeight += textHeight
-            canvas?.drawText(content, mPercentageLeftInterval, percentageTotalHeight + mPercentageTopInterval, mPaintPercentage)
+            canvas.drawText(content, mPercentageLeftInterval, percentageTotalHeight + mPercentageTopInterval, mPaintPercentage)
         }
 
         // 绘制竖向的线
         val verticalX = mPercentageLeftInterval + percentMaxWidth + mLineVerticalLeftInterval
         val verticalLineStartY = mPercentageTopInterval
         val verticalLineEndY = percentageTotalHeight + mPercentageTopInterval
-        canvas?.drawLine(verticalX, verticalLineStartY, verticalX, verticalLineEndY, mPaintPercentage)
+        canvas.drawLine(verticalX, verticalLineStartY, verticalX, verticalLineEndY, mPaintPercentage)
 
         // 绘制横向的线
         val landscapeLineY = mPercentageTopInterval + percentageTotalHeight
         val landscapeLineStartX = mPercentageLeftInterval + percentMaxWidth + mLineVerticalLeftInterval
         val landscapeLineEndX = mLineLandscapeMaxWidth
-        canvas?.drawLine(landscapeLineStartX, landscapeLineY, landscapeLineEndX, landscapeLineY, mPaintPercentage)
+        canvas.drawLine(landscapeLineStartX, landscapeLineY, landscapeLineEndX, landscapeLineY, mPaintPercentage)
 
         // 绘制文字
         var contentMaxWidth = landscapeLineStartX
@@ -101,12 +101,12 @@ class PostChartView(context: Context, attributeSet: AttributeSet) : View(context
             contentMaxWidth += mRectangleEveryInterval
             val contentStartX = contentMaxWidth
             val contentStartY = landscapeLineY + baseLine + 20
-            canvas?.drawText(content, contentStartX, contentStartY, mPaintRectangle)
+            canvas.drawText(content, contentStartX, contentStartY, mPaintRectangle)
 
             val nextInt = Random.nextInt(percentageTotalHeight.toInt() / 5, percentageTotalHeight.toInt())
             // draw Pillar
             val rect = RectF(contentStartX, nextInt.toFloat(), contentStartX + textWidth, percentageTotalHeight)
-            canvas?.drawRect(rect, mPaintRectangle)
+            canvas.drawRect(rect, mPaintRectangle)
         }
     }
 

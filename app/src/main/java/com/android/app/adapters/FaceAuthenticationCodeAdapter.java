@@ -1,7 +1,9 @@
 package com.android.app.adapters;
 
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +25,7 @@ public class FaceAuthenticationCodeAdapter extends BaseRecycleViewAdapter<String
     }
 
     @Override
-    public void bindViewHolder(@NonNull VH holder, int position) {
+    public void bindHolder(@NonNull VH holder, int position) {
         String s = mList.get(position);
         TextViewUtil.setTextFont(mActivity, holder.tv_code, "DINCondensedBold.ttf");
         if (!TextUtils.isEmpty(s)) {
@@ -32,8 +34,8 @@ public class FaceAuthenticationCodeAdapter extends BaseRecycleViewAdapter<String
     }
 
     @Override
-    public int createVH(int viewType) {
-        return R.layout.item_face_authentication_code;
+    public VH createVH(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
+        return new VH(inflater.inflate(R.layout.item_face_authentication_code, parent, false));
     }
 
     static class VH extends BaseVH {

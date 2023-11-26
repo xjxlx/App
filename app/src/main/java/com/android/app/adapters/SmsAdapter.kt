@@ -1,6 +1,8 @@
 package com.android.app.adapters
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import com.android.app.R
@@ -17,7 +19,7 @@ class SmsAdapter(activity: FragmentActivity, type: Int) : BaseRecycleViewAdapter
         this.type = type
     }
 
-    override fun bindViewHolder(holder: SmsVH, position: Int) {
+    override fun bindHolder(holder: SmsVH, position: Int) {
         if (type == 1) {
             holder.tv_content.text = "地址：" + mList[position]
         } else {
@@ -25,8 +27,8 @@ class SmsAdapter(activity: FragmentActivity, type: Int) : BaseRecycleViewAdapter
         }
     }
 
-    override fun createVH(viewType: Int): Int {
-        return R.layout.item_sms
+    override fun createVH(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SmsVH {
+        return SmsVH(inflater.inflate(R.layout.item_sms, parent, false))
     }
 
     class SmsVH(itemView: View) : BaseVH(itemView) {

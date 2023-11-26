@@ -50,10 +50,10 @@ class CircleShadowView
         cy = measuredHeight.toFloat() / 2
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         LogUtil.e("onDraw --->  cx: $cx  cy: $cy   radius: $mRadius")
-        canvas?.drawCircle(cx, cy, mRadius, mPaint)
+        canvas.drawCircle(cx, cy, mRadius, mPaint)
     }
 
     fun startAnimation() {

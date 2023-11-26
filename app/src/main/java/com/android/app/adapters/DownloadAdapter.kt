@@ -1,7 +1,9 @@
 package com.android.app.adapters
 
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -9,9 +11,9 @@ import androidx.fragment.app.FragmentActivity
 import com.android.app.R
 import com.android.common.base.recycleview.BaseRecycleViewAdapter
 import com.android.common.base.recycleview.BaseVH
-import com.android.helper.interfaces.listener.ProgressListener
-import com.android.helper.utils.download.DownLoadManager
-import com.android.helper.utils.download.Download
+import com.android.http.download.DownLoadManager
+import com.android.http.download.Download
+import com.android.http.download.ProgressListener
 import okhttp3.Response
 
 class DownloadAdapter() : BaseRecycleViewAdapter<Download, DownloadAdapter.DlHolder>() {
@@ -23,7 +25,10 @@ class DownloadAdapter() : BaseRecycleViewAdapter<Download, DownloadAdapter.DlHol
     }
 
     private val downLoadManager: DownLoadManager by lazy {
-        return@lazy DownLoadManager.Builder().setRepeatDownload(false).bindDownload(mActivity).build()
+        return@lazy DownLoadManager.Builder()
+            .setRepeatDownload(false)
+            .bindDownload(mActivity)
+            .build()
     }
 
     class DlHolder(itemView: View) : BaseVH(itemView) {
@@ -33,7 +38,7 @@ class DownloadAdapter() : BaseRecycleViewAdapter<Download, DownloadAdapter.DlHol
         val progress: ProgressBar = itemView.findViewById(R.id.progress)
     }
 
-    override fun bindViewHolder(holder: DlHolder, position: Int) {
+    override fun bindHolder(holder: DlHolder, position: Int) {
         val bean = mList[position]
         val tempFileLength = bean.tempFileLength
         val contentLength = bean.contentLength
@@ -94,7 +99,7 @@ class DownloadAdapter() : BaseRecycleViewAdapter<Download, DownloadAdapter.DlHol
         }
     }
 
-    override fun createVH(viewType: Int): Int {
-        return R.layout.item_download
+    override fun createVH(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): DlHolder {
+        return DlHolder(inflater.inflate(R.layout.item_download, parent, false))
     }
 }

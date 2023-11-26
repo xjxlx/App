@@ -26,7 +26,7 @@ class TestSingleAdapter(activity: FragmentActivity?, list: List<String>) : BaseR
         val tv_test: TextView = view.findViewById(R.id.tv_test)
     }
 
-    override fun bindViewHolder(holder: VH, position: Int) {
+    override fun bindHolder(holder: VH, position: Int) {
         holder.tv_test.text = mList[position]
 
         holder.itemView.setOnClickListener { v: View? ->
@@ -36,7 +36,7 @@ class TestSingleAdapter(activity: FragmentActivity?, list: List<String>) : BaseR
         }
     }
 
-    override fun createVH(viewType: Int): Int {
-        return R.layout.item_test_adapter
+    override fun createVH(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): VH {
+        return VH(inflater.inflate(R.layout.item_test_adapter, parent, false))
     }
 }

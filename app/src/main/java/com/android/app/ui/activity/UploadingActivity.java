@@ -2,14 +2,13 @@ package com.android.app.ui.activity;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.app.R;
 import com.android.app.adapters.UploadAdapter;
 import com.android.common.base.BaseActivity;
-import com.android.helper.utils.download.Download;
-import com.android.common.base.BaseBindingTitleActivity;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import com.android.http.download.Download;
 
 import java.util.ArrayList;
 
@@ -38,5 +37,4 @@ public class UploadingActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
     }
-
 }

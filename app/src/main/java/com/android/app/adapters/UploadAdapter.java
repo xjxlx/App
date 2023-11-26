@@ -1,6 +1,8 @@
 package com.android.app.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -11,9 +13,9 @@ import com.android.app.R;
 import com.android.common.base.recycleview.BaseRecycleViewAdapter;
 import com.android.common.base.recycleview.BaseVH;
 import com.android.helper.httpclient.CommonApi;
-import com.android.helper.interfaces.listener.UploadProgressListener;
-import com.android.helper.utils.download.Download;
-import com.android.helper.utils.download.UploadManagerRetrofit;
+import com.android.http.download.Download;
+import com.android.http.download.UploadManagerRetrofit;
+import com.android.http.download.UploadProgressListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,8 +37,10 @@ public class UploadAdapter extends BaseRecycleViewAdapter<Download, UploadAdapte
 
     private void upload(UpHV holder, int position) {
         String tag = String.valueOf(position);
-        manager.addParameter("service", "App.Users.UploadFile").addParameter("unid", "o9RWl1JKjbgnEDTAAZjo1-CQFAUo")
-                .addParameter("term_suiji", "ncL1").addParameter("cont_suiji", "oL19Dc")
+        manager.addParameter("service", "App.Users.UploadFile")
+                .addParameter("unid", "o9RWl1JKjbgnEDTAAZjo1-CQFAUo")
+                .addParameter("term_suiji", "ncL1")
+                .addParameter("cont_suiji", "oL19Dc")
 //                .addFileParameter("video", new File("/storage/emulated/0/DCIM/Camera/0c0c1771f326b1171f479d48aa456483.mp4"))
                 .addFileParameter("video", new File("/storage/emulated/0/Download/video(1).MP4"));
         UploadProgressListener<String> listener = new UploadProgressListener<String>() {
@@ -66,12 +70,13 @@ public class UploadAdapter extends BaseRecycleViewAdapter<Download, UploadAdapte
             }
         };
         Retrofit retrofit = manager.getRetrofit(listener);
-        Call<String> call1 = retrofit.create(CommonApi.class).uploadFile(manager.getParameter());
+        Call<String> call1 = retrofit.create(CommonApi.class)
+                .uploadFile(manager.getParameter());
         manager.uploadFiles(tag, call1, listener);
     }
 
     @Override
-    public void bindViewHolder(@NonNull UpHV holder, int position) {
+    public void bindHolder(@NonNull UpHV holder, int position) {
         Download bean = mList.get(position);
         holder.tv_download.setText("上传");
         holder.tv_download.setOnClickListener(v -> {
@@ -90,8 +95,8 @@ public class UploadAdapter extends BaseRecycleViewAdapter<Download, UploadAdapte
     }
 
     @Override
-    public int createVH(int viewType) {
-        return R.layout.item_download;
+    public UpHV createVH(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
+        return new UpHV(inflater.inflate(R.layout.item_download, parent, false));
     }
 
     static class UpHV extends BaseVH {

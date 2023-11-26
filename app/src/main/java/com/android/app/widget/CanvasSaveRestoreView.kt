@@ -26,7 +26,7 @@ class CanvasSaveRestoreView(private val context: Context, attributeSet: Attribut
         return@lazy ResourcesUtil.getBitmap(context, R.drawable.icon_head)
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // Path
@@ -35,10 +35,9 @@ class CanvasSaveRestoreView(private val context: Context, attributeSet: Attribut
         // 1.2 -> path添加路径
         // 1.3 -> Canvas.drawPath(path ,paint)
 
-        canvas?.let {
+        canvas.let {
             // save 之后，就可以进行平移、缩放、旋转、剪切等操作了
             // it.save()
-
             if (mBitmap != null) {
                 val width = mBitmap!!.width
                 val height = mBitmap!!.height

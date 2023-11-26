@@ -16,7 +16,6 @@ import com.android.app.R;
 import com.android.app.adapters.SmsAdapter;
 import com.android.common.base.BaseActivity;
 import com.android.common.utils.SpUtil;
-import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.utils.ToastUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -86,7 +85,8 @@ public class SendSmsActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.btn_add_address:
-                String address = et_add_address.getText().toString();
+                String address = et_add_address.getText()
+                        .toString();
                 if (TextUtils.isEmpty(address)) {
                     ToastUtil.show("添加的发送地址为空！");
                     return;
@@ -122,9 +122,10 @@ public class SendSmsActivity extends BaseActivity {
 
     public void sendSms(String url) {
         try {
-            OkHttpClient timeOutClient = RetrofitHelper.getTimeOutClient();
+            OkHttpClient.Builder timeOutClient = new OkHttpClient.Builder();
             Request.Builder builder = new Request.Builder().url(url);
-            Call call = timeOutClient.newCall(builder.build());
+            Call call = timeOutClient.build()
+                    .newCall(builder.build());
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {

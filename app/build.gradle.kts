@@ -8,12 +8,15 @@
 
 android {
     namespace = "com.android.app"
-    compileSdk = libs.versions.compileSdks.get().toInt()
+    compileSdk = libs.versions.compileSdks.get()
+        .toInt()
 
     defaultConfig {
         applicationId = "com.android.app"
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        minSdk = libs.versions.minSdk.get()
+            .toInt()
+        targetSdk = libs.versions.targetSdk.get()
+            .toInt()
         versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -139,21 +142,22 @@ android {
 
                         // 复制apk到指定的位置
                         val apkOutPutPath = variant.packageApplicationProvider.get().outputDirectory.get().asFile.absolutePath
-                        variant.assembleProvider.get().doLast {
-                            // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
-                            val outputs = File(rootProject.rootDir, "${File.separator}outputs${File.separator}${variant.buildType}")
-                            // 1：先删除
-                            delete {
-                                System.out.println("删除outPuts!")
-                                delete(File(outputs.absolutePath))
+                        variant.assembleProvider.get()
+                            .doLast {
+                                // 设置文件夹名字 = 项目目录 + outputs + release + 渠道名字
+                                val outputs = File(rootProject.rootDir, "${File.separator}outputs${File.separator}${variant.buildType}")
+                                // 1：先删除
+                                delete {
+                                    System.out.println("删除outPuts!")
+                                    delete(File(outputs.absolutePath))
+                                }
+                                // 2:再拷贝
+                                copy {
+                                    System.out.println("拷贝outPuts!")
+                                    from(apkOutPutPath)
+                                    into(outputs)
+                                }
                             }
-                            // 2:再拷贝
-                            copy {
-                                System.out.println("拷贝outPuts!")
-                                from(apkOutPutPath)
-                                into(outputs)
-                            }
-                        }
                     }
                 }
             }
@@ -184,7 +188,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.rxandroid2)
+//    implementation(libs.rxjava2.rxandroid2)
     implementation(libs.crashreport)
     implementation(libs.legacy.support.v4)
     compileOnly(files("libs/nineoldandroids-2.4.0.jar"))

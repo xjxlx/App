@@ -80,11 +80,9 @@ class ProgressView2(context: Context, attrs: AttributeSet) : View(context, attrs
     }
 
     @SuppressLint("DrawAllocation")
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        canvas?.let {
-
+        canvas.let {
             /***************************** 绘制进度文字 ****************************************/
             // 求出文字的高度
             val rect = Rect()
@@ -124,9 +122,13 @@ class ProgressView2(context: Context, attrs: AttributeSet) : View(context, attrs
             // 设置渐变
             val shaderStartX: Float = 0f + mPaintBackgroundPadding
             val shaderEndX: Float = measuredWidth - mPaintBackgroundPadding
-            val shader = LinearGradient(shaderStartX, mTextHeight.toFloat(), shaderEndX, mTextHeight.toFloat(),
+            val shader = LinearGradient(shaderStartX,
+                mTextHeight.toFloat(),
+                shaderEndX,
+                mTextHeight.toFloat(),
                 intArrayOf(ContextCompat.getColor(context, R.color.blue_3), ContextCompat.getColor(context, R.color.blue_4)),
-                floatArrayOf(0f, 1f), Shader.TileMode.CLAMP)
+                floatArrayOf(0f, 1f),
+                Shader.TileMode.CLAMP)
             mPaintProgress.shader = shader
 
             if (isCharging()) {

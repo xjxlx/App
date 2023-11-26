@@ -1,6 +1,8 @@
 package com.android.app.adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +34,7 @@ public class TestAdapter extends BaseRecycleViewAdapter<HomeBean.ReturnDataList.
     }
 
     @Override
-    public void bindViewHolder(@NonNull VHHome holder, int position) {
+    public void bindHolder(@NonNull VHHome holder, int position) {
         HomeBean.ReturnDataList.Data data = mList.get(position);
         if (data == null) {
             return;
@@ -67,8 +69,8 @@ public class TestAdapter extends BaseRecycleViewAdapter<HomeBean.ReturnDataList.
     }
 
     @Override
-    public int createVH(int viewType) {
-        return R.layout.item_test;
+    public VHHome createVH(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent, int viewType) {
+        return new VHHome(inflater.inflate(R.layout.item_test, parent, false));
     }
 
     static class VHHome extends BaseVH {

@@ -7,10 +7,10 @@ import android.view.View;
 import com.android.app.R;
 import com.android.common.base.BaseActivity;
 import com.android.common.utils.LogUtil;
-import com.android.helper.httpclient.RetrofitHelper;
 import com.android.helper.httpclient.RxUtil;
 import com.android.helper.httpclient.TestApi;
 import com.android.helper.utils.ToastUtil;
+import com.android.http.client.RetrofitHelper;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -19,7 +19,6 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.DisposableSubscriber;
 import retrofit2.Response;
@@ -114,12 +113,11 @@ public class RxJava2Activity extends BaseActivity {
                             }
                         }, BackpressureStrategy.LATEST)
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        // .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<String>() {
                             @Override
                             public void onSubscribe(Subscription s) {
                                 s.request(5);
-
                             }
 
                             @Override
@@ -141,7 +139,8 @@ public class RxJava2Activity extends BaseActivity {
 
     @SuppressLint("CheckResult")
     private void request() {
-        RetrofitHelper.create(TestApi.class).myInfo("13213211130", "0000", "", "f2d928e6edd8a88a")
+        RetrofitHelper.create(TestApi.class)
+                .myInfo("13213211130", "0000", "", "f2d928e6edd8a88a")
                 .compose(RxUtil.getSchedulerFlowable()) // 转换线程
                 .subscribeWith(new DisposableSubscriber<Response<String>>() {
                     @Override
@@ -160,5 +159,4 @@ public class RxJava2Activity extends BaseActivity {
                     }
                 });
     }
-
 }

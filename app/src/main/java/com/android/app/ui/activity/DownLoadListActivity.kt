@@ -11,8 +11,8 @@ import com.android.common.base.BaseBindingTitleActivity
 import com.android.common.utils.LogUtil
 import com.android.helper.utils.EncryptionUtil
 import com.android.helper.utils.FileUtil
-import com.android.helper.utils.download.Download
 import com.android.helper.utils.permission.RxPermissionsUtil
+import com.android.http.download.Download
 import java.io.File
 import java.util.Arrays
 
@@ -57,6 +57,8 @@ class DownLoadListActivity : BaseBindingTitleActivity<ActivityDownLoadListBindin
                     mBinding.rvDownloadList.layoutManager = LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false)
                     LogUtil.e(Arrays.toString(mList.toArray()))
                 }
-            }.build().startRequestPermission()
+            }
+            .build()
+            .startRequestPermission()
     }
 }

@@ -250,9 +250,9 @@ class BreathView
         }
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas?.let {
+        canvas.let {
             for (item in mListCircle) {
                 it.drawCircle(mCx, mCY, item.radius, item.paint)
             }
@@ -321,12 +321,14 @@ class BreathView
                         iterator.remove()
                     }
                 }
+
                 2 -> {
                     // sold  small to big
                     if (next.radius >= mMaxRadius) {
                         iterator.remove()
                     }
                 }
+
                 3, 4 -> {
                     if (next.radius <= 0) {
                         iterator.remove()
@@ -419,8 +421,12 @@ class BreathView
 
             // alpha  0 ---> 50 %
             if (fraction <= BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO) {
-                val distanceAlpha = GradientUtil.getDistance(fraction, 0F, BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO, 0F,
-                    BREATH_COMMON_ALPHA_LOOP_VALUE, false)
+                val distanceAlpha = GradientUtil.getDistance(fraction,
+                    0F,
+                    BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO,
+                    0F,
+                    BREATH_COMMON_ALPHA_LOOP_VALUE,
+                    false)
                 val alpha = distanceAlpha.toInt()
                 circleLoop.paint.alpha = alpha
                 LogUtil.e("animationSmallToBigLoop ---> alpha from ---$ratioCount---> $alpha  ")
@@ -428,8 +434,12 @@ class BreathView
 
             // alpha 50% --- 0
             if (fraction > BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO && fraction <= BREATH_IN_SINGLE_ALPHA_OPAQUE_TO_TRANSPARENT_RATIO) {
-                val distanceAlpha = GradientUtil.getDistance(fraction, BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO,
-                    BREATH_IN_SINGLE_ALPHA_OPAQUE_TO_TRANSPARENT_RATIO, BREATH_COMMON_ALPHA_LOOP_VALUE, 0F, false)
+                val distanceAlpha = GradientUtil.getDistance(fraction,
+                    BREATH_IN_SINGLE_ALPHA_TRANSPARENT_TO_OPAQUE_RATIO,
+                    BREATH_IN_SINGLE_ALPHA_OPAQUE_TO_TRANSPARENT_RATIO,
+                    BREATH_COMMON_ALPHA_LOOP_VALUE,
+                    0F,
+                    false)
                 val alpha = distanceAlpha.toInt()
                 circleLoop.paint.alpha = alpha
                 LogUtil.e("animationSmallToBigLoop ---> alpha to <---$ratioCount--- $alpha ")
@@ -530,8 +540,7 @@ class BreathView
 
         val intervalRatio = singleRatio / 2
 
-        LogUtil.e(
-            "=====>>>>> breath out duration = $breathOutAllDuration  first: $first  singleRatio: $singleRatio  intervalRatio: $intervalRatio")
+        LogUtil.e("=====>>>>> breath out duration = $breathOutAllDuration  first: $first  singleRatio: $singleRatio  intervalRatio: $intervalRatio")
 
         for (item in 0..BREATH_OUT_ALL_COUNT) {
             val start = first + (intervalRatio * item)
@@ -548,8 +557,7 @@ class BreathView
         var isStartSold = false
         val animator = ValueAnimator.ofFloat(0F, 1F)
 
-        LogUtil.e(
-            " [first ratio]:  $BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO [single ratio]: $BREATH_OUT_LOOP_SINGLE_DURATION_RATIO [interval single]: $BREATH_OUT_LOOP_INTERVAL_RATIO")
+        LogUtil.e(" [first ratio]:  $BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO [single ratio]: $BREATH_OUT_LOOP_SINGLE_DURATION_RATIO [interval single]: $BREATH_OUT_LOOP_INTERVAL_RATIO")
 
         animator.duration = duration
         animator.interpolator = LinearInterpolator()
@@ -562,8 +570,7 @@ class BreathView
             }
 
             val endRatio = (BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * (BREATH_OUT_ALL_COUNT - 2)))
-            LogUtil.e(
-                "$$$$$$ first: $BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO  interval- ratio : $BREATH_OUT_LOOP_INTERVAL_RATIO  endRatio: $endRatio")
+            LogUtil.e("$$$$$$ first: $BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO  interval- ratio : $BREATH_OUT_LOOP_INTERVAL_RATIO  endRatio: $endRatio")
 
             // first
             if (fraction >= BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO && count == 0) {
@@ -573,17 +580,14 @@ class BreathView
                 LogUtil.e("first: tempCount ccc: $count startTime: $startTime endTime: $endTime")
                 count++
             } else {
-                LogUtil.e(
-                    "%%%%%%%%%%%%% fraction: ： :$fraction endRatio:  $endRatio  count: $count  startTime" + (BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count)))
+                LogUtil.e("%%%%%%%%%%%%% fraction: ： :$fraction endRatio:  $endRatio  count: $count  startTime" + (BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count)))
 
                 // loop = start = loop first  + single ratio * count
-                LogUtil.e(
-                    "ffffff : 111  count: " + count + "  fraction:" + fraction + " end: " + ((BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count))))
+                LogUtil.e("ffffff : 111  count: " + count + "  fraction:" + fraction + " end: " + ((BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count))))
 
                 if (count < BREATH_OUT_ALL_COUNT) {
                     if (fraction >= (BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count))) {
-                        LogUtil.e(
-                            "ffffff : 222  count: " + count + "  fraction:" + fraction + " end: " + ((BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count))))
+                        LogUtil.e("ffffff : 222  count: " + count + "  fraction:" + fraction + " end: " + ((BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count))))
 
                         // start  = first ratio + count * interval duration ratio
                         val startTime = BREATH_OUT_LOOP_FIRST_INTERVAL_DURATION_RATIO + (BREATH_OUT_LOOP_INTERVAL_RATIO * count)
@@ -628,8 +632,12 @@ class BreathView
                 // alpha
                 val alphaEndTime = 0.75F
                 if (fraction > alphaEndTime) {
-                    val distanceAlpha = GradientUtil.getDistance(fraction, alphaEndTime, 1F, BREATH_COMMON_ALPHA_SOLID_VALUE,
-                        BREATH_COMMON_ALPHA_SOLID_VALUE / 3, false)
+                    val distanceAlpha = GradientUtil.getDistance(fraction,
+                        alphaEndTime,
+                        1F,
+                        BREATH_COMMON_ALPHA_SOLID_VALUE,
+                        BREATH_COMMON_ALPHA_SOLID_VALUE / 3,
+                        false)
                     LogUtil.e("animationBigToSmallSolid ---> distanceAlpha: $distanceAlpha ")
                     circleSolid.paint.alpha = distanceAlpha.roundToInt()
                 }
@@ -677,8 +685,7 @@ class BreathView
             // stroke width
             val distanceStrokeWidth = GradientUtil.getDistance(fraction, 0F, 1F, BREATH_COMMON_STROKE_WIDTH, 0F, false)
             circleLoop.paint.strokeWidth = distanceStrokeWidth
-            LogUtil.e(
-                "animationBigToSmallLoop ---> distanceStrokeWidth  ratioCount$count fraction:$fraction  distanceStrokeWidth: $distanceStrokeWidth")
+            LogUtil.e("animationBigToSmallLoop ---> distanceStrokeWidth  ratioCount$count fraction:$fraction  distanceStrokeWidth: $distanceStrokeWidth")
 
             // radius
             val distanceRadius = GradientUtil.getDistance(fraction, 0F, 1F, mMaxRadius, 0F, false)
